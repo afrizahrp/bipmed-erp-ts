@@ -2051,165 +2051,156 @@ export const menusConfig = {
         title: "Application",
       },
       {
-        title: "chat",
-        icon: Messages,
-        href: "/chat",
-      },
-      {
-        title: "email",
-        icon: Envelope,
-        href: "/email",
-      },
-      {
-        title: "kanban",
-        icon: Monitor,
-        href: "/kanban",
-      },
-      {
-        title: "task",
-        icon: ListFill,
-        href: "/task",
-      },
-      {
-        title: "calendar",
-        icon: Calendar,
-        href: "/calendar",
-      },
-
-      {
-        title: "project",
-        icon: ClipBoard,
-        href: "/projects",
-      },
-
-      {
-        isHeader: true,
-        title: "Pages",
-      },
-      {
-        title: "Authentication",
-        icon: Sheild,
+        title: 'Inventory',
+        href: '/inventory',
+        icon: DashBoard,
         child: [
           {
-            title: "Sign In 01",
-            href: "/auth/login",
+            title: 'Master',
+            href: '/inventory/master',
+            multi_menu: [
+              {
+                title: 'Products',
+                href: '/inventory/products/product-list',
+              }, 
+              {
+                title: 'Product Specification',
+                href: '#',
+              },
+              {
+                title: 'Raw Material',
+                href: '/inventory/materials/material-list',
+              },
+              {
+                title: 'Categories',
+                href: '/inventory/categories/category-list',
+              },
+              {
+                title: 'Subcategories',
+                href: '/inventory/subcategories/subcategory-list',
+              },
+              {
+                title: 'Brand',
+                href: '/inventory/brand/brand-list',
+              },
+              {
+                title: 'Unit Of Measurement',
+                href: '#',
+              },
+            ],
+          },
+
+          {
+            title: 'Mutation',
+            multi_menu: [
+              {
+                title: 'Raw Material Requisition',
+                href: '#',
+              },
+              {
+                title: 'Raw Material Issuance',
+                href: '#',
+              },
+              {
+                title: 'Raw Material Receiving',
+                href: '#',
+              },
+              {
+                title: 'Raw Material Opname',
+                href: '#',
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        title: 'Purchasing',
+        icon: MenuBar,
+        child: [
+          {
+            title: 'Master',
+            multi_menu: [
+              {
+                title: 'Suppliers',
+                href: '#',
+              },
+              {
+                title: 'Raw Material',
+                href: '#',
+              },
+
+              {
+                title: 'Categories',
+                href: '#',
+              },
+              {
+                title: 'Subcategories',
+                href: '#',
+              },
+              {
+                title: 'Brands',
+                href: '#',
+              },
+              
+              {
+                title: 'Storage Location',
+                href: '#',
+              },
+            ],
+          },
+
+          {
+            title: 'Transaction',
+            multi_menu: [
+              {
+                title: 'Purchase Requesition',
+                href: '#',
+              },
+              {
+                title: 'Purchase Order',
+                href: '#',
+              },
+              {
+                title: 'Goods Receive Note by PO',
+                href: '#',
+              },
+              {
+                title: 'Goods Receive Note by Supplier',
+                href: '#',
+              },
+              {
+                title: 'Purchase Return',
+                href: '#',
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        title: 'Setup System',
+        icon: Diamond,
+        href: '#',
+        isHide: false,
+        child: [
+          {
+            title: 'Transaction Type',
+            href: '/blank',
           },
           {
-            title: "Sign In 02",
-            href: "/auth/login2",
+            title: 'Tax Setting',
+            href: '/utility/comming-soon',
           },
           {
-            title: "Sign In 03",
-            href: "/auth/login3",
+            title: 'Credit Term',
+            href: '/utility/maintinance',
           },
           {
-            title: "Sign In 04",
-            href: "/auth/login4",
+            title: 'Unit Of Measurement',
+            href: '/utility/maintinance',
           },
-          {
-            title: "Sign In 05",
-            href: "/auth/login5",
-          },
-          {
-            title: "Sign Up 01",
-            href: "./auth/register",
-          },
-          {
-            title: "Sign Up 02",
-            href: "/auth/register2",
-          },
-          {
-            title: "Sign Up 03",
-            href: "/auth/register3",
-          },
-          {
-            title: "Sign Up 04",
-            href: "/auth/register4",
-          },
-          {
-            title: "Sign Up 05",
-            href: "/auth/register5",
-          },
-          {
-            title: "Forget Password 01",
-            href: "/auth/forgot",
-          },
-          {
-            title: "Forget Password 02",
-            href: "/auth/forgot2",
-          },
-          {
-            title: "Forget Password 03",
-            href: "/auth/forgot3",
-          },
-          {
-            title: "Forget Password 04",
-            href: "/auth/forgot4",
-          },
-          {
-            title: "Forget Password 05",
-            href: "/auth/forgot5",
-          },
-          {
-            title: "Lock Screen 01",
-            href: "/auth/lock",
-          },
-          {
-            title: "Lock Screen 02",
-            href: "/auth/lock2",
-          },
-          {
-            title: "Lock Screen 03",
-            href: "/auth/lock3",
-          },
-          {
-            title: "Lock Screen 04",
-            href: "/auth/lock4",
-          },
-          {
-            title: "Lock Screen 04",
-            href: "/auth/lock5",
-          },
-          {
-            title: "Two-Step 01",
-            href: "/auth/verify",
-          },
-          {
-            title: "Two-Step 02",
-            href: "/auth/verify2",
-          },
-          {
-            title: "Two-Step 03",
-            href: "/auth/verify3",
-          },
-          {
-            title: "Two-Step 04",
-            href: "/auth/verify4",
-          },
-          {
-            title: "Two-Step 05",
-            href: "/auth/verify5",
-          },
-          {
-            title: "Password Create 01",
-            href: "/auth/create-password",
-          },
-          {
-            title: "Password Create 02",
-            href: "/auth/create-password2",
-          },
-          {
-            title: "Password Create 03",
-            href: "/auth/create-password3",
-          },
-          {
-            title: "Password Create 04",
-            href: "/auth/create-password4",
-          },
-          {
-            title: "Password Create 05",
-            href: "/auth/create-password5",
-          },
+       
         ],
       },
       {

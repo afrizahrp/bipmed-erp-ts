@@ -2,7 +2,7 @@
 
 
 export const siteConfig = {
-  name: "DashTail Next js Admin Template",
+  name: "bipmed-integratedSystem",
   description: null,
   theme: "blue",
   layout: "vertical",
