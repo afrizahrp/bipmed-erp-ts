@@ -1,60 +1,89 @@
-import Credentials from "next-auth/providers/credentials";
+import type { NextAuthOptions, User } from 'next-auth';
+import { prisma } from '@/lib/client';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
 
-import {User as UserType, user} from "@/app/api/user/data";
-import GoogleProvider from "next-auth/providers/google";
-import GithubProvider from "next-auth/providers/github";
-
-import avatar3 from "@/public/images/avatar/avatar-3.jpg";
-
-
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
-    GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID as string,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
-    }),
-    GithubProvider({
-      clientId: process.env.AUTH_GITHUB_ID as string,
-      clientSecret: process.env.AUTH_GITHUB_SECRET as string,
-    }),
-    Credentials({
-      name: "credentials",
+    CredentialsProvider({
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        name: {
+          label: 'name',
+          type: 'name',
+          placeholder: 'name',
+        },
+        password: {
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Password',
+        },
       },
-        async authorize(credentials) {
-             const {email, password} = credentials as {
-          email: string,
-          password: string,
-        };
-          
-        const foundUser = user.find((u) => u.email === email)
+      async authorize(credentials) {
+        if (!credentials?.name || !credentials.password) return null;
 
-        if (!foundUser) {
-          return null;
+        const user = await prisma.user.findUnique({
+          where: { name: credentials.name },
+        });
+
+        if (!user) return null;
+
+        const passwordsMatch = await bcrypt.compare(
+          credentials.password,
+          user.password!
+        );
+
+        if (passwordsMatch) {
+          await prisma.user.update({
+            where: { name: credentials.name },
+            data: {
+              isLoggedIn: true,
+            },
+          });
         }
 
-        const valid = password === foundUser.password  
-
-        if (!valid) {
-          
-          return null;
-        }
-
-        if (foundUser) {
-          return foundUser as any
-          
-        }
-        return null;
-      }
-      
+        return passwordsMatch ? user : null;
+      },
     }),
   ],
-  secret: process.env.AUTH_SECRET,
-
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
-  debug: process.env.NODE_ENV !== "production",
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET!,
+  },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+
+    // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
+    async session({ session, token }) {
+      if (session?.user) {
+        session.user.role = token.role;
+        session.user.isLoggedIn = token.isLoggedIn;
+        session.user.avatar = token.avatar;
+        session.user.company = token.company;
+        session.user.branch = token.branch;
+      }
+
+      return session;
+    },
+
+    // extend session with custom data
+
+    // async redirect({ url, baseUrl }) {
+    //   const parsedUrl = new URL(url, baseUrl);
+    //   if (parsedUrl.searchParams.has('callbackUrl')) {
+    //     return `${baseUrl}${parsedUrl.searchParams.get('callbackUrl')}`;
+    //   }
+    //   if (parsedUrl.origin === baseUrl) {
+    //     return url;
+    //   }
+    //   return baseUrl;
+    // },
+  },
 };
