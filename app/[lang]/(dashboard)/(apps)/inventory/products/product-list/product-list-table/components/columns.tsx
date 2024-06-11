@@ -1,25 +1,19 @@
 'use client';
 import Link from 'next/link';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { ColumnDef } from '@tanstack/react-table';
 import { cn } from '@/lib/utils';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 
 export type ProductColumn = {
   id: string;
-  name: string;
-  catalog: string;
-  category: string;
-  subcategory: string;
-  brand: string;
-  status: string;
-  uom: string;
-  remarks: string;
+  name: string | null;
+  catalog: string | null;
+  category: string | null;
+  subcategory: string | null;
+  brand: string | null;
+  status: string | null;
+  uom: string | null;
+  remarks: string | null;
 };
 
 export function getStatusColor(status: string) {
@@ -80,20 +74,11 @@ export const columns: ColumnDef<ProductColumn>[] = [
     cell: ({ row }) => {
       return (
         <div className='flex space-x-1'>
-           <TooltipProvider>
-                  <Tooltip>
-
           <span
             className={cn('max-w-[450px] dark:text-slate-300 truncate font-sm')}
           >
             {row.getValue('name')}
           </span>
-          <TooltipContent>    
-            {row.getValue('name')}
-          </TooltipContent>
-        </Tooltip>
-        </TooltipProvider>
-
         </div>
       );
     },

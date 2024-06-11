@@ -1,10 +1,11 @@
+'use client';
 import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Input } from '@/components/ui/input_T';
-import { Label } from '@/components/ui/Label_T';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/Label';
 import { Textarea } from '@/components/ui/text-area';
-import { Checkbox } from '@/components/ui/checkbox_T';
+import { Checkbox } from '@/components/ui/checkbox';
 
 import {
   Select,
@@ -12,7 +13,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select_T';
+} from '@/components/ui/select';
 
 import { CleaveInput } from '@/components/ui/cleave';
 

@@ -1,7 +1,8 @@
+'use client';
 import React, { Fragment } from 'react';
 import { Label } from '@/components/ui/label';
 import cn from '@/utils/class-names';
-import { Slash } from "lucide-react"
+import { Slash } from 'lucide-react';
 
 import {
   Breadcrumb,
@@ -10,20 +11,20 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from '@/components/ui/breadcrumb';
 
 export function BreadcrumbWithCustomSeparator() {
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          <BreadcrumbLink href='/'>Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>
           <Slash />
         </BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+          <BreadcrumbLink href='/components'>Components</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>
           <Slash />
@@ -33,7 +34,7 @@ export function BreadcrumbWithCustomSeparator() {
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-  )
+  );
 }
 
 import { ChevronRight } from 'lucide-react';

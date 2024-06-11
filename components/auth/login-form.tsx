@@ -11,9 +11,9 @@ import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-// import { SiteLogo } from '@/components/svg';
 import { Icon } from "@iconify/react";
 
+// import { SiteLogo } from '@/components/svg';
 // import { loginSchema } from "@/utils/validators/login.schema";
 
 import {
