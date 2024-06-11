@@ -2,12 +2,12 @@
 import { useFormContext } from 'react-hook-form';
 // import { Input, Textarea, Select, Checkbox } from 'rizzui';
 
-import { Input } from '@/components/ui/input_T';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import cn from '@/utils/class-names';
-import FormGroup from '@/app/shared/form-group';
-import { Textarea } from '@/components/ui/text-area';
+import FormGroup from '@/components/form-group';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ProductSpecFormProps {
   className?: string;

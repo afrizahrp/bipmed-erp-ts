@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter';
 import useMasterTableStatusOption from '@/data/masterTableStatusOption';
 import useProductCategoriesOption from '@/data/productCategoriesOption';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/ui/separator-filter';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -25,7 +25,7 @@ export function DataTableToolbar<TData>({
 
   return (
     <>
-      <Separator />
+      {/* <Separator /> */}
       <div className='flex items-center justify-between py-2'>
         <div className='flex flex-col items-start space-y-2 w-full'>
           <div className='w-full py-3'>

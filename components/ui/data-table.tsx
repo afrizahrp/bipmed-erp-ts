@@ -32,7 +32,7 @@ import { DataTableToolbar } from '@/components/ui/data-table-toolbar';
 import { DataTableViewOptions } from './data-table-view-options';
 
 import { Button } from './button';
-import { Modal } from './modal';
+import { Modal } from '@/components/ui/modal';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

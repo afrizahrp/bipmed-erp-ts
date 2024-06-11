@@ -51,8 +51,8 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Button
           disabled={isLoading}
           variant='outline'
-          size='sm'
-          className='h-12 border-dashed text-sm text-slate-500 w-full items-center justify-center'
+          size='lg'
+          className='h-12 border-dashed text-sm text-slate-500 w-full '
         >
           {isLoading && (
             <Loader2
@@ -60,7 +60,7 @@ export function DataTableFacetedFilter<TData, TValue>({
               aria-label='Loading...'
             />
           )}{' '}
-          <FilterIcon className='mr-2 h-4 w-4 text-sm' />
+          {/* <FilterIcon className='mr-2 h-4 w-4 text-sm' /> */}
           Filter data by {title}
           {selectedValues?.size > 0 && (
             <>
@@ -71,28 +71,6 @@ export function DataTableFacetedFilter<TData, TValue>({
               >
                 {selectedValues.size}
               </Badge>
-              {/* <div className='hidden space-x-1 lg:flex'>
-                {selectedValues.size > 2 ? (
-                  <Badge
-                    variant='secondary'
-                    className='rounded-sm px-1 font-normal'
-                  >
-                    {selectedValues.size} terpilih
-                  </Badge>
-                ) : (
-                  optionsValue
-                    .filter((option) => selectedValues.has(option.value))
-                    .map((option) => (
-                      <Badge
-                        variant='secondary'
-                        key={option.value}
-                        className='rounded-sm px-1 text-sm'
-                      >
-                        {option.label}
-                      </Badge>
-                    ))
-                )}
-              </div> */}
             </>
           )}
         </Button>
