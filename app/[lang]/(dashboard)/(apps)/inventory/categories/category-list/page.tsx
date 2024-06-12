@@ -3,11 +3,9 @@
 import useCategories from '@/queryHooks/useCategories';
 import { CategoryColumns } from './category-list-table/components/columns';
 import { Card, CardContent } from '@/components/ui/card';
-import  {CategoryListTable}  from './category-list-table';
+import { CategoryListTable } from './category-list-table';
 import LayoutLoader from '@/components/layout-loader';
 const CategoryListPage = () => {
-
-
   const { data: categories, isLoading, error } = useCategories();
 
   if (isLoading) {
@@ -29,12 +27,12 @@ const CategoryListPage = () => {
 
   return (
     <div>
-         <Card className="mt-6">
-      <CardContent className="p-10">
-      <CategoryListTable data={formattedCategories} />
-      </CardContent>
-    </Card>
-     </div>
+      <Card className='mt-6'>
+        <CardContent className='p-10'>
+          <CategoryListTable data={formattedCategories} />
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

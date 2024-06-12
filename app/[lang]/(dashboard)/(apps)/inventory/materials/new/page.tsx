@@ -1,12 +1,7 @@
-// import Link from 'next/link';
-// import CreateEditProduct from '@/app/shared/ecommerce/product/create-edit';
-// import PageHeader from '@/components/page-header';
-// import { Button } from '@/components/ui/button_T';
-// import { Plus } from 'lucide-react';
 
-// import ProductDetailPage from '../[id]/components';
+
 import { prisma } from '@/lib/client';
-import { ProductForm } from '../[id]/components/product-form';
+import { MaterialForm } from '../[id]/components/material-form';
 import { Card, CardContent } from '@/components/ui/card';
 
 // export const metadata = {
@@ -29,10 +24,10 @@ import { Card, CardContent } from '@/components/ui/card';
 //   ],
 // };
 
-export default async function NewProductPage() {
+export default async function NewMaterialPage() {
   const categoryList = await prisma.categories.findMany({
     where: {
-      type: '1',
+      type: '0',
       iStatus: false,
     },
   });
@@ -60,7 +55,7 @@ export default async function NewProductPage() {
       {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
       <Card className='py-6'>
         <CardContent>
-          <ProductForm
+          <MaterialForm
             initialData={null}
             categories={categoryList}
             subCategories={subCategoryList}

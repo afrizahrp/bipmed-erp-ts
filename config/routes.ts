@@ -23,6 +23,7 @@ export const routes = {
     products: '/inventory/products/product-list',
     materials: '/inventory/materials/material-list',
     newProduct: '/inventory/products/new',
+    newMaterial: '/inventory/materials/new',
     productDetails: (slug: string) => `/inventory/products/${slug}`,
     ediProduct: (slug: string) => `/inventory/products/${slug}/edit`,
     categories: '/inventory/categories',

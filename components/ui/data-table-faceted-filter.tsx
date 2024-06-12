@@ -46,10 +46,11 @@ export function DataTableFacetedFilter<TData, TValue>({
   const optionsValue = options || []; // Provide [] as a default value
 
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex items-center justify-start'>
       <Popover>
         <PopoverTrigger asChild>
-          <Button disabled={isLoading} variant='outline' size='default'>
+          {/* <Button disabled={isLoading} variant='outline' size='sm'> */}
+          <Button disabled={isLoading} variant='outline' size='sm'>
             {isLoading && (
               <Loader2
                 className='mr-2 h-4 w-4 animate-spin'

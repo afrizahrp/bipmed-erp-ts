@@ -1,12 +1,10 @@
+import { ReactNode } from 'react';
+
 export const metadata = {
-  title: "Products"
-}
-const ProductLayout = ({ children }) => {
-  return (
-    <>
-      {children}
-    </>
-  );
+  title: 'Materials',
+};
+const MaterialLayout = ({ children }: { children: ReactNode }) => {
+  return <>{children}</>;
 };
 
-export default ProductLayout; 
+export default MaterialLayout;

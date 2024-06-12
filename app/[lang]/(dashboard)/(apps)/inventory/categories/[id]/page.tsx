@@ -1,4 +1,4 @@
-import { prisma } from '@/LIB/client';
+import { prisma } from '@/lib/client';
 import { CategoryForm } from './components/category-form';
 
 const ProductPage = async ({

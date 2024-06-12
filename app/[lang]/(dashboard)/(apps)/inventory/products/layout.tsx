@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
+
 export const metadata = {
   title: "Products"
 }
-const ProductLayout = ({ children }) => {
+const ProductLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       {children}

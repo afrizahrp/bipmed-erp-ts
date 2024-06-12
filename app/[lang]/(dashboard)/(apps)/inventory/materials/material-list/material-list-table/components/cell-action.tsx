@@ -16,10 +16,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { ProductColumn } from './columns';
+import { MaterialColumn } from './columns';
 
 interface CellActionProps {
-  data: ProductColumn;
+  data: MaterialColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -28,24 +28,24 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
 
-  const onConfirm = async () => {
-    try {
-      setLoading(true);
-      await axios.delete(`/api/${params.storeId}/products/${data.id}`);
-      toast.success('Product deleted.');
-      router.refresh();
-    } catch (error) {
-      toast.error('Something went wrong');
-    } finally {
-      setLoading(false);
-      setOpen(false);
-    }
-  };
+  // const onConfirm = async () => {
+  //   try {
+  //     setLoading(true);
+  //     await axios.delete(`/api/${params.storeId}/materials/${data.id}`);
+  //     toast.success('Product deleted.');
+  //     router.refresh();
+  //   } catch (error) {
+  //     toast.error('Something went wrong');
+  //   } finally {
+  //     setLoading(false);
+  //     setOpen(false);
+  //   }
+  // };
 
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success('Product ID copied to clipboard.');
-  };
+  // const onCopy = (id: string) => {
+  //   navigator.clipboard.writeText(id);
+  //   toast.success('Product ID copied to clipboard.');
+  // };
 
   return (
     <>
@@ -68,7 +68,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className='mr-2 h-4 w-4' /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/inventory/products/${data.id}`)}
+            onClick={() => router.push(`/inventory/materials/${data.id}`)}
           >
             <Edit className='mr-2 h-4 w-4' /> Update
           </DropdownMenuItem>

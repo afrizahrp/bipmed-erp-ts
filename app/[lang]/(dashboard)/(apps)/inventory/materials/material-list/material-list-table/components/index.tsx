@@ -1,19 +1,14 @@
+// 'use client'
 import { DataTable } from './data-table';
 import { MaterialColumn, columns } from './columns';
-import { useTanStackTable } from './use-TanStack-Table';
-import TableToolbar from './table-toolbar';
-
-interface MaterialListTableProps {
+interface MaterialClientProps {
   data: MaterialColumn[];
 }
 
-export const MaterialListTable: React.FC<MaterialListTableProps> = ({
-  data,
-}) => {
+export const MaterialListTable: React.FC<MaterialClientProps> = ({ data }) => {
   return (
-    <>
-      {/* <TableToolbar table={data} /> */}
+    <div>
       <DataTable columns={columns} data={data} />
-    </>
+    </div>
   );
 };

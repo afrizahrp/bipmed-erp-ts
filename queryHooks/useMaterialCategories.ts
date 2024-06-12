@@ -2,7 +2,9 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
 interface materialCategories {
-  categoryName: string;
+  id: string;
+  name: string;
+  icon: string;
 }
 export const useMaterialCategories = () => {
   const { data, isLoading, error, ...rest } = useQuery<

@@ -24,19 +24,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Input } from '@/components/ui/input_T';
-import { Filter, SearchIcon } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Filter } from 'lucide-react';
 
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
 import { DataTableViewOptions } from '@/components/ui/data-table-view-options';
 
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
+
+import { routes } from '@/config/routes';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { useMediaQuery } from '@/hooks/use-media-query';
+import { Separator } from '@/components/ui/separator';
+import { Plus } from 'lucide-react';
 
 import {
   Sheet,
@@ -48,7 +50,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
 import {
   Select,
   SelectContent,
@@ -105,7 +106,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      {/* <div className='flex items-center relative w-1/2 md:w-1/2 lg:w-1/2 pb-2 py-2'> */}
       <div>
         <div className='flex flex-col md:flex-row  gap-4'>
           <div className='flex items-center space-x-2'>
@@ -149,7 +149,7 @@ export function DataTable<TData, TValue>({
           <Sheet>
             <SheetTrigger asChild>
               <Button
-                size='sm'
+                size='xs'
                 variant='outline'
                 // className='ml-auto my-1 px-5 h-8 lg:flex'
               >
@@ -159,12 +159,18 @@ export function DataTable<TData, TValue>({
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
-                <SheetTitle>Filter data</SheetTitle>
+                <SheetTitle>
+                  <div className='text-2xl font-bold text-default-600'>
+                    Filter Data
+                  </div>{' '}
+                </SheetTitle>
                 <SheetDescription>
                   To get more specific data you needs
                 </SheetDescription>
               </SheetHeader>
-              <div className='grid gap-4 py-4'>
+              <Separator />
+
+              <div className='grid gap-4 py-3'>
                 <div className='grid grid-cols-4 items-center gap-4'>
                   <DataTableToolbar table={table} />
                 </div>
@@ -172,7 +178,7 @@ export function DataTable<TData, TValue>({
 
               <SheetFooter>
                 <SheetClose asChild>
-                  <Button type='submit' className='w-full'>
+                  <Button type='submit' className='w-full h-10'>
                     Back
                   </Button>
                 </SheetClose>
@@ -183,9 +189,10 @@ export function DataTable<TData, TValue>({
             <DataTableViewOptions table={table} />
 
             <Button size='sm' asChild>
-              <Link href='/create-invoice'>
+            <Link href={routes.inventory.newMaterial}>
+            {/* router.push(`/${params.storeId}/products/new`)} */}
                 <Plus className='w-3 h-3 mr-2' />
-                New Product
+                New Mater
               </Link>
             </Button>
           </div>
@@ -242,10 +249,9 @@ export function DataTable<TData, TValue>({
               )}
             </TableBody>
           </Table>
-
         </div>
 
-          <DataTablePagination table={table} />
+        <DataTablePagination table={table} />
       </div>
     </>
   );

@@ -5,18 +5,10 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
-import { Heading } from '@/components/ui/heading';
-
 import PageHeader from '@/components/page-header';
-import FormFooter from '@/components/form-footer';
-
 import { toast } from 'react-hot-toast';
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-// import { Toaster } from 'sonner';
 import { Loader2 } from 'lucide-react';
 
 import {
@@ -25,12 +17,9 @@ import {
   SubCategories,
   Brands,
   Uoms,
-  ProductImages,
-  ProductSpecs,
 } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
-
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -49,18 +38,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import ImageCollection from '@/components/ui/images-collection';
+
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { Separator } from '@/components/ui/separator';
-
-const productFormSchema = z.object({
+const materialFormSchema = z.object({
   id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-  category_id: z.string().min(5, { message: 'Category is required' }),
-  subCategory_id: z.string().min(5, { message: 'Subcategory is required' }),
-  catalog_id: z.string().min(5, { message: 'Catalog is required' }),
+  category_id: z.string().min(3, { message: 'Category is required' }),
+  subCategory_id: z.string().min(1).optional().nullable(),
   brand_id: z.string().min(1).optional(),
+  catalog_id: z.string().min(1).optional(),
+  name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
   uom_id: z.string().min(1).optional(),
   registered_id: z.string().min(5).or(z.literal('')).optional().nullable(),
   remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
@@ -71,21 +58,17 @@ const productFormSchema = z.object({
   images: z.object({ imageURL: z.string() }).array().optional(),
 });
 
-type ProductFormValues = z.infer<typeof productFormSchema>;
+type MaterialFormValues = z.infer<typeof materialFormSchema>;
 
-interface ProductFormProps {
-  initialData:
-    | (Products & {
-        images: ProductImages[];
-      })
-    | null;
+interface MaterialFormProps {
+  initialData: Products | null;
   categories: Categories[];
   subCategories: SubCategories[];
   brands: Brands[];
   uoms: Uoms[];
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({
+export const MaterialForm: React.FC<MaterialFormProps> = ({
   initialData,
   categories,
   subCategories,
@@ -97,33 +80,33 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Edit Product' : 'Add New Product';
+  const title = initialData ? 'Edit Material' : 'Add New Material';
   const description = initialData
-    ? `Change Product ${initialData.id}-> ${initialData.name}`
-    : 'Add New Product';
+    ? `Change Material ${initialData.id}-> ${initialData.name}`
+    : 'Add New Material';
   const toastMessage = initialData
-    ? 'Product has changed successfully.'
-    : 'New Product has been added successfully.';
-  const action = initialData ? 'Save Changes' : 'Save New Product';
+    ? 'Material has changed successfully.'
+    : 'New Material has been added successfully.';
+  const action = initialData ? 'Save Changes' : 'Save New Material';
 
   const pageHeader = {
-    title: initialData ? 'Edit Product' : 'New Product',
+    title: initialData ? 'Edit Material' : 'New Material',
 
     breadcrumb: [
       {
         name: 'Inventory',
       },
       {
-        name: 'Products',
-        href: routes.inventory.products,
+        name: 'Materials',
+        href: routes.inventory.materials,
       },
       {
-        name: initialData ? 'Edit Product' : 'New Product',
+        name: initialData ? 'Edit Material' : 'New Material',
       },
     ],
   };
 
-  const defaultValues = (initialData as ProductFormValues)
+  const defaultValues = (initialData as MaterialFormValues)
     ? {
         ...initialData,
       }
@@ -146,21 +129,21 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         construction: '',
       };
 
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productFormSchema),
-    defaultValues: {
-      ...defaultValues,
-    },
-  });
-
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
+  // const form = useForm<MaterialFormValues>({
+  //   resolver: zodResolver(materialFormSchema),
   //   defaultValues: {
   //     ...defaultValues(initialData ?? {}),
   //   },
   // });
 
-  const onSubmit = async (data: ProductFormValues) => {
+  const form = useForm<MaterialFormValues>({
+    resolver: zodResolver(materialFormSchema),
+    defaultValues: {
+      ...defaultValues,
+    },
+  });
+
+  const onSubmit = async (data: MaterialFormValues) => {
     console.log(initialData);
     try {
       setLoading(true);
@@ -201,8 +184,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   return (
     <>
-      {/* <FormGroup title='General Information' description=''> */}
-      {/* <Heading title={title} description={description} /> */}
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <Form {...form}>
@@ -210,39 +191,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <div className='w-full flex items-center'>
-            <FormField
-              control={form.control}
-              name='images'
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl className='flex flex-col gap-3'>
-                    <ImageCollection
-                      value={field.value?.map(
-                        (ProductImages) => ProductImages.imageURL
-                      )}
-                      disabled={loading}
-                      className='w-full md:w-auto'
-                    />
-
-                    {/* {field.value?.map((item, index) => (
-                      <Image
-                        key={index}
-                        src={item.imageURL}
-                        alt={`product ${index}`}
-                        width={200}
-                        height={200}
-                      />
-                    ))} */}
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
-          <Separator />
-
           <div className='grid grid-cols-3 gap-4 py-2'>
-            <div>
+            <div className='flex col-span-8'>
               <FormField
                 control={form.control}
                 name='id'
@@ -256,48 +206,23 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 )}
               />
             </div>
-
-            <div>
+            <div className='flex col-span-2'>
               <FormField
                 control={form.control}
-                name='catalog_id'
+                name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Catalog</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder='Catalog'
+                        placeholder='Input product name'
                         {...field}
                       />
                     </FormControl>
-                    {form.formState.errors.catalog_id && (
+                    {form.formState.errors.name && (
                       <FormMessage>
-                        {form.formState.errors.catalog_id.message}
-                      </FormMessage>
-                    )}{' '}
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div>
-              <FormField
-                control={form.control}
-                name='registered_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Registration Number</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder='Input registration number'
-                        {...field}
-                      />
-                    </FormControl>
-                    {form.formState.errors.registered_id && (
-                      <FormMessage>
-                        {form.formState.errors.registered_id.message}
+                        {form.formState.errors.name.message}
                       </FormMessage>
                     )}{' '}
                   </FormItem>
@@ -305,29 +230,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               />
             </div>
           </div>
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder='Input product name'
-                    {...field}
-                  />
-                </FormControl>
-                {form.formState.errors.name && (
-                  <FormMessage>
-                    {form.formState.errors.name.message}
-                  </FormMessage>
-                )}{' '}
-              </FormItem>
-            )}
-          />
 
-          <div className='grid grid-cols-3 gap-4 py-2'>
+          <div className='grid grid-cols-4 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
@@ -417,44 +321,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             <div>
               <FormField
                 control={form.control}
-                name='brand_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Brand</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value}
-                            placeholder='Brand'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      {form.formState.errors.brand_id && (
-                        <FormMessage>
-                          {form.formState.errors.brand_id.message}
-                        </FormMessage>
-                      )}{' '}
-                      <SelectContent>
-                        {brands.map((brand) => (
-                          <SelectItem key={brand.id} value={brand.id}>
-                            {brand.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div>
-              <FormField
-                control={form.control}
                 name='uom_id'
                 render={({ field }) => (
                   <FormItem>
@@ -491,63 +357,44 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               />
             </div>
 
-            <div className='flex-col gap-4'>
+            <div>
               <FormField
                 control={form.control}
-                name='tkdn_pctg'
+                name='brand_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Local Components (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        disabled={loading}
-                        placeholder='99.99'
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className='flex-col gap-4'>
-              <FormField
-                control={form.control}
-                name='bmp_pctg'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>BMP (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        disabled={loading}
-                        placeholder='99.99'
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-          <div className='w-full flex-col gap-4'>
-            <FormField
-              control={form.control}
-              name='ecatalog_URL'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>eCatalog Link</FormLabel>
-                  <FormControl>
-                    <Input
+                    <FormLabel>Brand</FormLabel>
+                    <Select
                       disabled={loading}
-                      placeholder='https://ekatalog'
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder='Brand'
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      {form.formState.errors.brand_id && (
+                        <FormMessage>
+                          {form.formState.errors.brand_id.message}
+                        </FormMessage>
+                      )}{' '}
+                      <SelectContent>
+                        {brands.map((brand) => (
+                          <SelectItem key={brand.id} value={brand.id}>
+                            {brand.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           <div>
