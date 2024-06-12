@@ -17,7 +17,7 @@ export async function GET(
 }
 
 export async function PATCH(
-  req: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -25,7 +25,7 @@ export async function PATCH(
     const username = session?.user?.name || '';
     if (!session) return NextResponse.json({}, { status: 401 });
 
-    const body = await req.json();
+    const body = await request.json();
 
     const {
       name,
@@ -36,8 +36,8 @@ export async function PATCH(
       brand_id,
       uom_id,
       iStatus,
+      isMaterial,
       remarks,
-      images,
       tkdn_pctg,
       bmp_pctg,
       ecatalog_URL,
@@ -52,8 +52,8 @@ export async function PATCH(
       brand_id: string;
       uom_id: string;
       iStatus: boolean;
+      isMaterial: boolean;
       remarks: string;
-      images: { imageURL: string }[];
       tkdn_pctg: number;
       bmp_pctg: number;
       ecatalog_URL: string;
@@ -67,57 +67,65 @@ export async function PATCH(
     }
 
     if (!params.id) {
-      return new NextResponse('Product id is not found', {
+      return new NextResponse('Material id is not found', {
         status: 400,
       });
     }
 
     if (!name) {
-      return new NextResponse('Product name is required', { status: 400 });
+      return new NextResponse('Material name is required', { status: 400 });
     }
-    await prisma.products.update({
+
+    const material = await prisma.products.findUnique({
       where: {
         id: params.id,
-      },
-      data: {
-        name,
-        category_id,
-        subCategory_id,
-        brand_id,
-        uom_id,
-        images: {
-          deleteMany: {},
-        },
-        iStatus,
-        remarks,
-        registered_id,
-        catalog_id,
-        tkdn_pctg,
-        bmp_pctg,
-        ecatalog_URL,
-        iShowedStatus,
-        slug,
-        isMaterial: false,
-        updatedBy: username,
-        updatedAt: new Date(),
       },
     });
 
-    const product = await prisma.products.update({
+    if (!material)
+      return NextResponse.json(
+        { error: 'Material not found' },
+        { status: 404 }
+      );
+
+    const editMaterial = {
+      name,
+      category_id,
+      subCategory_id,
+      brand_id,
+      uom_id,
+      iStatus,
+      remarks,
+      registered_id,
+      catalog_id,
+      tkdn_pctg,
+      bmp_pctg,
+      ecatalog_URL,
+      iShowedStatus,
+      slug,
+      isMaterial: true,
+      updatedBy: username,
+      updatedAt: new Date(),
+    };
+
+    const updateMaterial = await prisma.products.update({
       where: {
         id: params.id,
       },
-      data: {
-        images: {
-          createMany: {
-            data: [...images.map((image: { imageURL: string }) => image)],
-          },
-        },
-      },
+      data: editMaterial,
     });
-    return NextResponse.json(product);
-  } catch (error) {
-    console.log('[PRODUCT_PATCH]', error);
-    return new NextResponse('Internal error', { status: 500 });
+
+    return NextResponse.json(updateMaterial);
+  } catch (e) {
+    console.error(e);
+
+    return NextResponse.json(
+      {
+        message:
+          'Something went wrong while trying to updating product specification',
+        result: e,
+      },
+      { status: 500 }
+    );
   }
 }

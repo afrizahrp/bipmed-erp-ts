@@ -149,10 +149,9 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       if (initialData) {
         await axios.patch(`/api/inventory/materials/${params.id}`, data);
       } else {
-        console.log('add new product', data);
         await axios.post(`/api/inventory/materials`, data);
       }
-      router.push('/inventory/materials/maetial-list');
+      router.push('/inventory/materials/material-list');
       router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
@@ -447,12 +446,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                     <FormDescription>
                       {field.value ? (
                         <span className='text-black'>
-                          This product will not be shown during transaction
+                          This material will not be shown during transaction
                           input
                         </span>
                       ) : (
                         <span className='text-white'>
-                          This product will be shown during transaction input
+                          This material will be shown during transaction input
                         </span>
                       )}
                     </FormDescription>

@@ -2,8 +2,8 @@ import { prisma } from '@/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
-import checkProductId from '../../system/checkProductId/route';
-import getProductId from '../../system/getProductId/route';
+import checkMaterialId from '../../system/checkMaterialId/route';
+import getMaterialId from './../../system/getMaterialId/route';
 
 export async function GET(request: NextRequest) {
   try {
@@ -47,8 +47,7 @@ export async function POST(request: NextRequest) {
       ecatalog_URL,
       remarks,
       iStatus,
-      images,
-
+      isMaterial,
       iShowedStatus,
       createdBy,
       updatedBy,
@@ -65,8 +64,7 @@ export async function POST(request: NextRequest) {
       ecatalog_URL: string;
       remarks: string;
       iStatus: string;
-      images: { imageURL: string }[];
-
+      isMaterial: boolean;
       iShowedStatus: number;
       createdBy: string;
       created_at: string;
@@ -76,10 +74,15 @@ export async function POST(request: NextRequest) {
 
     const userId = userName;
 
-    const productId = await getProductId(company, branch, category_id, userId);
+    const materialId = await getMaterialId(
+      company,
+      branch,
+      category_id,
+      userId
+    );
 
-    const newProduct = {
-      id: productId,
+    const newMaterial = {
+      id: materialId,
       name,
       catalog_id,
       registered_id,
@@ -93,10 +96,7 @@ export async function POST(request: NextRequest) {
       remarks,
       iStatus,
       iShowedStatus,
-
-      images: {
-        deleteMany: {},
-      },
+      isMaterial: true,
       createdBy: userName,
       updatedBy: userName,
       createdAt: new Date(),
@@ -105,27 +105,13 @@ export async function POST(request: NextRequest) {
       branch: branch,
     };
 
-    const product = await prisma.products.create({
+    const material = await prisma.products.create({
       data: {
-        ...newProduct,
-        images: {
-          createMany: {
-            data: images.map((image: { imageURL: string }) => ({
-              imageURL: image.imageURL,
-            })),
-          },
-        },
+        ...newMaterial,
       },
-      // newProduct: {
-      //   images: {
-      //     createMany: {
-      //       newProduct: [...images.map((image: { imageURL: string }) => image)],
-      //     },
-      //   },
-      // },
     });
 
-    return NextResponse.json(product, { status: 201 });
+    return NextResponse.json(material, { status: 201 });
   } catch (e) {
     console.error(e);
     return NextResponse.json(

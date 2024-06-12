@@ -189,10 +189,10 @@ export function DataTable<TData, TValue>({
             <DataTableViewOptions table={table} />
 
             <Button size='sm' asChild>
-            <Link href={routes.inventory.newMaterial}>
-            {/* router.push(`/${params.storeId}/products/new`)} */}
+              <Link href={routes.inventory.newMaterial}>
+                {/* router.push(`/${params.storeId}/products/new`)} */}
                 <Plus className='w-3 h-3 mr-2' />
-                New Mater
+                New Material
               </Link>
             </Button>
           </div>
