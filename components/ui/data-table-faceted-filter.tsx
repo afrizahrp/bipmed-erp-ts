@@ -76,7 +76,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         {selectedValues?.size > 0 && (
           <div className='hidden space-x-1 py-3 lg:flex'>
             {selectedValues.size > 3 ? (
-              <Badge variant='outline' className='rounded-sm px-1 font-normal'>
+              <Badge variant='outline' className='rounded-sm px-1 font-small'>
                 {selectedValues.size} data filtered
               </Badge>
             ) : (
@@ -86,7 +86,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                   <Badge
                     variant='outline'
                     key={option.value}
-                    className='rounded-sm px-1 text-sm'
+                    className='rounded-sm px-1 text-xs'
                   >
                     {option.label}
                   </Badge>
