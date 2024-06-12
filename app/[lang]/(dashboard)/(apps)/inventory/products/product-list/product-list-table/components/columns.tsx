@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { ColumnDef } from '@tanstack/react-table';
 import { cn } from '@/lib/utils';
+import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 
 export type ProductColumn = {
@@ -17,8 +17,8 @@ export type ProductColumn = {
 };
 
 export function getStatusColor(status: string) {
-  if (status.toLowerCase() === 'active') {
-    return 'bg-customGreen';
+  if (status.toLowerCase() === 'aktif') {
+    return 'bg-green-400';
   } else {
     return 'bg-gray-400';
   }
