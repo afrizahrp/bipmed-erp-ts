@@ -12,7 +12,7 @@ async function getMaterialId(
 ): Promise<string> {
   try {
     const result: QueryResult[] =
-      await prisma.$queryRaw`DECLARE @rt_doc_id VARCHAR(20); EXEC get_ProductId ${companyId}, ${branchId},  ${prefixId},  ${userId}, @rt_doc_id OUTPUT; SELECT @rt_doc_id as doc_id;`;
+      await prisma.$queryRaw`DECLARE @rt_doc_id VARCHAR(20); EXEC get_MaterialId ${companyId}, ${branchId},  ${prefixId},  ${userId}, @rt_doc_id OUTPUT; SELECT @rt_doc_id as doc_id;`;
     const docId = result[0].doc_id;
     console.log('new material id is:', docId);
     return docId;

@@ -40,24 +40,30 @@ import {
 } from '@/components/ui/select';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import { defaultValues } from '@/utils/defaultvalues/materials';
+import {
+  MaterialFormValues,
+  materialFormSchema,
+} from '@/utils/schema/create-material.schema';
 
-const materialFormSchema = z.object({
-  id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  category_id: z.string().min(3, { message: 'Category is required' }),
-  subCategory_id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  brand_id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  catalog_id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  name: z.string().min(5, { message: 'Material name is required' }), // {message: 'Name must be at least 5 characters long'
-  uom_id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  registered_id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
-  iStatus: z.boolean().default(false).optional(),
-  tkdn_pctg: z.coerce.number().min(0),
-  bmp_pctg: z.coerce.number().min(0),
-  ecatalog_URL: z.string().min(5).or(z.literal('')).optional().nullable(),
-});
+// const materialFormSchema = z.object({
+//   id: z.string().min(5).or(z.literal('')).optional().nullable(),
+//   category_id: z.string().min(3, { message: 'Category is required' }),
+//   subCategory_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+//   brand_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+//   catalog_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+//   name: z.string().min(5, { message: 'Material name is required' }), // {message: 'Name must be at least 5 characters long'
+//   uom_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+//   registered_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+//   remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
+//   iStatus: z.boolean().default(false).optional(),
+//   isMaterial: z.boolean().default(true).optional(),
+//   tkdn_pctg: z.coerce.number().min(0),
+//   bmp_pctg: z.coerce.number().min(0),
+//   ecatalog_URL: z.string().min(5).or(z.literal('')).optional().nullable(),
+// });
 
-type MaterialFormValues = z.infer<typeof materialFormSchema>;
+// type MaterialFormValues = z.infer<typeof materialFormSchema>;
 
 interface MaterialFormProps {
   initialData: Products | null;
@@ -105,28 +111,28 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     ],
   };
 
-  const defaultValues = (initialData as MaterialFormValues)
-    ? {
-        ...initialData,
-      }
-    : {
-        id: '',
-        images: [],
-        category_id: '',
-        subCategory_id: '',
-        brand_id: '',
-        catalog_id: '',
-        registered_id: '',
-        name: '',
-        uom_id: '',
-        iStatus: false,
-        tkdn_pctg: 0,
-        bmp_pctg: 0,
-        ecatalog_URL: '',
-        remarks: '',
-        base: '',
-        construction: '',
-      };
+  // const defaultValues = (initialData as MaterialFormValues)
+  //   ? {
+  //       ...initialData,
+  //     }
+  //   : {
+  //       id: '',
+  //       images: [],
+  //       category_id: '',
+  //       subCategory_id: '',
+  //       brand_id: '',
+  //       catalog_id: '',
+  //       registered_id: '',
+  //       name: '',
+  //       uom_id: '',
+  //       iStatus: false,
+  //       tkdn_pctg: 0,
+  //       bmp_pctg: 0,
+  //       ecatalog_URL: '',
+  //       remarks: '',
+  //       base: '',
+  //       construction: '',
+  //     };
 
   // const form = useForm<MaterialFormValues>({
   //   resolver: zodResolver(materialFormSchema),
@@ -138,9 +144,16 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
   const form = useForm<MaterialFormValues>({
     resolver: zodResolver(materialFormSchema),
     defaultValues: {
-      ...defaultValues,
+      ...defaultValues(initialData ?? {}),
     },
   });
+
+  // const methods = useForm<CreateProductInput>({
+  //   resolver: zodResolver(productFormSchema),
+  //   defaultValues: {
+  //     ...defaultValues(initialData ?? {}),
+  //   },
+  // });
 
   const onSubmit = async (data: MaterialFormValues) => {
     console.log(initialData);
