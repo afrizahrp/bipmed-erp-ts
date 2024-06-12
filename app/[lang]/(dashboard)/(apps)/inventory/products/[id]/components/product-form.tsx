@@ -12,8 +12,10 @@ import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
 
 import { toast } from 'react-hot-toast';
-// import SimpleMDE from 'react-simplemde-editor';
-// import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
+// import ReactQuill from 'react-quill';
+// import 'react-quill/dist/quill.snow.css';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 // import { Toaster } from 'sonner';
 import { Loader2 } from 'lucide-react';
 
@@ -217,6 +219,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         (ProductImages) => ProductImages.imageURL
                       )}
                       disabled={loading}
+                      className='w-full md:w-auto'
                     />
 
                     {/* {field.value?.map((item, index) => (
@@ -545,7 +548,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
 
           <div>
-            {/* <FormField
+            <FormField
               control={form.control}
               name='remarks'
               render={({ field }) => (
@@ -553,7 +556,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormLabel>Remarks</FormLabel>
                   <FormControl>
                     <SimpleMDE
-                      height='100px'
+                      theme='snow'
                       disabled={loading}
                       placeholder='Type here to add remarks'
                       {...field}
@@ -561,7 +564,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   </FormControl>
                 </FormItem>
               )}
-            /> */}
+            />
 
             <FormField
               control={form.control}
@@ -569,7 +572,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem
                   className={`flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 justify-self-end ${
-                    field.value ? 'bg-slate-700' : 'bg-green-600'
+                    field.value
+                      ? 'bg-slate-400 text-black'
+                      : 'bg-green-600 text-white'
                   }`}
                 >
                   {' '}
@@ -592,12 +597,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     </FormLabel>
                     <FormDescription>
                       {field.value ? (
-                        <span className='text-slate-700'>
+                        <span className='text-black'>
                           This product will not be shown during transaction
                           input
                         </span>
                       ) : (
-                        <span className='text-primay-600'>
+                        <span className='text-white'>
                           This product will be shown during transaction input
                         </span>
                       )}

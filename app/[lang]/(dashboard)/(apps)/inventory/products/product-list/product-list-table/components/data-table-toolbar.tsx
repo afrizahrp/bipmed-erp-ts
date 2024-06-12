@@ -25,10 +25,9 @@ export function DataTableToolbar<TData>({
 
   return (
     <>
-      {/* <Separator /> */}
-      <div className='flex items-center justify-between py-2'>
-        <div className='flex flex-col items-start space-y-2 w-full'>
-          <div className='w-full py-3'>
+      <div className='flex items-center justify-end py-2 '>
+        <div className='flex flex-col items-center space-y-2 w-full'>
+          <div className='w-full py-2'>
             {table.getColumn('status') && (
               <DataTableFacetedFilter
                 column={table.getColumn('status')}
@@ -38,7 +37,7 @@ export function DataTableToolbar<TData>({
               />
             )}
           </div>
-          <div className='w-full py-3'>
+          <div className='w-full py-2'>
             {table.getColumn('category') && (
               <DataTableFacetedFilter
                 column={table.getColumn('category')}

@@ -37,6 +37,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
+import { Separator } from '@/components/ui/separator';
 import { Plus } from 'lucide-react';
 
 import {
@@ -167,6 +168,8 @@ export function DataTable<TData, TValue>({
                   To get more specific data you needs
                 </SheetDescription>
               </SheetHeader>
+              <Separator />
+
               <div className='grid gap-4 py-3'>
                 <div className='grid grid-cols-4 items-center gap-4'>
                   <DataTableToolbar table={table} />
