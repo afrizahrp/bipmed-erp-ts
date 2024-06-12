@@ -44,18 +44,17 @@ import { Checkbox } from '@/components/ui/checkbox';
 const materialFormSchema = z.object({
   id: z.string().min(5).or(z.literal('')).optional().nullable(),
   category_id: z.string().min(3, { message: 'Category is required' }),
-  subCategory_id: z.string().min(1).optional().nullable(),
-  brand_id: z.string().min(1).optional(),
-  catalog_id: z.string().min(1).optional(),
-  name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-  uom_id: z.string().min(1).optional(),
+  subCategory_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+  brand_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+  catalog_id: z.string().min(5).or(z.literal('')).optional().nullable(),
+  name: z.string().min(5, { message: 'Material name is required' }), // {message: 'Name must be at least 5 characters long'
+  uom_id: z.string().min(5).or(z.literal('')).optional().nullable(),
   registered_id: z.string().min(5).or(z.literal('')).optional().nullable(),
   remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
   iStatus: z.boolean().default(false).optional(),
   tkdn_pctg: z.coerce.number().min(0),
   bmp_pctg: z.coerce.number().min(0),
   ecatalog_URL: z.string().min(5).or(z.literal('')).optional().nullable(),
-  images: z.object({ imageURL: z.string() }).array().optional(),
 });
 
 type MaterialFormValues = z.infer<typeof materialFormSchema>;
@@ -148,12 +147,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/inventory/products/${params.id}`, data);
+        await axios.patch(`/api/inventory/materials/${params.id}`, data);
       } else {
         console.log('add new product', data);
-        await axios.post(`/api/inventory/products`, data);
+        await axios.post(`/api/inventory/materials`, data);
       }
-      router.push('/inventory/products/product-list');
+      router.push('/inventory/materials/maetial-list');
       router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
@@ -192,7 +191,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
           className='space-y-8 w-full'
         >
           <div className='grid grid-cols-3 gap-4 py-2'>
-            <div className='flex col-span-8'>
+            <div>
               <FormField
                 control={form.control}
                 name='id'
@@ -206,7 +205,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 )}
               />
             </div>
-            <div className='flex col-span-2'>
+            <div className='col-span-2'>
               <FormField
                 control={form.control}
                 name='name'
@@ -217,6 +216,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                       <Input
                         disabled={loading}
                         placeholder='Input product name'
+                        className='font-semibold'
                         {...field}
                       />
                     </FormControl>
@@ -464,7 +464,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
 
           <div className='flex justify-end space-x-4'>
             <Button
-              onClick={() => router.push('/inventory/products/product-list')}
+              onClick={() => router.push('/inventory/materials/material-list')}
             >
               Back
             </Button>

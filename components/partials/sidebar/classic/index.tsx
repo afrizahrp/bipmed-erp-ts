@@ -1,16 +1,16 @@
-"use client";
-import React, { useState } from "react";
-import { cn, isLocationMatch, getDynamicPath } from "@/lib/utils";
-import { useSidebar, useThemeStore } from "@/store";
-import SidebarLogo from "../common/logo";
-import { menusConfig } from "@/config/menus";
-import MenuLabel from "../common/menu-label";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { usePathname } from "next/navigation";
-import SingleMenuItem from "./single-menu-item";
-import SubMenuHandler from "./sub-menu-handler";
-import NestedSubMenu from "../common/nested-menus";
-import AddBlock from "../common/add-block";
+'use client';
+import React, { useState } from 'react';
+import { cn, isLocationMatch, getDynamicPath } from '@/lib/utils';
+import { useSidebar, useThemeStore } from '@/store';
+import SidebarLogo from '../common/logo';
+import { menusConfig } from '@/config/menus';
+import MenuLabel from '../common/menu-label';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { usePathname } from 'next/navigation';
+import SingleMenuItem from './single-menu-item';
+import SubMenuHandler from './sub-menu-handler';
+import NestedSubMenu from '../common/nested-menus';
+import AddBlock from '../common/add-block';
 const ClassicSidebar = ({ trans }: { trans: string }) => {
   const { sidebarBg } = useSidebar();
   const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
@@ -68,17 +68,17 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
-        "fixed  z-[999] top-0  bg-card h-full hover:!w-[248px]  border-r  ",
+        'fixed  z-[999] top-0  bg-card h-full hover:!w-[300px]  border-r  ',
         {
-          "w-[248px]": !collapsed,
-          "w-[72px]": collapsed,
-          "shadow-md": collapsed || hovered,
+          'w-[300px]': !collapsed,
+          'w-[72px]': collapsed,
+          'shadow-md': collapsed || hovered,
         }
       )}
     >
-      {sidebarBg !== "none" && (
+      {sidebarBg !== 'none' && (
         <div
-          className=" absolute left-0 top-0   z-[-1] w-full h-full bg-cover bg-center opacity-[0.07]"
+          className=' absolute left-0 top-0   z-[-1] w-full h-full bg-cover bg-center opacity-[0.07]'
           style={{ backgroundImage: `url(${sidebarBg})` }}
         ></div>
       )}
@@ -86,15 +86,15 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
       <SidebarLogo hovered={hovered} />
 
       <ScrollArea
-        className={cn("sidebar-menu  h-[calc(100%-80px)] ", {
-          "px-4": !collapsed || hovered,
+        className={cn('sidebar-menu  h-[calc(100%-80px)] ', {
+          'px-4': !collapsed || hovered,
         })}
       >
         <ul
-          dir={isRtl ? "rtl" : "ltr"}
-          className={cn(" space-y-1", {
-            " space-y-2 text-center": collapsed,
-            "text-start": collapsed && hovered,
+          dir={isRtl ? 'rtl' : 'ltr'}
+          className={cn(' space-y-1', {
+            ' space-y-2 text-center': collapsed,
+            'text-start': collapsed && hovered,
           })}
         >
           {menus.map((item, i) => (
@@ -135,8 +135,6 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
                       activeSubmenu={activeSubmenu}
                       item={item}
                       index={i}
-
-
                       trans={trans}
                     />
                   )}
@@ -146,7 +144,7 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
           ))}
         </ul>
         {!collapsed && (
-          <div className="-mx-2 ">
+          <div className='-mx-2 '>
             <AddBlock />
           </div>
         )}
