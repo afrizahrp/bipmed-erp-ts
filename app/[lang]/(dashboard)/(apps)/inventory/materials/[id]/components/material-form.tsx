@@ -35,6 +35,8 @@ import {
   Select,
   SelectContent,
   SelectItem,
+  SelectGroup,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
@@ -357,11 +359,15 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                         </FormMessage>
                       )}{' '}
                       <SelectContent>
-                        {uoms.map((uom) => (
-                          <SelectItem key={uom.id} value={uom.id}>
-                            {uom.name}
-                          </SelectItem>
-                        ))}
+                        <SelectGroup>
+                          <SelectLabel>Uom</SelectLabel>
+
+                          {uoms.map((uom) => (
+                            <SelectItem key={uom.id} value={uom.id}>
+                              {uom.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                   </FormItem>
