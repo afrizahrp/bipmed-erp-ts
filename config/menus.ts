@@ -2087,19 +2087,19 @@ export const menusConfig = {
             title: 'Mutation',
             multi_menu: [
               {
-                title: 'Raw Material Requisition',
+                title: 'Requisition Material',
                 href: '#',
               },
               {
-                title: 'Raw Material Issuance',
+                title: 'Issuance Material',
                 href: '#',
               },
               {
-                title: 'Raw Material Receiving',
+                title: 'Receiving Material',
                 href: '#',
               },
               {
-                title: 'Raw Material Opname',
+                title: 'Stock Opname Material',
                 href: '#',
               },
             ],

@@ -3,9 +3,11 @@ import { capitalizeFirstLetter } from '@/utils/capitalize-first-letter';
 
 type OptionType = { value: string; label: string };
 
-const useCategoryTypeOption = (): OptionType[] | undefined => {
+const useCategoryTypeOptionFilter = (): {
+  options: OptionType[] | undefined;
+  isLoading: boolean;
+} => {
   const { data, isLoading, error } = useCategoryTypes();
-  // const { data: statusList, isLoading, error } = useMasterTableStatus();
 
   const categoryTypeList: OptionType[] | undefined = data?.map(
     (_categoryTypeList) => ({
@@ -13,8 +15,7 @@ const useCategoryTypeOption = (): OptionType[] | undefined => {
       label: capitalizeFirstLetter(_categoryTypeList.name),
     })
   );
-
-  return categoryTypeList;
+  return { options: categoryTypeList, isLoading };
 };
 
-export default useCategoryTypeOption;
+export default useCategoryTypeOptionFilter;

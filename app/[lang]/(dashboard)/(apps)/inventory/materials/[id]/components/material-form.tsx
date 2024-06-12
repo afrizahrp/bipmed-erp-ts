@@ -209,7 +209,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 name='id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Product Id</FormLabel>
+                    <FormLabel>Material Id</FormLabel>
                     <FormControl>
                       <Input disabled placeholder='Id' {...field} />
                     </FormControl>
@@ -223,12 +223,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Material Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
                         placeholder='Input product name'
-                        className='font-semibold'
+                        className='font-bold'
                         {...field}
                       />
                     </FormControl>

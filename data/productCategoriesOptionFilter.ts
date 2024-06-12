@@ -1,9 +1,9 @@
-import { capitalizeFirstLetter } from "@/utils/capitalize-first-letter";
-import { useProductCategories } from "@/queryHooks/useProductCategories";
+import { capitalizeFirstLetter } from '@/utils/capitalize-first-letter';
+import { useProductCategories } from '@/queryHooks/useProductCategories';
 
 type OptionType = { value: string; label: string };
 
-const useProductCategoriesOption = (): {
+const useProductCategoriesOptionFilter = (): {
   options: OptionType[] | undefined;
   isLoading: boolean;
 } => {
@@ -18,4 +18,4 @@ const useProductCategoriesOption = (): {
   return { options: productCategoryList, isLoading };
 };
 
-export default useProductCategoriesOption;
+export default useProductCategoriesOptionFilter;

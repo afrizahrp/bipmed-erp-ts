@@ -1,9 +1,9 @@
-import { capitalizeFirstLetter } from "@/utils/capitalize-first-letter";
-import { useMasterTableStatus } from "@/queryHooks/useMasterTableStatus";
+import { capitalizeFirstLetter } from '@/utils/capitalize-first-letter';
+import { useMasterTableStatus } from '@/queryHooks/useMasterTableStatus';
 
 type OptionType = { value: string; label: string };
 
-const useMasterTableStatusOption = (): {
+const useMasterTableStatusOptionFilter = (): {
   options: OptionType[] | undefined;
   isLoading: boolean;
 } => {
@@ -16,4 +16,4 @@ const useMasterTableStatusOption = (): {
   return { options: statusList, isLoading };
 };
 
-export default useMasterTableStatusOption;
+export default useMasterTableStatusOptionFilter;

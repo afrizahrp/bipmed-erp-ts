@@ -4,8 +4,8 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter';
-import useCategoryTypeOption from '@/data/categoryTypeOption';
-import useMasterTableStatusOption from '@/data/masterTableStatusOption';
+import useCategoryTypeOptionFilter from '@/data/categoryTypeOptionFilter';
+import useMasterTableStatusOptionFilter from '@/data/masterTableStatusOptionFilter';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -15,8 +15,13 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
-  const statusOption = useMasterTableStatusOption();
-  const categoryTypeOption = useCategoryTypeOption();
+  const categoryTypeOptionFilter = useCategoryTypeOptionFilter();
+
+  const { options: statusOption, isLoading: isStatusLoading } =
+    useMasterTableStatusOptionFilter();
+  const { options: categoryTypeOption, isLoading: isCategoryTypeLoading } =
+    useCategoryTypeOptionFilter();
+
   return (
     <div className='flex items-center justify-between'>
       <div className='flex flex-col items-start space-y-2 w-full'>
@@ -25,6 +30,7 @@ export function DataTableToolbar<TData>({
             column={table.getColumn('status')}
             title='Status'
             options={statusOption}
+            isLoading={isStatusLoading}
           />
         )}
         {table.getColumn('type') && (
@@ -32,6 +38,7 @@ export function DataTableToolbar<TData>({
             column={table.getColumn('type')}
             title='Category Type'
             options={categoryTypeOption}
+            isLoading={isCategoryTypeLoading}
           />
         )}
 

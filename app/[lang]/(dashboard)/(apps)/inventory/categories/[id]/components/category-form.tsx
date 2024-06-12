@@ -5,17 +5,18 @@ import axios from 'axios';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import PageHeader from '@/components/page-header';
+
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 // import { Toaster } from 'sonner';
 // import ButtonSpinner from '@/components/ui/button-spinner';
-import { Trash } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 
 import { Categories, CategoryTypes } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
-
+import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -75,6 +76,23 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     : 'New Category has been added successfully.';
   const action = initialData ? 'Save Changes' : 'Save New Category';
 
+  const pageHeader = {
+    title: initialData ? 'Edit Categpry' : 'New Category',
+
+    breadcrumb: [
+      {
+        name: 'Inventory',
+      },
+      {
+        name: 'Categories',
+        href: routes.inventory.categories,
+      },
+      {
+        name: initialData ? 'Edit Category' : 'New Category',
+      },
+    ],
+  };
+
   const defaultValues = initialData
     ? {
         ...initialData,
@@ -115,7 +133,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   return (
     <>
-      <Separator />
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -140,64 +159,84 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name='type'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Type</FormLabel>
-                <Select
-                  disabled={loading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        defaultValue={field.value}
-                        placeholder='Select a category'
+          <div className='grid grid-cols-4 gap-4 py-2'>
+            <div>
+              <FormField
+                control={form.control}
+                name='id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category Id</FormLabel>
+                    <FormControl>
+                      <Input disabled placeholder='Id' {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='col-span-2'>
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        className='font-bold'
+                        disabled={loading}
+                        placeholder='Input category name'
+                        {...field}
                       />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categoryTypes.map((_categoryType) => (
-                      <SelectItem
-                        key={_categoryType.id}
-                        value={_categoryType.id}
-                      >
-                        {_categoryType.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder='Input category name'
-                    {...field}
-                  />
-                </FormControl>
-                {form.formState.errors.name && (
-                  <FormMessage>
-                    {form.formState.errors.name.message}
-                  </FormMessage>
-                )}{' '}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                    </FormControl>
+                    {form.formState.errors.name && (
+                      <FormMessage>
+                        {form.formState.errors.name.message}
+                      </FormMessage>
+                    )}{' '}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name='type'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Type</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder='Select a category'
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {categoryTypes.map((_categoryType) => (
+                          <SelectItem
+                            key={_categoryType.id}
+                            value={_categoryType.id}
+                          >
+                            {_categoryType.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
 
           <div>
             <FormField
@@ -229,7 +268,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               render={({ field }) => (
                 <FormItem
                   className={`flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 justify-self-end ${
-                    field.value ? 'bg-slate-700' : 'bg-green-600'
+                    field.value
+                      ? 'bg-slate-400 text-black'
+                      : 'bg-green-600 text-white'
                   }`}
                 >
                   {' '}
@@ -240,11 +281,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  {form.formState.errors.name && (
-                    <FormMessage>
-                      {form.formState.errors.name.message}
-                    </FormMessage>
-                  )}{' '}
                   <div className='space-y-1 leading-none'>
                     <FormLabel>
                       {field.value ? (
@@ -257,12 +293,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                     </FormLabel>
                     <FormDescription>
                       {field.value ? (
-                        <span className='text-slate-700'>
+                        <span className='text-black'>
                           This category will not be shown during transaction
                           input
                         </span>
                       ) : (
-                        <span className='text-green'>
+                        <span className='text-white'>
                           This category will be shown during transaction input
                         </span>
                       )}
@@ -273,7 +309,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             />
           </div>
 
-          <div className='flex items-center justify-between px-3 py-20 top-13'>
+          <div className='flex justify-end space-x-4'>
+            <Button
+              onClick={() => router.push('/inventory/categories/category-list')}
+            >
+              Back
+            </Button>
             <Button disabled={loading} className='ml-auto' type='submit'>
               {action}{' '}
               {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}

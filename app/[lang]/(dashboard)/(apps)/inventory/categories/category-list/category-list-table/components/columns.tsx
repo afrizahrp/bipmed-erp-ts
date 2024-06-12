@@ -14,7 +14,7 @@ export type CategoryColumns = {
 
 export function getStatusColor(status: string) {
   if (status.toLowerCase() === 'aktif') {
-    return 'bg-customGreen';
+    return 'bg-green-400';
   } else {
     return 'bg-gray-400';
   }

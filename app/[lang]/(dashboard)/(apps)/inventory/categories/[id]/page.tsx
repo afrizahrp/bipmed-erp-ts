@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/client';
+import { Card, CardContent } from '@/components/ui/card';
 import { CategoryForm } from './components/category-form';
 
 const ProductPage = async ({
@@ -25,14 +26,14 @@ const ProductPage = async ({
   });
 
   return (
-    <div className='flex-col'>
-      <div className='flex-1 space-y-1 p-5 pt-1 overflow-hidden'>
+    <Card className='py-6'>
+      <CardContent>
         <CategoryForm
           categoryTypes={categoryTypes}
           initialData={category || undefined}
         />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

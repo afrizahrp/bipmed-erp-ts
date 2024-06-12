@@ -4,8 +4,8 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter';
-import useMasterTableStatusOption from '@/data/masterTableStatusOption';
-import useMaterialCategoriesOption from '@/data/materialCategoriesOption';
+import useMasterTableStatusOptionFilter from '@/data/masterTableStatusOptionFilter';
+import useMaterialCategoriesOptionFilter from '@/data/materialCategoriesOptionFilter';
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
@@ -15,11 +15,11 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
   const { options: statusOption, isLoading: isStatusLoading } =
-    useMasterTableStatusOption();
+    useMasterTableStatusOptionFilter();
   const {
     options: MaterialCategoriesOption,
     isLoading: isMaterialCategoriesLoading,
-  } = useMaterialCategoriesOption();
+  } = useMaterialCategoriesOptionFilter();
 
   return (
     <>

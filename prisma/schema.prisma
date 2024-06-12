@@ -115,25 +115,6 @@ model SysCounter {
   @@id([module_id, counter_id, startYear, startMonth, company_id, branch_id])
 }
 
-// model IcCounter {
-//   counter_id   String   @db.Char(3)
-//   lastCounter  Int
-//   description  String   @db.VarChar(160)
-//   refreshAt    String   @db.Char(1)
-//   firstChar    String   @db.Char(4)
-//   secondChar   String   @db.Char(4)
-//   digits       Int
-//   startCount   Int
-//   recounter    Int
-//   autoGenerate Boolean  @default(false)
-//   createdBy    String   @db.Char(10)
-//   createdAt    DateTime
-//   updatedBy    String   @db.Char(10)
-//   updatedAt    DateTime
-//   company_id   String   @db.Char(5)
-//   branch_id    String   @db.Char(10)
-//   @@id([ counter_id,  company_id, branch_id])
-// }
 
 
 
@@ -179,16 +160,26 @@ model MaterialCounter {
 }
 
 
-// model SysDocId {
-//   module_id  String   @db.Char(3)
-//   prefix_id  String   @db.Char(3)
-//   doc_id     String   @id @db.Char(20)
-//   remarks    String?  @db.VarChar(250)
-//   createdBy  String   @db.Char(10)
-//   createdAt  DateTime
-//   company_id String   @db.Char(5)
-//   branch_id  String   @db.Char(10)
-// }
+model CategoryCounter {
+  counter_id   String   @db.Char(5)
+  lastCounter  Int
+  description  String   @db.VarChar(160)
+  refreshAt    String   @db.Char(1)
+  firstChar    String   @db.Char(4)
+  secondChar   String   @db.Char(4)
+  digits       Int
+  startCount   Int
+  recounter    Int
+  autoGenerate Boolean  @default(false)
+  createdBy    String   @db.Char(10)
+  createdAt    DateTime
+  updatedBy    String   @db.Char(10)
+  updatedAt    DateTime
+  company_id   String   @db.Char(5)
+  branch_id    String   @db.Char(10)
+  @@id([ counter_id,  company_id, branch_id])
+}
+
 
 model Uoms {
   id        String     @id @db.Char(10)

@@ -310,11 +310,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             name='name'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Product Name</FormLabel>
                 <FormControl>
                   <Input
                     disabled={loading}
                     placeholder='Input product name'
+                    className='font-bold'
                     {...field}
                   />
                 </FormControl>

@@ -3,7 +3,7 @@ import { useMaterialCategories } from '@/queryHooks/useMaterialCategories';
 
 type OptionType = { value: string; label: string };
 
-const useMaterialCategoriesOption = (): {
+const useMaterialCategoriesOptionFilter = (): {
   options: OptionType[] | undefined;
   isLoading: boolean;
 } => {
@@ -18,4 +18,4 @@ const useMaterialCategoriesOption = (): {
   return { options: materialCategoryList, isLoading };
 };
 
-export default useMaterialCategoriesOption;
+export default useMaterialCategoriesOptionFilter;
