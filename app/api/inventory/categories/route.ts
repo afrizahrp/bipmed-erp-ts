@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const categories = await prisma.categories.findMany({
       where: { slug: { not: 'noname' } },
       orderBy: {
-        createdAt: 'desc',
+        updatedAt: 'desc',
       },
     });
 

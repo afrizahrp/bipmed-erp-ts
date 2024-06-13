@@ -228,7 +228,7 @@ model Categories {
   href          String?           @db.VarChar(150)
   icon          String?           @db.VarChar(50)
   status        MasterTableStatus @relation(fields: [iStatus], references: [id])
-  categoryType  CategoryTypes        @relation(fields: [type], references: [id], onUpdate: NoAction)
+  categoryType  CategoryTypes     @relation(fields: [type], references: [id], onUpdate: NoAction)
 
   products      Products[]
   subCategories SubCategories[]
@@ -488,3 +488,9 @@ model vMaterialCategories {
   id  String   @id @db.VarChar(10)
   name String   @db.VarChar(50)
 }
+
+model Cf_business {
+  id          String    @id @db.Char(20)
+  name        String    @db.VarChar(150)
+}
+

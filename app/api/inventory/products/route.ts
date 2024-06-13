@@ -2,7 +2,6 @@ import { prisma } from '@/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
-import checkProductId from '../../system/checkProductId/route';
 import getProductId from '../../system/getProductId/route';
 
 export async function GET(request: NextRequest) {
@@ -75,7 +74,6 @@ export async function POST(request: NextRequest) {
     };
 
     const userId = userName;
-
     const productId = await getProductId(company, branch, category_id, userId);
 
     const newProduct = {

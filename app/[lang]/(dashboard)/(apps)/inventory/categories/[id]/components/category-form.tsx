@@ -312,7 +312,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
           <div className='flex justify-end space-x-4'>
             <Button
-              onClick={() => router.push('/inventory/categories/category-list')}
+              as
+              child
+              onClick={(event) => {
+                event.stopPropagation();
+                router.push('/inventory/categories/category-list');
+              }}
             >
               Back
             </Button>

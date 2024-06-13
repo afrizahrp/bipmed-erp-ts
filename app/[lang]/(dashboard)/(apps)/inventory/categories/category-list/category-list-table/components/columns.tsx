@@ -5,10 +5,10 @@ import { DataTableColumnHeader } from '@/components/ui/data-table-column-header'
 import Link from 'next/link';
 
 export type CategoryColumns = {
+  type: string | null;
   id: string;
   name: string | null;
   status: string | null;
-  type: string | null;
   remarks: string | null;
 };
 
