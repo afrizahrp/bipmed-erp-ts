@@ -33,8 +33,6 @@ export async function POST(request: NextRequest) {
     const branch = session?.user?.branch || '';
     const userName = session?.user?.name || '';
 
-    console.log('new product routes', session?.user?.name, userName);
-
     const body = await request.json();
     const {
       name,

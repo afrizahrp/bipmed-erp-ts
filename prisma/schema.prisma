@@ -184,7 +184,7 @@ model CategoryCounter {
 model Uoms {
   id        String     @id @db.Char(10)
   name      String?    @db.VarChar(150)
-  iStatus   Boolean           @default(false)
+  iStatus   Boolean     @default(false)
   remarks   String?    @db.VarChar(250)
   createdBy String?    @db.VarChar(50)
   createdAt DateTime?  @db.DateTime
@@ -228,7 +228,8 @@ model Categories {
   href          String?           @db.VarChar(150)
   icon          String?           @db.VarChar(50)
   status        MasterTableStatus @relation(fields: [iStatus], references: [id])
-  categoryType  CategoryTypes     @relation(fields: [type], references: [id])
+  categoryType  CategoryTypes        @relation(fields: [type], references: [id], onUpdate: NoAction)
+
   products      Products[]
   subCategories SubCategories[]
 }
@@ -296,6 +297,7 @@ model Products {
   subCategory    SubCategories?     @relation(fields: [subCategory_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   uom            Uoms?              @relation(fields: [uom_id], references: [id])
   specs          ProductSpecs?
+   @@index([name, slug])
 }
 
 model ProductImages {
@@ -310,6 +312,7 @@ model ProductImages {
   company    String?   @db.Char(5)
   branch     String?   @db.Char(10)
   products   Products  @relation(fields: [product_id], references: [id])
+  @@index([product_id])
 }
 
 model ProductSpecs {

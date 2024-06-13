@@ -6,15 +6,15 @@ import Link from 'next/link';
 
 export type CategoryColumns = {
   id: string;
-  name: string;
-  status: any;
-  type: any;
-  remarks: string;
+  name: string | null;
+  status: string | null;
+  type: string | null;
+  remarks: string | null;
 };
 
 export function getStatusColor(status: string) {
   if (status.toLowerCase() === 'aktif') {
-    return 'bg-green-400';
+    return 'bg-green-600';
   } else {
     return 'bg-gray-400';
   }

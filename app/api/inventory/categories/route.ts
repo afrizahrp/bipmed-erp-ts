@@ -1,17 +1,14 @@
 import { prisma } from '@/lib/client';
 import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import getDocumentId from '../../system/getDocumentId/route';
+import getCategoryId from '../../system/getCategoryId/route';
+
 import { getServerSession } from 'next-auth';
 
 export async function GET(request: NextRequest) {
   try {
     const categories = await prisma.categories.findMany({
       where: { slug: { not: 'noname' } },
-      include: {
-        categoryType: true,
-        status: true,
-      },
       orderBy: {
         createdAt: 'desc',
       },
@@ -35,39 +32,26 @@ export async function POST(request: NextRequest) {
     const username = session?.user?.name || '';
 
     const body = await request.json();
-    const { type, name, remarks, imageURL, iStatus, status, iShowedStatus } =
-      body as {
-        company: string;
-        branch: string;
-        type: string;
-        name: string;
-        remarks: string;
-        imageURL: string;
-        iStatus: boolean;
-        status: string;
-        iShowedStatus: boolean;
-      };
+    const { type, name, remarks, imageURL, iStatus, iShowedStatus } = body as {
+      type: string;
+      name: string;
+      remarks: string;
+      imageURL: string;
+      iStatus: boolean;
+      iShowedStatus: boolean;
+    };
 
-    // const company = 'BIP';
-    // const branch = 'BIP';
-    const moduleId = 'PO'; // Replace with your actual data
-    const prefixId = 'SU'; // Replace with your actual data
     const userId = username; //session.user.id // Use the user ID from the session
-    const docId = await getDocumentId(
-      company,
-      branch,
-      moduleId,
-      prefixId,
-      new Date(),
-      userId
-    );
+    const categoryId = await getCategoryId(company, branch, type, userId);
 
-    const newCategories = {
+    const newCategory = {
       type,
       name,
-      id: docId,
+      id: categoryId,
       remarks,
       imageURL,
+      iStatus,
+      iShowedStatus,
       createdBy: username,
       updatedBy: username,
       createdAt: new Date(),
@@ -77,18 +61,16 @@ export async function POST(request: NextRequest) {
     };
 
     const category = await prisma.categories.create({
-      data: newCategories,
+      data: newCategory,
     });
 
     return NextResponse.json(category, { status: 201 });
   } catch (e) {
     console.error(e);
 
-    // await resetDocumentId('PO', 'SU');
-
     return NextResponse.json(
       {
-        message: 'Something went wrong while trying to create new categories',
+        message: 'Something went wrong while trying to create new category',
         result: e,
       },
       { status: 500 }

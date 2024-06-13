@@ -10,8 +10,6 @@ import PageHeader from '@/components/page-header';
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-// import { Toaster } from 'sonner';
-// import ButtonSpinner from '@/components/ui/button-spinner';
 import { Loader2 } from 'lucide-react';
 
 import { Categories, CategoryTypes } from '@prisma/client';
@@ -62,7 +60,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const params = useParams();
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const title = initialData
@@ -113,19 +110,21 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   });
 
   const onSubmit = async (data: CategoryFormValues) => {
+    console.log(initialData);
     try {
       setLoading(true);
       if (initialData) {
         await axios.patch(`/api/inventory/categories/${params.id}`, data);
       } else {
-        await axios.post(`/api/${params.storeId}/products`, data);
+        await axios.post(`/api/inventory/categories`, data);
       }
-      router.refresh();
       router.push('/inventory/categories/category-list');
+      router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
-      console.error(error); // Log the error to the console for debugging
-      toast.error(error.response?.data?.message || 'Change Failed');
+      console.error(error);
+
+      toast.error(error.response?.data?.message || 'Save failed');
     } finally {
       setLoading(false);
     }
@@ -248,6 +247,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                   <FormControl>
                     <SimpleMDE
                       placeholder='Type here to add remarks'
+                      disabled={loading}
                       {...field}
                     />
                   </FormControl>
@@ -279,6 +279,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
+                      disabled={loading}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>

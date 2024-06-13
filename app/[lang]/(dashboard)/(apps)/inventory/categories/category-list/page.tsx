@@ -1,38 +1,60 @@
-'use client';
-// import { prisma } from '@/prisma/client';
-import useCategories from '@/queryHooks/useCategories';
+import { prisma } from '@/lib/client';
+import { CategoryListTable } from './category-list-table';
 import { CategoryColumns } from './category-list-table/components/columns';
 import { Card, CardContent } from '@/components/ui/card';
-import { CategoryListTable } from './category-list-table';
-import LayoutLoader from '@/components/layout-loader';
-const CategoryListPage = () => {
-  const { data: categories, isLoading, error } = useCategories();
+import PageHeader from '@/components/page-header';
+import { routes } from '@/config/routes';
 
-  if (isLoading) {
-    return <LayoutLoader />;
-  }
+const pageHeader = {
+  title: 'Categories',
+  breadcrumb: [
+    {
+      href: routes.eCommerce.dashboard,
+      name: 'Home',
+    },
+    {
+      name: 'Inventory',
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+      href: routes.eCommerce.dashboard,
+    },
+    {
+      name: 'List',
+    },
+  ],
+};
+
+const CategoryListPage = async () => {
+  const categories = await prisma.categories.findMany({
+    include: {
+      categoryType: true,
+      status: true,
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  });
 
   const formattedCategories: CategoryColumns[] =
     categories?.map((item) => ({
       id: item.id,
       name: item.name,
-      type: item.categoryType.name ?? [],
-      status: item.status.name ?? [],
+      type: item.categoryType?.name,
+      status: item?.name,
       remarks: item.remarks,
     })) ?? [];
 
   return (
-    <div>
-      <Card className='mt-6'>
-        <CardContent className='p-10'>
-          <CategoryListTable data={formattedCategories} />
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+
+      <div>
+        <Card className='mt-6'>
+          <CardContent className='p-10'>
+            <CategoryListTable data={formattedCategories} />
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 };
 

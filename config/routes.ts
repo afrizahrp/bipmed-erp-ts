@@ -24,7 +24,7 @@ export const routes = {
     materials: '/inventory/materials/material-list',
     newProduct: '/inventory/products/new',
     newMaterial: '/inventory/materials/new',
-    categories: '/inventory/categories',
+    categories: '/inventory/categories/category-list',
     newCategory: '/inventory/categories/new',
     productDetails: (slug: string) => `/inventory/products/${slug}`,
     ediProduct: (slug: string) => `/inventory/products/${slug}/edit`,

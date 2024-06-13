@@ -18,7 +18,7 @@ export type ProductColumn = {
 
 export function getStatusColor(status: string) {
   if (status.toLowerCase() === 'aktif') {
-    return 'bg-green-400';
+    return 'bg-green-600';
   } else {
     return 'bg-gray-400';
   }

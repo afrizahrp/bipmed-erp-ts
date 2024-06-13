@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
   } catch (e) {
     console.error(e);
     return NextResponse.json(
-      { error: 'Something went wrong' },
+      { error: 'Something went wrong while trying to create new material' },
       { status: 500 }
     );
   }
