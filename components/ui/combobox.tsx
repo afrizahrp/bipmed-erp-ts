@@ -1,5 +1,8 @@
+'use client';
+
 import * as React from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,17 +25,26 @@ interface Option {
 
 interface ComboboxProps {
   options: Option[];
-  placeholder: string;
-  noResultsText: string;
+  initialValue: string;
+  onValueChange: (value: string) => void;
+  children: React.ReactNode;
 }
 
 export function Combobox({
   options,
-  placeholder,
-  noResultsText,
+  initialValue,
+  onValueChange,
+  children,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState(initialValue);
+
+  const handleSelect = (currentValue: string) => {
+    const newValue = currentValue === value ? '' : currentValue;
+    setValue(newValue);
+    onValueChange(newValue);
+    setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -45,23 +57,20 @@ export function Combobox({
         >
           {value
             ? options.find((option) => option.value === value)?.label
-            : placeholder}
+            : 'Select option...'}
           <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[200px] p-0'>
         <Command>
-          <CommandInput placeholder={placeholder} />
-          <CommandEmpty>{noResultsText}</CommandEmpty>
+          <CommandInput placeholder='Search option...' />
+          <CommandEmpty>No option found.</CommandEmpty>
           <CommandGroup>
             {options.map((option) => (
               <CommandItem
                 key={option.value}
                 value={option.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? '' : currentValue);
-                  setOpen(false);
-                }}
+                onSelect={handleSelect}
               >
                 <Check
                   className={cn(
@@ -73,6 +82,7 @@ export function Combobox({
               </CommandItem>
             ))}
           </CommandGroup>
+          {children}
         </Command>
       </PopoverContent>
     </Popover>

@@ -39,6 +39,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+import { Combobox } from '@/components/ui/combobox';
+
 import { Checkbox } from '@/components/ui/checkbox';
 import { defaultValues } from '@/utils/defaultvalues/materials';
 import {
@@ -325,6 +327,35 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                           ))}
                       </SelectContent>
                     </Select>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div>
+              <FormField
+                control={form.control}
+                name='uom_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Uom</FormLabel>
+                    <Combobox
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      {uoms &&
+                        uoms.map((uom) => (
+                          <Combobox.Item key={uom.id} value={uom.id}>
+                            {uom.name}
+                          </Combobox.Item>
+                        ))}
+                    </Combobox>
+                    {form.formState.errors.uom_id && (
+                      <FormMessage>
+                        {form.formState.errors.uom_id.message}
+                      </FormMessage>
+                    )}
                   </FormItem>
                 )}
               />
