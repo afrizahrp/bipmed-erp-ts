@@ -213,7 +213,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                   <FormItem>
                     <FormLabel>Material Id</FormLabel>
                     <FormControl>
-                      <Input disabled placeholder='Id' {...field} />
+                      <Input
+                        disabled
+                        placeholder='Id'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -262,7 +267,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? ''}
                             placeholder='Select a category'
                           />
                         </SelectTrigger>
@@ -295,13 +300,13 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ?? ''}
+                      defaultValue={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? ''}
                             placeholder='Subcategory'
                           />
                         </SelectTrigger>
@@ -339,45 +344,16 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Uom</FormLabel>
-                    <Combobox
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      {uoms &&
-                        uoms.map((uom) => (
-                          <Combobox.Item key={uom.id} value={uom.id}>
-                            {uom.name}
-                          </Combobox.Item>
-                        ))}
-                    </Combobox>
-                    {form.formState.errors.uom_id && (
-                      <FormMessage>
-                        {form.formState.errors.uom_id.message}
-                      </FormMessage>
-                    )}
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div>
-              <FormField
-                control={form.control}
-                name='uom_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Uom</FormLabel>
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ?? ''}
+                      defaultValue={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? ''}
                             placeholder='Uom'
                           />
                         </SelectTrigger>
@@ -410,13 +386,13 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ?? ''}
+                      defaultValue={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? ''}
                             placeholder='Brand'
                           />
                         </SelectTrigger>
