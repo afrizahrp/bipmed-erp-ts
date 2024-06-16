@@ -2142,15 +2142,15 @@ export const menusConfig = {
                 href: '#',
               },
               {
-                title: 'Purchase Order',
+                title: 'Purchase Order (PO)',
                 href: '#',
               },
               {
-                title: 'Goods Receive Note by PO',
+                title: 'Goods Receive by PO',
                 href: '#',
               },
               {
-                title: 'Goods Receive Note by Supplier',
+                title: 'Goods Receive by Supplier',
                 href: '#',
               },
               {

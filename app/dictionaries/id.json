@@ -20,11 +20,12 @@
   "subcategories": "Subkategori",
   "storage location": "Lokasi Penyimpanan",
 
-  "id": "Kode",
+  "category id": "Kode",
+  "product id": "kode",
   "name": "Nama",
   "remarks": "Keterangan",
   "uoms": "Satuan",
-  "type": "Jenis",
+  "type": "Tipe",
 
   "chat": "chat",
   "email": "email",

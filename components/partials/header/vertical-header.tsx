@@ -1,11 +1,9 @@
 import React from 'react';
 import { useSidebar, useThemeStore } from '@/store';
 import { cn } from '@/lib/utils';
+import { Icon } from '@iconify/react';
 import { Search } from 'lucide-react';
-import Image from 'next/image';
-
-// import { Icon } from '@iconify/react';
-// import { SiteLogo } from "@/components/svg";
+import { SiteLogo } from '@/components/svg';
 import Link from 'next/link';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
@@ -78,15 +76,7 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({
 
   const MainLogo = (
     <Link href='/dashboard' className=' text-primary '>
-      {/* <SiteLogo className='h-7 w-7' /> */}
-
-      <Image
-        src='/images/logo/logo.svg'
-        alt='sidebarlogo'
-        width={100}
-        height={100}
-        priority
-      />
+      <SiteLogo className='h-7 w-7' />
     </Link>
   );
   const SearchButton = (

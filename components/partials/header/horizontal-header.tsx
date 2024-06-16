@@ -1,6 +1,5 @@
 import React from 'react';
 import { Search } from 'lucide-react';
-import { SiteLogo } from '@/components/svg';
 import Link from 'next/link';
 const horizontalHeader = ({
   handleOpenSearch,
@@ -14,7 +13,6 @@ const horizontalHeader = ({
           href='/dashboard'
           className=' text-primary flex items-center gap-2'
         >
-          {/* <SiteLogo className="h-7 w-7" /> */}
           <span className=' text-xl font-semibold lg:inline-block hidden'>
             {' '}
             bipmed

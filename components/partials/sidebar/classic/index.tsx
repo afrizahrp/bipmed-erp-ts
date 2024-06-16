@@ -68,9 +68,9 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
-        'fixed  z-[999] top-0  bg-card h-full hover:!w-[255px]  border-r text-sm ',
+        'fixed  z-[999] top-0  bg-card h-full hover:!w-[285px]  border-r text-sm ',
         {
-          'w-[255px]': !collapsed,
+          'w-[285px]': !collapsed,
           'w-[72px]': collapsed,
           'shadow-md': collapsed || hovered,
         }
