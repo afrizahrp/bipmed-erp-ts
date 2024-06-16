@@ -13,6 +13,7 @@ import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 import { Loader2 } from 'lucide-react';
 
 import { Categories, CategoryTypes } from '@prisma/client';
+import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
@@ -26,7 +27,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Separator } from '@/components/ui/separator';
 import {
   Select,
   SelectContent,
@@ -39,11 +39,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 const formSchema = z.object({
   // category_id: z.string().min(1),
+  id: z.string().min(1),
   type: z.string().min(1),
-  name: z.string().min(3),
-  remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
+  name: z.string().min(3).or(z.literal('')),
+  remarks: z.string().min(5).or(z.literal('')),
   iStatus: z.boolean().default(false).optional(),
-  imageURL: z.string().min(1).or(z.literal('')).optional().nullable(),
+  imageURL: z.string().min(1).or(z.literal('')),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
@@ -61,10 +62,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [searchTerms, setSearchTerms] = useState('');
 
-  const title = initialData
-    ? 'Edit Category Category'
-    : 'Add New Category Category';
+  const title = initialData ? 'Edit Category' : 'Add New Category';
   const description = initialData
     ? `Change Category ${initialData.id}-> ${initialData.name}`
     : 'Add New Category';
@@ -74,7 +74,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const action = initialData ? 'Save Changes' : 'Save New Category';
 
   const pageHeader = {
-    title: initialData ? 'Edit Categpry' : 'New Category',
+    title: initialData ? 'Edit Category' : 'New Category',
 
     breadcrumb: [
       {
@@ -93,24 +93,31 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const defaultValues = initialData
     ? {
         ...initialData,
-        name: initialData.name || undefined,
+        type: initialData.type,
+        name: initialData.name,
+        imageURL: initialData.imageURL,
+        iStatus: initialData.iStatus || false,
+        remarks: initialData.remarks,
       }
     : {
-        type: 0,
-        id: '',
+        type: '0',
         name: '',
+        imageURL: undefined,
         iStatus: false,
-        imageURL: '',
         remarks: '',
       };
 
+  // const form = useForm<CategoryFormValues>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: initialData || {},
+  // });
+
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues,
+    defaultValues: initialData || {},
   });
 
   const onSubmit = async (data: CategoryFormValues) => {
-    console.log(initialData);
     try {
       setLoading(true);
       if (initialData) {
@@ -130,6 +137,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     }
   };
 
+  const onCategoryNameChange = (newCategoryName: string) => {
+    setSearchTerms(newCategoryName);
+  };
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
@@ -144,7 +155,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             name='imageURL'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -173,31 +183,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                 )}
               />
             </div>
-            <div className='col-span-2'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        className='font-bold'
-                        disabled={loading}
-                        placeholder='Input category name'
-                        {...field}
-                      />
-                    </FormControl>
-                    {form.formState.errors.name && (
-                      <FormMessage>
-                        {form.formState.errors.name.message}
-                      </FormMessage>
-                    )}{' '}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+
             <div>
               <FormField
                 control={form.control}
@@ -235,6 +221,61 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                 )}
               />
             </div>
+          </div>
+
+          <div className='w-3/4'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <div>
+                  <FormItem>
+                    <FormLabel>Category Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder='Input category name'
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e); // Call the original onChange handler
+                          onCategoryNameChange(e.target.value); // Call the new handler
+                        }}
+                        className='font-semibold text-md'
+                      />
+                    </FormControl>
+                    {form.formState.errors.name && (
+                      <FormMessage>
+                        {form.formState.errors.name.message}
+                      </FormMessage>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                </div>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  {/* <FormLabel>Category Name Check</FormLabel> */}
+                  <FormControl>
+                    <CategoryNameExist
+                      currentValue={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                    />
+                  </FormControl>
+                  {form.formState.errors.name && (
+                    <FormMessage>
+                      {form.formState.errors.name.message}
+                    </FormMessage>
+                  )}{' '}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <div>
@@ -312,8 +353,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
           <div className='flex justify-end space-x-4'>
             <Button
-              as
-              child
               onClick={(event) => {
                 event.stopPropagation();
                 router.push('/inventory/categories/category-list');
@@ -322,8 +361,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               Back
             </Button>
             <Button disabled={loading} className='ml-auto' type='submit'>
-              {action}{' '}
               {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+              {action}{' '}
             </Button>
           </div>
         </form>

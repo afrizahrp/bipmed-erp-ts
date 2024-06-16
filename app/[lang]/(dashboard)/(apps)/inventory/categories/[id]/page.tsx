@@ -28,10 +28,7 @@ const ProductPage = async ({
   return (
     <Card className='py-6'>
       <CardContent>
-        <CategoryForm
-          categoryTypes={categoryTypes}
-          initialData={category || undefined}
-        />
+        <CategoryForm categoryTypes={categoryTypes} initialData={category||undefined} />
       </CardContent>
     </Card>
   );

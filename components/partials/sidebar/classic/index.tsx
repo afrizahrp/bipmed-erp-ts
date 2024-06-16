@@ -68,9 +68,9 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
-        'fixed  z-[999] top-0  bg-card h-full hover:!w-[275px]  border-r  ',
+        'fixed  z-[999] top-0  bg-card h-full hover:!w-[255px]  border-r text-sm ',
         {
-          'w-[275px]': !collapsed,
+          'w-[255px]': !collapsed,
           'w-[72px]': collapsed,
           'shadow-md': collapsed || hovered,
         }
@@ -78,7 +78,7 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
     >
       {sidebarBg !== 'none' && (
         <div
-          className=' absolute left-0 top-0   z-[-1] w-full h-full bg-cover bg-center opacity-[0.07]'
+          className='absolute left-0 top-0   z-[-1] w-full h-full bg-cover bg-center opacity-[0.07] text-sm'
           style={{ backgroundImage: `url(${sidebarBg})` }}
         ></div>
       )}
@@ -92,7 +92,7 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
       >
         <ul
           dir={isRtl ? 'rtl' : 'ltr'}
-          className={cn(' space-y-1', {
+          className={cn('text-sm space-y-1', {
             ' space-y-2 text-center': collapsed,
             'text-start': collapsed && hovered,
           })}
