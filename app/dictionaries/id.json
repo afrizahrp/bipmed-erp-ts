@@ -3,6 +3,29 @@
   "analytics": "analytics",
   "ecommerce": "ecommerce",
   "project": "project",
+  "inventory": "Persediaan",
+  "list": "Daftar",
+  "mutation": "Mutasi",
+  "requisition of materials": "permintaan bahan baku",
+  "issuance of materials": "pengeluaran bahan baku",
+  "receiving of materials": "penerimaan bahan baku",
+  "return of materials": "pengembalian bahan baku",
+  "transaction": "Transaksi",
+  "purchasing": "Pembelian",
+  "setting system": "Pengaturan Sistem",
+  "finish goods": "Produk Jadi",
+  "raw materials": "Bahan Baku",
+  "product specification": "Spesifikasi Produk",
+  "categories": "Kategori",
+  "subcategories": "Subkategori",
+  "storage location": "Lokasi Penyimpanan",
+
+  "id": "Kode",
+  "name": "Nama",
+  "remarks": "Keterangan",
+  "uoms": "Satuan",
+  "type": "Jenis",
+
   "chat": "chat",
   "email": "email",
   "kanban": "kanban",
@@ -191,6 +214,5 @@
   "application": "application",
   "components": "components",
   "forms": "forms",
-  "menu": "menu",
-  "Categories": "Kategori"
+  "menu": "menu"
 }

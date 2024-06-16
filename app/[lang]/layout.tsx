@@ -33,10 +33,10 @@ export default function RootLayout({
       <AuthProvider>
         <QueryClientProvider>
           <Providers>
-            <DirectionProvider lang={lang}>
-              <NextProgress />
-              {children}
-            </DirectionProvider>
+            {/* <DirectionProvider lang={lang}> */}
+            <NextProgress />
+            {children}
+            {/* </DirectionProvider> */}
           </Providers>
         </QueryClientProvider>
       </AuthProvider>

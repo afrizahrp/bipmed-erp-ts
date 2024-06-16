@@ -2047,55 +2047,55 @@ export const menusConfig = {
         title: 'Application',
       },
       {
-        title: 'Persediaan',
+        title: 'Inventory',
         href: '/inventory',
         icon: DashBoard,
         child: [
           {
-            title: 'Daftar',
+            title: 'List',
             href: '/inventory/master',
             multi_menu: [
               {
-                title: 'Produk Jadi',
+                title: 'Finish Goods',
                 href: '/inventory/products/product-list',
               },
               {
-                title: 'Spesifikasi Produk',
+                title: 'Product Specification',
                 href: '#',
               },
               {
-                title: 'Material',
+                title: 'Raw Materials',
                 href: '/inventory/materials/material-list',
               },
               {
-                title: 'Kategori',
+                title: 'Categories',
                 href: '/inventory/categories/category-list',
               },
               {
-                title: 'Subkategori',
+                title: 'Subcategories',
                 href: '/inventory/subcategories/subcategory-list',
               },
 
               {
-                title: 'Lokasi Penyimpanan',
+                title: 'Storage Location',
                 href: '#',
               },
             ],
           },
 
           {
-            title: 'Mutasi',
+            title: 'Mutation',
             multi_menu: [
               {
-                title: 'Permintaan Material',
+                title: 'Requisition of Materials',
                 href: '#',
               },
               {
-                title: 'Pengeluaran Material',
+                title: 'Issuance Of Materials',
                 href: '#',
               },
               {
-                title: 'Penerimaan Material',
+                title: 'Receiving Of Materials',
                 href: '#',
               },
             ],
@@ -2104,11 +2104,11 @@ export const menusConfig = {
       },
 
       {
-        title: 'Pembelian',
+        title: 'Purchasing',
         icon: Note2,
         child: [
           {
-            title: 'Daftar',
+            title: 'List',
             multi_menu: [
               {
                 title: 'Suppliers',
@@ -2135,7 +2135,7 @@ export const menusConfig = {
           },
 
           {
-            title: 'Transaksi',
+            title: 'Transaction',
             multi_menu: [
               {
                 title: 'Purchase Requesition',
@@ -2163,7 +2163,7 @@ export const menusConfig = {
       },
 
       {
-        title: 'Pengaturan Sistem',
+        title: 'Setting System',
         icon: Settings,
         href: '#',
         isHide: false,

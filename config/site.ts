@@ -1,20 +1,17 @@
-
-
-
 export const siteConfig = {
-  name: "bipmed-integratedSystem",
+  name: 'bipmed-integratedSystem',
   description: null,
-  theme: "blue",
-  layout: "vertical",
+  theme: 'blue',
+  layout: 'vertical',
   // semi-box, horizontal, vertical
   hideSideBar: false,
-  sidebarType: "classic",
+  sidebarType: 'classic',
   // popover, classic, module
   sidebarColor: null,
-  navbarType: "sticky",
+  navbarType: 'sticky',
   // sticky, floating, static
-  footerType: "hidden",
+  footerType: 'hidden',
   // sticky,  static, hidden
-  sidebarBg: "none",
+  sidebarBg: 'none',
   radius: 0.5,
 };

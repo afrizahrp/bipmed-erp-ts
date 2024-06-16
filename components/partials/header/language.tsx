@@ -24,16 +24,16 @@ const languages = [
   },
   {
     name: 'id',
-    flag: flag4,
-  },
-  {
-    name: 'bn',
     flag: flag2,
   },
-  {
-    name: 'ar',
-    flag: flag3,
-  },
+  // {
+  //   name: 'bn',
+  //   flag: flag2,
+  // },
+  // {
+  //   name: 'ar',
+  //   flag: flag3,
+  // },
 ];
 const Language = () => {
   type Language = {
@@ -56,8 +56,8 @@ const Language = () => {
     setSelectedLanguage({
       ...selectedLanguage,
       name: lang,
-      // language: lang === 'en' ? 'En' : lang === 'id' ? 'Id' : 'Bn',
-      language: lang === 'en' ? 'En' : 'Id',
+      language: lang === 'en' ? 'En' : lang === 'id' ? 'Id' : 'en',
+      // language: lang === 'en' ? 'En' : 'Id',
     });
     setRtl(lang === 'ar');
     if (pathname) {
