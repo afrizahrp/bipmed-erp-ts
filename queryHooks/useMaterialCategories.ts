@@ -1,27 +1,35 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from 'use-debounce';
 
-interface materialCategories {
+interface MaterialCategories {
   id: string;
   name: string;
-  icon: string;
 }
-export const useMaterialCategories = () => {
-  const { data, isLoading, error, ...rest } = useQuery<
-    materialCategories[],
+export const useMaterialCategories = (searchTerms: string) => {
+  const [debouncedSearchTerms] = useDebounce(searchTerms, 500); // Debounce searchTerms with a 500ms delay
+  const { data, isLoading, isError, ...rest } = useQuery<
+    MaterialCategories[],
     Error
   >({
-    queryKey: ['materialCategories'],
+    queryKey: ['materialCategories', debouncedSearchTerms],
     queryFn: () =>
-      axios
-        .get('/api/inventory/materialCategories', {})
-        .then((res) => res.data),
+      debouncedSearchTerms
+        ? axios
+            .get('/api/inventory/materialCategories', {
+              params: {
+                name: debouncedSearchTerms, // use searchType as the parameter name
+              },
+            })
+            .then((res) => res.data)
+        : Promise.resolve([]), // Resolve to an empty array if name is not provided
 
     staleTime: 60 * 1000, //60s
     retry: 3,
+    enabled: !!debouncedSearchTerms, // Only run the query if both searchTerms and searchType are provided
   });
 
-  return { data, isLoading, error, ...rest };
+  return { data, isLoading, isError, ...rest };
 };
 
 export default useMaterialCategories;

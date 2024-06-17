@@ -18,7 +18,7 @@ interface SearchProps {
   onSelectResult: (category: Categories) => void;
 }
 
-export function SearchColumnBase({
+export function SearchColumnFor({
   selectedResult,
   onSelectResult,
 }: SearchProps) {

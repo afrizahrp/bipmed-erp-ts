@@ -1,37 +1,33 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-// import { useDebounce } from 'use-debounce';
+import { useDebounce } from 'use-debounce';
 
-interface products {
+interface Products {
   id: string;
-  catalog_id: string;
   name: string;
-  category_id: string;
-  subCategory_id: string;
-  brand_id: string;
-  uom_id: string;
-  images: string;
-  iStatus: boolean;
-  remarks: string;
-  isMaterial: boolean;
-  iShowedStatus: boolean;
-  category: string;
-  subCateogry: string;
-  brand: string;
-  uom: string;
+  catalog_id: string;
 }
-export const useProducts = () => {
-  const { data, isLoading, error, ...rest } = useQuery<products[], Error>({
-    queryKey: ['products'],
-    queryFn: async () => {
-      const res = await axios.get('/api/inventory/products', {});
-      return res.data;
-    },
+export const useProducts = (searchTerms: string) => {
+  const [debouncedSearchTerms] = useDebounce(searchTerms, 500); // Debounce searchTerms with a 500ms delay
+  const { data, isLoading, isError, ...rest } = useQuery<Products[], Error>({
+    queryKey: ['products', debouncedSearchTerms],
+    queryFn: () =>
+      debouncedSearchTerms
+        ? axios
+            .get('/api/inventory/products', {
+              params: {
+                name: debouncedSearchTerms, // use searchType as the parameter name
+              },
+            })
+            .then((res) => res.data)
+        : Promise.resolve([]), // Resolve to an empty array if name is not provided
+
     staleTime: 60 * 1000, //60s
     retry: 3,
+    enabled: !!debouncedSearchTerms, // Only run the query if both searchTerms and searchType are provided
   });
 
-  return { data, isLoading, error, ...rest };
+  return { data, isLoading, isError, ...rest };
 };
 
 export default useProducts;

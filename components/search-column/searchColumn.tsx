@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import type { Categories } from '@/types';
-import { SearchColumnBase } from './searchColumn-base';
+import { SearchColumnFor } from './searchColumnFor';
 
 const POPOVER_WIDTH = 'w-[250px]';
 
@@ -48,7 +48,7 @@ export function SearchColumn({ field }: Props) {
       </PopoverTrigger>
 
       <PopoverContent side='bottom' className={cn('p-0', POPOVER_WIDTH)}>
-        <SearchColumnBase
+        <SearchColumnFor
           selectedResult={selected}
           onSelectResult={handleSetActive}
         />
