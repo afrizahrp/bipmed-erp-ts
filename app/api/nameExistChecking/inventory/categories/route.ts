@@ -18,6 +18,9 @@ export async function GET(
           contains: name?.toLowerCase(),
         },
       },
+      orderBy: {
+        name: 'asc',
+      },
     });
     return NextResponse.json(category);
   } catch (e) {

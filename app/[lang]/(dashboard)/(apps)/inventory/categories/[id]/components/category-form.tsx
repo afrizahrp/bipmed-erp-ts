@@ -233,6 +233,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                     <FormLabel>Category Name</FormLabel>
                     <FormControl>
                       <Input
+                        type='search'
                         disabled={loading}
                         placeholder='Input category name'
                         {...field}
