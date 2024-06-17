@@ -1,4 +1,4 @@
-import { Input } from '@/components/ui/input';
+import { InputSearch } from '@/components/ui/inputSearch';
 import SearchResults from './searchResult';
 
 interface ShowField {
@@ -7,57 +7,59 @@ interface ShowField {
 }
 
 interface Props {
-  useDataHook: (searchTerms: string) => { data: any[] };
+  searchInputValue: string;
+  useDataHook: (searchInputValue: string) => { data: any[] };
   showfields: ShowField[];
   tableName?: string;
-  // searchInput: string;
 
   /*from searchInput component props*/
-  searchInputValue: string;
   setSearchInputValue: (searchInputValue: string) => void;
   placeholder: string;
-  onInputCleared: () => void;
+  onInputCleared?: () => void;
   disabled: boolean;
-  currentValue?: string;
-  onChange?: (newSearchTerms: string) => void;
+  oldValue?: string;
 }
 
 export default function SearchExistName({
   useDataHook,
   showfields,
   tableName,
-  // searchInput
   searchInputValue,
   setSearchInputValue,
   placeholder,
   onInputCleared,
   disabled,
-  currentValue,
-  onChange,
+  oldValue,
 }: Props) {
-  const { data } = useDataHook(searchInputValue);
+  const fShowResult = () => {
+    if (oldValue === searchInputValue) {
+      return false; // Hide the search result
+    } else {
+      return true; // Show the search result
+    }
+  };
 
+  const { isLoading, data } = useDataHook(
+    oldValue === searchInputValue ? '' : searchInputValue
+  ) as { isLoading: boolean; data: any[] };
   return (
     <>
       <div className='w-full '>
-        <Input
-          type='search'
+        <InputSearch
+          label='name'
           value={searchInputValue}
+          currentvalue={oldValue}
           onChange={(e) => {
             setSearchInputValue(e.target.value);
           }}
           placeholder={placeholder}
-          // required
-          // className='w-1/2 '
-          disabled={disabled}
-          style={{ display: 'none' }} // Add this line
+          disabled={isLoading || disabled}
         />
       </div>
 
-      <div className='flex w-full py-2'>
-        {/* {data && data.length > 0 && ( */}
-        {data && (
-          <div className='w-full justify-center'>
+      <div className='flex items-center justify-center w-full'>
+        {data && fShowResult() && (
+          <div className='w-3/4 justify-center'>
             <SearchResults
               data={data}
               showfields={showfields}
@@ -68,8 +70,8 @@ export default function SearchExistName({
               }
               description={
                 data.length > 0
-                  ? `Hindari penginputan nama ${tableName} yang sama dengan atribut atau fungsi dari ${tableName} yang sudah ada sebelumnya.`
-                  : `Pastikan nama ${tableName} yang diinput sesuai dengan atribut atau fungsi dari ${tableName} yang diinginkan.`
+                  ? `Untuk atribut atau spesifikasi yang sama, hindari penginputan nama ${tableName} yang sama dengan yang sudah ada sebelumnya.`
+                  : `Pastikan nama ${tableName} yang diinput sesuai dengan atribut atau spesifikasi atau fungsi dari ${tableName} yang diinginkan.`
               }
             />
           </div>

@@ -224,7 +224,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           </div>
 
           <div className='w-3/4'>
-            <FormField
+            {/* <FormField
               control={form.control}
               name='name'
               render={({ field }) => (
@@ -253,7 +253,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                   </FormItem>
                 </div>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}

@@ -14,28 +14,17 @@ export default function CategoryNameExist({
   onChange,
   onBlur,
 }: Props) {
-  // console.log({ currentValue, onChange, onBlur });
+  const [searchTerms, setSearchTerms] = useState(currentValue);
 
-  const [searchTerms, setSearchTerms] = useState('');
-  const [oldValue, setOldValue] = useState(currentValue);
+  // const { isLoading } = useCategoryNameExist(searchTerms);
 
-  const [categoryName, setCategoryName] = useState('');
-
-  useEffect(() => {
-    if (oldValue !== currentValue) {
-      setSearchTerms(currentValue);
-      setOldValue(currentValue);
-    }
-  }, [currentValue, oldValue]);
-
-  const { data, isLoading, error } = useCategoryNameExist(searchTerms);
+  const isLoading = false;
   const handleItemCleared = () => {
     setSearchTerms('');
   };
 
   const handleSearchTermsChange = (newSearchTerms: string) => {
     setSearchTerms(newSearchTerms);
-    onChange(newSearchTerms);
   };
 
   return (
@@ -48,17 +37,13 @@ export default function CategoryNameExist({
         ]}
         disabled={isLoading}
         searchInputValue={searchTerms}
-        // setSearchInputValue={setSearchTerms}
         setSearchInputValue={handleSearchTermsChange}
         placeholder='Input nama kategori di sini'
         onInputCleared={handleItemCleared}
         tableName='kategori'
-        currentValue={categoryName}
-        onChange={(newCategoryName) => {
-          // console.log('Category name changed:', newCategoryName);
-          setCategoryName(newCategoryName);
-        }}
+        oldValue={currentValue}
       />
+      {/* )} */}
     </div>
   );
 }
