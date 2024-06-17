@@ -83,7 +83,7 @@ export default function SearchResults({
                 <TableHeader>
                   <TableRow style={{ textAlign: 'left' }}>
                     {showfields.map((column) => (
-                      <TableHead key={column.key}>{column.label}</TableHead>
+                      <TableHead style={{ textAlign: 'left' }} key={column.key}>{column.label}</TableHead>
                     ))}
                   </TableRow>
                 </TableHeader>

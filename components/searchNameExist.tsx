@@ -57,9 +57,9 @@ export default function SearchExistName({
         />
       </div>
 
-      <div className='flex items-center justify-center w-full'>
+      <div className='flex items-center justify-center w-full py-2'>
         {data && fShowResult() && (
-          <div className='w-3/4 justify-center'>
+          <div className='w-full'>
             <SearchResults
               data={data}
               showfields={showfields}

@@ -36,6 +36,7 @@ import {
 } from '@/components/ui/select';
 import ImageUpload from '@/components/ui/image-upload';
 import { Checkbox } from '@/components/ui/checkbox';
+import { SearchColumn } from '@/components/search-column/searchColumn';
 
 const formSchema = z.object({
   // category_id: z.string().min(1),
@@ -224,36 +225,27 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           </div>
 
           <div className='w-3/4'>
-            {/* <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <div>
-                  <FormItem>
-                    <FormLabel>Category Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='search'
-                        disabled={loading}
-                        placeholder='Input category name'
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e); // Call the original onChange handler
-                          onCategoryNameChange(e.target.value); // Call the new handler
-                        }}
-                        className='font-semibold text-md'
-                      />
-                    </FormControl>
-                    {form.formState.errors.name && (
-                      <FormMessage>
-                        {form.formState.errors.name.message}
-                      </FormMessage>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                </div>
-              )}
-            /> */}
+            {/* <div>
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field }) => (
+                  <div>
+                    <FormItem>
+                      <FormControl>
+                        <SearchColumn field={field.value} />
+                      </FormControl>
+                      {form.formState.errors.name && (
+                        <FormMessage>
+                          {form.formState.errors.name.message}
+                        </FormMessage>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  </div>
+                )}
+              />
+            </div> */}
 
             <FormField
               control={form.control}
