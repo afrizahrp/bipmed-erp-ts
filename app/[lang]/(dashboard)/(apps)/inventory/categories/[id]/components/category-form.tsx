@@ -202,7 +202,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                         <SelectTrigger>
                           <SelectValue
                             defaultValue={field.value}
-                            placeholder='Select a category'
+                            placeholder='Select type'
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -252,7 +252,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                   <FormLabel>Category Name</FormLabel> 
+                  <FormLabel>Category Name</FormLabel>
                   <FormControl>
                     <CategoryNameExist
                       currentValue={field.value}
