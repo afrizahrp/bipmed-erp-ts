@@ -41,8 +41,14 @@ export async function POST(request: NextRequest) {
       iShowedStatus: boolean;
     };
 
+    const categoryType = type;
     const userId = username; //session.user.id // Use the user ID from the session
-    const categoryId = await getCategoryId(company, branch, type, userId);
+    const categoryId = await getCategoryId(
+      company,
+      branch,
+      categoryType,
+      userId
+    );
 
     const newCategory = {
       type,
