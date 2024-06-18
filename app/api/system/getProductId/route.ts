@@ -14,7 +14,6 @@ async function getProductId(
     const result: QueryResult[] =
       await prisma.$queryRaw`DECLARE @rt_doc_id VARCHAR(20); EXEC get_ProductId ${companyId}, ${branchId},  ${prefixId},  ${userId}, @rt_doc_id OUTPUT; SELECT @rt_doc_id as doc_id;`;
     const docId = result[0].doc_id;
-    console.log("new product id is:", docId);
     return docId;
   } catch (e) {
     console.error(e);
