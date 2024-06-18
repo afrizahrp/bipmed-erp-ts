@@ -29,7 +29,7 @@ export const columns: ColumnDef<MaterialColumn>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title='Product Id'
+        title='Material Id'
         className='text-black dark:text-slate-300'
       />
     ),
