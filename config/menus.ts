@@ -2015,46 +2015,50 @@ export const menusConfig = {
       },
     ],
     classic: [
-      {
-        isHeader: true,
-        title: 'menu',
-      },
-      {
-        title: 'Dashboard',
-        icon: DashBoard,
-        href: '/dashboard',
+      // {
+      //   isHeader: true,
+      //   title: 'menu',
+      // },
+      // {
+      //   title: 'Dashboard',
+      //   icon: DashBoard,
+      //   href: '/dashboard',
 
-        child: [
-          {
-            title: 'Analytics',
-            href: '/dashboard',
-            icon: Graph,
-          },
-          {
-            title: 'Ecommerce',
-            href: '/ecommerce',
-            icon: Cart,
-          },
-          {
-            title: 'Project ',
-            href: '/project',
-            icon: ClipBoard,
-          },
-        ],
-      },
+      //   child: [
+      //     {
+      //       title: 'Analytics',
+      //       href: '/dashboard',
+      //       icon: Graph,
+      //     },
+      //     {
+      //       title: 'Ecommerce',
+      //       href: '/ecommerce',
+      //       icon: Cart,
+      //     },
+      //     {
+      //       title: 'Project ',
+      //       href: '/project',
+      //       icon: ClipBoard,
+      //     },
+      //   ],
+      // },
       {
         isHeader: true,
         title: 'Application',
       },
       {
         title: 'Inventory',
-        href: '/inventory',
+        href: '/inventory/InventoryPage',
         icon: DashBoard,
         child: [
           {
             title: 'List',
             href: '/inventory/master',
             multi_menu: [
+              {
+                title: 'Dashboard',
+                href: '/inventory/InventoryPage',
+              },
               {
                 title: 'Finish Goods',
                 href: '/inventory/products/product-list',
@@ -2190,794 +2194,794 @@ export const menusConfig = {
           },
         ],
       },
-      {
-        title: 'Utility',
-        icon: Diamond,
-        href: '#',
+      // {
+      //   title: 'Utility',
+      //   icon: Diamond,
+      //   href: '#',
 
-        child: [
-          {
-            title: 'Blank Page',
-            href: '/blank',
-          },
-          {
-            title: 'Comming Soon',
-            href: '/utility/comming-soon',
-          },
-          {
-            title: 'Under Maintinance',
-            href: '/utility/maintinance',
-          },
-        ],
-      },
-      {
-        title: 'Invoice',
-        icon: Files,
-        href: '#',
+      //   child: [
+      //     {
+      //       title: 'Blank Page',
+      //       href: '/blank',
+      //     },
+      //     {
+      //       title: 'Comming Soon',
+      //       href: '/utility/comming-soon',
+      //     },
+      //     {
+      //       title: 'Under Maintinance',
+      //       href: '/utility/maintinance',
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Invoice',
+      //   icon: Files,
+      //   href: '#',
 
-        child: [
-          {
-            title: 'Create Invoice',
-            href: '/create-invoice',
-          },
-          {
-            title: 'Invoice Details',
-            href: '/invoice-details',
-          },
-          {
-            title: 'Invoice List',
-            href: '/invoice-list',
-          },
-        ],
-      },
+      //   child: [
+      //     {
+      //       title: 'Create Invoice',
+      //       href: '/create-invoice',
+      //     },
+      //     {
+      //       title: 'Invoice Details',
+      //       href: '/invoice-details',
+      //     },
+      //     {
+      //       title: 'Invoice List',
+      //       href: '/invoice-list',
+      //     },
+      //   ],
+      // },
 
-      {
-        title: 'Error',
-        icon: Error,
-        href: '#',
+      // {
+      //   title: 'Error',
+      //   icon: Error,
+      //   href: '#',
 
-        child: [
-          {
-            title: 'Error 401',
-            href: '/error-page/401',
-          },
-          {
-            title: 'Error 403',
-            href: '/error-page/403',
-          },
-          {
-            title: 'Error 404',
-            href: '/error-page/404',
-          },
-          {
-            title: 'Error 419',
-            href: '/error-page/419',
-          },
-          {
-            title: 'Error 429',
-            href: '/error-page/429',
-          },
-          {
-            title: 'Error 500',
-            href: '/error-page/500',
-          },
-          {
-            title: 'Error 503',
-            href: '/error-page/503',
-          },
-        ],
-      },
-      {
-        title: 'Email Template',
-        icon: Mail,
-        child: [
-          {
-            title: 'Welcome',
-            multi_menu: [
-              {
-                title: 'Advanced',
-                href: '/react-email/welcome/advanced',
-              },
-              {
-                title: 'Basic',
-                href: '/react-email/welcome/basic',
-              },
-            ],
-          },
-          {
-            title: 'Authentication',
-            multi_menu: [
-              {
-                title: 'Reset Password 1',
-                href: '/react-email/auth/reset-password-1',
-              },
-              {
-                title: 'Reset Password 2',
-                href: '/react-email/auth/reset-password-2',
-              },
-              {
-                title: 'Verify Email',
-                href: '/react-email/auth/verify-email',
-              },
-              {
-                title: 'Verify Otp',
-                href: '/react-email/auth/verify-otp',
-              },
-            ],
-          },
-          {
-            title: 'Ecommerce',
-            multi_menu: [
-              {
-                title: 'Shop',
-                href: '/react-email/ecommerce/shop',
-              },
-              {
-                title: 'Shopping Cart',
-                href: '/react-email/ecommerce/shopping-cart',
-              },
-            ],
-          },
-          {
-            title: 'Corporate',
-            href: '/react-email/corporate',
-          },
-          {
-            title: 'Agency',
-            href: '/react-email/agency',
-          },
-          {
-            title: 'Blog',
-            href: '/react-email/blog',
-          },
-          {
-            title: 'Photography',
-            href: '/react-email/photography',
-          },
-        ],
-      },
-      {
-        isHeader: true,
-        title: 'Elements',
-      },
-      {
-        title: 'Components',
-        icon: Components,
-        href: '#',
-        child: [
-          {
-            title: 'Base Ui',
-            icon: Flag,
-            multi_menu: [
-              {
-                title: 'accordion',
-                icon: 'heroicons:information-circle',
-                href: '/accordion',
-              },
-              {
-                title: 'alert',
-                icon: 'heroicons:information-circle',
-                href: '/alert',
-              },
-              {
-                title: 'avatar',
-                icon: 'heroicons:information-circle',
-                href: '/avatar',
-              },
-              {
-                title: 'badge',
-                icon: 'heroicons:cube',
-                href: '/badge',
-              },
-              {
-                title: 'breadcrumb',
-                icon: 'heroicons:cube',
-                href: '/breadcrumb',
-              },
-              {
-                title: 'Button',
-                icon: 'heroicons:cube',
-                href: '/button',
-              },
-              {
-                title: 'Card',
-                icon: 'heroicons:cube',
-                href: '/card',
-              },
-              {
-                title: 'carousel',
-                icon: 'heroicons:information-circle',
-                href: '/carousel',
-              },
-              {
-                title: 'color',
-                icon: 'heroicons:information-circle',
-                href: '/color',
-              },
-              {
-                title: 'combobox',
-                icon: 'heroicons:cube',
-                href: '/combobox',
-              },
-              {
-                title: 'command',
-                icon: 'heroicons:cube',
-                href: '/command',
-              },
-              {
-                title: 'Dropdown',
-                icon: 'heroicons:cube',
-                href: '/dropdown',
-              },
-              {
-                title: 'Dialog',
-                icon: 'heroicons:cube',
-                href: '/dialog',
-              },
-              {
-                title: 'kbd',
-                icon: 'heroicons:information-circle',
-                href: '/kbd',
-              },
-              {
-                title: 'pagination',
-                icon: 'heroicons:cube',
-                href: '/pagination',
-              },
-              {
-                title: 'popover',
-                icon: 'heroicons:information-circle',
-                href: '/popover',
-              },
-              {
-                title: 'progress',
-                icon: 'heroicons:information-circle',
-                href: '/progress',
-              },
-              {
-                title: 'sheet',
-                icon: 'heroicons:cube',
-                href: '/sheet',
-              },
-              {
-                title: 'skeleton',
-                icon: 'heroicons:cube',
-                href: '/skeleton',
-              },
-              {
-                title: 'tabs',
-                icon: 'heroicons:cube',
-                href: '/tabs',
-              },
-              {
-                title: 'toast',
-                icon: 'heroicons:information-circle',
-                href: '/toast',
-              },
-              {
-                title: 'tooltip',
-                icon: 'heroicons:information-circle',
-                href: '/tooltip',
-              },
-              {
-                title: 'typography',
-                icon: 'heroicons:information-circle',
-                href: '/typography',
-              },
-            ],
-          },
-          {
-            title: 'Advanced Ui',
-            icon: Book,
-            multi_menu: [
-              {
-                title: 'affix',
-                icon: 'heroicons:cube',
-                href: '/affix',
-              },
-              {
-                title: 'calendar',
-                icon: 'heroicons:cube',
-                href: '/calendar-page',
-              },
-              {
-                title: 'steps',
-                icon: 'heroicons:information-circle',
-                href: '/steps',
-              },
-              {
-                title: 'timeline',
-                icon: 'heroicons:cube',
-                href: '/timeline',
-              },
-              {
-                title: 'tour',
-                icon: 'heroicons:cube',
-                href: '/tour',
-              },
-              {
-                title: 'tree',
-                icon: 'heroicons:information-circle',
-                href: '/tree',
-              },
-              {
-                title: 'watermark',
-                icon: 'heroicons:cube',
-                href: '/watermark',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'Forms',
-        icon: Stacks2,
-        child: [
-          {
-            title: 'checkbox',
-            href: '/checkbox',
-          },
-          {
-            title: 'file uploader',
-            href: '/file-uploader',
-          },
-          {
-            title: 'input',
-            href: '/input',
-          },
-          {
-            title: 'input-group',
-            href: '/input2',
-          },
+      //   child: [
+      //     {
+      //       title: 'Error 401',
+      //       href: '/error-page/401',
+      //     },
+      //     {
+      //       title: 'Error 403',
+      //       href: '/error-page/403',
+      //     },
+      //     {
+      //       title: 'Error 404',
+      //       href: '/error-page/404',
+      //     },
+      //     {
+      //       title: 'Error 419',
+      //       href: '/error-page/419',
+      //     },
+      //     {
+      //       title: 'Error 429',
+      //       href: '/error-page/429',
+      //     },
+      //     {
+      //       title: 'Error 500',
+      //       href: '/error-page/500',
+      //     },
+      //     {
+      //       title: 'Error 503',
+      //       href: '/error-page/503',
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Email Template',
+      //   icon: Mail,
+      //   child: [
+      //     {
+      //       title: 'Welcome',
+      //       multi_menu: [
+      //         {
+      //           title: 'Advanced',
+      //           href: '/react-email/welcome/advanced',
+      //         },
+      //         {
+      //           title: 'Basic',
+      //           href: '/react-email/welcome/basic',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Authentication',
+      //       multi_menu: [
+      //         {
+      //           title: 'Reset Password 1',
+      //           href: '/react-email/auth/reset-password-1',
+      //         },
+      //         {
+      //           title: 'Reset Password 2',
+      //           href: '/react-email/auth/reset-password-2',
+      //         },
+      //         {
+      //           title: 'Verify Email',
+      //           href: '/react-email/auth/verify-email',
+      //         },
+      //         {
+      //           title: 'Verify Otp',
+      //           href: '/react-email/auth/verify-otp',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Ecommerce',
+      //       multi_menu: [
+      //         {
+      //           title: 'Shop',
+      //           href: '/react-email/ecommerce/shop',
+      //         },
+      //         {
+      //           title: 'Shopping Cart',
+      //           href: '/react-email/ecommerce/shopping-cart',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Corporate',
+      //       href: '/react-email/corporate',
+      //     },
+      //     {
+      //       title: 'Agency',
+      //       href: '/react-email/agency',
+      //     },
+      //     {
+      //       title: 'Blog',
+      //       href: '/react-email/blog',
+      //     },
+      //     {
+      //       title: 'Photography',
+      //       href: '/react-email/photography',
+      //     },
+      //   ],
+      // },
+      // {
+      //   isHeader: true,
+      //   title: 'Elements',
+      // },
+      // {
+      //   title: 'Components',
+      //   icon: Components,
+      //   href: '#',
+      //   child: [
+      //     {
+      //       title: 'Base Ui',
+      //       icon: Flag,
+      //       multi_menu: [
+      //         {
+      //           title: 'accordion',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/accordion',
+      //         },
+      //         {
+      //           title: 'alert',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/alert',
+      //         },
+      //         {
+      //           title: 'avatar',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/avatar',
+      //         },
+      //         {
+      //           title: 'badge',
+      //           icon: 'heroicons:cube',
+      //           href: '/badge',
+      //         },
+      //         {
+      //           title: 'breadcrumb',
+      //           icon: 'heroicons:cube',
+      //           href: '/breadcrumb',
+      //         },
+      //         {
+      //           title: 'Button',
+      //           icon: 'heroicons:cube',
+      //           href: '/button',
+      //         },
+      //         {
+      //           title: 'Card',
+      //           icon: 'heroicons:cube',
+      //           href: '/card',
+      //         },
+      //         {
+      //           title: 'carousel',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/carousel',
+      //         },
+      //         {
+      //           title: 'color',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/color',
+      //         },
+      //         {
+      //           title: 'combobox',
+      //           icon: 'heroicons:cube',
+      //           href: '/combobox',
+      //         },
+      //         {
+      //           title: 'command',
+      //           icon: 'heroicons:cube',
+      //           href: '/command',
+      //         },
+      //         {
+      //           title: 'Dropdown',
+      //           icon: 'heroicons:cube',
+      //           href: '/dropdown',
+      //         },
+      //         {
+      //           title: 'Dialog',
+      //           icon: 'heroicons:cube',
+      //           href: '/dialog',
+      //         },
+      //         {
+      //           title: 'kbd',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/kbd',
+      //         },
+      //         {
+      //           title: 'pagination',
+      //           icon: 'heroicons:cube',
+      //           href: '/pagination',
+      //         },
+      //         {
+      //           title: 'popover',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/popover',
+      //         },
+      //         {
+      //           title: 'progress',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/progress',
+      //         },
+      //         {
+      //           title: 'sheet',
+      //           icon: 'heroicons:cube',
+      //           href: '/sheet',
+      //         },
+      //         {
+      //           title: 'skeleton',
+      //           icon: 'heroicons:cube',
+      //           href: '/skeleton',
+      //         },
+      //         {
+      //           title: 'tabs',
+      //           icon: 'heroicons:cube',
+      //           href: '/tabs',
+      //         },
+      //         {
+      //           title: 'toast',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/toast',
+      //         },
+      //         {
+      //           title: 'tooltip',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/tooltip',
+      //         },
+      //         {
+      //           title: 'typography',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/typography',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Advanced Ui',
+      //       icon: Book,
+      //       multi_menu: [
+      //         {
+      //           title: 'affix',
+      //           icon: 'heroicons:cube',
+      //           href: '/affix',
+      //         },
+      //         {
+      //           title: 'calendar',
+      //           icon: 'heroicons:cube',
+      //           href: '/calendar-page',
+      //         },
+      //         {
+      //           title: 'steps',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/steps',
+      //         },
+      //         {
+      //           title: 'timeline',
+      //           icon: 'heroicons:cube',
+      //           href: '/timeline',
+      //         },
+      //         {
+      //           title: 'tour',
+      //           icon: 'heroicons:cube',
+      //           href: '/tour',
+      //         },
+      //         {
+      //           title: 'tree',
+      //           icon: 'heroicons:information-circle',
+      //           href: '/tree',
+      //         },
+      //         {
+      //           title: 'watermark',
+      //           icon: 'heroicons:cube',
+      //           href: '/watermark',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Forms',
+      //   icon: Stacks2,
+      //   child: [
+      //     {
+      //       title: 'checkbox',
+      //       href: '/checkbox',
+      //     },
+      //     {
+      //       title: 'file uploader',
+      //       href: '/file-uploader',
+      //     },
+      //     {
+      //       title: 'input',
+      //       href: '/input',
+      //     },
+      //     {
+      //       title: 'input-group',
+      //       href: '/input2',
+      //     },
 
-          {
-            title: 'input-mask',
-            href: '/input-mask',
-          },
-          {
-            title: 'radio',
-            href: '/radio',
-          },
-          {
-            title: 'Range Slider',
-            href: '/slider',
-          },
-          {
-            title: 'rating',
-            href: '/rating',
-          },
-          {
-            title: 'select',
-            multi_menu: [
-              {
-                title: 'Select',
-                href: '/form-select',
-              },
-              {
-                title: 'React Select',
-                href: '/react-select',
-              },
-            ],
-          },
-          {
-            title: 'switch',
-            href: '/switch',
-          },
-          {
-            title: 'textarea',
-            href: '/textarea',
-          },
-          {
-            title: 'Form Layout',
-            icon: ClipBoard2,
-            href: '/form-layout',
-          },
-          {
-            title: 'Form validation',
-            icon: Note2,
-            multi_menu: [
-              {
-                title: 'Use Controller',
-                href: '/validation-controller',
-              },
-              {
-                title: 'Use Form',
-                href: '/validation-useform',
-              },
-            ],
-          },
-          {
-            title: 'Form Wizard',
-            icon: Note3,
-            href: '/form-wizard',
-          },
-        ],
-      },
-      {
-        title: 'Table',
-        icon: Grid,
-        child: [
-          {
-            title: 'Simple Table',
-            href: '/simple-table',
-            icon: BarLeft,
-          },
-          {
-            title: 'tailwindui table',
-            href: '/tailwindui-table',
-            icon: BarLeft,
-          },
-          {
-            title: 'Data Table',
-            href: '/data-table',
-            icon: BarTop,
-          },
-        ],
-      },
-      {
-        title: 'Diagram',
-        icon: Chart,
-        child: [
-          {
-            title: 'Overview',
-            href: '/diagram-overview',
-          },
-          {
-            title: 'Organization Tree',
-            href: '/organization-diagram',
-          },
-          {
-            title: 'Update Node',
-            href: '/diagram-updating',
-          },
-          {
-            title: 'Add Node',
-            href: '/diagram-add-node',
-          },
-          {
-            title: 'Horizontal Flow',
-            href: '/horizontal-diagram',
-          },
-          {
-            title: 'Dagree Tree',
-            href: '/diagram-dagree-tree',
-          },
-          {
-            title: 'Download Diagram',
-            href: '/download-diagram',
-          },
-          {
-            title: 'With Minimap',
-            href: '/diagram-with-minimap',
-          },
-          {
-            title: 'With Background',
-            href: '/diagram-with-background',
-          },
-          {
-            title: 'Panel Position',
-            href: '/diagram-panel-position',
-          },
-        ],
-      },
-      {
-        title: 'Chart',
-        icon: ChartArea,
-        child: [
-          {
-            title: 'Apex Chart',
-            icon: ChartBar,
-            multi_menu: [
-              {
-                title: 'Line',
-                href: '/charts-appex-line',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Area',
-                href: '/charts-appex-area',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Column',
-                href: '/charts-appex-column',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Bar',
-                href: '/charts-appex-bar',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Combo/Mixed',
-                href: '/charts-appex-combo',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Range Area',
-                href: '/charts-appex-range',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Timeline',
-                href: '/charts-appex-timeline',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Funnel',
-                href: '/charts-appex-funnel',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Candle Stick',
-                href: '/charts-appex-candlestick',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Boxplot',
-                href: '/charts-appex-boxplot',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Pie',
-                href: '/charts-appex-pie',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Radar',
-                href: '/charts-appex-radar',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Polar Area',
-                href: '/charts-appex-polararea',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Radial Bars',
-                href: '/charts-appex-radialbars',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Bubble',
-                href: '/charts-appex-bubble',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Scatter',
-                href: '/charts-appex-scatter',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Heatmap',
-                href: '/charts-appex-heatmap',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Treemap',
-                href: '/charts-appex-treemap',
-                icon: 'heroicons:information-circle',
-              },
-            ],
-          },
-          {
-            title: 'Re Chart',
-            icon: PretentionChartLine,
-            multi_menu: [
-              {
-                title: 'Line',
-                href: '/charts-rechart-line',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Area',
-                href: '/charts-rechart-area',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Bar',
-                href: '/charts-rechart-bar',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Scatter',
-                href: '/charts-rechart-scatter',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Composed',
-                href: '/charts-rechart-composed',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Pie',
-                href: '/charts-rechart-pie',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Radar',
-                href: '/charts-rechart-radar',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Radial Bar',
-                href: '/charts-rechart-radialbar',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Tree Map',
-                href: '/charts-rechart-treemap',
-                icon: 'heroicons:information-circle',
-              },
-            ],
-          },
-          {
-            title: 'Chart js',
-            icon: PretentionChartLine2,
-            multi_menu: [
-              {
-                title: 'Bar',
-                href: '/charts-chartjs-bar',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Line',
-                href: '/charts-chartjs-line',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Area',
-                href: '/charts-chartjs-area',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Other',
-                href: '/charts-chartjs-other',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Scales',
-                href: '/charts-chartjs-scales',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Scale Options',
-                href: '/charts-chartjs-scaleoptions',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Legend',
-                href: '/charts-chartjs-legend',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Title',
-                href: '/charts-chartjs-title',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Tooltip',
-                href: '/charts-chartjs-tooltip',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Scriptable Options',
-                href: '/charts-chartjs-scriptable',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Animations',
-                href: '/charts-chartjs-animations',
-                icon: 'heroicons:information-circle',
-              },
-            ],
-          },
-          {
-            title: 'Unovis',
-            icon: PretentionChartLine,
-            multi_menu: [
-              {
-                title: 'Line',
-                href: '/charts-unovis-line',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Bar',
-                href: '/charts-unovis-bar',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Area',
-                href: '/charts-unovis-area',
-                icon: 'heroicons:information-circle',
-              },
-              {
-                title: 'Scatter',
-                href: '/charts-unovis-scatter',
-                icon: 'heroicons:information-circle',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'Maps',
-        icon: Map,
-        child: [
-          {
-            title: 'Vector',
-            icon: Pointer,
-            href: '/maps-vector',
-          },
-          {
-            title: 'React Leaflet',
-            icon: Map2,
-            href: '/map-react-leaflet',
-          },
-          {
-            title: 'Unovis Map',
-            icon: Map,
-            multi_menu: [
-              {
-                title: 'Leaflet Map',
-                href: '/map-unovis-leaflet',
-              },
-              {
-                title: 'Leaflet Flow',
-                href: '/map-unovis-flow',
-              },
-              {
-                title: 'Leaflet Advance',
-                href: '/map-unovis-advance',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'Icons',
-        icon: Icons,
-        child: [
-          {
-            title: 'Hero Icons',
-            icon: Heroicon,
-            href: '/icons-iconify',
-          },
-          {
-            title: 'Lucide Icons',
-            icon: LucideIcon,
-            href: '/icons-lucide',
-          },
-          {
-            title: 'Custom Icons',
-            icon: CustomIcon,
-            href: '/icons-custom',
-          },
-        ],
-      },
-      {
-        title: 'Multi Level',
-        icon: MenuBar,
-        child: [
-          {
-            title: 'Level 1.1',
-            href: '#',
-          },
-          {
-            title: 'Level 2',
-            multi_menu: [
-              {
-                title: 'Level 2.1',
-                href: '#',
-              },
-              {
-                title: 'Level 2.2',
-                href: '#',
-              },
-            ],
-          },
-        ],
-      },
+      //     {
+      //       title: 'input-mask',
+      //       href: '/input-mask',
+      //     },
+      //     {
+      //       title: 'radio',
+      //       href: '/radio',
+      //     },
+      //     {
+      //       title: 'Range Slider',
+      //       href: '/slider',
+      //     },
+      //     {
+      //       title: 'rating',
+      //       href: '/rating',
+      //     },
+      //     {
+      //       title: 'select',
+      //       multi_menu: [
+      //         {
+      //           title: 'Select',
+      //           href: '/form-select',
+      //         },
+      //         {
+      //           title: 'React Select',
+      //           href: '/react-select',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'switch',
+      //       href: '/switch',
+      //     },
+      //     {
+      //       title: 'textarea',
+      //       href: '/textarea',
+      //     },
+      //     {
+      //       title: 'Form Layout',
+      //       icon: ClipBoard2,
+      //       href: '/form-layout',
+      //     },
+      //     {
+      //       title: 'Form validation',
+      //       icon: Note2,
+      //       multi_menu: [
+      //         {
+      //           title: 'Use Controller',
+      //           href: '/validation-controller',
+      //         },
+      //         {
+      //           title: 'Use Form',
+      //           href: '/validation-useform',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Form Wizard',
+      //       icon: Note3,
+      //       href: '/form-wizard',
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Table',
+      //   icon: Grid,
+      //   child: [
+      //     {
+      //       title: 'Simple Table',
+      //       href: '/simple-table',
+      //       icon: BarLeft,
+      //     },
+      //     {
+      //       title: 'tailwindui table',
+      //       href: '/tailwindui-table',
+      //       icon: BarLeft,
+      //     },
+      //     {
+      //       title: 'Data Table',
+      //       href: '/data-table',
+      //       icon: BarTop,
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Diagram',
+      //   icon: Chart,
+      //   child: [
+      //     {
+      //       title: 'Overview',
+      //       href: '/diagram-overview',
+      //     },
+      //     {
+      //       title: 'Organization Tree',
+      //       href: '/organization-diagram',
+      //     },
+      //     {
+      //       title: 'Update Node',
+      //       href: '/diagram-updating',
+      //     },
+      //     {
+      //       title: 'Add Node',
+      //       href: '/diagram-add-node',
+      //     },
+      //     {
+      //       title: 'Horizontal Flow',
+      //       href: '/horizontal-diagram',
+      //     },
+      //     {
+      //       title: 'Dagree Tree',
+      //       href: '/diagram-dagree-tree',
+      //     },
+      //     {
+      //       title: 'Download Diagram',
+      //       href: '/download-diagram',
+      //     },
+      //     {
+      //       title: 'With Minimap',
+      //       href: '/diagram-with-minimap',
+      //     },
+      //     {
+      //       title: 'With Background',
+      //       href: '/diagram-with-background',
+      //     },
+      //     {
+      //       title: 'Panel Position',
+      //       href: '/diagram-panel-position',
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Chart',
+      //   icon: ChartArea,
+      //   child: [
+      //     {
+      //       title: 'Apex Chart',
+      //       icon: ChartBar,
+      //       multi_menu: [
+      //         {
+      //           title: 'Line',
+      //           href: '/charts-appex-line',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Area',
+      //           href: '/charts-appex-area',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Column',
+      //           href: '/charts-appex-column',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Bar',
+      //           href: '/charts-appex-bar',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Combo/Mixed',
+      //           href: '/charts-appex-combo',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Range Area',
+      //           href: '/charts-appex-range',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Timeline',
+      //           href: '/charts-appex-timeline',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Funnel',
+      //           href: '/charts-appex-funnel',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Candle Stick',
+      //           href: '/charts-appex-candlestick',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Boxplot',
+      //           href: '/charts-appex-boxplot',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Pie',
+      //           href: '/charts-appex-pie',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Radar',
+      //           href: '/charts-appex-radar',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Polar Area',
+      //           href: '/charts-appex-polararea',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Radial Bars',
+      //           href: '/charts-appex-radialbars',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Bubble',
+      //           href: '/charts-appex-bubble',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Scatter',
+      //           href: '/charts-appex-scatter',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Heatmap',
+      //           href: '/charts-appex-heatmap',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Treemap',
+      //           href: '/charts-appex-treemap',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Re Chart',
+      //       icon: PretentionChartLine,
+      //       multi_menu: [
+      //         {
+      //           title: 'Line',
+      //           href: '/charts-rechart-line',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Area',
+      //           href: '/charts-rechart-area',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Bar',
+      //           href: '/charts-rechart-bar',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Scatter',
+      //           href: '/charts-rechart-scatter',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Composed',
+      //           href: '/charts-rechart-composed',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Pie',
+      //           href: '/charts-rechart-pie',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Radar',
+      //           href: '/charts-rechart-radar',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Radial Bar',
+      //           href: '/charts-rechart-radialbar',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Tree Map',
+      //           href: '/charts-rechart-treemap',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Chart js',
+      //       icon: PretentionChartLine2,
+      //       multi_menu: [
+      //         {
+      //           title: 'Bar',
+      //           href: '/charts-chartjs-bar',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Line',
+      //           href: '/charts-chartjs-line',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Area',
+      //           href: '/charts-chartjs-area',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Other',
+      //           href: '/charts-chartjs-other',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Scales',
+      //           href: '/charts-chartjs-scales',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Scale Options',
+      //           href: '/charts-chartjs-scaleoptions',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Legend',
+      //           href: '/charts-chartjs-legend',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Title',
+      //           href: '/charts-chartjs-title',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Tooltip',
+      //           href: '/charts-chartjs-tooltip',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Scriptable Options',
+      //           href: '/charts-chartjs-scriptable',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Animations',
+      //           href: '/charts-chartjs-animations',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'Unovis',
+      //       icon: PretentionChartLine,
+      //       multi_menu: [
+      //         {
+      //           title: 'Line',
+      //           href: '/charts-unovis-line',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Bar',
+      //           href: '/charts-unovis-bar',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Area',
+      //           href: '/charts-unovis-area',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //         {
+      //           title: 'Scatter',
+      //           href: '/charts-unovis-scatter',
+      //           icon: 'heroicons:information-circle',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Maps',
+      //   icon: Map,
+      //   child: [
+      //     {
+      //       title: 'Vector',
+      //       icon: Pointer,
+      //       href: '/maps-vector',
+      //     },
+      //     {
+      //       title: 'React Leaflet',
+      //       icon: Map2,
+      //       href: '/map-react-leaflet',
+      //     },
+      //     {
+      //       title: 'Unovis Map',
+      //       icon: Map,
+      //       multi_menu: [
+      //         {
+      //           title: 'Leaflet Map',
+      //           href: '/map-unovis-leaflet',
+      //         },
+      //         {
+      //           title: 'Leaflet Flow',
+      //           href: '/map-unovis-flow',
+      //         },
+      //         {
+      //           title: 'Leaflet Advance',
+      //           href: '/map-unovis-advance',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Icons',
+      //   icon: Icons,
+      //   child: [
+      //     {
+      //       title: 'Hero Icons',
+      //       icon: Heroicon,
+      //       href: '/icons-iconify',
+      //     },
+      //     {
+      //       title: 'Lucide Icons',
+      //       icon: LucideIcon,
+      //       href: '/icons-lucide',
+      //     },
+      //     {
+      //       title: 'Custom Icons',
+      //       icon: CustomIcon,
+      //       href: '/icons-custom',
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Multi Level',
+      //   icon: MenuBar,
+      //   child: [
+      //     {
+      //       title: 'Level 1.1',
+      //       href: '#',
+      //     },
+      //     {
+      //       title: 'Level 2',
+      //       multi_menu: [
+      //         {
+      //           title: 'Level 2.1',
+      //           href: '#',
+      //         },
+      //         {
+      //           title: 'Level 2.2',
+      //           href: '#',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
   },
 };

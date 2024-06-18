@@ -2,18 +2,18 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 
-interface Uoms {
+interface Materials {
   id: string;
   name: string;
 }
-export const useUoms = (searchTerms: string) => {
+export const useMaterialNameExist = (searchTerms: string) => {
   const [debouncedSearchTerms] = useDebounce(searchTerms, 500); // Debounce searchTerms with a 500ms delay
-  const { data, isLoading, isError, ...rest } = useQuery<Uoms[], Error>({
-    queryKey: ['uoms', debouncedSearchTerms],
+  const { data, isLoading, isError, ...rest } = useQuery<Materials[], Error>({
+    queryKey: ['materials', debouncedSearchTerms],
     queryFn: () =>
       debouncedSearchTerms
         ? axios
-            .get('/api/searchColumn/inventory/uoms', {
+            .get('/api/nameExistChecking/inventory/materials', {
               params: {
                 name: debouncedSearchTerms, // use searchType as the parameter name
               },
@@ -29,4 +29,4 @@ export const useUoms = (searchTerms: string) => {
   return { data, isLoading, isError, ...rest };
 };
 
-export default useUoms;
+export default useMaterialNameExist;

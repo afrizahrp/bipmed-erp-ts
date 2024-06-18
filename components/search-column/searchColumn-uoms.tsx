@@ -10,25 +10,33 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import type { Categories } from '@/types';
-import { SearchColumnFor } from './searchColumnFor';
+import type { Uoms } from '@/types';
+import useUoms from '@/queryHooks/useUoms';
+import { SearchColumnBase } from '../searchColumn-base';
 
-const POPOVER_WIDTH = 'w-[250px]';
+const POPOVER_WIDTH = 'w-[350px]';
 
 interface Props {
-  field: string;
+  field?: string;
 }
 
-export function SearchColumn({ field }: Props) {
+export function SearchColumnUoms({ field }: Props) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<Categories | undefined>();
+  const [selected, setSelected] = useState<Uoms | undefined>();
+  const [selectedResult, setSelectedResult] = useState(null);
 
-  const handleSetActive = useCallback((category: Categories) => {
-    setSelected(category);
+  const handleSetActive = useCallback((uom: Uoms) => {
+    setSelected(uom);
 
     // OPTIONAL: close the combobox upon selection
     // setOpen(false);
   }, []);
+
+  const handleSelectResult = (item: any) => {
+    setSelectedResult(item);
+  };
+
+  console.log('selectedResult', selectedResult);
 
   const displayName = selected ? selected.name.toString() : field;
   // const displayName = selected ? selected.name : 'Select Category';
@@ -48,9 +56,11 @@ export function SearchColumn({ field }: Props) {
       </PopoverTrigger>
 
       <PopoverContent side='bottom' className={cn('p-0', POPOVER_WIDTH)}>
-        <SearchColumnFor
+        <SearchColumnBase
           selectedResult={selected}
           onSelectResult={handleSetActive}
+          useDataHook={useUoms as any}
+          placeholder='Search Uoms'
         />
       </PopoverContent>
     </Popover>

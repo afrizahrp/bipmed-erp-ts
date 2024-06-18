@@ -20,7 +20,7 @@ interface Props {
   oldValue?: string;
 }
 
-export default function SearchExistName({
+export default function SearchExistNameBase({
   useDataHook,
   showfields,
   tableName,

@@ -28,7 +28,7 @@ const EcommercePageView = ({ trans }:EcommercePageViewProps) => {
         <div className="text-2xl font-medium text-default-800">
           Ecommerce Dashboard
         </div>
-        <DatePickerWithRange />
+        {/* <DatePickerWithRange />
       </div>
       <Card>
         <CardContent className="p-4">
@@ -140,7 +140,7 @@ const EcommercePageView = ({ trans }:EcommercePageViewProps) => {
         </div>
         <div className="col-span-12 lg:col-span-6">
           <Products />
-        </div>
+        </div> */}
       </div>
     </div>
   );

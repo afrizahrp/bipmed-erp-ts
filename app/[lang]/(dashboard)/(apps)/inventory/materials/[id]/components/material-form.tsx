@@ -39,14 +39,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import { Combobox } from '@/components/ui/combobox';
-
+import MaterialNameExist from '@/components/nameExistChecking/inventory/materialNameExist';
 import { Checkbox } from '@/components/ui/checkbox';
 import { defaultValues } from '@/utils/defaultvalues/materials';
 import {
   MaterialFormValues,
   materialFormSchema,
 } from '@/utils/schema/create-material.schema';
+import { SearchColumnUoms } from '@/components/search-column/searchColumn-uoms';
 
 // const materialFormSchema = z.object({
 //   id: z.string().min(5).or(z.literal('')).optional().nullable(),
@@ -212,7 +212,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <div className='grid grid-cols-3 gap-4 py-2'>
+          <div className='grid grid-cols-2 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
@@ -232,30 +232,31 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 )}
               />
             </div>
-            <div className='col-span-2'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Material Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder='Input product name'
-                        className='font-bold'
-                        {...field}
-                      />
-                    </FormControl>
-                    {form.formState.errors.name && (
-                      <FormMessage>
-                        {form.formState.errors.name.message}
-                      </FormMessage>
-                    )}{' '}
-                  </FormItem>
-                )}
-              />
-            </div>
+          </div>
+
+          <div className='w-full'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Material Name</FormLabel>
+                  <FormControl>
+                    <MaterialNameExist
+                      currentValue={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                    />
+                  </FormControl>
+                  {form.formState.errors.name && (
+                    <FormMessage>
+                      {form.formState.errors.name.message}
+                    </FormMessage>
+                  )}{' '}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <div className='grid grid-cols-4 gap-4 py-2'>
@@ -346,6 +347,26 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
             </div>
 
             <div>
+              {/* <FormField
+                control={form.control}
+                name='uom_id'
+                render={({ field }) => (
+                  <div>
+                    <FormItem>
+                      <FormControl>
+                        <SearchColumnUoms field={field.value} />
+                      </FormControl>
+                      {form.formState.errors.uom_id && (
+                        <FormMessage>
+                          {form.formState.errors.uom_id.message}
+                        </FormMessage>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  </div>
+                )}
+              /> */}
+
               <FormField
                 control={form.control}
                 name='uom_id'

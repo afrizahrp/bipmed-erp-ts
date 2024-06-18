@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import SearchNameExistBase from '@/components/searchNameExist-base';
-import { useCategoryNameExist } from '@/queryHooks/nameExistChecking/inventory/useCategoryNameExist';
+import { useMaterialNameExist } from '@/queryHooks/nameExistChecking/inventory/useMaterialNameExist';
 
 interface Props {
   currentValue: string;
@@ -9,7 +9,7 @@ interface Props {
   onBlur: () => void;
 }
 
-export default function CategoryNameExist({
+export default function MaterialNameExist({
   currentValue,
   onChange,
   onBlur,
@@ -30,7 +30,7 @@ export default function CategoryNameExist({
   return (
     <div className='w-full'>
       <SearchNameExistBase
-        useDataHook={useCategoryNameExist as any}
+        useDataHook={useMaterialNameExist as any}
         showfields={[
           { key: 'id', label: 'Kode' },
           { key: 'name', label: 'Nama' },

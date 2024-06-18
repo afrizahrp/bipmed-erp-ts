@@ -14,3 +14,8 @@ export interface Categories {
   id: string;
   name: string;
 }
+
+export interface Uoms {
+  id: string;
+  name: string;
+}

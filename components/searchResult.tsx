@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-
+// import { ScrollArea } from './ui/scroll-area';
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import {
 import { X } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 // import { AlertModal } from './modals/alert-modal';
+
 interface Item {
   id: string;
   name: string;
@@ -55,17 +56,10 @@ export default function SearchResults({
     <>
       {isOpen && (
         <Card>
-          {/* <Alert className='border-l-[8px] bg-gray-100'> */}
-          {/* <Alert
-            variant='soft'
-            className={` ${data.length === 0 ? 'bg-green-300 border-l-[8px]' : 'bg-gray-200'}`}
-            
-          > */}
           <Alert
             variant='soft'
             className=' border-l-[8px]'
             color={data.length === 0 ? 'success' : 'dark'}
-            // className={` ${data.length === 0 ? 'bg-green-400 border-l-[8px]' : 'bg-gray-300'}`}
           >
             <div className='flex justify-between items-center w-full'>
               <div>
@@ -79,46 +73,51 @@ export default function SearchResults({
           </Alert>
           <CardContent>
             {data.length > 0 ? (
-              <Table>
-                <TableHeader>
-                  <TableRow style={{ textAlign: 'left' }}>
-                    {showfields.map((column) => (
-                      <TableHead style={{ textAlign: 'left' }} key={column.key}>{column.label}</TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data.map((item) => (
-                    <TableRow
-                      key={item.id}
-                      className='border-none hover:bg-default-300'
-                    >
-                      {showfields.map((field: Field) => (
-                        <TableCell
+              // <ScrollArea className='h-200 w-full rounded-md border'>
+              <div className=' w-full'>
+                {/* <ScrollArea className=' w-full overflow-x-auto '> */}
+                {/* <ScrollArea className='h-[600px] w-[full] overflow-x-auto rounded-md border p-4'> */}
+                {/* <div className='w-full whitespace-nowrap'> */}
+                {/* <Table> */}
+                <Table wrapperClass='h-[400px] overflow-auto custom-scrollbar'>
+                  <TableHeader>
+                    <TableRow style={{ textAlign: 'left' }}>
+                      {showfields.map((column) => (
+                        <TableHead
                           style={{ textAlign: 'left' }}
-                          key={field.label}
+                          key={column.key}
+                          className='bg-default-100 last:pr-6  sticky top-0'
                         >
-                          {item[field.key]}
-                        </TableCell>
+                          {column.label}
+                        </TableHead>
                       ))}
-
-                      {/* <TableCell>
-                        <button
-                          onClick={() => onItemSelected(item)}
-                          className='text-primary-500'
-                        >
-                          Lihat
-                        </button>
-                      </TableCell> */}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {data.map((item) => (
+                      <TableRow
+                        key={item.id}
+                        className='border-none hover:bg-default-300'
+                      >
+                        {showfields.map((field: Field) => (
+                          <TableCell
+                            style={{ textAlign: 'left' }}
+                            key={field.label}
+                          >
+                            {item[field.key]}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                {/* </div> */}
+                {/* </ScrollArea> */}
+              </div>
             ) : null}
           </CardContent>
         </Card>
       )}
-      {/* <AlertModal isOpen={openDialog} onClose={() => setOpenDialog(false)} /> */}
     </>
   );
 }
