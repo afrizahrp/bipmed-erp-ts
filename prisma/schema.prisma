@@ -35,6 +35,7 @@ model MasterTableStatus {
   company    String       @db.Char(5)
   branch     String       @db.Char(10)
   Categories Categories[]
+  SubCategories SubCategories[]
   Products   Products[]
   Suppliers  Suppliers[]
 }
@@ -180,6 +181,67 @@ model CategoryCounter {
   @@id([ counter_id,  company_id, branch_id])
 }
 
+model SubCategoryCounter {
+  counter_id   String   @db.Char(5)
+  lastCounter  Int
+  description  String   @db.VarChar(160)
+  refreshAt    String   @db.Char(1)
+  firstChar    String   @db.Char(4)
+  secondChar   String   @db.Char(4)
+  digits       Int
+  startCount   Int
+  recounter    Int
+  autoGenerate Boolean  @default(false)
+  createdBy    String   @db.Char(10)
+  createdAt    DateTime
+  updatedBy    String   @db.Char(10)
+  updatedAt    DateTime
+  company_id   String   @db.Char(5)
+  branch_id    String   @db.Char(10)
+  @@id([ counter_id,  company_id, branch_id])
+}
+
+model UomCounter {
+  counter_id   String   @db.Char(5)
+  lastCounter  Int
+  description  String   @db.VarChar(160)
+  refreshAt    String   @db.Char(1)
+  firstChar    String   @db.Char(4)
+  secondChar   String   @db.Char(4)
+  digits       Int
+  startCount   Int
+  recounter    Int
+  autoGenerate Boolean  @default(false)
+  createdBy    String   @db.Char(10)
+  createdAt    DateTime
+  updatedBy    String   @db.Char(10)
+  updatedAt    DateTime
+  company_id   String   @db.Char(5)
+  branch_id    String   @db.Char(10)
+  @@id([ counter_id,  company_id, branch_id])
+}
+
+
+model BrandCounter {
+  counter_id   String   @db.Char(5)
+  lastCounter  Int
+  description  String   @db.VarChar(160)
+  refreshAt    String   @db.Char(1)
+  firstChar    String   @db.Char(4)
+  secondChar   String   @db.Char(4)
+  digits       Int
+  startCount   Int
+  recounter    Int
+  autoGenerate Boolean  @default(false)
+  createdBy    String   @db.Char(10)
+  createdAt    DateTime
+  updatedBy    String   @db.Char(10)
+  updatedAt    DateTime
+  company_id   String   @db.Char(5)
+  branch_id    String   @db.Char(10)
+  @@id([ counter_id,  company_id, branch_id])
+}
+
 
 model Uoms {
   id        String     @id @db.Char(10)
@@ -238,15 +300,16 @@ model SubCategories {
   id          String     @id @db.Char(10)
   category_id String     @db.Char(10)
   name        String?    @db.VarChar(150)
-  iStatus      Boolean  @default(false)
+  iStatus     Boolean    @default(false)
   remarks     String?    @db.VarChar(250)
-  status      String?    @db.VarChar(15)
   createdBy   String?    @db.VarChar(50)
   createdAt   DateTime?  @db.DateTime
   updatedBy   String?    @db.VarChar(50)
   updatedAt   DateTime?  @db.DateTime
   company     String     @db.Char(5)
   branch      String     @db.Char(10)
+  status         MasterTableStatus @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
+
   products    Products[]
   category    Categories @relation(fields: [category_id], references: [id])
 }
@@ -489,8 +552,4 @@ model vMaterialCategories {
   name String   @db.VarChar(50)
 }
 
-model Cf_business {
-  id          String    @id @db.Char(20)
-  name        String    @db.VarChar(150)
-}
 

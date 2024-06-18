@@ -2,7 +2,7 @@ import { prisma } from '@/lib/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { CategoryForm } from './components/category-form';
 
-const ProductPage = async ({
+const CategoryPage = async ({
   params,
 }: {
   params: {
@@ -28,10 +28,13 @@ const ProductPage = async ({
   return (
     <Card className='py-6'>
       <CardContent>
-        <CategoryForm categoryTypes={categoryTypes} initialData={category||undefined} />
+        <CategoryForm
+          categoryTypes={categoryTypes}
+          initialData={category || undefined}
+        />
       </CardContent>
     </Card>
   );
 };
 
-export default ProductPage;
+export default CategoryPage;

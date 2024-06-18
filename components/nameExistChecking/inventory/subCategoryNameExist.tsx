@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import SearchNameExistBase from '@/components/searchNameExist-base';
-import { useMaterialNameExist } from '@/queryHooks/nameExistChecking/inventory/useMaterialNameExist';
+import { useSubCategoryNameExist } from '@/queryHooks/nameExistChecking/inventory/useSubCategoryNameExist';
 
 interface Props {
   currentValue: string;
@@ -9,14 +9,12 @@ interface Props {
   onBlur: () => void;
 }
 
-export default function MaterialNameExist({
+export default function CategoryNameExist({
   currentValue,
   onChange,
   onBlur,
 }: Props) {
   const [searchTerms, setSearchTerms] = useState(currentValue);
-
-  // const { isLoading } = useCategoryNameExist(searchTerms);
 
   const isLoading = false;
   const handleItemCleared = () => {
@@ -30,7 +28,7 @@ export default function MaterialNameExist({
   return (
     <div className='w-full'>
       <SearchNameExistBase
-        useDataHook={useMaterialNameExist as any}
+        useDataHook={useSubCategoryNameExist as any}
         showfields={[
           { key: 'id', label: 'Kode' },
           { key: 'name', label: 'Nama' },
@@ -38,9 +36,9 @@ export default function MaterialNameExist({
         disabled={isLoading}
         searchInputValue={searchTerms}
         setSearchInputValue={handleSearchTermsChange}
-        placeholder='Input material name here'
+        placeholder='Input subCategory name here'
         onInputCleared={handleItemCleared}
-        tableName='material'
+        tableName='subkategori'
         oldValue={currentValue}
       />
       {/* )} */}

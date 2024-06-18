@@ -26,6 +26,8 @@ export const routes = {
     newMaterial: '/inventory/materials/new',
     categories: '/inventory/categories/category-list',
     newCategory: '/inventory/categories/new',
+    subcategories: '/inventory/categories/subcategory-list',
+    newsubCategory: '/inventory/categories/new',
     productDetails: (slug: string) => `/inventory/products/${slug}`,
     ediProduct: (slug: string) => `/inventory/products/${slug}/edit`,
     orders: '/inventory/orders',

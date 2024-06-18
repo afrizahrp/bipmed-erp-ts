@@ -189,10 +189,9 @@ export function DataTable<TData, TValue>({
             <DataTableViewOptions table={table} />
 
             <Button size='sm' asChild>
-              <Link href={routes.inventory.newCategory}>
-                {/* router.push(`/${params.storeId}/products/new`)} */}
+              <Link href={routes.inventory.newsubCategory}>
                 <Plus className='w-3 h-3 mr-2' />
-                New Category
+                New SubCategory
               </Link>
             </Button>
           </div>

@@ -39,7 +39,7 @@ export default function ProductNameExist({
         disabled={isLoading}
         searchInputValue={searchTerms}
         setSearchInputValue={handleSearchTermsChange}
-        placeholder='Input nama produk di sini'
+        placeholder='Input product name here'
         onInputCleared={handleItemCleared}
         tableName='produk'
         oldValue={currentValue}

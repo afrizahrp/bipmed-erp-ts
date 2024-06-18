@@ -38,7 +38,7 @@ export default function CategoryNameExist({
         disabled={isLoading}
         searchInputValue={searchTerms}
         setSearchInputValue={handleSearchTermsChange}
-        placeholder='Input nama kategori di sini'
+        placeholder='Input category name here'
         onInputCleared={handleItemCleared}
         tableName='kategori'
         oldValue={currentValue}

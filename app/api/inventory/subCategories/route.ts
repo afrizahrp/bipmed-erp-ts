@@ -1,26 +1,19 @@
 import { prisma } from '@/lib/client';
-
-import { NextRequest, NextResponse } from 'next/server';
-import getDocumentId from '../../system/getDocumentId/route';
-import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { NextRequest, NextResponse } from 'next/server';
+import getSubCategoryId from '../../system/getCategoryId/route';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { category_id: string } }
-) {
+import { getServerSession } from 'next-auth';
+
+export async function GET(request: NextRequest) {
   try {
-    const subCategories = await prisma.subCategories.findMany({
-      where: {
-        category_id: params.category_id,
-      },
-
+    const subcategories = await prisma.subCategories.findMany({
       orderBy: {
-        createdAt: 'desc',
+        updatedAt: 'desc',
       },
     });
-    console.log(subCategories);
-    return NextResponse.json(subCategories);
+
+    return NextResponse.json(subcategories);
   } catch (e) {
     console.log(e);
     return NextResponse.json(
@@ -38,58 +31,46 @@ export async function GET(
 //     const username = session?.user?.name || '';
 
 //     const body = await request.json();
-//     const { type, name, remarks, imageURL, iStatus, status, iShowedStatus } =
-//       body as {
-//         type: number;
-//         name: string;
-//         remarks: string;
-//         imageURL: string;
-//         iStatus: boolean;
-//         status: string;
-//         iShowedStatus: boolean;
-//       };
+//     const { category_id, name, remarks, iStatus } = body as {
+//       category_id: string;
+//       name: string;
+//       remarks: string;
+//       iStatus: boolean;
+//     };
 
-//     // const company = 'BIP';
-//     // const branch = 'BIP';
-//     const moduleId = 'PO'; // Replace with your actual data
-//     const prefixId = 'SU'; // Replace with your actual data
 //     const userId = username; //session.user.id // Use the user ID from the session
-//     const docId = await getDocumentId(
+//     const subCategory_id = await getSubCategoryId(
 //       company,
 //       branch,
-//       moduleId,
-//       prefixId,
-//       new Date(),
+//       category_id,
 //       userId
 //     );
 
-//     const newCategories = {
-//       company: company,
-//       branch: branch,
-//       type,
+//     const newSubCategory = {
+//       category_id: category_id,
+//       id: subCategory_id,
 //       name,
-//       id: docId,
 //       remarks,
-//       imageURL,
+//       iStatus,
 //       createdBy: username,
 //       updatedBy: username,
 //       createdAt: new Date(),
 //       updatedAt: new Date(),
+//       company: company,
+//       branch: branch,
 //     };
 
-//     const category = await prisma.categories.create({
-//       data: newCategories,
+//     const subCategory = await prisma.subCategories.create({
+//       data: newSubCategory,
 //     });
 
-//     return NextResponse.json(category, { status: 201 });
+//     return NextResponse.json(subCategory, { status: 201 });
 //   } catch (e) {
 //     console.error(e);
 
-//     // await resetDocumentId('PO', 'SU');
-
 //     return NextResponse.json(
 //       {
-//         message: 'Something went wrong while trying to create new categories',
+//         message: 'Something went wrong while trying to create new category',
 //         result: e,
 //       },
 //       { status: 500 }
