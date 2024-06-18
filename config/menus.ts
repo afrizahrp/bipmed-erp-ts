@@ -2055,12 +2055,12 @@ export const menusConfig = {
             title: 'List',
             href: '/inventory/master',
             multi_menu: [
+              // {
+              //   title: 'Dashboard',
+              //   href: '/inventory/InventoryPage',
+              // },
               {
-                title: 'Dashboard',
-                href: '/inventory/InventoryPage',
-              },
-              {
-                title: 'Finish Goods',
+                title: 'Products',
                 href: '/inventory/products/product-list',
               },
               {
@@ -2078,6 +2078,14 @@ export const menusConfig = {
               {
                 title: 'Subcategories',
                 href: '/inventory/subcategories/subcategory-list',
+              },
+              {
+                title: 'Unit Of Measurement (UOMS)',
+                href: '/utility/maintinance',
+              },
+              {
+                title: 'Brands',
+                href: '/inventory/brand/brand-list',
               },
 
               {
@@ -2116,23 +2124,6 @@ export const menusConfig = {
             multi_menu: [
               {
                 title: 'Suppliers',
-                href: '#',
-              },
-              {
-                title: 'Raw Material',
-                href: '#',
-              },
-
-              {
-                title: 'Categories',
-                href: '#',
-              },
-              {
-                title: 'Subcategories',
-                href: '#',
-              },
-              {
-                title: 'Brands',
                 href: '#',
               },
             ],
@@ -2174,23 +2165,19 @@ export const menusConfig = {
         child: [
           {
             title: 'Transaction Type',
-            href: '/blank',
+            href: '#',
           },
           {
-            title: 'Tax Setting',
-            href: '/utility/comming-soon',
+            title: 'Tax Settings',
+            href: '#',
           },
           {
-            title: 'Credit Term',
-            href: '/utility/maintinance',
+            title: 'Currency',
+            href: '#',
           },
           {
-            title: 'Unit Of Measurement',
-            href: '/utility/maintinance',
-          },
-          {
-            title: 'Brand',
-            href: '/inventory/brand/brand-list',
+            title: 'Credit Terms',
+            href: '#',
           },
         ],
       },

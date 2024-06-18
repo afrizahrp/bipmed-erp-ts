@@ -53,6 +53,7 @@ import ImageCollection from '@/components/ui/images-collection';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
+import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 
 const productFormSchema = z.object({
   id: z.string().min(5).or(z.literal('')).optional().nullable(),
@@ -305,28 +306,30 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               />
             </div>
           </div>
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Product Name</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder='Input product name'
-                    className='font-bold'
-                    {...field}
-                  />
-                </FormControl>
-                {form.formState.errors.name && (
-                  <FormMessage>
-                    {form.formState.errors.name.message}
-                  </FormMessage>
-                )}{' '}
-              </FormItem>
-            )}
-          />
+          <div className='w-3/4'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Name</FormLabel>
+                  <FormControl>
+                    <ProductNameExist
+                      currentValue={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                    />
+                  </FormControl>
+                  {form.formState.errors.name && (
+                    <FormMessage>
+                      {form.formState.errors.name.message}
+                    </FormMessage>
+                  )}{' '}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className='grid grid-cols-3 gap-4 py-2'>
             <div>

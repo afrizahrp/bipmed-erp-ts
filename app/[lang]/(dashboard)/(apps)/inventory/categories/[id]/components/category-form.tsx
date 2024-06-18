@@ -252,7 +252,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Category Name Check</FormLabel> */}
+                   <FormLabel>Category Name</FormLabel> 
                   <FormControl>
                     <CategoryNameExist
                       currentValue={field.value}

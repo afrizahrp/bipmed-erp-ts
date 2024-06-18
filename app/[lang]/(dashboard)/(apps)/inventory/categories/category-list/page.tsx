@@ -9,13 +9,12 @@ const pageHeader = {
   title: 'Categories',
   breadcrumb: [
     {
-      href: routes.eCommerce.dashboard,
       name: 'Home',
+      href: routes.eCommerce.dashboard,
     },
     {
       name: 'Inventory',
-
-      href: routes.eCommerce.dashboard,
+      href: routes.inventory.dashboard
     },
     {
       name: 'List',

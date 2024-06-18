@@ -234,7 +234,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
             </div>
           </div>
 
-          <div className='w-full'>
+          <div className='w-3/4'>
             <FormField
               control={form.control}
               name='name'
