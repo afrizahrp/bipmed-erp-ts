@@ -10,12 +10,12 @@ export const categoryFormSchema = z.object({
   icon: z.string().min(5).or(z.literal('')).optional().nullable(),
   href: z.string().min(5).or(z.literal('')).optional().nullable(),
   slug: z.string().min(5).or(z.literal('')).optional().nullable(),
-  createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-  createdAt: z.date(),
-  updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-  updatedAt: z.date(),
-  company: z.string().min(5).or(z.literal('')).optional().nullable(),
-  branch: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // createdAt: z.date(),
+  // updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // updatedAt: z.date(),
+  // company: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // branch: z.string().min(5).or(z.literal('')).optional().nullable(),
 });
 
 export type CategoryFormValues = z.infer<typeof categoryFormSchema>;

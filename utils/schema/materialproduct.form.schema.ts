@@ -18,12 +18,12 @@ export const materialproductFormSchema = z.object({
   slug: z.string().min(5).or(z.literal('')).optional().nullable(),
   isMaterial: z.boolean().default(false).optional(),
   iShowedStatus: z.boolean().default(false).optional(),
-  createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-  createdAt: z.date(),
-  updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-  updatedAt: z.date(),
-  company: z.string().min(5).or(z.literal('')).optional().nullable(),
-  branch: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // createdAt: z.date(),
+  // updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // updatedAt: z.date(),
+  // company: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // branch: z.string().min(5).or(z.literal('')).optional().nullable(),
 });
 
 export type MaterialProductFormValues = z.infer<

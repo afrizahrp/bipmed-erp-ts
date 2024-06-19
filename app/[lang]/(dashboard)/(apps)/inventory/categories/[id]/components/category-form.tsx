@@ -95,12 +95,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       iStatus: initialData?.iStatus || undefined,
       icon: initialData?.icon || undefined,
       slug: initialData?.slug || undefined,
-      createdBy: initialData?.createdBy || undefined,
-      createdAt: initialData?.createdAt || undefined,
-      updatedBy: initialData?.updatedBy || undefined,
-      updatedAt: initialData?.updatedAt || undefined,
-      company: initialData?.company || undefined,
-      branch: initialData?.branch || undefined,
+      // createdBy: initialData?.createdBy || undefined,
+      // createdAt: initialData?.createdAt || undefined,
+      // updatedBy: initialData?.updatedBy || undefined,
+      // updatedAt: initialData?.updatedAt || undefined,
+      // company: initialData?.company || undefined,
+      // branch: initialData?.branch || undefined,
     },
   });
 

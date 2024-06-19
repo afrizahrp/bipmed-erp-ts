@@ -114,12 +114,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       slug: initialData?.slug || undefined,
       isMaterial: initialData?.isMaterial ?? true,
       iShowedStatus: initialData?.iShowedStatus ?? false,
-      createdBy: initialData?.createdBy || undefined,
-      createdAt: initialData?.createdAt || undefined,
-      updatedBy: initialData?.updatedBy || undefined,
-      updatedAt: initialData?.updatedAt || undefined,
-      company: initialData?.company || undefined,
-      branch: initialData?.branch || undefined,
+      // createdBy: initialData?.createdBy || undefined,
+      // createdAt: initialData?.createdAt || undefined,
+      // updatedBy: initialData?.updatedBy || undefined,
+      // updatedAt: initialData?.updatedAt || undefined,
+      // company: initialData?.company || undefined,
+      // branch: initialData?.branch || undefined,
     },
   });
 

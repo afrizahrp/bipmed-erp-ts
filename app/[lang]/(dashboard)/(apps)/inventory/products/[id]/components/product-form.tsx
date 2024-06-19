@@ -138,12 +138,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       slug: initialData?.slug || undefined,
       isMaterial: initialData?.isMaterial ?? true,
       iShowedStatus: initialData?.iShowedStatus ?? false,
-      createdBy: initialData?.createdBy || undefined,
-      createdAt: initialData?.createdAt || undefined,
-      updatedBy: initialData?.updatedBy || undefined,
-      updatedAt: initialData?.updatedAt || undefined,
-      company: initialData?.company || undefined,
-      branch: initialData?.branch || undefined,
+      // createdBy: initialData?.createdBy || undefined,
+      // createdAt: initialData?.createdAt || undefined,
+      // updatedBy: initialData?.updatedBy || undefined,
+      // updatedAt: initialData?.updatedAt || undefined,
+      // company: initialData?.company || undefined,
+      // branch: initialData?.branch || undefined,
     },
   });
 
