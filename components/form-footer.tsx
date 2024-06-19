@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button_T';
+import { Button } from '@/components/ui/button';
 import cn from '@/utils/class-names';
 import { Loader2 } from 'lucide-react';
 
@@ -22,35 +22,36 @@ export default function FormFooter({
   return (
     <div
       className={cn(
-        'sticky bottom-0 left-0 right-0 z-10 -mb-8 flex items-center justify-end gap-4 border-t rounded-lg bg-white px-4 py-4 dark:bg-inherit md:px-5 lg:px-6 3xl:px-8 4xl:px-10',        className,
+        'sticky bottom-0 left-0 right-0 z-10 -mb-8 flex items-center justify-end gap-4 border-t rounded-lg bg-white px-4 py-4 dark:bg-inherit md:px-5 lg:px-6 3xl:px-8 4xl:px-10',
+        className,
         negMargin
       )}
     >
       <Button
-        variant="outline"
+        variant='outline'
         // className="w-full @xl:w-auto"
         className='w-[100px]'
         // 'flex justify-end space-x-4'
 
-        
         onClick={handleAltBtn}
       >
         {altBtnText}
       </Button>
-      <Button type="submit" disabled={isLoading}>
-  {isLoading ? (
-    <>
-      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-      Saving...
-    </>
-  ) : (
-    submitBtnText
-  )}
-</Button>
+      <Button type='submit' disabled={isLoading}>
+        {isLoading ? (
+          <>
+            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            Saving...
+          </>
+        ) : (
+          submitBtnText
+        )}
+      </Button>
     </div>
   );
 }
-      {/* className="w-full @xl:w-auto"> */}
+{
+  /* className="w-full @xl:w-auto"> */
+}
 
 // {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-
