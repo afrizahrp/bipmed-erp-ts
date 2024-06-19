@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import ProductDetailPage from './components/index';
 import { ProductForm } from './components/product-form';
 const ProductPage = async ({
   params,

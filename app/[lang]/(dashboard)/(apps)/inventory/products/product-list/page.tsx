@@ -10,11 +10,11 @@ const pageHeader = {
   breadcrumb: [
     {
       name: 'Home',
-      href: routes.inventory.dashboard
+      href: routes.inventory.dashboard,
     },
     {
       name: 'Inventory',
-      href: routes.inventory.dashboard
+      href: routes.inventory.dashboard,
     },
     {
       name: 'List',
@@ -38,16 +38,29 @@ const ProductListPage = async () => {
     },
   });
 
+  // const formattedProducts: ProductColumn[] =
+  //   products?.map((item) => ({
+  //     id: item.id,
+  //     name: item.name ?? '',
+  //     catalog: item.catalog_id ?? '',
+  //     category: item.category?.name ?? null,
+  //     subcategory: item.subCategory?.name ?? null,
+  //     brand: item.brand?.name ?? null,
+  //     status: item.status?.name ?? null,
+  //     uom: item.uom?.name ?? null,
+  //     remarks: item.remarks,
+  //   })) ?? [];
+
   const formattedProducts: ProductColumn[] =
     products?.map((item) => ({
       id: item.id,
       name: item.name ?? '',
       catalog: item.catalog_id ?? '',
-      category: item.category?.name,
-      subcategory: item.subCategory?.name,
-      brand: item.brand?.name,
-      status: item.status?.name,
-      uom: item.uom?.name,
+      category: item.category?.name || '', // Add type assertion to ensure category is always a string
+      subcategory: item.subCategory?.name || '',
+      brand: item.brand?.name || '',
+      status: item.status?.name || '',
+      uom: item.uom?.name || '',
       remarks: item.remarks,
     })) ?? [];
 

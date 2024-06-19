@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/client';
 import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import getSubCategoryId from '../../system/getCategoryId/route';
+// import getSubCategoryId from '../../system/getCategoryId/route';
 
 import { getServerSession } from 'next-auth';
 
