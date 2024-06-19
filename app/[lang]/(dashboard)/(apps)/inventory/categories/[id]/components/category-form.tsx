@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import * as z from "zod";
-import axios from "axios";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import PageHeader from "@/components/page-header";
+import * as z from 'zod';
+import axios from 'axios';
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import PageHeader from '@/components/page-header';
 
-import { toast } from "react-hot-toast";
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css"; // Don't forget to import the CSS
-import { Loader2 } from "lucide-react";
+import { toast } from 'react-hot-toast';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
+import { Loader2 } from 'lucide-react';
 
-import { Categories, CategoryTypes } from "@prisma/client";
-import CategoryNameExist from "@/components/nameExistChecking/inventory/categoryNameExist";
-import { useParams, useRouter } from "next/navigation";
-import { routes } from "@/config/routes";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Categories, CategoryTypes } from '@prisma/client';
+import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
+import { useParams, useRouter } from 'next/navigation';
+import { routes } from '@/config/routes';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -26,22 +26,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import ImageUpload from "@/components/ui/image-upload";
-import { Checkbox } from "@/components/ui/checkbox";
+} from '@/components/ui/select';
+import ImageUpload from '@/components/ui/image-upload';
+import { Checkbox } from '@/components/ui/checkbox';
 
 import {
   CategoryFormValues,
   categoryFormSchema,
-} from "@/utils/schema/categoryFormSchema";
-import { defaultValues } from "@/utils/defaultvalues/categorydefault-value";
+} from '@/utils/schema/category.form.schema';
+import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
 
 interface CategoryFormProps {
   initialData?: Categories;
@@ -57,28 +57,28 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit Category" : "Add New Category";
+  const title = initialData ? 'Edit Category' : 'Add New Category';
   const description = initialData
     ? `Change Category ${initialData.id}-> ${initialData.name}`
-    : "Add New Category";
+    : 'Add New Category';
   const toastMessage = initialData
-    ? "Category has changed successfully."
-    : "New Category has been added successfully.";
-  const action = initialData ? "Save Changes" : "Save New Category";
+    ? 'Category has changed successfully.'
+    : 'New Category has been added successfully.';
+  const action = initialData ? 'Save Changes' : 'Save New Category';
 
   const pageHeader = {
-    title: initialData ? "Edit Category" : "New Category",
+    title: initialData ? 'Edit Category' : 'New Category',
 
     breadcrumb: [
       {
-        name: "Inventory",
+        name: 'Inventory',
       },
       {
-        name: "Categories",
+        name: 'Categories',
         href: routes.inventory.categories,
       },
       {
-        name: initialData ? "Edit Category" : "New Category",
+        name: initialData ? 'Edit Category' : 'New Category',
       },
     ],
   };
@@ -87,6 +87,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       ...initialData,
+      imageURL: initialData?.imageURL || undefined,
+      id: initialData?.id,
       type: initialData?.type || undefined,
       name: initialData?.name || undefined,
       remarks: initialData?.remarks || undefined,
@@ -110,19 +112,17 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       } else {
         await axios.post(`/api/inventory/categories`, data);
       }
-      router.push("/inventory/categories/category-list");
+      router.push('/inventory/categories/category-list');
       router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
       console.error(error);
 
-      toast.error(error.response?.data?.message || "Save failed");
+      toast.error(error.response?.data?.message || 'Save failed');
     } finally {
       setLoading(false);
     }
   };
-
-  const { href, category, ...otherFields } = field;
 
   return (
     <>
@@ -131,11 +131,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
+          className='space-y-8 w-full'
         >
           <FormField
             control={form.control}
-            name="imageURL"
+            name='imageURL'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -143,7 +143,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                     value={field.value ? [field.value] : []}
                     disabled={loading}
                     onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange("")}
+                    onRemove={() => field.onChange('')}
                   />
                 </FormControl>
                 <FormMessage />
@@ -151,21 +151,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             )}
           />
 
-          <div className="grid grid-cols-4 gap-4 py-2">
+          <div className='grid grid-cols-4 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
-                name={"id"}
+                name={'id'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category Id</FormLabel>
                     <FormControl>
-                      <Input
-                        disabled
-                        placeholder="id"
-                        value={field.value ?? ""}
-                        {...field}
-                      />
+                      <Input disabled placeholder='id' {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -175,7 +170,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             <div>
               <FormField
                 control={form.control}
-                name="type"
+                name='type'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Type</FormLabel>
@@ -189,7 +184,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                         <SelectTrigger>
                           <SelectValue
                             defaultValue={field.value}
-                            placeholder="Select type"
+                            placeholder='Select type'
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -211,7 +206,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             </div>
           </div>
 
-          <div className="w-3/4">
+          <div className='w-3/4'>
             {/* <div>
               <FormField
                 control={form.control}
@@ -236,7 +231,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
             <FormField
               control={form.control}
-              name="name"
+              name='name'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category Name</FormLabel>
@@ -251,7 +246,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                     <FormMessage>
                       {form.formState.errors.name.message}
                     </FormMessage>
-                  )}{" "}
+                  )}{' '}
                   <FormMessage />
                 </FormItem>
               )}
@@ -261,13 +256,13 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           <div>
             <FormField
               control={form.control}
-              name="remarks"
+              name='remarks'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Remarks</FormLabel>
                   <FormControl>
                     <SimpleMDE
-                      placeholder="Type here to add remarks"
+                      placeholder='Type here to add remarks'
                       disabled={loading}
                       {...field}
                     />
@@ -276,7 +271,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                     <FormMessage>
                       {form.formState.errors.name.message}
                     </FormMessage>
-                  )}{" "}
+                  )}{' '}
                   <FormMessage />
                 </FormItem>
               )}
@@ -285,16 +280,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           <div>
             <FormField
               control={form.control}
-              name="iStatus"
+              name='iStatus'
               render={({ field }) => (
                 <FormItem
                   className={`flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 justify-self-end ${
                     field.value
-                      ? "bg-slate-400 text-black"
-                      : "bg-green-600 text-white"
+                      ? 'bg-slate-400 text-black'
+                      : 'bg-green-600 text-white'
                   }`}
                 >
-                  {" "}
+                  {' '}
                   <FormControl>
                     <Checkbox
                       checked={!!field.value}
@@ -303,24 +298,24 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       disabled={loading}
                     />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
+                  <div className='space-y-1 leading-none'>
                     <FormLabel>
                       {field.value ? (
-                        <span className="text-red text-semibold">
+                        <span className='text-red text-semibold'>
                           Non Active
                         </span>
                       ) : (
-                        <span className="text-green">Active</span>
-                      )}{" "}
+                        <span className='text-green'>Active</span>
+                      )}{' '}
                     </FormLabel>
                     <FormDescription>
                       {field.value ? (
-                        <span className="text-black">
+                        <span className='text-black'>
                           This category will not be shown during transaction
                           input
                         </span>
                       ) : (
-                        <span className="text-white">
+                        <span className='text-white'>
                           This category will be shown during transaction input
                         </span>
                       )}
@@ -331,18 +326,18 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             />
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div className='flex justify-end space-x-4'>
             <Button
               onClick={(event) => {
                 event.stopPropagation();
-                router.push("/inventory/categories/category-list");
+                router.push('/inventory/categories/category-list');
               }}
             >
               Back
             </Button>
-            <Button disabled={loading} className="ml-auto" type="submit">
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {action}{" "}
+            <Button disabled={loading} className='ml-auto' type='submit'>
+              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+              {action}{' '}
             </Button>
           </div>
         </form>

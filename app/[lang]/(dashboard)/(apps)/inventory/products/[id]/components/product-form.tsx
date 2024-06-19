@@ -54,25 +54,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
 import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
-
-const productFormSchema = z.object({
-  id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-  category_id: z.string().min(5, { message: 'Category is required' }),
-  subCategory_id: z.string().min(5, { message: 'Subcategory is required' }),
-  catalog_id: z.string().min(5, { message: 'Catalog is required' }),
-  brand_id: z.string().min(1).optional(),
-  uom_id: z.string().min(1).optional(),
-  registered_id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
-  iStatus: z.boolean().default(false).optional(),
-  tkdn_pctg: z.coerce.number().min(0),
-  bmp_pctg: z.coerce.number().min(0),
-  ecatalog_URL: z.string().min(5).or(z.literal('')).optional().nullable(),
-  images: z.object({ imageURL: z.string() }).array().optional(),
-});
-
-type ProductFormValues = z.infer<typeof productFormSchema>;
+import { defaultValues } from '@/utils/defaultvalues/materialproduct..defaultValues';
+import {
+  MaterialProductFormValues,
+  materialproductFormSchema,
+} from '@/utils/schema/materialproduct.form.schema';
 
 interface ProductFormProps {
   initialData:
@@ -124,45 +110,44 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ],
   };
 
-  const defaultValues = (initialData as ProductFormValues)
-    ? {
-        ...initialData,
-      }
-    : {
-        id: '',
-        images: [],
-        category_id: '',
-        subCategory_id: '',
-        brand_id: '',
-        catalog_id: '',
-        registered_id: '',
-        name: '',
-        uom_id: '',
-        iStatus: false,
-        tkdn_pctg: 0,
-        bmp_pctg: 0,
-        ecatalog_URL: '',
-        remarks: '',
-        base: '',
-        construction: '',
-      };
-
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productFormSchema),
-    defaultValues: {
-      ...defaultValues,
-    },
-  });
-
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
+  // const methods = useForm<MaterialProductFormValues>({
+  //   resolver: zodResolver(materialproductFormSchema),
   //   defaultValues: {
-  //     ...defaultValues(initialData ?? {}),
+  //     ...defaultValues(...initialData ?? {}),
   //   },
   // });
 
-  const onSubmit = async (data: ProductFormValues) => {
-    console.log(initialData);
+  const form = useForm<MaterialProductFormValues>({
+    resolver: zodResolver(materialproductFormSchema),
+    defaultValues: {
+      ...initialData,
+      images: [],
+      id: initialData?.id,
+      name: initialData?.name ?? '',
+      catalog_id: initialData?.catalog_id ?? '',
+      registered_id: initialData?.registered_id ?? '',
+      category_id: initialData?.category_id ?? '',
+      subCategory_id: initialData?.subCategory_id ?? '',
+      brand_id: initialData?.brand_id ?? '',
+      uom_id: initialData?.uom_id ?? '',
+      tkdn_pctg: initialData?.tkdn_pctg ?? 0,
+      bmp_pctg: initialData?.bmp_pctg ?? 0,
+      ecatalog_URL: initialData?.ecatalog_URL ?? '',
+      iStatus: initialData?.iStatus ?? false,
+      remarks: initialData?.remarks || undefined,
+      slug: initialData?.slug || undefined,
+      isMaterial: initialData?.isMaterial ?? true,
+      iShowedStatus: initialData?.iShowedStatus ?? false,
+      createdBy: initialData?.createdBy || undefined,
+      createdAt: initialData?.createdAt || undefined,
+      updatedBy: initialData?.updatedBy || undefined,
+      updatedAt: initialData?.updatedAt || undefined,
+      company: initialData?.company || undefined,
+      branch: initialData?.branch || undefined,
+    },
+  });
+
+  const onSubmit = async (data: MaterialProductFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
@@ -202,16 +187,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   return (
     <>
-      {/* <FormGroup title='General Information' description=''> */}
-      {/* <Heading title={title} description={description} /> */}
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <div className='w-full flex items-center'>
+          {/* <div className='w-full flex items-center'>
             <FormField
               control={form.control}
               name='images'
@@ -219,28 +201,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem>
                   <FormControl className='flex flex-col gap-3'>
                     <ImageCollection
-                      value={field.value?.map(
-                        (ProductImages) => ProductImages.imageURL
-                      )}
+                      value={
+                        field.value?.map(
+                          (ProductImages) => ProductImages.imageURL
+                        ) || []
+                      } // Provide a default value of an empty array
                       disabled={loading}
-                      className='w-full md:w-auto'
                     />
-
-                    {/* {field.value?.map((item, index) => (
-                      <Image
-                        key={index}
-                        src={item.imageURL}
-                        alt={`product ${index}`}
-                        width={200}
-                        height={200}
-                      />
-                    ))} */}
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
-          <Separator />
+          <Separator /> */}
 
           <div className='grid grid-cols-3 gap-4 py-2'>
             <div>
@@ -251,7 +224,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormItem>
                     <FormLabel>Product Id</FormLabel>
                     <FormControl>
-                      <Input disabled placeholder='Id' {...field} />
+                      <Input
+                        disabled
+                        placeholder='Id'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -267,9 +245,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <FormLabel>Catalog</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={loading}
-                        placeholder='Catalog'
-                        {...field}
+                        disabled
+                        placeholder='Input catalog here'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     {form.formState.errors.catalog_id && (
@@ -291,9 +270,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <FormLabel>Registration Number</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={loading}
-                        placeholder='Input registration number'
-                        {...field}
+                        disabled
+                        placeholder='Input registration id here'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     {form.formState.errors.registered_id && (
@@ -342,8 +322,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ?? ''}
+                      defaultValue={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -381,13 +361,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ?? ''}
+                      defaultValue={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? ''}
                             placeholder='Subcategory'
                           />
                         </SelectTrigger>
@@ -428,13 +408,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ?? ''}
+                      defaultValue={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? ''}
                             placeholder='Brand'
                           />
                         </SelectTrigger>
@@ -466,13 +446,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ?? ''}
+                      defaultValue={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? ''}
                             placeholder='Uom'
                           />
                         </SelectTrigger>
@@ -544,9 +524,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormLabel>eCatalog Link</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={loading}
-                      placeholder='https://ekatalog'
-                      {...field}
+                      disabled
+                      placeholder='http://ekatalog'
+                      value={field.value ?? ''}
+                      onChange={field.onChange}
                     />
                   </FormControl>
                 </FormItem>

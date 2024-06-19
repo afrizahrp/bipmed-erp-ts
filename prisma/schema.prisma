@@ -330,29 +330,28 @@ model Brands {
 }
 
 model Products {
-  category_id    String?            @db.Char(10)
-  subCategory_id String?            @db.Char(10)
-  brand_id       String?            @db.Char(10)@default("1457")
   id             String            @id @db.Char(20)
   catalog_id     String?           @db.VarChar(20)
-  name           String?           @db.VarChar(250)
-  uom_id         String?            @db.Char(10) @default("UNIT")
-  isMaterial     Boolean           @default(false)
-  remarks        String?           @db.Text
-  iStatus        Boolean           @default(false)
-  iShowedStatus  Boolean?          @default(true)
   registered_id  String?           @db.VarChar(20)
-  ecatalog_URL   String?           @db.VarChar(250)
+  name           String?           @db.VarChar(250)
+  category_id    String?            @db.Char(10)
+  subCategory_id String?            @db.Char(10)
+  uom_id         String?            @db.Char(10) @default("UNIT")
+  brand_id       String?            @db.Char(10)@default("1457")
   tkdn_pctg      Float?             @default(0)
   bmp_pctg       Float?             @default(0)
+  ecatalog_URL   String?           @db.VarChar(250)
+  iStatus        Boolean           @default(false)
+  remarks        String?           @db.Text
   slug           String?           @db.VarChar(250)
+  isMaterial     Boolean           @default(false)
+  iShowedStatus  Boolean?          @default(true)
   createdBy      String?           @db.VarChar(50)
   createdAt      DateTime?         @default(now()) @db.DateTime
   updatedBy      String?           @db.VarChar(50)
   updatedAt      DateTime?         @db.DateTime
   company        String            @db.Char(5)
   branch         String            @db.Char(10)
-  poDetail       PoDetail[]
   images         ProductImages[]
   brand          Brands?            @relation(fields: [brand_id], references: [id])
   category       Categories?        @relation(fields: [category_id], references: [id], onUpdate: NoAction)
@@ -538,7 +537,6 @@ model PoDetail {
   company    String    @db.Char(5)
   branch     String    @db.Char(10)
   poHeader   PoHeader  @relation(fields: [po_id], references: [id])
-  products   Products  @relation(fields: [product_id], references: [id])
   uom        Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 

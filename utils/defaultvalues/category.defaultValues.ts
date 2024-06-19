@@ -1,42 +1,39 @@
-import { MaterialFormValues } from '@/utils/schema/create-material.schema';
+import { CategoryFormValues } from '@/utils/schema/category.form.schema';
 import isEmpty from 'lodash/isEmpty';
 
-export function defaultValues(initialData: MaterialFormValues) {
+export function defaultValues(initialData: CategoryFormValues) {
   return {
     /* general section */
-
+    // imageURL: initialData?.imageURL ?? '',
     id: initialData?.id ?? '',
+    type: isEmpty(initialData?.type) ? initialData?.type : initialData?.type,
     name: initialData?.name ?? '',
-    catalog_id: isEmpty(initialData?.catalog_id)
-      ? initialData?.catalog_id
-      : initialData?.catalog_id,
-
-    registered_id: isEmpty(initialData?.registered_id)
-      ? initialData?.registered_id
-      : initialData?.registered_id,
-
-    category_id: initialData.category_id,
-    subCategory_id: initialData?.subCategory_id ?? '',
-
-    brand_id: isEmpty(initialData?.brand_id)
-      ? initialData?.brand_id
-      : initialData?.brand_id,
-
-    uom_id: isEmpty(initialData?.uom_id)
-      ? initialData?.uom_id
-      : initialData?.uom_id,
-
-    tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-    bmp_pctg: initialData?.bmp_pctg ?? 0,
-
-    ecatalog_URL: isEmpty(initialData?.ecatalog_URL)
-      ? initialData?.ecatalog_URL
-      : initialData?.ecatalog_URL,
     remarks: isEmpty(initialData?.remarks)
       ? initialData?.remarks
       : initialData?.remarks,
+
     iStatus: initialData?.iStatus ?? false,
-    isMaterial: true,
+    href: isEmpty(initialData?.href) ? initialData?.href : initialData?.href,
+    slug: isEmpty(initialData?.slug) ? initialData?.slug : initialData?.slug,
+    icon: isEmpty(initialData?.icon) ? initialData?.icon : initialData?.icon,
+    createdBy: isEmpty(initialData?.createdBy)
+      ? initialData?.createdBy
+      : initialData?.createdBy,
+    updatedBy: isEmpty(initialData?.updatedBy)
+      ? initialData?.updatedBy
+      : initialData?.updatedBy,
+    createdAt: isEmpty(initialData?.createdAt)
+      ? initialData?.createdAt
+      : initialData?.createdAt,
+    updatedAt: isEmpty(initialData?.updatedAt)
+      ? initialData?.updatedAt
+      : initialData?.updatedAt,
+    company: isEmpty(initialData?.company)
+      ? initialData?.company
+      : initialData?.company,
+    branch: isEmpty(initialData?.branch)
+      ? initialData?.branch
+      : initialData?.branch,
 
     // images: initialData?.images ?? [],
 
