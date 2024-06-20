@@ -16,24 +16,6 @@ export function defaultValues(initialData: CategoryFormValues) {
     href: isEmpty(initialData?.href) ? initialData?.href : initialData?.href,
     slug: isEmpty(initialData?.slug) ? initialData?.slug : initialData?.slug,
     icon: isEmpty(initialData?.icon) ? initialData?.icon : initialData?.icon,
-    createdBy: isEmpty(initialData?.createdBy)
-      ? initialData?.createdBy
-      : initialData?.createdBy,
-    updatedBy: isEmpty(initialData?.updatedBy)
-      ? initialData?.updatedBy
-      : initialData?.updatedBy,
-    createdAt: isEmpty(initialData?.createdAt)
-      ? initialData?.createdAt
-      : initialData?.createdAt,
-    updatedAt: isEmpty(initialData?.updatedAt)
-      ? initialData?.updatedAt
-      : initialData?.updatedAt,
-    company: isEmpty(initialData?.company)
-      ? initialData?.company
-      : initialData?.company,
-    branch: isEmpty(initialData?.branch)
-      ? initialData?.branch
-      : initialData?.branch,
 
     // images: initialData?.images ?? [],
 

@@ -41,7 +41,7 @@ import {
   CategoryFormValues,
   categoryFormSchema,
 } from '@/utils/schema/category.form.schema';
-import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
+// import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
 
 interface CategoryFormProps {
   initialData?: Categories;
@@ -95,12 +95,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       iStatus: initialData?.iStatus || undefined,
       icon: initialData?.icon || undefined,
       slug: initialData?.slug || undefined,
-      // createdBy: initialData?.createdBy || undefined,
-      // createdAt: initialData?.createdAt || undefined,
-      // updatedBy: initialData?.updatedBy || undefined,
-      // updatedAt: initialData?.updatedAt || undefined,
-      // company: initialData?.company || undefined,
-      // branch: initialData?.branch || undefined,
     },
   });
 

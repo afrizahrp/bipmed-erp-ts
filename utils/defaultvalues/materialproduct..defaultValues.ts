@@ -1,10 +1,7 @@
 import { MaterialProductFormValues } from '@/utils/schema/materialproduct.form.schema';
-import isEmpty from 'lodash/isEmpty';
 
 export function defaultValues(initialData?: MaterialProductFormValues) {
   return {
-    /* general section */
-
     // images: initialData?.images ?? [],
     id: initialData?.id,
     name: initialData?.name ?? '',
@@ -22,11 +19,5 @@ export function defaultValues(initialData?: MaterialProductFormValues) {
     slug: initialData?.slug || undefined,
     isMaterial: initialData?.isMaterial ?? true,
     iShowedStatus: initialData?.iShowedStatus ?? false,
-    createdBy: initialData?.createdBy || undefined,
-    createdAt: initialData?.createdAt || undefined,
-    updatedBy: initialData?.updatedBy || undefined,
-    updatedAt: initialData?.updatedAt || undefined,
-    company: initialData?.company || undefined,
-    branch: initialData?.branch || undefined,
   };
 }
