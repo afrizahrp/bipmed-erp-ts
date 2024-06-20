@@ -1,32 +1,21 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { useDebounce } from 'use-debounce';
 
 interface Categories {
   id: string;
   name: string;
 }
-export const useCategoryNameExist = (searchTerms: string) => {
-  const [debouncedSearchTerms] = useDebounce(searchTerms, 500); // Debounce searchTerms with a 500ms delay
-  const { data, isLoading, isError, ...rest } = useQuery<Categories[], Error>({
-    queryKey: ['categories', debouncedSearchTerms],
+export const useCategories = () => {
+  const { data, isLoading, error, ...rest } = useQuery<Categories[], Error>({
+    queryKey: ['categories'],
     queryFn: () =>
-      debouncedSearchTerms
-        ? axios
-            .get('/api/inventory/categories', {
-              params: {
-                name: debouncedSearchTerms, // use searchType as the parameter name
-              },
-            })
-            .then((res) => res.data)
-        : Promise.resolve([]), // Resolve to an empty array if name is not provided
+      axios.get('/api/inventory/categories', {}).then((res) => res.data),
 
     staleTime: 60 * 1000, //60s
     retry: 3,
-    enabled: !!debouncedSearchTerms, // Only run the query if both searchTerms and searchType are provided
   });
 
-  return { data, isLoading, isError, ...rest };
+  return { data, isLoading, error, ...rest };
 };
 
-export default useCategoryNameExist;
+export default useCategories;
