@@ -87,10 +87,9 @@ export async function POST(request: NextRequest) {
       bmp_pctg: number;
       ecatalog_URL: string;
       remarks: string;
-      iStatus: string;
+      iStatus: boolean;
       images: { imageURL: string }[];
-
-      iShowedStatus: number;
+      iShowedStatus: boolean;
       createdBy: string;
       created_at: string;
       updatedBy: string;
@@ -115,7 +114,7 @@ export async function POST(request: NextRequest) {
       remarks,
       iStatus,
       iShowedStatus,
-
+      isMaterial: false,
       images: {
         deleteMany: {},
       },
