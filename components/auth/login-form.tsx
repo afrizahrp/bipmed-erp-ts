@@ -81,9 +81,7 @@ const LogInForm = () => {
           style={{ top: 0, textAlign: 'left' }}
           priority
         />
-        <div className='text-2xl font-semibold text-default-300'>
-          Integrated System
-        </div>
+        <div className='text-2xl font-semibold text-default-400'>erpLite</div>
       </div>
 
       <div className='mt-6 xl:mt-8 w-full'>
