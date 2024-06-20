@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: 'bipmed-integratedSystem',
+  name: 'bipmed-erpLite',
   description: null,
   theme: 'blue',
   layout: 'vertical',
