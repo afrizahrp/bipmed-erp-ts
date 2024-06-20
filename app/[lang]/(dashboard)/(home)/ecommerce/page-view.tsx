@@ -1,31 +1,31 @@
-"use client";
+'use client';
 
-import RevinueChart from "./components/revinue-chart";
-import TopBrowserChart from "./components/top-browser-chart";
-import TopCustomers from "./components/top-customers";
-import VisitorsReportChart from "./components/visitors-chart";
-import CustomerStatistics from "./components/customer-statistics";
-import Transaction from "./components/transaction";
-import Orders from "./components/orders";
-import TopCountries from "./components/top-countries";
-import Products from "./components/products";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import DashboardSelect from "@/components/dasboard-select";
-import EcommerceStats from "./components/ecommerce-stats";
-import TopSell from "./components/top-sell";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import DashboardDropdown from "@/components/dashboard-dropdown";
-import DatePickerWithRange from "@/components/date-picker-with-range";
+// import RevinueChart from "./components/revinue-chart";
+// import TopBrowserChart from "./components/top-browser-chart";
+// import TopCustomers from "./components/top-customers";
+// import VisitorsReportChart from "./components/visitors-chart";
+// import CustomerStatistics from "./components/customer-statistics";
+// import Transaction from "./components/transaction";
+// import Orders from "./components/orders";
+// import TopCountries from "./components/top-countries";
+// import Products from "./components/products";
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import DashboardSelect from "@/components/dasboard-select";
+// import EcommerceStats from "./components/ecommerce-stats";
+// import TopSell from "./components/top-sell";
+// import { ScrollArea } from "@/components/ui/scroll-area";
+// import DashboardDropdown from "@/components/dashboard-dropdown";
+// import DatePickerWithRange from "@/components/date-picker-with-range";
 interface EcommercePageViewProps {
   trans: {
     [key: string]: string;
   };
 }
-const EcommercePageView = ({ trans }:EcommercePageViewProps) => {
+const EcommercePageView = ({ trans }: EcommercePageViewProps) => {
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap gap-4 items-center justify-between">
-        <div className="text-2xl font-medium text-default-800">
+    <div className='space-y-6'>
+      <div className='flex flex-wrap gap-4 items-center justify-between'>
+        <div className='text-2xl font-medium text-default-800'>
           Ecommerce Dashboard
         </div>
         {/* <DatePickerWithRange />
