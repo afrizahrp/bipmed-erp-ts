@@ -13,9 +13,6 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
 
-// import { SiteLogo } from '@/components/svg';
-// import { loginSchema } from "@/utils/validators/login.schema";
-
 import {
   Select,
   SelectContent,
