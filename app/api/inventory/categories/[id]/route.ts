@@ -2,7 +2,6 @@ import { prisma } from '@/lib/client';
 import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -34,8 +33,9 @@ export async function PATCH(
 
   try {
     const body = await request.json();
-    const { id, name, remarks, imageURL, iStatus } = body as {
+    const { id, type, name, remarks, imageURL, iStatus } = body as {
       id: string;
+      type: string;
       name: string;
       remarks: string;
       imageURL: string;
@@ -53,6 +53,7 @@ export async function PATCH(
       );
     const editCategory = {
       id,
+      type,
       name,
       iStatus,
       remarks,
@@ -60,6 +61,7 @@ export async function PATCH(
       updatedBy: username,
       updatedAt: new Date(),
     };
+
 
     const updatedCategories = await prisma.categories.update({
       where: { id: params.id },

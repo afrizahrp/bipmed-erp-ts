@@ -89,7 +89,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       ...initialData,
       imageURL: initialData?.imageURL || undefined,
       id: initialData?.id,
-      type: initialData?.type || undefined,
+      type: initialData?.type,
       name: initialData?.name || undefined,
       remarks: initialData?.remarks || undefined,
       iStatus: initialData?.iStatus || undefined,
@@ -97,6 +97,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       slug: initialData?.slug || undefined,
     },
   });
+
+  const onBackButton = () => {
+    setLoading(false);
+    router.push('/inventory/categories/category-list');
+  };
 
   const onSubmit = async (data: CategoryFormValues) => {
     try {
@@ -322,8 +327,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
           <div className='flex justify-end space-x-4'>
             <Button
-              onClick={(event) => {
-                event.stopPropagation();
+              onClick={() => {
+                setLoading(false);
                 router.push('/inventory/categories/category-list');
               }}
             >
