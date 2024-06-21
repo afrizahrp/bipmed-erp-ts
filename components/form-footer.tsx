@@ -27,14 +27,7 @@ export default function FormFooter({
         negMargin
       )}
     >
-      <Button
-        variant='outline'
-        // className="w-full @xl:w-auto"
-        className='w-[100px]'
-        // 'flex justify-end space-x-4'
-
-        onClick={handleAltBtn}
-      >
+      <Button variant='outline' className='w-[80px]' onClick={handleAltBtn}>
         {altBtnText}
       </Button>
       <Button type='submit' disabled={isLoading}>

@@ -27,6 +27,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import FormFooter from '@/components/form-footer';
 import {
   Select,
   SelectContent,
@@ -37,10 +38,10 @@ import {
 import ImageUpload from '@/components/ui/image-upload';
 import { Checkbox } from '@/components/ui/checkbox';
 
-import {
-  CategoryFormValues,
-  categoryFormSchema,
-} from '@/utils/schema/category.form.schema';
+// import {
+//   CategoryFormValues,
+//   categoryFormSchema,
+// } from '@/utils/schema/category.form.schema';
 // import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
 
 interface CategoryFormProps {
@@ -57,10 +58,13 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const [loading, setLoading] = useState(false);
 
+  const id = initialData?.id;
+
   const title = initialData ? 'Edit Category' : 'Add New Category';
   const description = initialData
     ? `Change Category ${initialData.id}-> ${initialData.name}`
     : 'Add New Category';
+
   const toastMessage = initialData
     ? 'Category has changed successfully.'
     : 'New Category has been added successfully.';
@@ -83,12 +87,35 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     ],
   };
 
+  const categoryFormSchema = z.object({
+    imageURL: z.string().min(5).or(z.literal('')).optional().nullable(),
+    id: z.string().min(5).or(z.literal('')).optional().nullable(),
+    type: z.string().min(1, { message: 'Type is required' }),
+
+    // type: z.string().min(1),
+
+    name: z.string().min(5, { message: 'Caetegory name is required' }), // {message: 'Name must be at least 5 characters long'
+    remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
+    iStatus: z.boolean().default(false).optional(),
+    icon: z.string().min(5).or(z.literal('')).optional().nullable(),
+    href: z.string().min(5).or(z.literal('')).optional().nullable(),
+    slug: z.string().min(5).or(z.literal('')).optional().nullable(),
+    // createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+    // createdAt: z.date(),
+    // updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+    // updatedAt: z.date(),
+    // company: z.string().min(5).or(z.literal('')).optional().nullable(),
+    // branch: z.string().min(5).or(z.literal('')).optional().nullable(),
+  });
+
+  type CategoryFormValues = z.infer<typeof categoryFormSchema>;
+
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       ...initialData,
       imageURL: initialData?.imageURL || undefined,
-      id: initialData?.id,
+      id: initialData?.id || undefined,
       type: initialData?.type,
       name: initialData?.name || undefined,
       remarks: initialData?.remarks || undefined,
@@ -98,7 +125,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     },
   });
 
-  const onBackButton = () => {
+  const handleBack = () => {
     setLoading(false);
     router.push('/inventory/categories/category-list');
   };
@@ -325,20 +352,21 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             />
           </div>
 
-          <div className='flex justify-end space-x-4'>
-            <Button
-              onClick={() => {
-                setLoading(false);
-                router.push('/inventory/categories/category-list');
-              }}
-            >
+          {/* <div className='flex justify-end space-x-4'>
+            <Button variant='outline' onClick={onBackButtonClick}>
               Back
             </Button>
             <Button disabled={loading} className='ml-auto' type='submit'>
               {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
               {action}{' '}
             </Button>
-          </div>
+          </div> */}
+
+          <FormFooter
+            isLoading={loading}
+            handleAltBtn={handleBack}
+            submitBtnText={id ? 'Update' : 'Save'}
+          />
         </form>
       </Form>
     </>
