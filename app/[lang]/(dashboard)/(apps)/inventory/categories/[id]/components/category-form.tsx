@@ -38,10 +38,10 @@ import {
 import ImageUpload from '@/components/ui/image-upload';
 import { Checkbox } from '@/components/ui/checkbox';
 
-// import {
-//   CategoryFormValues,
-//   categoryFormSchema,
-// } from '@/utils/schema/category.form.schema';
+import {
+  CategoryFormValues,
+  categoryFormSchema,
+} from '@/utils/schema/category.form.schema';
 // import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
 
 interface CategoryFormProps {
@@ -72,6 +72,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const pageHeader = {
     title: initialData ? 'Edit Category' : 'New Category',
+    description: initialData?.id,
 
     breadcrumb: [
       {
@@ -87,41 +88,41 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     ],
   };
 
-  const categoryFormSchema = z.object({
-    imageURL: z.string().min(5).or(z.literal('')).optional().nullable(),
-    id: z.string().min(5).or(z.literal('')).optional().nullable(),
-    type: z.string().min(1, { message: 'Type is required' }),
+  // const categoryFormSchema = z.object({
+  //   imageURL: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   id: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   type: z.string().min(1, { message: 'Type is required' }),
 
-    // type: z.string().min(1),
+  //   // type: z.string().min(1),
 
-    name: z.string().min(5, { message: 'Caetegory name is required' }), // {message: 'Name must be at least 5 characters long'
-    remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
-    iStatus: z.boolean().default(false).optional(),
-    icon: z.string().min(5).or(z.literal('')).optional().nullable(),
-    href: z.string().min(5).or(z.literal('')).optional().nullable(),
-    slug: z.string().min(5).or(z.literal('')).optional().nullable(),
-    // createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-    // createdAt: z.date(),
-    // updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-    // updatedAt: z.date(),
-    // company: z.string().min(5).or(z.literal('')).optional().nullable(),
-    // branch: z.string().min(5).or(z.literal('')).optional().nullable(),
-  });
+  //   name: z.string().min(5, { message: 'Caetegory name is required' }), // {message: 'Name must be at least 5 characters long'
+  //   remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   iStatus: z.boolean().default(false).optional(),
+  //   icon: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   href: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   slug: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   // createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   // createdAt: z.date(),
+  //   // updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   // updatedAt: z.date(),
+  //   // company: z.string().min(5).or(z.literal('')).optional().nullable(),
+  //   // branch: z.string().min(5).or(z.literal('')).optional().nullable(),
+  // });
 
-  type CategoryFormValues = z.infer<typeof categoryFormSchema>;
+  // type CategoryFormValues = z.infer<typeof categoryFormSchema>;
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       ...initialData,
       imageURL: initialData?.imageURL || undefined,
-      id: initialData?.id || undefined,
-      type: initialData?.type,
-      name: initialData?.name || undefined,
-      remarks: initialData?.remarks || undefined,
-      iStatus: initialData?.iStatus || undefined,
-      icon: initialData?.icon || undefined,
-      slug: initialData?.slug || undefined,
+      id: initialData?.id ?? '',
+      type: initialData?.type ?? '0',
+      name: initialData?.name ?? '',
+      remarks: initialData?.remarks ?? '',
+      iStatus: initialData?.iStatus ?? false,
+      // icon: initialData?.icon ?? '',
+      // slug: initialData?.slug ?? '',
     },
   });
 
@@ -233,28 +234,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           </div>
 
           <div className='w-3/4'>
-            {/* <div>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <div>
-                    <FormItem>
-                      <FormControl>
-                        <SearchColumn field={field.value} />
-                      </FormControl>
-                      {form.formState.errors.name && (
-                        <FormMessage>
-                          {form.formState.errors.name.message}
-                        </FormMessage>
-                      )}
-                      <FormMessage />
-                    </FormItem>
-                  </div>
-                )}
-              />
-            </div> */}
-
             <FormField
               control={form.control}
               name='name'

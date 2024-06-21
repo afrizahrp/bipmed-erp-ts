@@ -41,12 +41,14 @@ import { ChevronRight } from 'lucide-react';
 
 export type PageHeaderTypes = {
   title: string;
+  description: string;
   breadcrumb: { name: string; href?: string }[];
   className?: string;
 };
 
 export default function PageHeader({
   title,
+  description,
   breadcrumb,
   children,
   className,
@@ -58,6 +60,9 @@ export default function PageHeader({
           <div>
             <Label className='mb-2 text-[22px] lg:text-2xl 4xl:text-[26px]'>
               {title}
+            </Label>
+            <Label className='mb-1 text-[22px] lg:text-2xl 4xl:text-[26px]'>
+              {description}
             </Label>
 
             <Breadcrumb>
