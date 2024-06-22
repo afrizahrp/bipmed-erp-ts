@@ -10,14 +10,14 @@ import PageHeader from '@/components/page-header';
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-import { Loader2 } from 'lucide-react';
+// import { Loader2 } from 'lucide-react';
 
 import { Categories, CategoryTypes } from '@prisma/client';
 import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -73,8 +73,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const pageHeader = {
     title: initialData ? 'Edit Category' : 'New Category',
-    description: initialData?.id,
-
     breadcrumb: [
       {
         name: 'Inventory',
@@ -99,12 +97,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       name: initialData?.name ?? '',
       remarks: initialData?.remarks ?? '',
       iStatus: initialData?.iStatus ?? false,
-      // icon: initialData?.icon ?? '',
-      // slug: initialData?.slug ?? '',
     },
   });
 
-  const handleBack = () => {
+  const handleBack = (e) => {
+    e.preventDefault();
     setLoading(false);
     router.push('/inventory/categories/category-list');
   };
@@ -131,12 +128,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const onCategoryNameChange = (newCategoryName: string) => {
     setSearchTerms(newCategoryName);
-    console.log('searchTerms', searchTerms);
   };
 
   return (
     <>
-      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <Form {...form}>
         <form
@@ -223,7 +219,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               render={({ field }) => (
                 <div>
                   <FormItem>
-                    <FormLabel>Category Names</FormLabel>
+                    <FormLabel>Category Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
@@ -325,16 +321,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               )}
             />
           </div>
-
-          {/* <div className='flex justify-end space-x-4'>
-            <Button variant='outline' onClick={onBackButtonClick}>
-              Back
-            </Button>
-            <Button disabled={loading} className='ml-auto' type='submit'>
-              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-              {action}{' '}
-            </Button>
-          </div> */}
 
           <FormFooter
             isLoading={loading}

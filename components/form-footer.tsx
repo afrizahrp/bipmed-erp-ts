@@ -7,7 +7,7 @@ interface FormFooterProps {
   altBtnText?: string;
   submitBtnText?: string;
   isLoading?: boolean;
-  handleAltBtn?: () => void;
+  handleAltBtn?: (e: any) => void; // Updated type here
 }
 
 export const negMargin = '-mx-4 md:-mx-5 lg:-mx-6 3xl:-mx-8 4xl:-mx-10';
