@@ -13,9 +13,6 @@ export function defaultValues(initialData: CategoryFormValues) {
       : initialData?.remarks,
 
     iStatus: initialData?.iStatus ?? false,
-    href: isEmpty(initialData?.href) ? initialData?.href : initialData?.href,
-    slug: isEmpty(initialData?.slug) ? initialData?.slug : initialData?.slug,
-    icon: isEmpty(initialData?.icon) ? initialData?.icon : initialData?.icon,
 
     // images: initialData?.images ?? [],
 
