@@ -100,7 +100,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     },
   });
 
-  const handleBack = (e) => {
+  const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
     router.push('/inventory/categories/category-list');
