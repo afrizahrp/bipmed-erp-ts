@@ -57,6 +57,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [searchTerms, setSearchTerms] = useState('');
 
   const id = initialData?.id;
 
@@ -87,29 +88,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       },
     ],
   };
-
-  // const categoryFormSchema = z.object({
-  //   imageURL: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   id: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   type: z.string().min(1, { message: 'Type is required' }),
-
-  //   // type: z.string().min(1),
-
-  //   name: z.string().min(5, { message: 'Caetegory name is required' }), // {message: 'Name must be at least 5 characters long'
-  //   remarks: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   iStatus: z.boolean().default(false).optional(),
-  //   icon: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   href: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   slug: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   // createdBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   // createdAt: z.date(),
-  //   // updatedBy: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   // updatedAt: z.date(),
-  //   // company: z.string().min(5).or(z.literal('')).optional().nullable(),
-  //   // branch: z.string().min(5).or(z.literal('')).optional().nullable(),
-  // });
-
-  // type CategoryFormValues = z.infer<typeof categoryFormSchema>;
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
@@ -151,9 +129,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     }
   };
 
+  const onCategoryNameChange = (newCategoryName: string) => {
+    setSearchTerms(newCategoryName);
+    console.log('searchTerms', searchTerms);
+  };
+
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
 
       <Form {...form}>
         <form
@@ -238,23 +221,35 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               control={form.control}
               name='name'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category Name</FormLabel>
-                  <FormControl>
-                    <CategoryNameExist
-                      currentValue={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                    />
-                  </FormControl>
-                  {form.formState.errors.name && (
-                    <FormMessage>
-                      {form.formState.errors.name.message}
-                    </FormMessage>
-                  )}{' '}
-                  <FormMessage />
-                </FormItem>
+                <div>
+                  <FormItem>
+                    <FormLabel>Category Names</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder='Input category name'
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          onCategoryNameChange(e.target.value); // Call the new handler
+                        }}
+                      />
+                    </FormControl>
+                    {form.formState.errors.name && (
+                      <FormMessage>
+                        {form.formState.errors.name.message}
+                      </FormMessage>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                </div>
               )}
+            />
+
+            <CategoryNameExist
+              currentValue={searchTerms}
+              onChange={onCategoryNameChange}
+              // onBlur={() => {}}
             />
           </div>
 
