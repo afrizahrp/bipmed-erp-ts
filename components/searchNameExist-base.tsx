@@ -1,5 +1,6 @@
 import { InputSearch } from '@/components/ui/inputSearch';
 import SearchResults from './searchResult';
+import { Loader2 } from 'lucide-react';
 
 interface ShowField {
   key: string;
@@ -58,6 +59,8 @@ export default function SearchExistNameBase({
       </div>
 
       <div className='flex items-center justify-center w-full py-2'>
+        {isLoading && <Loader2 />}{' '}
+        {/* Display Loader2 when isLoading is true */}
         {data && fShowResult() && (
           <div className='w-full'>
             <SearchResults

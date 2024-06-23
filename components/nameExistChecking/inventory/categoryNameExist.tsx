@@ -9,14 +9,8 @@ interface Props {
   // onBlur: () => void;
 }
 
-export default function CategoryNameExist({
-  currentValue,
-  onChange,
-  // onBlur,
-}: Props) {
+export default function CategoryNameExist({ currentValue, onChange }: Props) {
   const [searchTerms, setSearchTerms] = useState('');
-
-  // const { isLoading } = useCategoryNameExist(searchTerms);
 
   useEffect(() => {
     setSearchTerms(currentValue);
@@ -30,7 +24,6 @@ export default function CategoryNameExist({
   const handleSearchTermsChange = (newSearchTerms: string) => {
     setSearchTerms(newSearchTerms);
     onChange(newSearchTerms);
-    console.log('newSearchTerms', newSearchTerms);
   };
 
   return (
@@ -44,12 +37,10 @@ export default function CategoryNameExist({
         disabled={isLoading}
         searchInputValue={searchTerms}
         setSearchInputValue={handleSearchTermsChange}
-        placeholder='Input nama kategori di sini'
+        placeholder='Input category name here'
         onInputCleared={handleItemCleared}
-        // onChange={handleSearchTermsChange}
         tableName='kategori'
       />
-      {/* )} */}
     </div>
   );
 }

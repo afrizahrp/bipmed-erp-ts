@@ -9,7 +9,7 @@ const useUomsOption = (): {
 } => {
   const { data, isLoading } = useUoms();
   const statusList: OptionType[] | undefined = data?.map((_statusList) => ({
-    value: _statusList.name,
+    value: _statusList.id,
     label: capitalizeFirstLetter(_statusList.name),
   }));
 

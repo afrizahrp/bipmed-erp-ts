@@ -1,15 +1,13 @@
 'use client';
-
-import * as z from 'zod';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import PageHeader from '@/components/page-header';
+import FormFooter from '@/components/form-footer';
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-import { Loader2 } from 'lucide-react';
 
 import {
   Products,
@@ -21,7 +19,6 @@ import {
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -31,6 +28,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+
 import {
   Select,
   SelectContent,
@@ -42,7 +40,6 @@ import {
 import MaterialNameExist from '@/components/nameExistChecking/inventory/materialNameExist';
 import { SearchColumnUom } from '@/components/search-column/searchColumn-uom';
 import { Checkbox } from '@/components/ui/checkbox';
-// import { defaultValues } from '@/utils/defaultvalues/materialproduct..defaultValues';
 import {
   MaterialProductFormValues,
   materialproductFormSchema,
@@ -65,14 +62,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
 }) => {
   const params = useParams();
   const router = useRouter();
-
+  const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
+  const id = initialData?.id;
 
-  const title = initialData ? 'Edit Material' : 'Add New Material';
-  const description = initialData
-    ? `Change Material ${initialData.id}-> ${initialData.name}`
-    : 'Add New Material';
-  const toastMessage = initialData
+
+  const actiomMessage = initialData
     ? 'Material has changed successfully.'
     : 'New Material has been added successfully.';
   const action = initialData ? 'Save Changes' : 'Save New Material';
@@ -115,14 +110,14 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       slug: initialData?.slug || undefined,
       isMaterial: initialData?.isMaterial ?? true,
       iShowedStatus: initialData?.iShowedStatus ?? false,
-      // createdBy: initialData?.createdBy || undefined,
-      // createdAt: initialData?.createdAt || undefined,
-      // updatedBy: initialData?.updatedBy || undefined,
-      // updatedAt: initialData?.updatedAt || undefined,
-      // company: initialData?.company || undefined,
-      // branch: initialData?.branch || undefined,
     },
   });
+
+  const handleBack = (e: any) => {
+    e.preventDefault();
+    setLoading(false);
+    router.push('/inventory/materials/material-list');
+  };
 
   const onSubmit = async (data: MaterialProductFormValues) => {
     try {
@@ -134,7 +129,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       }
       router.push('/inventory/materials/material-list');
       router.refresh();
-      toast.success(toastMessage);
+      toast.success(actiomMessage);
     } catch (error: any) {
       console.error(error);
 
@@ -160,6 +155,10 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       form.setValue('subCategory_id', '');
     }
   }, [selectedCategoryId, form.setValue, form.watch, subCategories]);
+
+  const onMaterialNameChange = (newCategoryName: string) => {
+    setSearchTerms(newCategoryName);
+  };
 
   return (
     <>
@@ -197,23 +196,35 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
               control={form.control}
               name='name'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Material Name</FormLabel>
-                  <FormControl>
-                    <MaterialNameExist
-                      currentValue={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                    />
-                  </FormControl>
-                  {form.formState.errors.name && (
-                    <FormMessage>
-                      {form.formState.errors.name.message}
-                    </FormMessage>
-                  )}{' '}
-                  <FormMessage />
-                </FormItem>
+                <div>
+                  <FormItem>
+                    <FormLabel>Material Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder='Input material name here'
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          onMaterialNameChange(e.target.value); // Call the new handler
+                        }}
+                        className='font-bold'
+                      />
+                    </FormControl>
+                    {form.formState.errors.name && (
+                      <FormMessage>
+                        {form.formState.errors.name.message}
+                      </FormMessage>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                </div>
               )}
+            />
+
+            <MaterialNameExist
+              currentValue={searchTerms}
+              onChange={onMaterialNameChange}
             />
           </div>
 
@@ -368,7 +379,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Uom</FormLabel>
-                    <SearchColumnUom {...field} onChange={field.onChange} />
+                    <SearchColumnUom
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      // value={field.value}
+                      onChange={field.onChange}
+                    />
 
                     {/* Pass the field object to SelectCombo if needed */}
                   </FormItem>
@@ -481,17 +497,11 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
             />
           </div>
 
-          <div className='flex justify-end space-x-4'>
-            <Button
-              onClick={() => router.push('/inventory/materials/material-list')}
-            >
-              Back
-            </Button>
-            <Button disabled={loading} type='submit'>
-              {action}{' '}
-              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            </Button>
-          </div>
+          <FormFooter
+            isLoading={loading}
+            handleAltBtn={handleBack}
+            submitBtnText={id ? 'Update' : 'Save'}
+          />
         </form>
       </Form>
       {/* </FormGroup> */}

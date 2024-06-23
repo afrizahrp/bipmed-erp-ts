@@ -1,22 +1,19 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchNameExistBase from '@/components/searchNameExist-base';
 import { useMaterialNameExist } from '@/queryHooks/nameExistChecking/inventory/useMaterialNameExist';
 
 interface Props {
   currentValue: string;
   onChange: (newSearchTerms: string) => void;
-  onBlur: () => void;
 }
 
-export default function MaterialNameExist({
-  currentValue,
-  onChange,
-  onBlur,
-}: Props) {
-  const [searchTerms, setSearchTerms] = useState(currentValue);
+export default function MaterialNameExist({ currentValue, onChange }: Props) {
+  const [searchTerms, setSearchTerms] = useState('');
 
-  // const { isLoading } = useCategoryNameExist(searchTerms);
+  useEffect(() => {
+    setSearchTerms(currentValue);
+  }, [currentValue]);
 
   const isLoading = false;
   const handleItemCleared = () => {
@@ -25,6 +22,7 @@ export default function MaterialNameExist({
 
   const handleSearchTermsChange = (newSearchTerms: string) => {
     setSearchTerms(newSearchTerms);
+    onChange(newSearchTerms);
   };
 
   return (
@@ -41,7 +39,6 @@ export default function MaterialNameExist({
         placeholder='Input material name here'
         onInputCleared={handleItemCleared}
         tableName='material'
-        oldValue={currentValue}
       />
       {/* )} */}
     </div>

@@ -61,15 +61,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const id = initialData?.id;
 
-  const title = initialData ? 'Edit Category' : 'Add New Category';
-  const description = initialData
-    ? `Change Category ${initialData.id}-> ${initialData.name}`
-    : 'Add New Category';
+  // const title = initialData ? 'Edit Category' : 'Add New Category';
+  // const description = initialData
+  //   ? `Change Category ${initialData.id}-> ${initialData.name}`
+  //   : 'Add New Category';
+  //   const action = initialData ? 'Save Changes' : 'Save New Category';
 
-  const toastMessage = initialData
+
+  const actionMessage = initialData
     ? 'Category has changed successfully.'
     : 'New Category has been added successfully.';
-  const action = initialData ? 'Save Changes' : 'Save New Category';
 
   const pageHeader = {
     title: initialData ? 'Edit Category' : 'New Category',
@@ -116,7 +117,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       }
       router.push('/inventory/categories/category-list');
       router.refresh();
-      toast.success(toastMessage);
+      toast.success(actionMessage);
     } catch (error: any) {
       console.error(error);
 
@@ -245,7 +246,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             <CategoryNameExist
               currentValue={searchTerms}
               onChange={onCategoryNameChange}
-              // onBlur={() => {}}
             />
           </div>
 
