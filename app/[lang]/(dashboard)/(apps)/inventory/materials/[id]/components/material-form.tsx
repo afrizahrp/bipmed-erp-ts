@@ -40,6 +40,7 @@ import {
 } from '@/components/ui/select';
 
 import MaterialNameExist from '@/components/nameExistChecking/inventory/materialNameExist';
+import { SearchColumnUom } from '@/components/search-column/searchColumn-uom';
 import { Checkbox } from '@/components/ui/checkbox';
 // import { defaultValues } from '@/utils/defaultvalues/materialproduct..defaultValues';
 import {
@@ -324,7 +325,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 )}
               /> */}
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name='uom_id'
                 render={({ field }) => (
@@ -357,6 +358,19 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                         ))}
                       </SelectContent>
                     </Select>
+                  </FormItem>
+                )}
+              /> */}
+
+              <FormField
+                control={form.control}
+                name='uom_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Uom</FormLabel>
+                    <SearchColumnUom {...field} onChange={field.onChange} />
+
+                    {/* Pass the field object to SelectCombo if needed */}
                   </FormItem>
                 )}
               />
