@@ -17,13 +17,13 @@ import {
   Uoms,
 } from '@prisma/client';
 
-import {
-  MaterialCategories,
-  // Materials,
-  // SubCategories,
-  // Brands,
-  // Uoms,
-} from '@/types';
+// import {
+//   MaterialCategories,
+//   Materials,
+//   SubCategories,
+//   Brands,
+//   Uoms,
+// } from '@/types';
 
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
@@ -61,7 +61,7 @@ import {
 
 interface MaterialFormProps {
   initialData: Products | null;
-  categories: Categories[];
+  categories: Categories[] | null;
   subCategories: SubCategories[];
   brands: Brands[];
   uoms: Uoms[];
