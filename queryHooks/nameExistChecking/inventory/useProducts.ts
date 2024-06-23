@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { Products } from '@/types';
 // import { useDebounce } from 'use-debounce';
 
-interface products {
-  id: string;
-  name: string;
-  catalog_Id: string;
-}
+// interface products {
+//   id: string;
+//   name: string;
+//   catalog_Id: string;
+// }
 export const useProducts = (searchTerms: string, searchType: string) => {
-  const { data, isLoading, isError, ...rest } = useQuery<products[], Error>({
+  const { data, isLoading, isError, ...rest } = useQuery<Products[], Error>({
     queryKey: ['products', searchTerms],
     queryFn: () =>
       searchTerms

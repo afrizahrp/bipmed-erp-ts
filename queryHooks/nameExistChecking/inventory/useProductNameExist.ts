@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
+import { Products } from '@/types';
 
-interface Products {
-  id: string;
-  catalog_id: string;
-  name: string;
-}
+// interface Products {
+//   id: string;
+//   catalog_id: string;
+//   name: string;
+// }
 export const useProductNameExist = (searchTerms: string) => {
   const [debouncedSearchTerms] = useDebounce(searchTerms, 500); // Debounce searchTerms with a 500ms delay
   const { data, isLoading, isError, ...rest } = useQuery<Products[], Error>({

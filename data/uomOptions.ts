@@ -3,17 +3,17 @@ import { useUoms } from '@/queryHooks/useUoms';
 
 type OptionType = { value: string; label: string };
 
-const useUomsOption = (): {
+const uomOptions = (): {
   options: OptionType[] | undefined;
   isLoading: boolean;
 } => {
   const { data, isLoading } = useUoms();
-  const statusList: OptionType[] | undefined = data?.map((_statusList) => ({
-    value: _statusList.id,
-    label: capitalizeFirstLetter(_statusList.name),
+  const uomList: OptionType[] | undefined = data?.map((_uomList) => ({
+    value: _uomList.id,
+    label: capitalizeFirstLetter(_uomList.name),
   }));
 
-  return { options: statusList, isLoading };
+  return { options: uomList, isLoading };
 };
 
-export default useUomsOption;
+export default uomOptions;

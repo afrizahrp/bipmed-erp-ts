@@ -59,7 +59,9 @@ export default function SearchExistNameBase({
       </div>
 
       <div className='flex items-center justify-center w-full py-2'>
-        {isLoading && <Loader2 />}{' '}
+        {/* {isLoading && <Loader2 />}{' '} */}
+        {/* {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />} */}
+
         {/* Display Loader2 when isLoading is true */}
         {data && fShowResult() && (
           <div className='w-full'>

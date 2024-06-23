@@ -3,6 +3,7 @@ import React from 'react';
 
 import { SearchColumnBase } from '@/components/searchColumn.base';
 import useUomsOptions from '@/data/uomOptions';
+import { Loader2 } from 'lucide-react';
 
 interface SearchColumnUomProps {
   currentValue?: string;
@@ -16,7 +17,7 @@ export function SearchColumnUom({
 }: SearchColumnUomProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
-  const { options: uomOption, isLoading: isStatusLoading } = useUomsOptions();
+  const { options: uomOption, isLoading: isUomLoading } = useUomsOptions();
 
   const uomList = uomOption || [];
 
@@ -31,7 +32,7 @@ export function SearchColumnUom({
 
   return (
     <div>
-      {uomList.length > 0 && !isStatusLoading ? (
+      {uomList.length > 0 && !isUomLoading ? (
         <SearchColumnBase
           options={uomList}
           selected={selected ?? ''}
@@ -39,7 +40,9 @@ export function SearchColumnUom({
           placeholder='Select an uom'
         />
       ) : (
-        <div>Loading...</div> // Show a loading state or similar message
+        <div>
+          {isUomLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+        </div> // Show a loading state or similar message
       )}
     </div>
   );

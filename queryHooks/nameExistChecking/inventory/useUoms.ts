@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-// import { useDebounce } from 'use-debounce';
+import { Uoms } from '@/types';
 
-interface Uoms {
-  id: string;
-  name: string;
-}
 export const useUoms = (searchTerms: string, searchType: string) => {
   const {
     data: nameExist,

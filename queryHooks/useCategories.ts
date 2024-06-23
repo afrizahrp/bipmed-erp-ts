@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { Categories } from '@/types';
 
-interface Categories {
-  id: string;
-  name: string;
-}
+
 export const useCategories = () => {
   const { data, isLoading, error, ...rest } = useQuery<Categories[], Error>({
     queryKey: ['categories'],

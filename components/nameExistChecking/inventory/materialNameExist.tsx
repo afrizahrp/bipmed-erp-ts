@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
-import SearchNameExistBase from '@/components/searchNameExist-base';
+import SearchNameExistBase from '@/components/searchNameExist.base';
 import { useMaterialNameExist } from '@/queryHooks/nameExistChecking/inventory/useMaterialNameExist';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
   currentValue: string;

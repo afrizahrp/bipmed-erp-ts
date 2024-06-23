@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { CategoryTypes } from '@/types';
 
-interface categoryTypes {
-  id: string;
-  name: string;
-  icon: string;
-}
 export const useCategoryTypes = () => {
-  const { data, isLoading, error, ...rest } = useQuery<categoryTypes[], Error>({
+  const { data, isLoading, error, ...rest } = useQuery<CategoryTypes[], Error>({
     queryKey: ['categoryTypes'],
     queryFn: () =>
       axios.get('/api/inventory/categoryTypes').then((res) => res.data),

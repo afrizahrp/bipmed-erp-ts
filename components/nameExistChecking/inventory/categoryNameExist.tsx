@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import SearchNameExistBase from '@/components/searchNameExist-base';
+import SearchNameExistBase from '@/components/searchNameExist.base';
 import { useCategoryNameExist } from '@/queryHooks/nameExistChecking/inventory/useCategoryNameExist';
 
 interface Props {

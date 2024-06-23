@@ -11,11 +11,20 @@ import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
 import {
   Products,
-  Categories,
+  // Categories,
+  // SubCategories,
+  // Brands,
+  // Uoms,
+} from '@prisma/client';
+
+import {
+  Materials,
+  MaterialCategories,
   SubCategories,
   Brands,
   Uoms,
-} from '@prisma/client';
+} from '@/types';
+
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
@@ -38,7 +47,12 @@ import {
 } from '@/components/ui/select';
 
 import MaterialNameExist from '@/components/nameExistChecking/inventory/materialNameExist';
-import { SearchColumnUom } from '@/components/search-column/searchColumn-uom';
+import {
+  SearchColumnCategory,
+  SearchColumnUom,
+  SearchColumnBrand,
+} from '@/components/searchColumns';
+
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   MaterialProductFormValues,
@@ -46,8 +60,8 @@ import {
 } from '@/utils/schema/materialproduct.form.schema';
 
 interface MaterialFormProps {
-  initialData: Products | null;
-  categories: Categories[];
+  initialData: Materials | null;
+  categories: MaterialCategories[];
   subCategories: SubCategories[];
   brands: Brands[];
   uoms: Uoms[];
@@ -65,7 +79,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
   const id = initialData?.id;
-
 
   const actiomMessage = initialData
     ? 'Material has changed successfully.'
@@ -96,20 +109,13 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       // images: [],
       id: initialData?.id,
       name: initialData?.name ?? '',
-      catalog_id: initialData?.catalog_id ?? '',
-      registered_id: initialData?.registered_id ?? '',
       category_id: initialData?.category_id ?? '',
       subCategory_id: initialData?.subCategory_id ?? '',
       brand_id: initialData?.brand_id ?? '',
       uom_id: initialData?.uom_id ?? '',
-      tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-      bmp_pctg: initialData?.bmp_pctg ?? 0,
-      ecatalog_URL: initialData?.ecatalog_URL ?? '',
       iStatus: initialData?.iStatus ?? false,
       remarks: initialData?.remarks || undefined,
-      slug: initialData?.slug || undefined,
       isMaterial: initialData?.isMaterial ?? true,
-      iShowedStatus: initialData?.iShowedStatus ?? false,
     },
   });
 
@@ -236,6 +242,23 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
+                    <SearchColumnCategory
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      onChange={field.onChange}
+                    />
+
+                    {/* Pass the field object to SelectCombo if needed */}
+                  </FormItem>
+                )}
+              />
+
+              {/* <FormField
+                control={form.control}
+                name='category_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
@@ -265,7 +288,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                     </Select>
                   </FormItem>
                 )}
-              />
+              /> */}
             </div>
 
             <div>
@@ -398,34 +421,15 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 name='brand_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Brand</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value ?? ''}
-                      defaultValue={field.value ?? ''}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value ?? ''}
-                            placeholder='Brand'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      {form.formState.errors.brand_id && (
-                        <FormMessage>
-                          {form.formState.errors.brand_id.message}
-                        </FormMessage>
-                      )}{' '}
-                      <SelectContent>
-                        {brands.map((brand) => (
-                          <SelectItem key={brand.id} value={brand.id}>
-                            {brand.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <FormLabel>Brands</FormLabel>
+                    <SearchColumnBrand
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      // value={field.value}
+                      onChange={field.onChange}
+                    />
+
+                    {/* Pass the field object to SelectCombo if needed */}
                   </FormItem>
                 )}
               />

@@ -12,7 +12,8 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 // import { Loader2 } from 'lucide-react';
 
-import { Categories, CategoryTypes } from '@prisma/client';
+import { Categories, CategoryTypes } from '@/types';
+
 import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
@@ -60,13 +61,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const [searchTerms, setSearchTerms] = useState('');
 
   const id = initialData?.id;
-
-  // const title = initialData ? 'Edit Category' : 'Add New Category';
-  // const description = initialData
-  //   ? `Change Category ${initialData.id}-> ${initialData.name}`
-  //   : 'Add New Category';
-  //   const action = initialData ? 'Save Changes' : 'Save New Category';
-
 
   const actionMessage = initialData
     ? 'Category has changed successfully.'
@@ -230,6 +224,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                           field.onChange(e);
                           onCategoryNameChange(e.target.value); // Call the new handler
                         }}
+                        className='font-bold'
                       />
                     </FormControl>
                     {form.formState.errors.name && (
