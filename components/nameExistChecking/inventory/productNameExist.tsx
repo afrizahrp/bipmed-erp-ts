@@ -1,22 +1,20 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchNameExistBase from '@/components/searchNameExist.base';
 import { useProductNameExist } from '@/queryHooks/nameExistChecking/inventory/useProductNameExist';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
   currentValue: string;
   onChange: (newSearchTerms: string) => void;
-  onBlur: () => void;
 }
 
-export default function ProductNameExist({
-  currentValue,
-  onChange,
-  onBlur,
-}: Props) {
-  const [searchTerms, setSearchTerms] = useState(currentValue);
+export default function ProductNameExist({ currentValue, onChange }: Props) {
+  const [searchTerms, setSearchTerms] = useState('');
 
-  // const { isLoading } = useCategoryNameExist(searchTerms);
+  useEffect(() => {
+    setSearchTerms(currentValue);
+  }, [currentValue]);
 
   const isLoading = false;
   const handleItemCleared = () => {
@@ -25,6 +23,7 @@ export default function ProductNameExist({
 
   const handleSearchTermsChange = (newSearchTerms: string) => {
     setSearchTerms(newSearchTerms);
+    onChange(newSearchTerms);
   };
 
   return (
@@ -41,8 +40,7 @@ export default function ProductNameExist({
         setSearchInputValue={handleSearchTermsChange}
         placeholder='Input product name here'
         onInputCleared={handleItemCleared}
-        tableName='produk'
-        oldValue={currentValue}
+        tableName='product'
       />
       {/* )} */}
     </div>

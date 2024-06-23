@@ -365,14 +365,7 @@ model Products {
 model ProductImages {
   id         String    @id @default(uuid())
   product_id String    @db.Char(20)
-  imageURL   String?   @db.VarChar(250)
-  isPrimary  Boolean?  @default(false)
-  createdBy  String?   @db.VarChar(50)
-  createdAt  DateTime? @db.DateTime
-  updatedBy  String?   @db.VarChar(50)
-  updatedAt  DateTime? @db.DateTime
-  company    String?   @db.Char(5)
-  branch     String?   @db.Char(10)
+  imageURL   String   @db.VarChar(250)
   products   Products  @relation(fields: [product_id], references: [id])
   @@index([product_id])
 }
@@ -540,14 +533,14 @@ model PoDetail {
   uom        Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
-model vProductCategories {
-  id  String   @id @db.VarChar(10)
-  name String   @db.VarChar(50)
-}
+// model vProductCategories {
+//   id  String   @id @db.VarChar(10)
+//   name String   @db.VarChar(50)
+// }
 
-model vMaterialCategories {
-  id  String   @id @db.VarChar(10)
-  name String   @db.VarChar(50)
-}
+// model vMaterialCategories {
+//   id  String   @id @db.VarChar(10)
+//   name String   @db.VarChar(50)
+// }
 
 

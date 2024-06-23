@@ -1,26 +1,24 @@
 'use client';
 
 import * as z from 'zod';
+
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
-import { Heading } from '@/components/ui/heading';
-
 import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
-
-import { toast } from 'react-hot-toast';
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
+import { toast } from 'react-hot-toast';
+
+// import ReactQuill from 'react-quill';
+// import 'react-quill/dist/quill.snow.css';
 // import { Toaster } from 'sonner';
-import { Loader2 } from 'lucide-react';
+// import { Loader2 } from 'lucide-react';
 
 import {
-  Products,
+  // Products,
   Categories,
   SubCategories,
   Brands,
@@ -28,11 +26,21 @@ import {
   ProductImages,
   ProductSpecs,
 } from '@prisma/client';
+
+import { Products } from '@/types';
+
+// import {
+//   Materials,
+//   MaterialCategories,
+//   SubCategories,
+//   Brands,
+//   Uoms,
+// } from '@/types';
+
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -49,16 +57,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+
+import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
+import {
+  SearchColumnCategory,
+  SearchColumnUom,
+  SearchColumnBrand,
+} from '@/components/searchColumns';
+
 import ImageCollection from '@/components/ui/images-collection';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
-import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
-import { defaultValues } from '@/utils/defaultvalues/materialproduct..defaultValues';
-import {
-  MaterialProductFormValues,
-  materialproductFormSchema,
-} from '@/utils/schema/materialproduct.form.schema';
+// import {
+//   ProductFormValues,
+//   productFormSchema,
+// } from '@/utils/schema/product.form.schema';
 
 interface ProductFormProps {
   initialData:
@@ -82,16 +96,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const params = useParams();
   const router = useRouter();
 
+  const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
+  const id = initialData?.id;
 
-  const title = initialData ? 'Edit Product' : 'Add New Product';
-  const description = initialData
-    ? `Change Product ${initialData.id}-> ${initialData.name}`
-    : 'Add New Product';
-  const toastMessage = initialData
+  const actionMessage = initialData
     ? 'Product has changed successfully.'
     : 'New Product has been added successfully.';
-  const action = initialData ? 'Save Changes' : 'Save New Product';
 
   const pageHeader = {
     title: initialData ? 'Edit Product' : 'New Product',
@@ -110,44 +121,108 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ],
   };
 
-  // const methods = useForm<MaterialProductFormValues>({
-  //   resolver: zodResolver(materialproductFormSchema),
+  const productFormSchema = z.object({
+    images: z.object({ imageURL: z.string() }).array(),
+    catalog_id: z.string().min(5).or(z.literal('')),
+    registered_id: z.string().min(5).or(z.literal('')),
+    id: z.string().min(5).or(z.literal('')),
+    name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
+    category_id: z.string().min(3, { message: 'Category is required' }),
+    subCategory_id: z.string().min(5).or(z.literal('')),
+    uom_id: z.string().min(5).or(z.literal('')),
+    brand_id: z.string().min(5).or(z.literal('')),
+    tkdn_pctg: z.coerce.number().min(0),
+    bmp_pctg: z.coerce.number().min(0),
+    ecatalog_URL: z.string().min(5).or(z.literal('')),
+    iStatus: z.boolean().default(false),
+    remarks: z.string().min(5).or(z.literal('')),
+    isMaterial: z.boolean().default(false),
+    slug: z.string().min(5).or(z.literal('')),
+    iShowedStatus: z.boolean().default(false),
+    createdBy: z.string().min(5).or(z.literal('')),
+    createdAt: z.date(),
+    updatedBy: z.string().min(5).or(z.literal('')),
+    updatedAt: z.date(),
+    company: z.string().min(5).or(z.literal('')),
+    branch: z.string().min(5).or(z.literal('')),
+  });
+
+  type ProductFormValues = z.infer<typeof productFormSchema>;
+
+  // const form = useForm<ProductFormValues>({
+  //   resolver: zodResolver(productFormSchema),
   //   defaultValues: {
-  //     ...defaultValues(...initialData ?? {}),
+  //     ...initialData,
+  //     images: initialData?.images || [],
+
+  //     id: initialData?.id,
+  //     name: initialData?.name ?? '',
+  //     catalog_id: initialData?.catalog_id ?? '',
+  //     registered_id: initialData?.registered_id ?? '',
+  //     category_id: initialData?.category_id ?? '',
+  //     subCategory_id: initialData?.subCategory_id ?? '',
+  //     brand_id: initialData?.brand_id ?? '',
+  //     uom_id: initialData?.uom_id ?? '',
+  //     tkdn_pctg: initialData?.tkdn_pctg ?? 0,
+  //     bmp_pctg: initialData?.bmp_pctg ?? 0,
+  //     ecatalog_URL: initialData?.ecatalog_URL ?? '',
+  //     iStatus: initialData?.iStatus ?? false,
+  //     remarks: initialData?.remarks || undefined,
+  //     isMaterial: initialData?.isMaterial ?? false,
   //   },
   // });
 
-  const form = useForm<MaterialProductFormValues>({
-    resolver: zodResolver(materialproductFormSchema),
-    defaultValues: {
-      ...initialData,
-      images: [],
-      id: initialData?.id,
-      name: initialData?.name ?? '',
-      catalog_id: initialData?.catalog_id ?? '',
-      registered_id: initialData?.registered_id ?? '',
-      category_id: initialData?.category_id ?? '',
-      subCategory_id: initialData?.subCategory_id ?? '',
-      brand_id: initialData?.brand_id ?? '',
-      uom_id: initialData?.uom_id ?? '',
-      tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-      bmp_pctg: initialData?.bmp_pctg ?? 0,
-      ecatalog_URL: initialData?.ecatalog_URL ?? '',
-      iStatus: initialData?.iStatus ?? false,
-      remarks: initialData?.remarks || undefined,
-      slug: initialData?.slug || undefined,
-      isMaterial: initialData?.isMaterial ?? true,
-      iShowedStatus: initialData?.iShowedStatus ?? false,
-      // createdBy: initialData?.createdBy || undefined,
-      // createdAt: initialData?.createdAt || undefined,
-      // updatedBy: initialData?.updatedBy || undefined,
-      // updatedAt: initialData?.updatedAt || undefined,
-      // company: initialData?.company || undefined,
-      // branch: initialData?.branch || undefined,
-    },
+  console.log('initialData', initialData);
+
+  const defaultValues = initialData
+    ? {
+        ...initialData,
+        images: initialData?.images || [],
+        createdAt: initialData?.createdAt
+          ? new Date(initialData.createdAt)
+          : undefined,
+        updatedAt: initialData?.updatedAt
+          ? new Date(initialData.updatedAt)
+          : undefined,
+      }
+    : {
+        images: [],
+        catalog_id: '',
+        registered_id: '',
+        id: '',
+        name: '',
+        category_id: '',
+        subCategory_id: '',
+        brand_id: '',
+        uom_id: '',
+        tkdn_pctg: 0,
+        bmp_pctg: 0,
+        ecatalog_URL: '',
+        iStatus: false,
+        remarks: '',
+        isMaterial: false,
+        iShowedStatus: false,
+        slug: '',
+        createdBy: '',
+        createdAt: undefined,
+        updatedBy: '',
+        updatedAt: undefined,
+        company: '',
+        branch: '',
+      };
+
+  const form = useForm<ProductFormValues>({
+    resolver: zodResolver(productFormSchema),
+    defaultValues,
   });
 
-  const onSubmit = async (data: MaterialProductFormValues) => {
+  const handleBack = (e: any) => {
+    e.preventDefault();
+    setLoading(false);
+    router.push('/inventory/products/product-list');
+  };
+
+  const onSubmit = async (data: ProductFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
@@ -158,7 +233,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       }
       router.push('/inventory/products/product-list');
       router.refresh();
-      toast.success(toastMessage);
+      toast.success(actionMessage);
     } catch (error: any) {
       console.error(error);
 
@@ -185,6 +260,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     }
   }, [selectedCategoryId, form.setValue, form.watch, subCategories]);
 
+  const onProductNameChange = (newCategoryName: string) => {
+    setSearchTerms(newCategoryName);
+  };
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
@@ -193,7 +272,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          {/* <div className='w-full flex items-center'>
+          <div className='w-full flex items-center'>
             <FormField
               control={form.control}
               name='images'
@@ -205,7 +284,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         field.value?.map(
                           (ProductImages) => ProductImages.imageURL
                         ) || []
-                      } // Provide a default value of an empty array
+                      }
                       disabled={loading}
                     />
                   </FormControl>
@@ -213,7 +292,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               )}
             />
           </div>
-          <Separator /> */}
+          <Separator />
 
           <div className='grid grid-cols-3 gap-4 py-2'>
             <div>
@@ -294,10 +373,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem>
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <ProductNameExist
-                      currentValue={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
+                    <Input
+                      disabled={loading}
+                      placeholder='Input product name here'
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        onProductNameChange(e.target.value); // Call the new handler
+                      }}
+                      className='font-bold'
                     />
                   </FormControl>
                   {form.formState.errors.name && (
@@ -308,6 +392,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormMessage />
                 </FormItem>
               )}
+            />
+
+            <ProductNameExist
+              currentValue={searchTerms}
+              onChange={onProductNameChange}
             />
           </div>
 
@@ -600,20 +689,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
           </div>
 
-          <div className='flex justify-end space-x-4'>
-            <Button
-              onClick={() => router.push('/inventory/products/product-list')}
-            >
-              Back
-            </Button>
-            <Button disabled={loading} type='submit'>
-              {action}{' '}
-              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            </Button>
-          </div>
+          <FormFooter
+            isLoading={loading}
+            handleAltBtn={handleBack}
+            submitBtnText={id ? 'Update' : 'Save'}
+          />
         </form>
       </Form>
-      {/* </FormGroup> */}
     </>
   );
 };
