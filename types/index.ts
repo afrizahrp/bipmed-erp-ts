@@ -1,25 +1,27 @@
 export type Products = {
-  images: [];
+  images?: string[];
   id: string;
-  catalog_id: string;
-  registered_id: string;
+  catalog_id?: string;
+  registered_id?: string;
   name: string;
-  category_id: string;
-  subCategory_id: string;
-  uom_id: string;
-  brand_id: string;
-  tkdn_pctg: number;
-  bmp_pctg: number;
-  ecatalog_URL: string;
-  iStatus: boolean;
-  remarks: string;
-  isMaterial: boolean;
-  createdBy: string;
-  createdAt: Date;
-  updatedBy: string;
-  updatedAt: Date;
-  company: string;
-  branch: string;
+  category_id?: string;
+  subCategory_id?: string;
+  uom_id?: string;
+  brand_id?: string;
+  tkdn_pctg?: number;
+  bmp_pctg?: number;
+  ecatalog_URL?: string;
+  iStatus?: boolean;
+  remarks?: string;
+  isMaterial?: boolean;
+  iShowedStatus?: boolean;
+  slug?: string;
+  createdBy?: string;
+  createdAt?: Date;
+  updatedBy?: string;
+  updatedAt?: Date;
+  company?: string;
+  branch?: string;
 };
 
 export type ProductImages = {
@@ -35,12 +37,12 @@ export type CategoryTypes = {
 };
 
 export type Categories = {
-  type: string;
-  id: string;
-  name: string;
-  imageURL: string;
-  remarks: string;
-  iStatus: boolean;
+  type?: string;
+  id?: string;
+  name?: string;
+  imageURL?: string;
+  remarks?: string;
+  iStatus?: boolean;
 };
 
 export type Materials = {

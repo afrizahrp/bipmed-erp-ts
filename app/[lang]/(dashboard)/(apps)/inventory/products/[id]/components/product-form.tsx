@@ -18,7 +18,7 @@ import { toast } from 'react-hot-toast';
 // import { Loader2 } from 'lucide-react';
 
 import {
-  // Products,
+  Products,
   Categories,
   SubCategories,
   Brands,
@@ -27,7 +27,7 @@ import {
   ProductSpecs,
 } from '@prisma/client';
 
-import { Products } from '@/types';
+// import { Products } from '@/types';
 
 // import {
 //   Materials,
@@ -121,100 +121,121 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ],
   };
 
-  // const productFormSchema = z.object({
-  //   images: z.object({ imageURL: z.string() }).array(),
-  //   catalog_id: z.string().min(5).or(z.literal('')),
-  //   registered_id: z.string().min(5).or(z.literal('')),
-  //   id: z.string().min(5).or(z.literal('')),
-  //   name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-  //   category_id: z.string().min(3, { message: 'Category is required' }),
-  //   subCategory_id: z.string().min(5).or(z.literal('')),
-  //   uom_id: z.string().min(5).or(z.literal('')),
-  //   brand_id: z.string().min(5).or(z.literal('')),
-  //   tkdn_pctg: z.coerce.number().min(0),
-  //   bmp_pctg: z.coerce.number().min(0),
-  //   ecatalog_URL: z.string().min(5).or(z.literal('')),
-  //   iStatus: z.boolean().default(false),
-  //   remarks: z.string().min(5).or(z.literal('')),
-  //   isMaterial: z.boolean().default(false),
-  //   slug: z.string().min(5).or(z.literal('')),
-  //   iShowedStatus: z.boolean().default(false),
-  //   createdBy: z.string().min(5).or(z.literal('')),
-  //   createdAt: z.date(),
-  //   updatedBy: z.string().min(5).or(z.literal('')),
-  //   updatedAt: z.date(),
-  //   company: z.string().min(5).or(z.literal('')),
-  //   branch: z.string().min(5).or(z.literal('')),
-  // });
+  const productFormSchema = z.object({
+    images: z.object({ imageURL: z.string() }).array(),
+    catalog_id: z.string().min(5).or(z.literal('')),
+    registered_id: z.string().min(5).or(z.literal('')),
+    id: z.string().min(5).or(z.literal('')),
+    name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
+    category_id: z.string().min(3, { message: 'Category is required' }),
+    subCategory_id: z.string().min(5).or(z.literal('')),
+    uom_id: z.string().min(5).or(z.literal('')),
+    brand_id: z.string().min(5).or(z.literal('')),
+    tkdn_pctg: z.coerce.number().min(0),
+    bmp_pctg: z.coerce.number().min(0),
+    ecatalog_URL: z.string().min(5).or(z.literal('')),
+    iStatus: z.boolean().default(false),
+    remarks: z.string().min(5).or(z.literal('')),
+    isMaterial: z.boolean().default(false),
+    slug: z.string().min(5).or(z.literal('')),
+    iShowedStatus: z.boolean().default(false),
+    createdBy: z.string().min(5).or(z.literal('')),
+    createdAt: z.date(),
+    updatedBy: z.string().min(5).or(z.literal('')),
+    updatedAt: z.date(),
+    company: z.string().min(5).or(z.literal('')),
+    branch: z.string().min(5).or(z.literal('')),
+  });
 
-  // type ProductFormValues = z.infer<typeof productFormSchema>;
+  type ProductFormValues = z.infer<typeof productFormSchema>;
+
+  const defaultValues = initialData
+    ? {
+        ...initialData,
+        images: initialData?.images || [],
+        createdAt: initialData?.createdAt
+          ? new Date(initialData.createdAt)
+          : undefined,
+        updatedAt: initialData?.updatedAt
+          ? new Date(initialData.updatedAt)
+          : undefined,
+        catalog_id: initialData?.catalog_id ?? undefined,
+        registered_id: initialData?.registered_id ?? undefined,
+        id: initialData?.id ?? '',
+        name: initialData?.name ?? '',
+        category_id: initialData?.category_id ?? '',
+        subCategory_id: initialData?.subCategory_id ?? '',
+        brand_id: initialData?.brand_id ?? '',
+        uom_id: initialData?.uom_id ?? '',
+        tkdn_pctg: initialData?.tkdn_pctg ?? 0,
+        bmp_pctg: initialData?.bmp_pctg ?? 0,
+        ecatalog_URL: initialData?.ecatalog_URL ?? '',
+        iStatus: initialData?.iStatus ?? false,
+        remarks: initialData?.remarks || undefined,
+        isMaterial: initialData?.isMaterial ?? false,
+        iShowedStatus: initialData?.iShowedStatus ?? false,
+        slug: initialData?.slug ?? '',
+        createdBy: initialData?.createdBy ?? '',
+        updatedBy: initialData?.updatedBy ?? '',
+        company: initialData?.company ?? '',
+        branch: initialData?.branch ?? '',
+      }
+    : {
+        images: [],
+        catalog_id: undefined,
+        registered_id: undefined,
+        id: '',
+        name: '',
+        category_id: '',
+        subCategory_id: '',
+        brand_id: '',
+        uom_id: '',
+        tkdn_pctg: 0,
+        bmp_pctg: 0,
+        ecatalog_URL: '',
+        iStatus: false,
+        remarks: '',
+        isMaterial: false,
+        iShowedStatus: false,
+        slug: '',
+        createdBy: '',
+        createdAt: undefined,
+        updatedBy: '',
+        updatedAt: undefined,
+        company: '',
+        branch: '',
+      };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
-    defaultValues: {
-      ...initialData,
-      images: initialData?.images || [],
-
-      id: initialData?.id,
-      name: initialData?.name ?? '',
-      catalog_id: initialData?.catalog_id ?? '',
-      registered_id: initialData?.registered_id ?? '',
-      category_id: initialData?.category_id ?? '',
-      subCategory_id: initialData?.subCategory_id ?? '',
-      brand_id: initialData?.brand_id ?? '',
-      uom_id: initialData?.uom_id ?? '',
-      tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-      bmp_pctg: initialData?.bmp_pctg ?? 0,
-      ecatalog_URL: initialData?.ecatalog_URL ?? '',
-      iStatus: initialData?.iStatus ?? false,
-      remarks: initialData?.remarks || undefined,
-      isMaterial: initialData?.isMaterial ?? false,
-    },
+    defaultValues,
   });
 
-  // console.log('initialData', initialData);
-
-  // const defaultValues = initialData
-  //   ? {
-  //       ...initialData,
-  //       images: initialData?.images || [],
-  //       createdAt: initialData?.createdAt
-  //         ? new Date(initialData.createdAt)
-  //         : undefined,
-  //       updatedAt: initialData?.updatedAt
-  //         ? new Date(initialData.updatedAt)
-  //         : undefined,
-  //     }
-  //   : {
-  //       images: [],
-  //       catalog_id: '',
-  //       registered_id: '',
-  //       id: '',
-  //       name: '',
-  //       category_id: '',
-  //       subCategory_id: '',
-  //       brand_id: '',
-  //       uom_id: '',
-  //       tkdn_pctg: 0,
-  //       bmp_pctg: 0,
-  //       ecatalog_URL: '',
-  //       iStatus: false,
-  //       remarks: '',
-  //       isMaterial: false,
-  //       iShowedStatus: false,
-  //       slug: '',
-  //       createdBy: '',
-  //       createdAt: undefined,
-  //       updatedBy: '',
-  //       updatedAt: undefined,
-  //       company: '',
-  //       branch: '',
-  //     };
-
+  /* Getting from productFormSchema files */
   // const form = useForm<ProductFormValues>({
   //   resolver: zodResolver(productFormSchema),
-  //   defaultValues,
+  //   defaultValues: {
+  //     ...initialData,
+  //     images: initialData?.images || [],
+
+  //     id: initialData?.id,
+  //     name: initialData?.name ?? '',
+  //     catalog_id: initialData?.catalog_id ?? '',
+  //     registered_id: initialData?.registered_id ?? '',
+  //     category_id: initialData?.category_id ?? '',
+  //     subCategory_id: initialData?.subCategory_id ?? '',
+  //     brand_id: initialData?.brand_id ?? '',
+  //     uom_id: initialData?.uom_id ?? '',
+  //     tkdn_pctg: initialData?.tkdn_pctg ?? 0,
+  //     bmp_pctg: initialData?.bmp_pctg ?? 0,
+  //     ecatalog_URL: initialData?.ecatalog_URL ?? '',
+  //     iStatus: initialData?.iStatus ?? false,
+  //     remarks: initialData?.remarks || undefined,
+  //     isMaterial: initialData?.isMaterial ?? false,
+  //   },
   // });
+
+  // console.log('initialData', initialData);
 
   const handleBack = (e: any) => {
     e.preventDefault();
@@ -400,7 +421,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
           </div>
 
-          <div className='grid grid-cols-3 gap-4 py-2'>
+          <div className='grid grid-cols-4 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
@@ -408,33 +429,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value ?? ''}
-                      defaultValue={field.value ?? ''}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value}
-                            placeholder='Select a category'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      {form.formState.errors.category_id && (
-                        <FormMessage>
-                          {form.formState.errors.category_id.message}
-                        </FormMessage>
-                      )}{' '}
-                      <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <SearchColumnCategory
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      onChange={field.onChange}
+                    />
                   </FormItem>
                 )}
               />
@@ -490,75 +489,32 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             <div>
               <FormField
                 control={form.control}
-                name='brand_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Brand</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value ?? ''}
-                      defaultValue={field.value ?? ''}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value ?? ''}
-                            placeholder='Brand'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      {form.formState.errors.brand_id && (
-                        <FormMessage>
-                          {form.formState.errors.brand_id.message}
-                        </FormMessage>
-                      )}{' '}
-                      <SelectContent>
-                        {brands.map((brand) => (
-                          <SelectItem key={brand.id} value={brand.id}>
-                            {brand.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div>
-              <FormField
-                control={form.control}
                 name='uom_id'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Uom</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value ?? ''}
-                      defaultValue={field.value ?? ''}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value ?? ''}
-                            placeholder='Uom'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      {form.formState.errors.uom_id && (
-                        <FormMessage>
-                          {form.formState.errors.uom_id.message}
-                        </FormMessage>
-                      )}{' '}
-                      <SelectContent>
-                        {uoms.map((uom) => (
-                          <SelectItem key={uom.id} value={uom.id}>
-                            {uom.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <SearchColumnUom
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      onChange={field.onChange}
+                    />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div>
+              <FormField
+                control={form.control}
+                name='brand_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Brands</FormLabel>
+                    <SearchColumnBrand
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      onChange={field.onChange}
+                    />
                   </FormItem>
                 )}
               />

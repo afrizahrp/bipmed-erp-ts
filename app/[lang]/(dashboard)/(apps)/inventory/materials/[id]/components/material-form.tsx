@@ -11,18 +11,18 @@ import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
 import {
   Products,
-  // Categories,
-  // SubCategories,
-  // Brands,
-  // Uoms,
-} from '@prisma/client';
-
-import {
-  Materials,
-  MaterialCategories,
+  Categories,
   SubCategories,
   Brands,
   Uoms,
+} from '@prisma/client';
+
+import {
+  MaterialCategories,
+  // Materials,
+  // SubCategories,
+  // Brands,
+  // Uoms,
 } from '@/types';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -60,8 +60,8 @@ import {
 } from '@/utils/schema/materialproduct.form.schema';
 
 interface MaterialFormProps {
-  initialData: Materials | null;
-  categories: MaterialCategories[];
+  initialData: Products | null;
+  categories: Categories[];
   subCategories: SubCategories[];
   brands: Brands[];
   uoms: Uoms[];

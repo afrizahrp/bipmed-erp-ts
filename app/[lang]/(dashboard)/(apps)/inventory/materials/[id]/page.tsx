@@ -50,7 +50,7 @@ const MaterialPage = async ({
       <CardContent>
         <MaterialForm
           initialData={material}
-          categories={categories}
+          categories={categories ?? ''}
           subCategories={subCategories}
           brands={brands}
           uoms={uoms}

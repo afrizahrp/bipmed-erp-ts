@@ -12,7 +12,8 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 // import { Loader2 } from 'lucide-react';
 
-import { Categories, CategoryTypes } from '@/types';
+import { Categories, CategoryTypes } from '@prisma/client';
+// import { Categories, CategoryTypes } from '@/types';
 
 import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
