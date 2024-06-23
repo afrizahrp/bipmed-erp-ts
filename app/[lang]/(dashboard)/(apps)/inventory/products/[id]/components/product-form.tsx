@@ -69,10 +69,10 @@ import ImageCollection from '@/components/ui/images-collection';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
-// import {
-//   ProductFormValues,
-//   productFormSchema,
-// } from '@/utils/schema/product.form.schema';
+import {
+  ProductFormValues,
+  productFormSchema,
+} from '@/utils/schema/product.form.schema';
 
 interface ProductFormProps {
   initialData:
@@ -121,100 +121,100 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ],
   };
 
-  const productFormSchema = z.object({
-    images: z.object({ imageURL: z.string() }).array(),
-    catalog_id: z.string().min(5).or(z.literal('')),
-    registered_id: z.string().min(5).or(z.literal('')),
-    id: z.string().min(5).or(z.literal('')),
-    name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-    category_id: z.string().min(3, { message: 'Category is required' }),
-    subCategory_id: z.string().min(5).or(z.literal('')),
-    uom_id: z.string().min(5).or(z.literal('')),
-    brand_id: z.string().min(5).or(z.literal('')),
-    tkdn_pctg: z.coerce.number().min(0),
-    bmp_pctg: z.coerce.number().min(0),
-    ecatalog_URL: z.string().min(5).or(z.literal('')),
-    iStatus: z.boolean().default(false),
-    remarks: z.string().min(5).or(z.literal('')),
-    isMaterial: z.boolean().default(false),
-    slug: z.string().min(5).or(z.literal('')),
-    iShowedStatus: z.boolean().default(false),
-    createdBy: z.string().min(5).or(z.literal('')),
-    createdAt: z.date(),
-    updatedBy: z.string().min(5).or(z.literal('')),
-    updatedAt: z.date(),
-    company: z.string().min(5).or(z.literal('')),
-    branch: z.string().min(5).or(z.literal('')),
-  });
-
-  type ProductFormValues = z.infer<typeof productFormSchema>;
-
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
-  //   defaultValues: {
-  //     ...initialData,
-  //     images: initialData?.images || [],
-
-  //     id: initialData?.id,
-  //     name: initialData?.name ?? '',
-  //     catalog_id: initialData?.catalog_id ?? '',
-  //     registered_id: initialData?.registered_id ?? '',
-  //     category_id: initialData?.category_id ?? '',
-  //     subCategory_id: initialData?.subCategory_id ?? '',
-  //     brand_id: initialData?.brand_id ?? '',
-  //     uom_id: initialData?.uom_id ?? '',
-  //     tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-  //     bmp_pctg: initialData?.bmp_pctg ?? 0,
-  //     ecatalog_URL: initialData?.ecatalog_URL ?? '',
-  //     iStatus: initialData?.iStatus ?? false,
-  //     remarks: initialData?.remarks || undefined,
-  //     isMaterial: initialData?.isMaterial ?? false,
-  //   },
+  // const productFormSchema = z.object({
+  //   images: z.object({ imageURL: z.string() }).array(),
+  //   catalog_id: z.string().min(5).or(z.literal('')),
+  //   registered_id: z.string().min(5).or(z.literal('')),
+  //   id: z.string().min(5).or(z.literal('')),
+  //   name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
+  //   category_id: z.string().min(3, { message: 'Category is required' }),
+  //   subCategory_id: z.string().min(5).or(z.literal('')),
+  //   uom_id: z.string().min(5).or(z.literal('')),
+  //   brand_id: z.string().min(5).or(z.literal('')),
+  //   tkdn_pctg: z.coerce.number().min(0),
+  //   bmp_pctg: z.coerce.number().min(0),
+  //   ecatalog_URL: z.string().min(5).or(z.literal('')),
+  //   iStatus: z.boolean().default(false),
+  //   remarks: z.string().min(5).or(z.literal('')),
+  //   isMaterial: z.boolean().default(false),
+  //   slug: z.string().min(5).or(z.literal('')),
+  //   iShowedStatus: z.boolean().default(false),
+  //   createdBy: z.string().min(5).or(z.literal('')),
+  //   createdAt: z.date(),
+  //   updatedBy: z.string().min(5).or(z.literal('')),
+  //   updatedAt: z.date(),
+  //   company: z.string().min(5).or(z.literal('')),
+  //   branch: z.string().min(5).or(z.literal('')),
   // });
 
-  console.log('initialData', initialData);
-
-  const defaultValues = initialData
-    ? {
-        ...initialData,
-        images: initialData?.images || [],
-        createdAt: initialData?.createdAt
-          ? new Date(initialData.createdAt)
-          : undefined,
-        updatedAt: initialData?.updatedAt
-          ? new Date(initialData.updatedAt)
-          : undefined,
-      }
-    : {
-        images: [],
-        catalog_id: '',
-        registered_id: '',
-        id: '',
-        name: '',
-        category_id: '',
-        subCategory_id: '',
-        brand_id: '',
-        uom_id: '',
-        tkdn_pctg: 0,
-        bmp_pctg: 0,
-        ecatalog_URL: '',
-        iStatus: false,
-        remarks: '',
-        isMaterial: false,
-        iShowedStatus: false,
-        slug: '',
-        createdBy: '',
-        createdAt: undefined,
-        updatedBy: '',
-        updatedAt: undefined,
-        company: '',
-        branch: '',
-      };
+  // type ProductFormValues = z.infer<typeof productFormSchema>;
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
-    defaultValues,
+    defaultValues: {
+      ...initialData,
+      images: initialData?.images || [],
+
+      id: initialData?.id,
+      name: initialData?.name ?? '',
+      catalog_id: initialData?.catalog_id ?? '',
+      registered_id: initialData?.registered_id ?? '',
+      category_id: initialData?.category_id ?? '',
+      subCategory_id: initialData?.subCategory_id ?? '',
+      brand_id: initialData?.brand_id ?? '',
+      uom_id: initialData?.uom_id ?? '',
+      tkdn_pctg: initialData?.tkdn_pctg ?? 0,
+      bmp_pctg: initialData?.bmp_pctg ?? 0,
+      ecatalog_URL: initialData?.ecatalog_URL ?? '',
+      iStatus: initialData?.iStatus ?? false,
+      remarks: initialData?.remarks || undefined,
+      isMaterial: initialData?.isMaterial ?? false,
+    },
   });
+
+  // console.log('initialData', initialData);
+
+  // const defaultValues = initialData
+  //   ? {
+  //       ...initialData,
+  //       images: initialData?.images || [],
+  //       createdAt: initialData?.createdAt
+  //         ? new Date(initialData.createdAt)
+  //         : undefined,
+  //       updatedAt: initialData?.updatedAt
+  //         ? new Date(initialData.updatedAt)
+  //         : undefined,
+  //     }
+  //   : {
+  //       images: [],
+  //       catalog_id: '',
+  //       registered_id: '',
+  //       id: '',
+  //       name: '',
+  //       category_id: '',
+  //       subCategory_id: '',
+  //       brand_id: '',
+  //       uom_id: '',
+  //       tkdn_pctg: 0,
+  //       bmp_pctg: 0,
+  //       ecatalog_URL: '',
+  //       iStatus: false,
+  //       remarks: '',
+  //       isMaterial: false,
+  //       iShowedStatus: false,
+  //       slug: '',
+  //       createdBy: '',
+  //       createdAt: undefined,
+  //       updatedBy: '',
+  //       updatedAt: undefined,
+  //       company: '',
+  //       branch: '',
+  //     };
+
+  // const form = useForm<ProductFormValues>({
+  //   resolver: zodResolver(productFormSchema),
+  //   defaultValues,
+  // });
 
   const handleBack = (e: any) => {
     e.preventDefault();

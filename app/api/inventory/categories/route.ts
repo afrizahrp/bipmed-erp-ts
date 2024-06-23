@@ -36,7 +36,7 @@ async function getCategoryId(
     const result: QueryResult[] =
       await prisma.$queryRaw`DECLARE @rt_doc_id VARCHAR(20); EXEC get_CategoryId ${companyId}, ${branchId},  ${categoryType},  ${userId}, @rt_doc_id OUTPUT; SELECT @rt_doc_id as doc_id;`;
     const docId = result[0].doc_id;
-    console.log('new category id is:', docId);
+    // console.log('new category id is:', docId);
     return docId;
   } catch (e) {
     console.error(e);
