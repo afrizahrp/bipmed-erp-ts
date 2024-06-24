@@ -53,7 +53,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
           <X className='ltr:ml-2 rtl:mr-2 h-4 w-4' />
         </Button>
       )}
-      <DataTableViewOptions table={table} />
+      {/* <DataTableViewOptions table={table} /> */}
     </div>
   );
 }

@@ -26,7 +26,7 @@ export function DataTableToolbar<TData>({
     <>
       <div className='flex items-center justify-end py-2 '>
         <div className='flex flex-col items-center space-y-2 w-full'>
-          <div className='w-full py-2'>
+          <div className='w-full py-3'>
             {table.getColumn('status') && (
               <DataTableFacetedFilter
                 column={table.getColumn('status')}
@@ -36,7 +36,7 @@ export function DataTableToolbar<TData>({
               />
             )}
           </div>
-          <div className='w-full py-2'>
+          <div className='w-full py-1'>
             {table.getColumn('category') && (
               <DataTableFacetedFilter
                 column={table.getColumn('category')}
@@ -50,10 +50,10 @@ export function DataTableToolbar<TData>({
             <Button
               variant='outline'
               onClick={() => table.resetColumnFilters()}
-              className='h-10 px-2 lg:px-3 w-full lg:w-auto'
+              className='h-10 px-2 lg:px-3 w-full mb-5'
             >
-              Reset Filter
               <Cross2Icon className='ml-2 h-4 w-4' />
+              Reset Filter
             </Button>
           )}
         </div>

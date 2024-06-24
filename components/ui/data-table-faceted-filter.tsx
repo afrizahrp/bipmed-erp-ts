@@ -46,125 +46,148 @@ export function DataTableFacetedFilter<TData, TValue>({
   const optionsValue = options || []; // Provide [] as a default value
 
   return (
-    <div className='flex items-center justify-start'>
-      <Popover>
-        <PopoverTrigger asChild>
-          {/* <Button disabled={isLoading} variant='outline' size='sm'> */}
-          <Button disabled={isLoading} variant='outline' size='sm'>
-            {isLoading && (
-              <Loader2
-                className='mr-2 h-4 w-4 animate-spin'
-                aria-label='Loading...'
-              />
-            )}{' '}
-            <FilterIcon className='mr-2 h-4 w-4 text-sm' />
-            Filter data by {title}
-            {selectedValues?.size > 0 && (
-              <>
-                <Separator orientation='vertical' className='mx-2 h-4' />
-                <Badge
-                  variant='outline'
-                  color='secondary'
-                  className='rounded-sm px-1 font-normal lg:hidden'
-                >
-                  {selectedValues.size}
-                </Badge>
-              </>
-            )}
-          </Button>
-        </PopoverTrigger>
-
-        {selectedValues?.size > 0 && (
-          <div className='hidden space-x-1 py-3 lg:flex'>
-            {selectedValues.size > 3 ? (
-              <Badge variant='outline' className='rounded-sm px-1 font-small'>
-                {selectedValues.size} data filtered
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          disabled={isLoading}
+          variant='outline'
+          size='sm'
+          className='h-10 border-dashed text-sm text-primary w-full items-center justify-center'
+        >
+          {isLoading && (
+            <Loader2
+              className='mr-2 h-4 w-4 animate-spin'
+              aria-label='Loading...'
+            />
+          )}{' '}
+          <FilterIcon className='mr-2 h-4 w-4 text-sm' />
+          Filter data by {title}
+          {selectedValues?.size > 0 && (
+            <>
+              <Separator orientation='vertical' className='mx-2 h-4' />
+              <Badge
+                variant='outline'
+                className='rounded-sm px-1 font-normal lg:hidden'
+              >
+                {selectedValues.size}
               </Badge>
-            ) : (
-              optionsValue
-                .filter((option) => selectedValues.has(option.value))
-                .map((option) => (
+              {/* <div className='hidden space-x-1 lg:flex'>
+                {selectedValues.size > 2 ? (
                   <Badge
                     variant='outline'
-                    key={option.value}
-                    className='rounded-sm px-1 text-xs'
+                    className='rounded-sm px-1 font-normal'
                   >
-                    {option.label}
+                    {selectedValues.size} terpilih
                   </Badge>
-                ))
-            )}
-          </div>
-        )}
-
-        <PopoverContent className='w-[full] p-0' align='start'>
-          <Command>
-            <CommandInput placeholder={title} />
-            <CommandList>
-              <CommandEmpty>No data</CommandEmpty>
-              <CommandGroup>
-                {optionsValue.map((option) => {
-                  const isSelected = selectedValues.has(option.value);
-
-                  return (
-                    <CommandItem
-                      key={option.value}
-                      onSelect={() => {
-                        if (isSelected) {
-                          selectedValues.delete(option.value);
-                        } else {
-                          selectedValues.add(option.value);
-                        }
-                        const filterValues = Array.from(selectedValues);
-                        column?.setFilterValue(
-                          filterValues.length ? filterValues : undefined
-                        );
-                      }}
-                    >
-                      <div
-                        className={cn(
-                          'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
-                          isSelected
-                            ? 'bg-primary text-primary-foreground'
-                            : 'opacity-50'
-                        )}
+                ) : (
+                  optionsValue
+                    .filter((option) => selectedValues.has(option.value))
+                    .map((option) => (
+                      <Badge
+                        variant='outline'
+                        key={option.value}
+                        className='rounded-sm px-1 text-sm'
                       >
-                        <CheckIcon
-                          className={cn(
-                            'h-4 w-4 text-slate-400',
-                            isSelected ? '' : 'invisible'
-                          )}
-                        />
-                      </div>
-                      {/* {option.icon && (
+                        {option.label}
+                      </Badge>
+                    ))
+                )}
+              </div> */}
+            </>
+          )}
+        </Button>
+      </PopoverTrigger>
+
+      {selectedValues?.size > 0 && (
+        <div className='hidden space-x-1 py-3 lg:flex'>
+          {selectedValues.size > 3 ? (
+            <Badge variant='outline' className='rounded-sm px-1 font-normal'>
+              {selectedValues.size} data filtered
+            </Badge>
+          ) : (
+            optionsValue
+              .filter((option) => selectedValues.has(option.value))
+              .map((option) => (
+                <Badge
+                  variant='outline'
+                  key={option.value}
+                  className='rounded-sm px-1 text-sm'
+                >
+                  {option.label}
+                </Badge>
+              ))
+          )}
+        </div>
+      )}
+
+      <PopoverContent className='w-[full] p-0' align='start'>
+        <Command>
+          <CommandInput placeholder={title} />
+          <CommandList>
+            <CommandEmpty>No data</CommandEmpty>
+            <CommandGroup>
+              {optionsValue.map((option) => {
+                const isSelected = selectedValues.has(option.value);
+
+                return (
+                  <CommandItem
+                    key={option.value}
+                    onSelect={() => {
+                      if (isSelected) {
+                        selectedValues.delete(option.value);
+                      } else {
+                        selectedValues.add(option.value);
+                      }
+                      const filterValues = Array.from(selectedValues);
+                      column?.setFilterValue(
+                        filterValues.length ? filterValues : undefined
+                      );
+                    }}
+                  >
+                    <div
+                      className={cn(
+                        'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
+                        isSelected
+                          ? 'bg-primary text-primary-foreground'
+                          : 'opacity-50'
+                      )}
+                    >
+                      <CheckIcon
+                        className={cn(
+                          'h-4 w-4 text-slate-400',
+                          isSelected ? '' : 'invisible'
+                        )}
+                      />
+                    </div>
+                    {/* {option.icon && (
                       <option.icon className='mr-2 h-4 w-4 text-muted-foreground' />
                     )} */}
-                      <span>{option.label}</span>
-                      {facets?.get(option.value) && (
-                        <span className='ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs'>
-                          {facets.get(option.value)}
-                        </span>
-                      )}
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-              {selectedValues.size > 0 && (
-                <>
-                  <CommandSeparator />
-                  <CommandGroup>
-                    <CommandItem
-                      onSelect={() => column?.setFilterValue(undefined)}
-                      className='justify-center text-center'
-                    >
-                      Clear filter
-                    </CommandItem>
-                  </CommandGroup>
-                </>
-              )}
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-    </div>
+                    <span>{option.label}</span>
+                    {facets?.get(option.value) && (
+                      <span className='ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs'>
+                        {facets.get(option.value)}
+                      </span>
+                    )}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+            {selectedValues.size > 0 && (
+              <>
+                <CommandSeparator />
+                <CommandGroup>
+                  <CommandItem
+                    onSelect={() => column?.setFilterValue(undefined)}
+                    className='justify-center text-center'
+                  >
+                    Clear filter
+                  </CommandItem>
+                </CommandGroup>
+              </>
+            )}
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }
