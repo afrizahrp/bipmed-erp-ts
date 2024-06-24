@@ -8,10 +8,12 @@ import { Loader2 } from 'lucide-react';
 interface SearchColumnMaterialCategoryProps {
   currentValue?: string;
   onChange: (value: string) => void; // Callback to propagate changes to the parent
+  disabled: booleand;
 }
 export function SearchColumnMaterialCategory({
   currentValue,
   onChange,
+  disabled,
 }: SearchColumnMaterialCategoryProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
@@ -36,14 +38,15 @@ export function SearchColumnMaterialCategory({
           selected={selected ?? ''}
           onChange={handleChange}
           placeholder='Select an category'
+          disabled={disabled}
         />
       ) : (
         <div>
           {isMaterialCategoryLoading && (
-            <Loader2
-              className='mr-2 h-4 w-4 animate-spin'
-              aria-label='Loading...'
-            />
+            <span className=' inline-flex gap-1'>
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              Retrieving category list...
+            </span>
           )}
         </div> // Show a loading state or similar message
       )}

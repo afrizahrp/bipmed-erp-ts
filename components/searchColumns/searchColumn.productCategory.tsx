@@ -1,6 +1,5 @@
 // Import the Combobox component
 import React from 'react';
-
 import { SearchColumnBase } from '@/components/searchColumn.base';
 import productCategoryOptions from '@/data/productCategoryOptions';
 import { Loader2 } from 'lucide-react';
@@ -8,12 +7,12 @@ import { Loader2 } from 'lucide-react';
 interface SearchColumnProductCategoryProps {
   currentValue?: string;
   onChange: (value: string) => void; // Callback to propagate changes to the parent
-  // value: string | null; // To make it a controlled component
-  // Add any other props you need, like disabled, name, etc.
+disabled:boolean
 }
 export function SearchColumnProductCategory({
   currentValue,
   onChange,
+  disabled
 }: SearchColumnProductCategoryProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
@@ -39,14 +38,15 @@ export function SearchColumnProductCategory({
           selected={selected ?? ''}
           onChange={handleChange}
           placeholder='Select an category'
+          disabled={disabled}
         />
       ) : (
         <div>
           {isProductCategoryLoading && (
-            <Loader2
-              className='mr-2 h-4 w-4 animate-spin'
-              aria-label='Loading...'
-            />
+            <span className=' inline-flex gap-1'>
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              Retrieving category list...
+            </span>
           )}
         </div> // Show a loading state or similar message
       )}

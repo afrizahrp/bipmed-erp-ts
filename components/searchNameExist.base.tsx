@@ -62,10 +62,10 @@ export default function SearchExistNameBase({
         {/* {isLoading && <Loader2 />}{' '} */}
         {/* {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />} */}
         {isLoading && (
-          <Loader2
-            className='mr-2 h-4 w-4 animate-spin'
-            aria-label='Loading existing name...'
-          />
+          <span className=' inline-flex gap-1'>
+            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            Please wait, while retrieving data to avoid naming duplication...
+          </span>
         )}
 
         {/* Display Loader2 when isLoading is true */}

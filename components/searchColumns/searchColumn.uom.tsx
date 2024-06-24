@@ -7,13 +7,13 @@ import { Loader2 } from 'lucide-react';
 
 interface SearchColumnUomProps {
   currentValue?: string;
-  onChange: (value: string) => void; // Callback to propagate changes to the parent
-  // value: string | null; // To make it a controlled component
-  // Add any other props you need, like disabled, name, etc.
+  onChange: (value: string) => void;
+  disabled: boolean;
 }
 export function SearchColumnUom({
   currentValue,
   onChange,
+  disabled,
 }: SearchColumnUomProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
@@ -24,13 +24,10 @@ export function SearchColumnUom({
   const uomList = uomOption || [];
 
   currentValue = selected;
-  // Function to handle selection changes
   const handleChange = (newValue: any) => {
     setSelected(newValue);
     onChange(newValue); // Propagate changes to the parent component
   };
-
-  // console.log('Selected UOM:', selected);
 
   return (
     <div>
@@ -40,14 +37,15 @@ export function SearchColumnUom({
           selected={selected ?? ''}
           onChange={handleChange}
           placeholder='Select an uom'
+          disabled={disabled}
         />
       ) : (
         <div>
           {isUomLoading && (
-            <Loader2
-              className='mr-2 h-4 w-4 animate-spin'
-              aria-label='Loading...'
-            />
+            <span className=' inline-flex gap-1'>
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              Retrieving uom list...
+            </span>
           )}
         </div> // Show a loading state or similar message
       )}

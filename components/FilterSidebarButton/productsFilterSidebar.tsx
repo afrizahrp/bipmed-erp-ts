@@ -15,7 +15,7 @@ export function ProductsFilterSidebar<TData>({
   table,
 }: ProductsFilterSidebarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
-  const { options: statusOptionList, isLoading: isStatusLoading } =
+  const { options: statusOption, isLoading: isStatusLoading } =
     masterTableStatusOptions();
   const {
     options: ProductCategoriesOption,
@@ -30,7 +30,7 @@ export function ProductsFilterSidebar<TData>({
             <DataTableFacetedFilter
               column={table.getColumn('status')}
               title='Status'
-              options={statusOptionList}
+              options={statusOption}
               isLoading={isStatusLoading}
             />
           )}

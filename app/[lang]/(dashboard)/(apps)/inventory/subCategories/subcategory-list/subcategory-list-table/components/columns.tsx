@@ -13,7 +13,7 @@ export type SubCategoryColumns = {
 };
 
 export function getStatusColor(status: string) {
-  if (status.toLowerCase() === 'aktif') {
+  if (status.toLowerCase() === 'active') {
     return 'bg-green-600';
   } else {
     return 'bg-gray-400';

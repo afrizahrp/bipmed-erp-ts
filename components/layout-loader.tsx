@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { SiteLogo } from "@/components/svg";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
+// import { SiteLogo } from "@/components/svg";
 const LayoutLoader = () => {
   return (
-    <div className=" h-screen flex items-center justify-center flex-col space-y-2">
+    <div className=" h-screen flex items-center justify-center flex-col space-y-2 top-3">
       {/* <SiteLogo className=" h-6 w-6 text-primary" /> */}
       <Image
         src="/images/logo/logo.svg"

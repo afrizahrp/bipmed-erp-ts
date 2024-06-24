@@ -8,12 +8,13 @@ import { Loader2 } from 'lucide-react';
 interface SearchColumCategoryProps {
   currentValue?: string;
   onChange: (value: string) => void; // Callback to propagate changes to the parent
-  // value: string | null; // To make it a controlled component
-  // Add any other props you need, like disabled, name, etc.
+  disabled:boolean
 }
 export function SearchColumnBrand({
   currentValue,
   onChange,
+  disabled
+
 }: SearchColumCategoryProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
@@ -37,16 +38,17 @@ export function SearchColumnBrand({
           selected={selected ?? ''}
           onChange={handleChange}
           placeholder='Select an category'
+          disabled={disabled}
         />
       ) : (
         <div>
           {/* {isBrandOption && <Loader2 className='mr-2 h-4 w-4 animate-spin' />} */}
 
           {isBrandOption && (
-            <Loader2
-              className='mr-2 h-4 w-4 animate-spin'
-              aria-label='Loading...'
-            />
+            <span className=' inline-flex gap-1'>
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              Retrieving brand list...
+            </span>
           )}
         </div> // Show a loading state or similar message
       )}

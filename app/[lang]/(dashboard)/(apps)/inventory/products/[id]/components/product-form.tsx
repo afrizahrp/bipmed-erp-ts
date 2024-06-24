@@ -135,10 +135,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     bmp_pctg: z.coerce.number().min(0),
     ecatalog_URL: z.string().min(5).or(z.literal('')),
     iStatus: z.boolean().default(false),
-    remarks: z.string().min(5).or(z.literal('')),
+    remarks: z.string().min(5).or(z.literal('')).optional(),
     isMaterial: z.boolean().default(false),
-    slug: z.string().min(5).or(z.literal('')),
-    iShowedStatus: z.boolean().default(false),
     createdBy: z.string().min(5).or(z.literal('')),
     createdAt: z.date(),
     updatedBy: z.string().min(5).or(z.literal('')),
@@ -173,8 +171,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         iStatus: initialData?.iStatus ?? false,
         remarks: initialData?.remarks || undefined,
         isMaterial: initialData?.isMaterial ?? false,
-        iShowedStatus: initialData?.iShowedStatus ?? false,
-        slug: initialData?.slug ?? '',
         createdBy: initialData?.createdBy ?? '',
         updatedBy: initialData?.updatedBy ?? '',
         company: initialData?.company ?? '',
@@ -196,8 +192,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         iStatus: false,
         remarks: '',
         isMaterial: false,
-        iShowedStatus: false,
-        slug: '',
         createdBy: '',
         createdAt: undefined,
         updatedBy: '',
@@ -348,6 +342,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         placeholder='Input catalog here'
                         value={field.value ?? ''}
                         onChange={field.onChange}
+                        disabled={loading}
                       />
                     </FormControl>
                     {form.formState.errors.catalog_id && (
@@ -372,6 +367,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         placeholder='Input registration id here'
                         value={field.value ?? ''}
                         onChange={field.onChange}
+                        disabled={loading}
                       />
                     </FormControl>
                     {form.formState.errors.registered_id && (
@@ -419,7 +415,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
           </div>
 
-          <div className='grid grid-cols-4 gap-4 py-2'>
+          <div className='grid grid-cols-4 gap-4 py-3'>
             <div>
               <FormField
                 control={form.control}
@@ -431,6 +427,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
+                      disabled={loading}
                     />
                   </FormItem>
                 )}
@@ -495,6 +492,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
+                      disabled={loading}
                     />
                   </FormItem>
                 )}
@@ -512,25 +510,30 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
+                      disabled={loading}
                     />
                   </FormItem>
                 )}
               />
             </div>
+          </div>
 
-            <div className='flex-col gap-4'>
+          {/* <div className='flex-col gap-4'> */}
+          <div className='grid grid-cols-4 gap-4 py-2'>
+            <div className='col-span-1'>
               <FormField
                 control={form.control}
                 name='tkdn_pctg'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Local Components (%)</FormLabel>
+                    <FormLabel>TKDN (%)</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
                         disabled={loading}
                         placeholder='99.99'
                         {...field}
+                        className='text-right'
                       />
                     </FormControl>
                   </FormItem>
@@ -538,7 +541,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               />
             </div>
 
-            <div className='flex-col gap-4'>
+            <div className='col-span-1'>
               <FormField
                 control={form.control}
                 name='bmp_pctg'
@@ -551,31 +554,33 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         disabled={loading}
                         placeholder='99.99'
                         {...field}
+                        className='text-right'
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
-          </div>
-          <div className='w-full flex-col gap-4'>
-            <FormField
-              control={form.control}
-              name='ecatalog_URL'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>eCatalog Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled
-                      placeholder='http://ekatalog'
-                      value={field.value ?? ''}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+
+            <div className='col-span-2'>
+              <FormField
+                control={form.control}
+                name='ecatalog_URL'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>eCatalog Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='http://ekatalog'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                        disabled={loading}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           <div>
@@ -613,6 +618,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
+                      disabled={loading}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>
