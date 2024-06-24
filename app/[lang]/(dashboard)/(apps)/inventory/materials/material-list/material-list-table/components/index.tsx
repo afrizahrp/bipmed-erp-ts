@@ -1,6 +1,8 @@
 // 'use client'
-import { DataTable } from './data-table';
-import { MaterialColumn, columns } from './columns';
+import { DataTable } from "@/components/ui/data-table";
+import { MaterialColumn, columns } from "./columns";
+import { routes } from "@/config/routes";
+
 interface MaterialClientProps {
   data: MaterialColumn[];
 }
@@ -8,7 +10,13 @@ interface MaterialClientProps {
 export const MaterialListTable: React.FC<MaterialClientProps> = ({ data }) => {
   return (
     <div>
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        href={routes.inventory.newMaterial}
+        hrefText="New Material"
+        pageName="material"
+      />
     </div>
   );
 };
