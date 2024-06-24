@@ -2,24 +2,25 @@
 import React from 'react';
 
 import { SearchColumnBase } from '@/components/searchColumn.base';
-import BrandsOptions from '@/data/brandOptions';
+import materialCategoryOptions from '@/data/materialCategoryOptions';
 import { Loader2 } from 'lucide-react';
 
-interface SearchColumCategoryProps {
+interface SearchColumnMaterialCategoryProps {
   currentValue?: string;
   onChange: (value: string) => void; // Callback to propagate changes to the parent
-  // value: string | null; // To make it a controlled component
-  // Add any other props you need, like disabled, name, etc.
 }
-export function SearchColumnBrand({
+export function SearchColumnMaterialCategory({
   currentValue,
   onChange,
-}: SearchColumCategoryProps) {
+}: SearchColumnMaterialCategoryProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
-  const { options: brandOption, isLoading: isBrandOption } = BrandsOptions();
+  const {
+    options: materialCategoryOption,
+    isLoading: isMaterialCategoryLoading,
+  } = materialCategoryOptions({ filterData: 0 });
 
-  const categoryList = brandOption || [];
+  const categoryList = materialCategoryOption || [];
 
   currentValue = selected;
   const handleChange = (newValue: any) => {
@@ -29,7 +30,7 @@ export function SearchColumnBrand({
 
   return (
     <div>
-      {categoryList.length > 0 && !isBrandOption ? (
+      {categoryList.length > 0 && !isMaterialCategoryLoading ? (
         <SearchColumnBase
           options={categoryList}
           selected={selected ?? ''}
@@ -38,9 +39,7 @@ export function SearchColumnBrand({
         />
       ) : (
         <div>
-          {/* {isBrandOption && <Loader2 className='mr-2 h-4 w-4 animate-spin' />} */}
-
-          {isBrandOption && (
+          {isMaterialCategoryLoading && (
             <Loader2
               className='mr-2 h-4 w-4 animate-spin'
               aria-label='Loading...'

@@ -7,14 +7,15 @@ import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filte
 import masterTableStatusOptions from '@/data/masterTableStatusOptions';
 import categoryTypeOptions from '@/data/categoryTypeOptions';
 
-interface CategoryFilterSidebarProps<TData> {
+interface SubCategoryFilterSidebarProps<TData> {
   table: Table<TData>;
 }
 
-export function CategoryFilterSidebar<TData>({
+export function SubCategoryFilterSidebar<TData>({
   table,
-}: CategoryFilterSidebarProps<TData>) {
+}: SubCategoryFilterSidebarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+
   const { options: statusOptionList, isLoading: isStatusLoading } =
     masterTableStatusOptions();
   const { options: categoryTypeOption, isLoading: isCategoryTypeLoading } =

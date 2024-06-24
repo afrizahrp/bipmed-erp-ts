@@ -48,7 +48,7 @@ import {
 
 import MaterialNameExist from '@/components/nameExistChecking/inventory/materialNameExist';
 import {
-  SearchColumnCategory,
+  SearchColumnMaterialCategory,
   SearchColumnUom,
   SearchColumnBrand,
 } from '@/components/searchColumns';
@@ -242,7 +242,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <SearchColumnCategory
+                    <SearchColumnMaterialCategory
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}

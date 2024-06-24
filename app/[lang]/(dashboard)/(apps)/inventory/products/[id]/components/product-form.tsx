@@ -60,7 +60,7 @@ import {
 
 import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 import {
-  SearchColumnCategory,
+  SearchColumnProductCategory,
   SearchColumnUom,
   SearchColumnBrand,
 } from '@/components/searchColumns';
@@ -69,10 +69,10 @@ import ImageCollection from '@/components/ui/images-collection';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
-import {
-  ProductFormValues,
-  productFormSchema,
-} from '@/utils/schema/product.form.schema';
+// import {
+//   ProductFormValues,
+//   productFormSchema,
+// } from '@/utils/schema/product.form.schema';
 
 interface ProductFormProps {
   initialData:
@@ -125,7 +125,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     images: z.object({ imageURL: z.string() }).array(),
     catalog_id: z.string().min(5).or(z.literal('')),
     registered_id: z.string().min(5).or(z.literal('')),
-    id: z.string().min(5).or(z.literal('')),
+    id: z.string().min(5).or(z.literal('')).optional(),
     name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
     category_id: z.string().min(3, { message: 'Category is required' }),
     subCategory_id: z.string().min(5).or(z.literal('')),
@@ -345,7 +345,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <FormLabel>Catalog</FormLabel>
                     <FormControl>
                       <Input
-                        disabled
                         placeholder='Input catalog here'
                         value={field.value ?? ''}
                         onChange={field.onChange}
@@ -370,7 +369,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <FormLabel>Registration Number</FormLabel>
                     <FormControl>
                       <Input
-                        disabled
                         placeholder='Input registration id here'
                         value={field.value ?? ''}
                         onChange={field.onChange}
@@ -429,7 +427,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <SearchColumnCategory
+                    <SearchColumnProductCategory
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}

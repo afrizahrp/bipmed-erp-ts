@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 interface masterTableStatus {
   id: string;
   name: string;
-  icon: string;
 }
 export const useMasterTableStatus = () => {
   const { data, isLoading, error, ...rest } = useQuery<

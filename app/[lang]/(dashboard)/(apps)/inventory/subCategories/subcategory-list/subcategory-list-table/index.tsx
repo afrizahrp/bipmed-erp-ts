@@ -1,6 +1,7 @@
 'use client';
-import { DataTable } from './components/data-table';
+import { DataTable } from '@/components/ui/data-table';
 import { SubCategoryColumns, columns } from './components/columns';
+import { routes } from '@/config/routes';
 
 interface SubCategoriesProps {
   data: SubCategoryColumns[];
@@ -11,7 +12,13 @@ export const SubCategoryListTable: React.FC<SubCategoriesProps> = ({
 }) => {
   return (
     <div>
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        href={routes.inventory.newSubCategory}
+        hrefText='New Subcategory'
+        pageName='subcategory'
+      />
     </div>
   );
 };

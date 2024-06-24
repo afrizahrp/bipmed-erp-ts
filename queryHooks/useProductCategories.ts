@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 interface productCategories {
   id: string;
   name: string;
-  icon: string;
 }
 export const useProductCategories = () => {
   const { data, isLoading, error, ...rest } = useQuery<

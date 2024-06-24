@@ -1,20 +1,19 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchNameExistBase from '@/components/searchNameExist.base';
 import { useSubCategoryNameExist } from '@/queryHooks/nameExistChecking/inventory/useSubCategoryNameExist';
 
 interface Props {
   currentValue: string;
   onChange: (newSearchTerms: string) => void;
-  onBlur: () => void;
 }
 
-export default function CategoryNameExist({
-  currentValue,
-  onChange,
-  onBlur,
-}: Props) {
-  const [searchTerms, setSearchTerms] = useState(currentValue);
+export default function CategoryNameExist({ currentValue, onChange }: Props) {
+  const [searchTerms, setSearchTerms] = useState('');
+
+  useEffect(() => {
+    setSearchTerms(currentValue);
+  }, [currentValue]);
 
   const isLoading = false;
   const handleItemCleared = () => {
@@ -23,6 +22,7 @@ export default function CategoryNameExist({
 
   const handleSearchTermsChange = (newSearchTerms: string) => {
     setSearchTerms(newSearchTerms);
+    onChange(newSearchTerms);
   };
 
   return (
@@ -38,8 +38,7 @@ export default function CategoryNameExist({
         setSearchInputValue={handleSearchTermsChange}
         placeholder='Input subCategory name here'
         onInputCleared={handleItemCleared}
-        tableName='subkategori'
-        oldValue={currentValue}
+        tableName='subcategory'
       />
       {/* )} */}
     </div>

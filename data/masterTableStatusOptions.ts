@@ -3,7 +3,7 @@ import { useMasterTableStatus } from '@/queryHooks/useMasterTableStatus';
 
 type OptionType = { value: string; label: string };
 
-const useMasterTableStatusOptionFilter = (): {
+const masterTableStatusOptions = (): {
   options: OptionType[] | undefined;
   isLoading: boolean;
 } => {
@@ -16,4 +16,4 @@ const useMasterTableStatusOptionFilter = (): {
   return { options: statusList, isLoading };
 };
 
-export default useMasterTableStatusOptionFilter;
+export default masterTableStatusOptions;

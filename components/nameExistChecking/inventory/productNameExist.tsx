@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import SearchNameExistBase from '@/components/searchNameExist.base';
 import { useProductNameExist } from '@/queryHooks/nameExistChecking/inventory/useProductNameExist';
-import { Loader2 } from 'lucide-react';
 
 interface Props {
   currentValue: string;
