@@ -242,7 +242,6 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
                     <SubCategoryNameExist
                       currentValue={field.value}
                       onChange={field.onChange}
-                      onBlur={field.onBlur}
                     />
                   </FormControl>
                   {form.formState.errors.name && (
