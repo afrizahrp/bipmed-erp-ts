@@ -41,7 +41,12 @@ export function SearchColumnUom({
         />
       ) : (
         <div>
-          {isUomLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+          {isUomLoading && (
+            <Loader2
+              className='mr-2 h-4 w-4 animate-spin'
+              aria-label='Loading...'
+            />
+          )}
         </div> // Show a loading state or similar message
       )}
     </div>

@@ -39,8 +39,15 @@ export function SearchColumnCategory({
         />
       ) : (
         <div>
-          {isCategoryLoading && (
+          {/* {isCategoryLoading && (
             <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+          )} */}
+
+          {isCategoryLoading && (
+            <Loader2
+              className='mr-2 h-4 w-4 animate-spin'
+              aria-label='Loading...'
+            />
           )}
         </div> // Show a loading state or similar message
       )}

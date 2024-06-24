@@ -38,7 +38,14 @@ export function SearchColumnBrand({
         />
       ) : (
         <div>
-          {isBrandOption && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+          {/* {isBrandOption && <Loader2 className='mr-2 h-4 w-4 animate-spin' />} */}
+
+          {isBrandOption && (
+            <Loader2
+              className='mr-2 h-4 w-4 animate-spin'
+              aria-label='Loading...'
+            />
+          )}
         </div> // Show a loading state or similar message
       )}
     </div>

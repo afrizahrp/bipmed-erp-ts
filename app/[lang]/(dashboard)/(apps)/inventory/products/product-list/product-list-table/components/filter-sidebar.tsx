@@ -1,16 +1,13 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
+  SheetTitle,
 } from '@/components/ui/sheet';
-import { cn } from '@/lib/utils';
 
 import { Table } from '@tanstack/react-table';
 import { DataTableToolbar } from './data-table-toolbar';
@@ -30,14 +27,13 @@ export function FilterSidebar<TData>({
   return (
     <Sheet open={open} onOpenChange={onClose}>
       <SheetContent className='pt-5'>
+        <SheetTitle>Filter Data</SheetTitle>
         <SheetHeader className='flex-row items-center justify-between mb-4'>
-          <span className='text-lg font-semibold text-default-900'>
-            Filter Data
+          <span className='text-sm text-default-400 mt-0'>
+            To get specific data you needs
           </span>
         </SheetHeader>
-        <span className='text-sm text-default-400 mt-1'>
-          To get specific data you needs
-        </span>
+
         <Separator />
         <form className=' h-full flex flex-col justify-between'>
           <div className='space-y-4 w-full'>
