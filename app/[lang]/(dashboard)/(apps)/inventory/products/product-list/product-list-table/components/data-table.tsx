@@ -38,19 +38,9 @@ import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
 import { Plus } from 'lucide-react';
 
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+
 import {
   Select,
   SelectContent,

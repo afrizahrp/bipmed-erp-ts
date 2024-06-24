@@ -27,8 +27,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Filter } from 'lucide-react';
 
+import FilterSidebar from './filter-sidebar';
+
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
-import { DataTableToolbar } from './data-table-toolbar';
 import { DataTableViewOptions } from '@/components/ui/data-table-view-options';
 
 import { Button } from '@/components/ui/button';
@@ -37,19 +38,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
 import { Plus } from 'lucide-react';
 
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
 import {
   Select,
   SelectContent,
@@ -75,8 +65,11 @@ export function DataTable<TData, TValue>({
     []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+
+  const [open, setOpen] = React.useState<boolean>(false);
+  const handleSheetOpen = () => {
+    setOpen(!open);
+  };
 
   const params = useParams();
   const router = useRouter();
@@ -137,7 +130,6 @@ export function DataTable<TData, TValue>({
               placeholder='Type here to search...'
               value={filtering}
               onChange={(event) => setFiltering(event.target.value)}
-              //  className='flex-grow pl-10 dark:bg-inherit' // Adjust the width based on the screen size
               className='min-w-[300px] sm:max-w-[600px] pl-7 rounded'
             />
             <Icon
@@ -146,53 +138,58 @@ export function DataTable<TData, TValue>({
             />
           </div>
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                size='xs'
-                variant='outline'
-                // className='ml-auto my-1 px-5 h-8 lg:flex'
-              >
-                <Filter className='mr-2 h-3 w-3' />
-                Filter data
-              </Button>
-            </SheetTrigger>
+          {/* <Sheet open={open}>
             <SheetContent>
-              <SheetHeader>
-                <SheetTitle>
-                  <div className='text-2xl font-bold text-default-600'>
-                    Filter Data
-                  </div>{' '}
-                </SheetTitle>
-                <SheetDescription>
-                  To get more specific data you needs
-                </SheetDescription>
+              <SheetHeader className='flex-row items-center justify-between mb-4'>
+                <span className='text-lg font-semibold text-default-900'>
+                  Filter Data
+                </span>
               </SheetHeader>
-              <Separator />
+              <form className=' h-full flex flex-col justify-between'>
+                <Separator />
 
-              <div className='grid gap-4 py-3'>
-                <div className='grid grid-cols-4 items-center gap-4'>
+                <SheetDescription className='text-default-500'>
+                  Filter data by selecting the options below
+                </SheetDescription>
+                <div className='space-y-4'>
+                  <div>
+                    <Label
+                      htmlFor='boardTitle'
+                      className='mb-1.5 text-default-600'
+                    >
+                      Board Title
+                    </Label>
+                    <Input id='boardTitle' placeholder='Board Title' />
+                  </div>
+                </div>
+
+                <div className='space-y-4'>
                   <DataTableToolbar table={table} />
                 </div>
-              </div>
 
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type='submit' className='w-full h-10'>
-                    Back
-                  </Button>
-                </SheetClose>
-              </SheetFooter>
+                <SheetFooter className='pb-10'>
+                  <SheetClose asChild>
+                    <Button className='w-full h-10' onClick={handleSheetOpen}>
+                      Back
+                    </Button>
+                  </SheetClose>
+                </SheetFooter>
+              </form>
             </SheetContent>
-          </Sheet>
+          </Sheet> */}
+
+          <Button size='xs' variant='outline' onClick={handleSheetOpen}>
+            <Filter className='mr-2 h-3 w-3' />
+            Filter data
+          </Button>
+
           <div className='flex-none flex flex-col sm:flex-row sm:items-center  gap-4'>
             <DataTableViewOptions table={table} />
 
             <Button size='sm' asChild>
-              <Link href={routes.inventory.newMaterial}>
-                {/* router.push(`/${params.storeId}/products/new`)} */}
+              <Link href={routes.inventory.newProduct}>
                 <Plus className='w-3 h-3 mr-2' />
-                New Material
+                New Product
               </Link>
             </Button>
           </div>
@@ -253,6 +250,7 @@ export function DataTable<TData, TValue>({
 
         <DataTablePagination table={table} />
       </div>
+      <FilterSidebar table={table} open={open} onClose={handleSheetOpen} />
     </>
   );
 }

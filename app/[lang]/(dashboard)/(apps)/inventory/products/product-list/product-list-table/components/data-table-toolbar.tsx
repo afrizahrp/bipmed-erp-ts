@@ -23,7 +23,6 @@ export function DataTableToolbar<TData>({
   } = useProductCategoriesOptionFilter();
 
   return (
-    <>
       <div className='flex items-center justify-end py-2 '>
         <div className='flex flex-col items-center space-y-2 w-full'>
           <div className='w-full py-3'>
@@ -58,6 +57,5 @@ export function DataTableToolbar<TData>({
           )}
         </div>
       </div>
-    </>
   );
 }

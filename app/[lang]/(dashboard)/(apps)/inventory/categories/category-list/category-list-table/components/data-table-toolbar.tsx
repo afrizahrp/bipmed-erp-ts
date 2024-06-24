@@ -23,33 +23,36 @@ export function DataTableToolbar<TData>({
     useCategoryTypeOptionFilter();
 
   return (
-    <div className='flex items-center justify-between'>
-      <div className='flex flex-col items-start space-y-2 w-full'>
-        {table.getColumn('status') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('status')}
-            title='Status'
-            options={statusOption}
-            isLoading={isStatusLoading}
-          />
-        )}
-        {table.getColumn('type') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('type')}
-            title='Category Type'
-            options={categoryTypeOption}
-            isLoading={isCategoryTypeLoading}
-          />
-        )}
-
+    <div className='flex items-center justify-end py-2 '>
+      <div className='flex flex-col items-center space-y-2 w-full'>
+        <div className='w-full py-3'>
+          {table.getColumn('status') && (
+            <DataTableFacetedFilter
+              column={table.getColumn('status')}
+              title='Status'
+              options={statusOption}
+              isLoading={isStatusLoading}
+            />
+          )}
+        </div>
+        <div className='w-full py-1'>
+          {table.getColumn('type') && (
+            <DataTableFacetedFilter
+              column={table.getColumn('type')}
+              title='Category Type'
+              options={categoryTypeOption}
+              isLoading={isCategoryTypeLoading}
+            />
+          )}
+        </div>
         {isFiltered && (
           <Button
-            variant='ghost'
+            variant='outline'
             onClick={() => table.resetColumnFilters()}
-            className='h-8 px-2 lg:px-3 w-full lg:w-auto'
+            className='h-10 px-2 lg:px-3 w-full mb-5'
           >
-            Reset
             <Cross2Icon className='ml-2 h-4 w-4' />
+            Reset Filter
           </Button>
         )}
       </div>
