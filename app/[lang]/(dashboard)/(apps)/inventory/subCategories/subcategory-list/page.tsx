@@ -6,16 +6,13 @@ import PageHeader from "@/components/page-header";
 import { routes } from "@/config/routes";
 
 const pageHeader = {
-  title: "SubCategories",
+  title: "Subcategories",
   breadcrumb: [
     {
-      name: "Home",
+      name: "Dashboard",
       href: routes.inventory.dashboard,
     },
-    {
-      name: "Inventory",
-      href: routes.inventory.dashboard,
-    },
+  
     {
       name: "List",
     },

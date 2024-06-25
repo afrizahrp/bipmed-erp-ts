@@ -13,6 +13,9 @@ const SubCategoryPage = async ({
     where: {
       id: params.id,
     },
+    include: {
+      category: true,
+    },
   });
 
   const categories = await prisma.categories.findMany({});

@@ -39,21 +39,7 @@ import {
   SubCategoryFormValues,
   subCategoryFormSchema,
 } from '@/utils/schema/subcategory.form.schema';
-// const formSchema = z.object({
-//   id: z.string().min(1).nullable(),
-//   category_id: z.string().min(1),
-//   name: z.string().min(3).or(z.literal('')),
-//   remarks: z.string().min(5).or(z.literal('')).nullable(),
-//   iStatus: z.boolean().default(false).optional(),
-//   createdAt: z.date().optional(),
-//   updatedAt: z.date().optional(),
-//   createdBy: z.string().optional().nullable(),
-//   updatedBy: z.string().optional().nullable(),
-//   company: z.string().optional(),
-//   branch: z.string().optional(),
-// });
 
-// type SubCategoryFormValues = z.infer<typeof formSchema>;
 
 interface SubCategoryFormProps {
   initialData: SubCategories | undefined;
@@ -84,10 +70,12 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
 
     breadcrumb: [
       {
-        name: 'Inventory',
+        name: 'Dashboard',
+        href: routes.inventory.dashboard,
+
       },
       {
-        name: 'SubCategories',
+        name: 'List',
         href: routes.inventory.subcategories,
       },
       {
@@ -96,33 +84,6 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
     ],
   };
 
-  // const defaultValues = initialData
-  //   ? {
-  //       ...initialData,
-  //       category_id: initialData.category_id || '',
-  //       name: initialData.name || '',
-  //       iStatus: initialData.iStatus || false,
-  //       remarks: initialData.remarks || undefined,
-  //       createdAt: initialData.createdAt || new Date(),
-  //       updatedAt: initialData.updatedAt || new Date(),
-  //       createdBy: initialData.createdBy || '',
-  //       updatedBy: initialData.updatedBy || '',
-  //       company: initialData.company || '',
-  //       branch: initialData.branch || '',
-  //     }
-  //   : {
-  //       id: '',
-  //       name: '',
-  //       iStatus: false,
-  //       remarks: '',
-  //       category_id: '',
-  //       createdAt: new Date(),
-  //       updatedAt: new Date(),
-  //       createdBy: '',
-  //       updatedBy: '',
-  //       company: '',
-  //       branch: '',
-  //     };
   const form = useForm<SubCategoryFormValues>({
     resolver: zodResolver(subCategoryFormSchema),
     defaultValues: {
@@ -131,12 +92,6 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
       name: initialData?.name || undefined,
       remarks: initialData?.remarks || undefined,
       iStatus: initialData?.iStatus || undefined,
-      // createdBy: initialData?.createdBy || undefined,
-      // createdAt: initialData?.createdAt || undefined,
-      // updatedBy: initialData?.updatedBy || undefined,
-      // updatedAt: initialData?.updatedAt || undefined,
-      // company: initialData?.company || undefined,
-      // branch: initialData?.branch || undefined,
     },
   });
   const onSubmit = async (data: SubCategoryFormValues) => {

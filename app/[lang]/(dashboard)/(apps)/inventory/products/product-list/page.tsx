@@ -9,11 +9,7 @@ const pageHeader = {
   title: 'Products',
   breadcrumb: [
     {
-      name: 'Home',
-      href: routes.inventory.dashboard,
-    },
-    {
-      name: 'Inventory',
+      name: 'Dashboard',
       href: routes.inventory.dashboard,
     },
     {

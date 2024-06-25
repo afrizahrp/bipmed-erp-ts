@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export type SubCategoryColumns = {
   id: string;
-  category: string | null;
+  subcategory: string | null;
   name: string | null;
   status: string | null;
   remarks: string | null;
@@ -23,7 +23,7 @@ export const columns: ColumnDef<SubCategoryColumns>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Category Id' />
+      <DataTableColumnHeader column={column} title='Subcategory Id' />
     ),
     cell: ({ row }) => (
       <Link

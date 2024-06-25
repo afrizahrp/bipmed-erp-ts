@@ -2046,11 +2046,20 @@ export const menusConfig = {
         isHeader: true,
         title: "Application",
       },
+
+
       {
         title: "Inventory",
-        href: "/inventory/InventoryPage",
+        href: "#",
         icon: DashBoard,
         child: [
+
+          {
+            title: "Dashboard",
+            href: "/inventory/dashboard",
+            icon: DashBoard
+          },
+
           {
             title: "List",
             href: "/inventory/master",

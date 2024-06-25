@@ -109,10 +109,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
     breadcrumb: [
       {
-        name: 'Inventory',
+        name: 'Dashboard',
+        href: routes.inventory.dashboard,
       },
       {
-        name: 'Products',
+        name: 'List',
         href: routes.inventory.products,
       },
       {

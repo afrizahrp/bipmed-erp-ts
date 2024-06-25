@@ -1,6 +1,7 @@
 'use client';
 import { DataTable } from '@/components/ui/data-table';
 import { SubCategoryColumns, columns } from './components/columns';
+
 import { routes } from '@/config/routes';
 
 interface SubCategoriesProps {

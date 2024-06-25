@@ -1,4 +1,4 @@
-import { getDictionary } from '@/app/dictionaries';
+// import { getDictionary } from '@/app/dictionaries';
 // import EcommercePageView from "./page-view";
 
 import InventoryHomePage from './dashboard/page';

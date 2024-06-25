@@ -1,6 +1,6 @@
 'use client';
 
-import * as z from 'zod';
+// import * as z from 'zod';
 import axios from 'axios';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -71,10 +71,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     title: initialData ? 'Edit Category' : 'New Category',
     breadcrumb: [
       {
-        name: 'Inventory',
+        name: 'Dashboard',
+        href: routes.inventory.dashboard,
       },
       {
-        name: 'Categories',
+        name: 'List',
         href: routes.inventory.categories,
       },
       {

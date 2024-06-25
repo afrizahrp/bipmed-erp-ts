@@ -90,10 +90,11 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
 
     breadcrumb: [
       {
-        name: 'Inventory',
+        name: 'Dashboard',
+        href: routes.inventory.dashboard,
       },
       {
-        name: 'Materials',
+        name: 'List',
         href: routes.inventory.materials,
       },
       {
