@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 export const metadata = {
-  title: 'SubCategories',
+  title: 'Subcategories',
 };
 const SubCategoryLayout = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
