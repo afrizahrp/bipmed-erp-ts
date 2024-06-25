@@ -366,6 +366,13 @@ model ProductImages {
   id         String    @id @default(uuid())
   product_id String    @db.Char(20)
   imageURL   String   @db.VarChar(250)
+  isPrimary  Boolean? @default(false)
+  createdBy  String?   @db.VarChar(50)
+  createdAt  DateTime? @db.DateTime
+  updatedBy  String?   @db.VarChar(50)
+  updatedAt  DateTime? @db.DateTime
+  company    String?   @db.Char(5)
+  branch     String?   @db.Char(10)
   products   Products  @relation(fields: [product_id], references: [id])
   @@index([product_id])
 }
