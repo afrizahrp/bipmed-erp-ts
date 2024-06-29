@@ -46,8 +46,8 @@ async function getSubCategoryId(
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const company = session?.user?.company || '';
-    const branch = session?.user?.branch || '';
+    const company_id = session?.user?.company_id || '';
+    const branch_id = session?.user?.branch_id || '';
     const username = session?.user?.name || '';
 
     const body = await request.json();
@@ -60,13 +60,14 @@ export async function POST(request: NextRequest) {
 
     const userId = username; //session.user.id // Use the user ID from the session
     const subCategory_id = await getSubCategoryId(
-      company,
-      branch,
+      company_id,
+      branch_id,
       category_id,
       userId
     );
 
     const newSubCategory = {
+      type: '1',
       category_id: category_id,
       id: subCategory_id,
       name,
@@ -76,8 +77,8 @@ export async function POST(request: NextRequest) {
       updatedBy: username,
       createdAt: new Date(),
       updatedAt: new Date(),
-      company: company,
-      branch: branch,
+      company_id: company_id,
+      branch_id: branch_id,
     };
 
     const subCategory = await prisma.subCategories.create({

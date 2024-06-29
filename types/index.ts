@@ -46,15 +46,15 @@ export type Categories = {
 };
 
 export type Materials = {
-  id?: string;
-  name?: string;
-  category_id?: string;
-  subCategory_id?: string;
-  uom_id?: string;
-  brand_id?: string;
-  iStatus?: boolean;
-  remarks?: string;
-  isMaterial?: boolean;
+  id: string;
+  name: string;
+  category_id: string;
+  subCategory_id: string;
+  uom_id: string;
+  brand_id: string;
+  iStatus: boolean;
+  remarks: string;
+  isMaterial: boolean;
 };
 
 export type MaterialCategories = {
@@ -69,8 +69,8 @@ export type SubCategories = {
 };
 
 export type Uoms = {
-  id: string;
-  name: string;
+  id: string | '';
+  name: string | '';
 };
 
 export type Brands = {

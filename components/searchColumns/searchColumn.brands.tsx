@@ -8,13 +8,12 @@ import { Loader2 } from 'lucide-react';
 interface SearchColumCategoryProps {
   currentValue?: string;
   onChange: (value: string) => void; // Callback to propagate changes to the parent
-  disabled:boolean
+  disabled: boolean;
 }
 export function SearchColumnBrand({
   currentValue,
   onChange,
-  disabled
-
+  disabled,
 }: SearchColumCategoryProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
@@ -22,7 +21,7 @@ export function SearchColumnBrand({
     filterData: 0,
   });
 
-  const categoryList = brandOption || [];
+  const brandList = brandOption || [];
 
   currentValue = selected;
   const handleChange = (newValue: any) => {
@@ -32,13 +31,12 @@ export function SearchColumnBrand({
 
   return (
     <div>
-      {categoryList.length > 0 && !isBrandOption ? (
+      {brandList.length > 0 && !isBrandOption ? (
         <SearchColumnBase
-          options={categoryList}
+          options={brandList}
           selected={selected ?? ''}
           onChange={handleChange}
-          placeholder='Select an category'
-          disabled={disabled}
+          placeholder='Select Brand'
         />
       ) : (
         <div>

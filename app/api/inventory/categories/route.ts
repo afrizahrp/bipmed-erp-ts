@@ -45,29 +45,41 @@ async function getCategoryId(
   }
 }
 
-
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const company = session?.user?.company || '';
-    const branch = session?.user?.branch || '';
+    const company_id = session?.user?.company_id || '';
+    const branch_id = session?.user?.branch_id || '';
     const username = session?.user?.name || '';
 
     const body = await request.json();
-    const { type, name, remarks, imageURL, iStatus, iShowedStatus } = body as {
+    const {
+      type,
+      name,
+      remarks,
+      imageURL,
+      iStatus,
+      iShowedStatus,
+      slug,
+      href,
+      icon,
+    } = body as {
       type: string;
       name: string;
       remarks: string;
       imageURL: string;
       iStatus: boolean;
       iShowedStatus: boolean;
+      slug: string;
+      href: string;
+      icon: string;
     };
 
     const categoryType = type;
     const userId = username; //session.user.id // Use the user ID from the session
     const categoryId = await getCategoryId(
-      company,
-      branch,
+      company_id,
+      branch_id,
       categoryType,
       userId
     );
@@ -80,12 +92,15 @@ export async function POST(request: NextRequest) {
       imageURL,
       iStatus,
       iShowedStatus,
+      slug,
+      href,
+      icon,
       createdBy: username,
       updatedBy: username,
       createdAt: new Date(),
       updatedAt: new Date(),
-      company: company,
-      branch: branch,
+      company_id: company_id,
+      branch_id: branch_id,
     };
 
     const category = await prisma.categories.create({

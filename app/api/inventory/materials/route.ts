@@ -2,7 +2,6 @@ import { prisma } from '@/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
-// import getMaterialId from './../../system/getMaterialId/route';
 
 interface QueryResult {
   doc_id: string;
@@ -50,8 +49,8 @@ async function getMaterialId(
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const company = session?.user?.company || '';
-    const branch = session?.user?.branch || '';
+    const company_id = session?.user?.company_id || '';
+    const branch_id = session?.user?.branch_id || '';
     const userName = session?.user?.name || '';
 
     const body = await request.json();
@@ -92,8 +91,8 @@ export async function POST(request: NextRequest) {
     const userId = userName;
 
     const materialId = await getMaterialId(
-      company,
-      branch,
+      company_id,
+      branch_id,
       category_id,
       userId
     );
@@ -119,8 +118,8 @@ export async function POST(request: NextRequest) {
       updatedBy: userName,
       createdAt: new Date(),
       updatedAt: new Date(),
-      company: company,
-      branch: branch,
+      company_id: company_id,
+      branch_id: branch_id,
     };
 
     const material = await prisma.products.create({

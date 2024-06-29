@@ -22,7 +22,9 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    const username = session?.user?.name || '';
+    const company_id = session?.user?.company_id || '';
+    const branch_id = session?.user?.branch_id || '';
+    const userName = session?.user?.name || '';
     if (!session) return NextResponse.json({}, { status: 401 });
 
     const body = await req.json();
@@ -98,7 +100,7 @@ export async function PATCH(
         iShowedStatus,
         slug,
         isMaterial: false,
-        updatedBy: username,
+        updatedBy: userName,
         updatedAt: new Date(),
       },
     });
@@ -110,7 +112,14 @@ export async function PATCH(
       data: {
         images: {
           createMany: {
-            data: [...images.map((image: { imageURL: string }) => image)],
+            data: images.map((image: { imageURL: string }) => ({
+              imageURL: image.imageURL,
+              isPrimary: false,
+              updatedBy: userName,
+              updatedAt: new Date(),
+              company_id: company_id,
+              branch_id: branch_id,
+            })),
           },
         },
       },

@@ -11,8 +11,8 @@ declare module 'next-auth' {
       isLoggedIn?: boolean;
       accessToken: string;
       avatar: string;
-      company: string;
-      branch: string;
+      company_id: string;
+      branch_id: string;
     } & DefaultSession['user'];
   }
 }
@@ -23,8 +23,8 @@ interface User extends DefaultUser {
   isLoggedIn?: boolean;
   accessToken: string;
   avatar: string;
-  company: string;
-  branch: string;
+  company_id: string;
+  branch_id: string;
 }
 
 declare module 'next-auth/jwt' {
@@ -34,7 +34,7 @@ declare module 'next-auth/jwt' {
     isLoggedIn?: boolean;
     accessToken: string;
     avatar: string;
-    company: string;
-    branch: string;
+    company_id: string;
+    branch_id: string;
   }
 }

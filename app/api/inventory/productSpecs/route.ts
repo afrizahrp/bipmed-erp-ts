@@ -1,13 +1,13 @@
-import { prisma } from "@/lib/client";
-import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+import { prisma } from '@/lib/client';
+import { NextRequest, NextResponse } from 'next/server';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 
 export async function GET(request: NextRequest) {
   try {
     const productspecs = await prisma.productSpecs.findMany({
       orderBy: {
-        updatedAt: "desc",
+        updatedAt: 'desc',
       },
     });
 
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   } catch (e) {
     console.log(e);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: 'Something went wrong' },
       { status: 500 }
     );
   }
@@ -27,9 +27,9 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    const companyValue = session?.user?.company || "";
-    const branchValue = session?.user?.branch || "";
-    const usernameValue = session?.user?.name || "";
+    const company_id = session?.user?.company_id || '';
+    const branch_id = session?.user?.branch_id || '';
+    const usernameValue = session?.user?.name || '';
 
     // if (!params.ProductId) {
     //   return new NextResponse('Product id is required', { status: 400 });
@@ -234,8 +234,8 @@ export async function POST(
       updatedBy: usernameValue,
       createdAt: new Date(),
       updatedAt: new Date(),
-      company: companyValue,
-      branch: branchValue,
+      company_id: company_id,
+      branch_id: branch_id,
     };
 
     const productSpec = await prisma.productSpecs.create({
@@ -251,7 +251,7 @@ export async function POST(
     return NextResponse.json(
       {
         message:
-          "Something went wrong while trying to create new product specification",
+          'Something went wrong while trying to create new product specification',
         result: e,
       },
       { status: 500 }

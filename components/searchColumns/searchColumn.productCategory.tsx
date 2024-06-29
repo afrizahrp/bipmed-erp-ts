@@ -7,12 +7,12 @@ import { Loader2 } from 'lucide-react';
 interface SearchColumnProductCategoryProps {
   currentValue?: string;
   onChange: (value: string) => void; // Callback to propagate changes to the parent
-disabled:boolean
+  disabled: boolean;
 }
 export function SearchColumnProductCategory({
   currentValue,
   onChange,
-  disabled
+  disabled,
 }: SearchColumnProductCategoryProps) {
   const [selected, setSelected] = React.useState(currentValue);
 
@@ -37,8 +37,7 @@ export function SearchColumnProductCategory({
           options={categoryList}
           selected={selected ?? ''}
           onChange={handleChange}
-          placeholder='Select an category'
-          disabled={disabled}
+          placeholder='Select Category'
         />
       ) : (
         <div>

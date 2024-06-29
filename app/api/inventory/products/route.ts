@@ -4,7 +4,6 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 // import getProductId from '../../system/getProductId/route';
 
-
 interface QueryResult {
   doc_id: string;
 }
@@ -30,7 +29,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-
 async function getProductId(
   companyId: string,
   branchId: string,
@@ -52,8 +50,8 @@ async function getProductId(
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const company = session?.user?.company || '';
-    const branch = session?.user?.branch || '';
+    const company_id = session?.user?.company_id || '';
+    const branch_id = session?.user?.branch_id || '';
     const userName = session?.user?.name || '';
 
     const body = await request.json();
@@ -71,10 +69,12 @@ export async function POST(request: NextRequest) {
       remarks,
       iStatus,
       images,
-
+      slug,
       iShowedStatus,
       createdBy,
+      createdAt,
       updatedBy,
+      updatedAt,
     } = body as {
       name: string;
       catalog_id: string;
@@ -89,16 +89,23 @@ export async function POST(request: NextRequest) {
       remarks: string;
       iStatus: boolean;
       images: { imageURL: string }[];
+      slug: string;
       iShowedStatus: boolean;
       createdBy: string;
-      created_at: string;
+      createdAt: Date;
       updatedBy: string;
-      updated_at: string;
+      updatedAt: Date;
     };
 
     const userId = userName;
-    const productId = await getProductId(company, branch, category_id, userId);
+    const productId = await getProductId(
+      company_id,
+      branch_id,
+      category_id,
+      userId
+    );
 
+    console.log('productId', productId);
     const newProduct = {
       id: productId,
       name,
@@ -113,6 +120,7 @@ export async function POST(request: NextRequest) {
       ecatalog_URL,
       remarks,
       iStatus,
+      slug,
       iShowedStatus,
       isMaterial: false,
       images: {
@@ -122,8 +130,8 @@ export async function POST(request: NextRequest) {
       updatedBy: userName,
       createdAt: new Date(),
       updatedAt: new Date(),
-      company: company,
-      branch: branch,
+      company_id: company_id,
+      branch_id: branch_id,
     };
 
     const product = await prisma.products.create({
@@ -133,6 +141,13 @@ export async function POST(request: NextRequest) {
           createMany: {
             data: images.map((image: { imageURL: string }) => ({
               imageURL: image.imageURL,
+              isPrimary: false,
+              createdBy: userName,
+              updatedBy: userName,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              company_id: company_id,
+              branch_id: branch_id,
             })),
           },
         },

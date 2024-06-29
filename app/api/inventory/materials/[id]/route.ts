@@ -108,7 +108,6 @@ export async function PATCH(
       updatedAt: new Date(),
     };
 
-
     const updateMaterial = await prisma.products.update({
       where: {
         id: params.id,

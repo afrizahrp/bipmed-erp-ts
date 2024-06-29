@@ -66,8 +66,8 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role;
         session.user.isLoggedIn = token.isLoggedIn;
         session.user.avatar = token.avatar;
-        session.user.company = token.company;
-        session.user.branch = token.branch;
+        session.user.company_id = token.company_id;
+        session.user.branch_id = token.branch_id;
       }
 
       return session;

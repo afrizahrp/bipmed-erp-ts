@@ -137,13 +137,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ecatalog_URL: z.string().min(5).or(z.literal('')),
     iStatus: z.boolean().default(false),
     remarks: z.string().min(5).or(z.literal('')).optional(),
-    isMaterial: z.boolean().default(false),
-    createdBy: z.string().min(5).or(z.literal('')),
-    createdAt: z.date(),
-    updatedBy: z.string().min(5).or(z.literal('')),
-    updatedAt: z.date(),
-    company: z.string().min(5).or(z.literal('')),
-    branch: z.string().min(5).or(z.literal('')),
+    // isMaterial: z.boolean().default(false),
+    // createdBy: z.string().min(5).or(z.literal('')),
+    // createdAt: z.date(),
+    // updatedBy: z.string().min(5).or(z.literal('')),
+    // updatedAt: z.date(),
+    // company_id: z.string().min(5).or(z.literal('')),
+    // branch_id: z.string().min(5).or(z.literal('')),
   });
 
   type ProductFormValues = z.infer<typeof productFormSchema>;
@@ -171,11 +171,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         ecatalog_URL: initialData?.ecatalog_URL ?? '',
         iStatus: initialData?.iStatus ?? false,
         remarks: initialData?.remarks || undefined,
-        isMaterial: initialData?.isMaterial ?? false,
-        createdBy: initialData?.createdBy ?? '',
-        updatedBy: initialData?.updatedBy ?? '',
-        company: initialData?.company ?? '',
-        branch: initialData?.branch ?? '',
+        // isMaterial: initialData?.isMaterial ?? false,
+        // createdBy: initialData?.createdBy ?? '',
+        // updatedBy: initialData?.updatedBy ?? '',
+        // company_id: initialData?.company_id ?? '',
+        // branch_id: initialData?.branch_id ?? '',
       }
     : {
         images: [],
@@ -192,13 +192,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         ecatalog_URL: '',
         iStatus: false,
         remarks: '',
-        isMaterial: false,
-        createdBy: '',
-        createdAt: undefined,
-        updatedBy: '',
-        updatedAt: undefined,
-        company: '',
-        branch: '',
+        // isMaterial: false,
+        // createdBy: '',
+        // createdAt: undefined,
+        // updatedBy: '',
+        // updatedAt: undefined,
+        // company: '',
+        // branch: '',
       };
 
   const form = useForm<ProductFormValues>({
