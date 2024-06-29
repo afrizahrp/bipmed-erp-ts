@@ -139,7 +139,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     remarks: z.string().min(5).or(z.literal('')).optional(),
     slug: z.string().min(5).or(z.literal('')).optional(),
     isMaterial: z.boolean().default(false),
-    iShowedStatus: z.boolean().default(true),
+    // iShowedStatus: z.boolean().default(true),
   });
 
   type ProductFormValues = z.infer<typeof productFormSchema>;
@@ -154,8 +154,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         // updatedAt: initialData?.updatedAt
         //   ? new Date(initialData.updatedAt)
         //   : undefined,
-        catalog_id: initialData?.catalog_id ?? undefined,
-        registered_id: initialData?.registered_id ?? undefined,
+        catalog_id: initialData?.catalog_id ?? '',
+        registered_id: initialData?.registered_id ?? '',
         id: initialData?.id ?? '',
         name: initialData?.name ?? '',
         category_id: initialData?.category_id ?? '',
@@ -169,7 +169,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         remarks: initialData?.remarks || undefined,
         isMaterial: initialData?.isMaterial ?? false,
         slug: initialData?.slug ?? '',
-        iShowedStatus: initialData?.iShowedStatus ?? true,
+        // iShowedStatus: initialData?.iShowedStatus ?? false,
       }
     : {
         images: [],

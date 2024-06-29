@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { Uoms } from '@/types';
+// import { Uoms } from '@/types';
+
+interface Uoms {
+  id: string;
+  name: string;
+}
 
 export const useUoms = () => {
   const { data, isLoading, error, ...rest } = useQuery<Uoms[], Error>({

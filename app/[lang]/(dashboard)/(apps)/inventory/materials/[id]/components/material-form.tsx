@@ -108,19 +108,18 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     defaultValues: {
       ...initialData,
       id: initialData?.id,
+      catalog_id: initialData?.catalog_id ?? '',
+      registered_id: initialData?.registered_id ?? '',
       name: initialData?.name ?? '',
       category_id: initialData?.category_id ?? '',
       subCategory_id: initialData?.subCategory_id ?? '',
       brand_id: initialData?.brand_id ?? '',
       uom_id: initialData?.uom_id ?? '',
       iStatus: initialData?.iStatus ?? false,
-      remarks: initialData?.remarks || undefined,
+      remarks: initialData?.remarks ?? '',
       isMaterial: initialData?.isMaterial ?? true,
       slug: initialData?.slug ?? '',
-      catalog_id: initialData?.catalog_id ?? '',
-      registered_id: initialData?.registered_id ?? '',
       ecatalog_URL: initialData?.ecatalog_URL ?? '',
-      iShowedStatus: initialData?.iShowedStatus ?? true,
     },
   });
 

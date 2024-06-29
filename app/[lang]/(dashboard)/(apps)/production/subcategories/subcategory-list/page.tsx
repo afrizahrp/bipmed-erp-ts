@@ -1,20 +1,20 @@
-import { prisma } from "@/lib/client";
-import { SubCategoryListTable } from "./subcategory-list-table";
-import { SubCategoryColumns } from "./subcategory-list-table/components/columns";
-import { Card, CardContent } from "@/components/ui/card";
-import PageHeader from "@/components/page-header";
-import { routes } from "@/config/routes";
+import { prisma } from '@/lib/client';
+import { SubCategoryListTable } from './subcategory-list-table';
+import { SubCategoryColumns } from './subcategory-list-table/components/columns';
+import { Card, CardContent } from '@/components/ui/card';
+import PageHeader from '@/components/page-header';
+import { routes } from '@/config/routes';
 
 const pageHeader = {
-  title: "Subcategories",
+  title: 'Subcategories',
   breadcrumb: [
     {
-      name: "Dashboard",
+      name: 'Dashboard',
       href: routes.inventory.dashboard,
     },
-  
+
     {
-      name: "List",
+      name: 'List',
     },
   ],
 };
@@ -26,16 +26,17 @@ const SubCategoriesPage = async () => {
       status: true,
     },
     orderBy: {
-      updatedAt: "desc",
+      updatedAt: 'desc',
     },
   });
 
   const formattedSubCategories: SubCategoryColumns[] =
     subcategories?.map((item) => ({
-      id: item.id,
+      id: item.id ?? '',
+      subcategory: '', // Add the 'subcategory' property
       name: item.name,
-      category: item?.category?.name, // Add the 'category' property
-      status: item?.status?.name, // Add the 'status' property
+      category: item?.category?.name,
+      status: item?.status?.name,
       remarks: item?.remarks,
     })) ?? [];
 
@@ -44,8 +45,8 @@ const SubCategoriesPage = async () => {
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <div>
-        <Card className="mt-6">
-          <CardContent className="p-10">
+        <Card className='mt-6'>
+          <CardContent className='p-10'>
             <SubCategoryListTable data={formattedSubCategories} />
           </CardContent>
         </Card>

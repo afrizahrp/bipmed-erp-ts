@@ -113,7 +113,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       category_id: initialData?.category_id ?? '',
       subCategory_id: initialData?.subCategory_id ?? '',
       brand_id: initialData?.brand_id ?? '',
-      uom_id: initialData?.uom_id ?? '',
+      uom_id: initialData?.uom_id || undefined,
       iStatus: initialData?.iStatus ?? false,
       remarks: initialData?.remarks || undefined,
       isMaterial: initialData?.isMaterial ?? true,
@@ -245,51 +245,15 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                     <FormLabel>Category</FormLabel>
                     <SearchColumnMaterialCategory
                       {...field}
-                      currentValue={field.value ?? ''}
+                      currentValue={field.value}
                       onChange={field.onChange}
+                      disabled={loading}
                     />
 
                     {/* Pass the field object to SelectCombo if needed */}
                   </FormItem>
                 )}
               />
-
-              {/* <FormField
-                control={form.control}
-                name='category_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value ?? ''}
-                            placeholder='Select a category'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      {form.formState.errors.category_id && (
-                        <FormMessage>
-                          {form.formState.errors.category_id.message}
-                        </FormMessage>
-                      )}{' '}
-                      <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              /> */}
             </div>
 
             <div>
@@ -340,63 +304,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
             </div>
 
             <div>
-              {/* <FormField
-                control={form.control}
-                name='uom_id'
-                render={({ field }) => (
-                  <div>
-                    <FormItem>
-                      <FormControl>
-                        <SearchColumnUoms field={field.value} />
-                      </FormControl>
-                      {form.formState.errors.uom_id && (
-                        <FormMessage>
-                          {form.formState.errors.uom_id.message}
-                        </FormMessage>
-                      )}
-                      <FormMessage />
-                    </FormItem>
-                  </div>
-                )}
-              /> */}
-
-              {/* <FormField
-                control={form.control}
-                name='uom_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Uom</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value ?? ''}
-                      defaultValue={field.value ?? ''}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value ?? ''}
-                            placeholder='Uom'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      {form.formState.errors.uom_id && (
-                        <FormMessage>
-                          {form.formState.errors.uom_id.message}
-                        </FormMessage>
-                      )}{' '}
-                      <SelectContent>
-                        {uoms.map((uom) => (
-                          <SelectItem key={uom.id} value={uom.id}>
-                            {uom.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              /> */}
-
               <FormField
                 control={form.control}
                 name='uom_id'
@@ -406,8 +313,8 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                     <SearchColumnUom
                       {...field}
                       currentValue={field.value ?? ''}
-                      // value={field.value}
                       onChange={field.onChange}
+                      disabled={loading}
                     />
 
                     {/* Pass the field object to SelectCombo if needed */}
@@ -426,11 +333,10 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                     <SearchColumnBrand
                       {...field}
                       currentValue={field.value ?? ''}
-                      // value={field.value}
                       onChange={field.onChange}
+                      disabled={loading}
                     />
 
-                    {/* Pass the field object to SelectCombo if needed */}
                   </FormItem>
                 )}
               />

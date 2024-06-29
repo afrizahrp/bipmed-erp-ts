@@ -19,22 +19,12 @@ const SubCategoryPage = async ({
     },
   });
 
-  const categoryTypes = await prisma.categoryTypes.findMany({
-    where: {
-      id: params.type,
-    },
-  });
-
   const categories = await prisma.categories.findMany({});
 
   return (
     <Card className='py-6'>
       <CardContent>
-        <SubCategoryForm
-          initialData={subCategory || undefined}
-          categoryTypes={categoryTypes}
-          categories={categories}
-        />
+        <SubCategoryForm initialData={subCategory || undefined} />
       </CardContent>
     </Card>
   );
