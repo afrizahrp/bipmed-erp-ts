@@ -1,6 +1,6 @@
 'use client';
 
-// import * as z from 'zod';
+import * as z from 'zod';
 import axios from 'axios';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,16 +10,14 @@ import PageHeader from '@/components/page-header';
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-// import { Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
-import { Categories, CategoryTypes } from '@prisma/client';
-// import { Categories, CategoryTypes } from '@/types';
-
-import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
+import { Categories, SubCategories } from '@prisma/client';
+import SubCategoryNameExist from '@/components/nameExistChecking/inventory/subCategoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
-// import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -29,7 +27,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import FormFooter from '@/components/form-footer';
 import {
   Select,
   SelectContent,
@@ -37,77 +34,67 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import ImageUpload from '@/components/ui/image-upload';
 import { Checkbox } from '@/components/ui/checkbox';
-
 import {
-  CategoryFormValues,
-  categoryFormSchema,
-} from '@/utils/schema/category.form.schema';
-// import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
+  SubCategoryFormValues,
+  subCategoryFormSchema,
+} from '@/utils/schema/subcategory.form.schema';
 
-interface CategoryFormProps {
-  initialData?: Categories;
-  categoryTypes: CategoryTypes[];
+
+interface SubCategoryFormProps {
+  initialData: SubCategories | undefined;
+  categories: Categories[];
 }
 
-export const CategoryForm: React.FC<CategoryFormProps> = ({
+export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
   initialData,
-  categoryTypes,
+  categories,
 }) => {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [searchTerms, setSearchTerms] = useState('');
+  // const [searchTerms, setSearchTerms] = useState('');
 
-  const id = initialData?.id;
-
-  const actionMessage = initialData
-    ? 'Category has changed successfully.'
-    : 'New Category has been added successfully.';
+  const title = initialData ? 'Edit SubCategory' : 'Add New SubCategory';
+  const description = initialData
+    ? `Change SubCategory ${initialData.id}-> ${initialData.name}`
+    : 'Add New SubCategory';
+  const toastMessage = initialData
+    ? 'SubCategory has changed successfully.'
+    : 'New SubCategory has been added successfully.';
+  const action = initialData ? 'Save Changes' : 'Save New SubCategory';
 
   const pageHeader = {
-    title: initialData ? 'Edit Category' : 'New Category',
+    title: initialData ? 'Edit SubCategory' : 'New SubCategory',
+
     breadcrumb: [
       {
         name: 'Dashboard',
         href: routes.inventory.dashboard,
+
       },
       {
         name: 'List',
-        href: routes.inventory.categories,
+        href: routes.inventory.subcategories,
       },
       {
-        name: initialData ? 'Edit Category' : 'New Category',
+        name: initialData ? 'Edit SubCategory' : 'New SubCategory',
       },
     ],
   };
 
-  const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(categoryFormSchema),
+  const form = useForm<SubCategoryFormValues>({
+    resolver: zodResolver(subCategoryFormSchema),
     defaultValues: {
       ...initialData,
-      imageURL: initialData?.imageURL || undefined,
-      id: initialData?.id ?? '',
-      type: initialData?.type ?? '0',
-      name: initialData?.name ?? '',
-      href: initialData?.href ?? '',
-      icon: initialData?.icon ?? '',
-      slug: initialData?.slug ?? '',
-      iShowedStatus: initialData?.iShowedStatus ?? true, // Not display in website
-      remarks: initialData?.remarks ?? '',
-      iStatus: initialData?.iStatus ?? false,
+      id: initialData?.id,
+      name: initialData?.name || undefined,
+      remarks: initialData?.remarks || undefined,
+      iStatus: initialData?.iStatus || undefined,
     },
   });
-
-  const handleBack = (e: any) => {
-    e.preventDefault();
-    setLoading(false);
-    router.push('/inventory/categories/category-list');
-  };
-
-  const onSubmit = async (data: CategoryFormValues) => {
+  const onSubmit = async (data: SubCategoryFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
@@ -117,7 +104,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       }
       router.push('/inventory/categories/category-list');
       router.refresh();
-      toast.success(actionMessage);
+      toast.success(toastMessage);
     } catch (error: any) {
       console.error(error);
 
@@ -125,10 +112,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     } finally {
       setLoading(false);
     }
-  };
-
-  const onCategoryNameChange = (newCategoryName: string) => {
-    setSearchTerms(newCategoryName);
   };
 
   return (
@@ -140,47 +123,36 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <FormField
-            control={form.control}
-            name='imageURL'
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    disabled={loading}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange('')}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className='grid grid-cols-4 gap-4 py-2'>
+          <div className='grid grid-cols-2 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
-                name={'id'}
+                name='id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category Id</FormLabel>
+                    <FormLabel>SubCategory Id</FormLabel>
                     <FormControl>
-                      <Input disabled placeholder='id' {...field} />
+                      <Input
+                        disabled
+                        placeholder='Id'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
+          </div>
 
+          <div className='grid grid-cols-4 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
-                name='type'
+                name='category_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>Category</FormLabel>
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
@@ -190,23 +162,24 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
-                            placeholder='Select type'
+                            defaultValue={field.value ?? ''}
+                            placeholder='Select a category'
                           />
                         </SelectTrigger>
                       </FormControl>
+                      {form.formState.errors.category_id && (
+                        <FormMessage>
+                          {form.formState.errors.category_id.message}
+                        </FormMessage>
+                      )}{' '}
                       <SelectContent>
-                        {categoryTypes.map((_categoryType) => (
-                          <SelectItem
-                            key={_categoryType.id}
-                            value={_categoryType.id}
-                          >
-                            {_categoryType.name}
+                        {categories.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -218,35 +191,22 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               control={form.control}
               name='name'
               render={({ field }) => (
-                <div>
-                  <FormItem>
-                    <FormLabel>Category Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder='Input category name'
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          onCategoryNameChange(e.target.value); // Call the new handler
-                        }}
-                        className='font-bold'
-                      />
-                    </FormControl>
-                    {form.formState.errors.name && (
-                      <FormMessage>
-                        {form.formState.errors.name.message}
-                      </FormMessage>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                </div>
+                <FormItem>
+                  <FormLabel>Category Name</FormLabel>
+                  <FormControl>
+                    <SubCategoryNameExist
+                      currentValue={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  {form.formState.errors.name && (
+                    <FormMessage>
+                      {form.formState.errors.name.message}
+                    </FormMessage>
+                  )}{' '}
+                  <FormMessage />
+                </FormItem>
               )}
-            />
-
-            <CategoryNameExist
-              currentValue={searchTerms}
-              onChange={onCategoryNameChange}
             />
           </div>
 
@@ -323,11 +283,20 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             />
           </div>
 
-          <FormFooter
-            isLoading={loading}
-            handleAltBtn={handleBack}
-            submitBtnText={id ? 'Update' : 'Save'}
-          />
+          <div className='flex justify-end space-x-4'>
+            <Button
+              onClick={(event) => {
+                event.stopPropagation();
+                router.push('/inventory/categories/category-list');
+              }}
+            >
+              Back
+            </Button>
+            <Button disabled={loading} className='ml-auto' type='submit'>
+              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+              {action}{' '}
+            </Button>
+          </div>
         </form>
       </Form>
     </>

@@ -8,9 +8,10 @@ import { routes } from '@/config/routes';
 const pageHeader = {
   title: 'Categories',
   breadcrumb: [
+ 
     {
       name: 'Dashboard',
-      href: routes.inventory.dashboard,
+      href: routes.inventory.dashboard
     },
     {
       name: 'List',

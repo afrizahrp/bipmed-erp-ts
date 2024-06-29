@@ -1,6 +1,4 @@
 'use client';
-
-import * as z from 'zod';
 import axios from 'axios';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,14 +8,13 @@ import PageHeader from '@/components/page-header';
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-import { Loader2 } from 'lucide-react';
 
-import { Categories, SubCategories } from '@prisma/client';
-import SubCategoryNameExist from '@/components/nameExistChecking/inventory/subCategoryNameExist';
+import { SubCategories, Categories, CategoryTypes } from '@prisma/client';
+
+import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -27,6 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import FormFooter from '@/components/form-footer';
 import {
   Select,
   SelectContent,
@@ -35,51 +33,53 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+
+import {
+  SearchColumnMaterialCategory,
+  SearchColumnProductCategory,
+} from '@/components/searchColumns';
+
 import {
   SubCategoryFormValues,
   subCategoryFormSchema,
 } from '@/utils/schema/subcategory.form.schema';
+// import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
 
-
-interface SubCategoryFormProps {
-  initialData: SubCategories | undefined;
-  categories: Categories[];
+interface SubcategoryFormProps {
+  initialData?: SubCategories;
+  categories?: Categories[];
+  categoryTypes: CategoryTypes[];
 }
 
-export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
+export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
   initialData,
-  categories,
+  categoryTypes,
 }) => {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  // const [searchTerms, setSearchTerms] = useState('');
+  const [searchTerms, setSearchTerms] = useState('');
 
-  const title = initialData ? 'Edit SubCategory' : 'Add New SubCategory';
-  const description = initialData
-    ? `Change SubCategory ${initialData.id}-> ${initialData.name}`
-    : 'Add New SubCategory';
-  const toastMessage = initialData
-    ? 'SubCategory has changed successfully.'
-    : 'New SubCategory has been added successfully.';
-  const action = initialData ? 'Save Changes' : 'Save New SubCategory';
+  const id = initialData?.id;
+
+  const actionMessage = initialData
+    ? 'Subcategory has changed successfully.'
+    : 'New Subcategory has been added successfully.';
 
   const pageHeader = {
-    title: initialData ? 'Edit SubCategory' : 'New SubCategory',
-
+    title: initialData ? 'Edit Subcategory' : 'New Subcategory',
     breadcrumb: [
       {
         name: 'Dashboard',
         href: routes.inventory.dashboard,
-
       },
       {
         name: 'List',
-        href: routes.inventory.subcategories,
+        href: routes.inventory.categories,
       },
       {
-        name: initialData ? 'Edit SubCategory' : 'New SubCategory',
+        name: initialData ? 'Edit Subcategory' : 'New Subcategory',
       },
     ],
   };
@@ -88,23 +88,31 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
     resolver: zodResolver(subCategoryFormSchema),
     defaultValues: {
       ...initialData,
+      type: initialData?.type || '0',
       id: initialData?.id,
       name: initialData?.name || undefined,
       remarks: initialData?.remarks || undefined,
       iStatus: initialData?.iStatus || undefined,
     },
   });
+
+  const handleBack = (e: any) => {
+    e.preventDefault();
+    setLoading(false);
+    router.push('/inventory/subcategories/subcategory-list');
+  };
+
   const onSubmit = async (data: SubCategoryFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/inventory/categories/${params.id}`, data);
+        await axios.patch(`/api/inventory/subcategories/${params.id}`, data);
       } else {
-        await axios.post(`/api/inventory/categories`, data);
+        await axios.post(`/api/inventory/subcategories`, data);
       }
-      router.push('/inventory/categories/category-list');
+      router.push('/inventory/subcategories/subcategory-list');
       router.refresh();
-      toast.success(toastMessage);
+      toast.success(actionMessage);
     } catch (error: any) {
       console.error(error);
 
@@ -112,6 +120,10 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
     } finally {
       setLoading(false);
     }
+  };
+
+  const onCategoryNameChange = (newCategoryName: string) => {
+    setSearchTerms(newCategoryName);
   };
 
   return (
@@ -123,36 +135,29 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <div className='grid grid-cols-2 gap-4 py-2'>
+          <div className='grid grid-cols-4 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
-                name='id'
+                name={'id'}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>SubCategory Id</FormLabel>
+                    <FormLabel>Subcategory Id</FormLabel>
                     <FormControl>
-                      <Input
-                        disabled
-                        placeholder='Id'
-                        value={field.value ?? ''}
-                        onChange={field.onChange}
-                      />
+                      <Input disabled placeholder='id' {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
-          </div>
 
-          <div className='grid grid-cols-4 gap-4 py-2'>
             <div>
               <FormField
                 control={form.control}
-                name='category_id'
+                name='type'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>Type</FormLabel>
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
@@ -162,24 +167,40 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value ?? ''}
-                            placeholder='Select a category'
+                            defaultValue={field.value}
+                            placeholder='Select type'
                           />
                         </SelectTrigger>
                       </FormControl>
-                      {form.formState.errors.category_id && (
-                        <FormMessage>
-                          {form.formState.errors.category_id.message}
-                        </FormMessage>
-                      )}{' '}
                       <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
+                        {categoryTypes.map((_categoryType) => (
+                          <SelectItem
+                            key={_categoryType.id}
+                            value={_categoryType.id}
+                          >
+                            {_categoryType.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name='category_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    <SearchColumnProductCategory
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      onChange={field.onChange}
+                      disabled={loading}
+                    />
                   </FormItem>
                 )}
               />
@@ -191,22 +212,35 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
               control={form.control}
               name='name'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category Name</FormLabel>
-                  <FormControl>
-                    <SubCategoryNameExist
-                      currentValue={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  {form.formState.errors.name && (
-                    <FormMessage>
-                      {form.formState.errors.name.message}
-                    </FormMessage>
-                  )}{' '}
-                  <FormMessage />
-                </FormItem>
+                <div>
+                  <FormItem>
+                    <FormLabel>Subcategory Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder='Input subcategory name'
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          onCategoryNameChange(e.target.value); // Call the new handler
+                        }}
+                        className='font-bold'
+                      />
+                    </FormControl>
+                    {form.formState.errors.name && (
+                      <FormMessage>
+                        {form.formState.errors.name.message}
+                      </FormMessage>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                </div>
               )}
+            />
+
+            <CategoryNameExist
+              currentValue={searchTerms}
+              onChange={onCategoryNameChange}
             />
           </div>
 
@@ -283,20 +317,11 @@ export const SubCategoryForm: React.FC<SubCategoryFormProps> = ({
             />
           </div>
 
-          <div className='flex justify-end space-x-4'>
-            <Button
-              onClick={(event) => {
-                event.stopPropagation();
-                router.push('/inventory/categories/category-list');
-              }}
-            >
-              Back
-            </Button>
-            <Button disabled={loading} className='ml-auto' type='submit'>
-              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-              {action}{' '}
-            </Button>
-          </div>
+          <FormFooter
+            isLoading={loading}
+            handleAltBtn={handleBack}
+            submitBtnText={id ? 'Update' : 'Save'}
+          />
         </form>
       </Form>
     </>

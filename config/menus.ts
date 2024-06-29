@@ -2047,65 +2047,65 @@ export const menusConfig = {
         title: 'Application',
       },
 
-      {
-        title: 'Productions',
-        href: '#',
-        icon: DashBoard,
-        child: [
-          {
-            title: 'Dashboard',
-            href: '/production/dashboard',
-            icon: DashBoard,
-          },
+      // {
+      //   title: 'Productions',
+      //   href: '#',
+      //   icon: DashBoard,
+      //   child: [
+      //     {
+      //       title: 'Dashboard',
+      //       href: '/production/dashboard',
+      //       icon: DashBoard,
+      //     },
 
-          {
-            title: 'List',
-            href: '/production/master',
-            multi_menu: [
-              {
-                title: 'Finish Goods',
-                href: '/production/products/product-list',
-              },
-              {
-                title: 'Product Specification',
-                href: '#',
-              },
+      //     {
+      //       title: 'List',
+      //       href: '/production/master',
+      //       multi_menu: [
+      //         {
+      //           title: 'Finish Goods',
+      //           href: '/production/products/product-list',
+      //         },
+      //         {
+      //           title: 'Product Specification',
+      //           href: '#',
+      //         },
 
-              {
-                title: 'Categories',
-                href: '/production/categories/category-list',
-              },
-              {
-                title: 'Subcategories',
-                href: '/production/subcategories/subcategory-list',
-              },
-              {
-                title: 'Unit Of Measurement (UOMS)',
-                href: '/utility/maintinance',
-              },
-              {
-                title: 'Brands',
-                href: '/production/brand/brand-list',
-              },
+      //         {
+      //           title: 'Categories',
+      //           href: '/production/categories/category-list',
+      //         },
+      //         {
+      //           title: 'Subcategories',
+      //           href: '/production/subcategories/subcategory-list',
+      //         },
+      //         {
+      //           title: 'Unit Of Measurement (UOMS)',
+      //           href: '/utility/maintinance',
+      //         },
+      //         {
+      //           title: 'Brands',
+      //           href: '/production/brand/brand-list',
+      //         },
 
-              {
-                title: 'Storage Location',
-                href: '#',
-              },
-            ],
-          },
+      //         {
+      //           title: 'Storage Location',
+      //           href: '#',
+      //         },
+      //       ],
+      //     },
 
-          {
-            title: 'Activities',
-            multi_menu: [
-              {
-                title: 'Work Order',
-                href: '#',
-              },
-            ],
-          },
-        ],
-      },
+      //     {
+      //       title: 'Activities',
+      //       multi_menu: [
+      //         {
+      //           title: 'Work Order',
+      //           href: '#',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
 
       {
         title: 'Inventory',
@@ -2122,6 +2122,10 @@ export const menusConfig = {
             title: 'List',
             href: '/inventory/master',
             multi_menu: [
+              {
+                title: 'Finish Goods',
+                href: '/inventory/products/product-list',
+              },
               {
                 title: 'Raw Materials',
                 href: '/inventory/materials/material-list',

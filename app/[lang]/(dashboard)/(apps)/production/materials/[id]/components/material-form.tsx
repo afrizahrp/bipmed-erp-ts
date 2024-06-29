@@ -107,6 +107,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     resolver: zodResolver(materialproductFormSchema),
     defaultValues: {
       ...initialData,
+      // images: [],
       id: initialData?.id,
       name: initialData?.name ?? '',
       category_id: initialData?.category_id ?? '',
@@ -116,11 +117,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       iStatus: initialData?.iStatus ?? false,
       remarks: initialData?.remarks || undefined,
       isMaterial: initialData?.isMaterial ?? true,
-      slug: initialData?.slug ?? '',
-      catalog_id: initialData?.catalog_id ?? '',
-      registered_id: initialData?.registered_id ?? '',
-      ecatalog_URL: initialData?.ecatalog_URL ?? '',
-      iShowedStatus: initialData?.iShowedStatus ?? true,
     },
   });
 
@@ -251,7 +247,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
-                      disabled={loading}
                     />
 
                     {/* Pass the field object to SelectCombo if needed */}
@@ -413,7 +408,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                       currentValue={field.value ?? ''}
                       // value={field.value}
                       onChange={field.onChange}
-                      disabled={loading}
                     />
 
                     {/* Pass the field object to SelectCombo if needed */}
@@ -434,7 +428,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                       currentValue={field.value ?? ''}
                       // value={field.value}
                       onChange={field.onChange}
-                      disabled={loading}
                     />
 
                     {/* Pass the field object to SelectCombo if needed */}

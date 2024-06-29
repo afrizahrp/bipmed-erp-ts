@@ -158,9 +158,6 @@ model SysCounter {
   @@id([module_id, id, startYear, startMonth, company_id, branch_id])
 }
 
-
-
-
 model ProductCounter {
   id                  String        @db.Char(5)
   description         String        @db.VarChar(160) 
@@ -235,15 +232,15 @@ model UomCounter {
 
 
 model BrandCounter {
-  id                  String        @db.Char(5)
-  description         String        @db.VarChar(160) 
-  digits              Int
-  lastCounter         Int
-  createdBy           String?       @db.Char(10)
-  createdAt           DateTime?     @db.DateTime @default(now())
-  updatedBy           String?       @db.Char(10)
-  updatedAt           DateTime?     @db.DateTime
-  company_id          String        @db.Char(5)
+  id                    String        @db.Char(5)
+  description           String        @db.VarChar(160) 
+  digits                Int
+  lastCounter           Int
+  createdBy             String?       @db.Char(10)
+  createdAt             DateTime?     @db.DateTime @default(now())
+  updatedBy             String?       @db.Char(10)
+  updatedAt             DateTime?     @db.DateTime
+  company_id            String        @db.Char(5)
   branch_id             String      @db.Char(10)
   @@id([ id,  company_id, branch_id])
 }
@@ -260,8 +257,9 @@ model Uoms {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  poDetail  PoDetail[]
-  products  Products[]
+  categoryType        CategoryTypes[]
+  poDetail            PoDetail[]
+  products            Products[]
 }
 
 model CategoryTypes {
@@ -275,7 +273,10 @@ model CategoryTypes {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  categories Categories[]
+  categories          Categories[]
+  subCategories       SubCategories[]
+  uoms                Uoms[]
+
 }
 
 model Categories {
@@ -295,28 +296,29 @@ model Categories {
   branch_id           String        @db.Char(10)
   href                String?       @db.VarChar(150)
   icon                String?       @db.VarChar(50)
-  status          MasterTableStatus @relation(fields: [iStatus], references: [id])
-  categoryType    CategoryTypes     @relation(fields: [type], references: [id], onUpdate: NoAction)
-  products      Products[]
-  subCategories SubCategories[]
+  status              MasterTableStatus @relation(fields: [iStatus], references: [id])
+  categoryType        CategoryTypes     @relation(fields: [type], references: [id], onUpdate: NoAction)
+  products            Products[]
+  subCategories       SubCategories[]
 }
 
 model SubCategories {
-  type                String        @db.Char(1)
-  id                  String        @id @db.Char(10)
-  category_id         String        @db.Char(10)
-  name                String?       @db.VarChar(150)
-  iStatus             Boolean       @default(false)
-  remarks             String?       @db.VarChar(250)
-  createdBy           String?       @db.Char(10)
-  createdAt           DateTime?     @db.DateTime @default(now())
-  updatedBy           String?       @db.Char(10)
-  updatedAt           DateTime?     @db.DateTime
-  company_id          String        @db.Char(5)
-  branch_id           String        @db.Char(10)
-  status         MasterTableStatus @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
-  products    Products[]
-  category    Categories @relation(fields: [category_id], references: [id])
+  type                String            @db.Char(1)
+  id                  String            @id @db.Char(10)
+  category_id         String            @db.Char(10)
+  name                String?           @db.VarChar(150)
+  iStatus             Boolean           @default(false)
+  remarks             String?           @db.VarChar(250)
+  createdBy           String?           @db.Char(10)
+  createdAt           DateTime?         @db.DateTime @default(now())
+  updatedBy           String?           @db.Char(10)
+  updatedAt           DateTime?         @db.DateTime
+  company_id          String            @db.Char(5)
+  branch_id           String            @db.Char(10)
+  categoryType        CategoryTypes     @relation(fields: [type], references: [id], onUpdate: NoAction)
+  status              MasterTableStatus @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
+  products            Products[]
+  category            Categories        @relation(fields: [category_id], references: [id])
 }
 
 model Brands {
@@ -331,7 +333,7 @@ model Brands {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  products  Products[]
+  products            Products[]
 }
 
 model Products {
@@ -357,14 +359,67 @@ model Products {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  images         ProductImages[]
-  brand          Brands?            @relation(fields: [brand_id], references: [id])
-  category       Categories?        @relation(fields: [category_id], references: [id], onUpdate: NoAction)
-  status         MasterTableStatus  @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
-  subCategory    SubCategories?     @relation(fields: [subCategory_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  uom            Uoms?              @relation(fields: [uom_id], references: [id])
-  specs          ProductSpecs?
+  images              ProductImages[]
+  brand               Brands?            @relation(fields: [brand_id], references: [id])
+  category            Categories?        @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  status              MasterTableStatus  @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
+  subCategory         SubCategories?     @relation(fields: [subCategory_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  uom                 Uoms?              @relation(fields: [uom_id], references: [id])
+  specs               ProductSpecs?
+  stock               ProductStock[]
+  price               ProductPrice[]
+   
    @@index([name, slug])
+
+}
+
+model ProductStock {
+  id                  String        @id @db.Char(20)
+  product_id          String        @db.Char(20)
+  qty                 Decimal?      @default(0) @db.Decimal(18, 2)
+  avgDailyUsage       Decimal?      @default(0) @db.Decimal(18, 2)
+  leadTime            Int?          @default(0) @db.TinyInt
+  safetyFactor        Decimal?      @default(0) @db.Decimal(18, 2)
+  stdDeviation        Decimal?      @default(0) @db.Decimal(18, 2)
+  bufferQty           Decimal?      @default(0) @db.Decimal(18, 2)
+  minQty              Decimal?      @default(0) @db.Decimal(18, 2) // (lead time * avg daily usage)+safety factor*std deviation
+  maxQty              Decimal?      @default(0) @db.Decimal(18, 2)// (lead time) * (avg daily usage + review period) + buffer qty
+  inQty               Decimal?      @default(0) @db.Decimal(18, 2)
+  outQty              Decimal?      @default(0) @db.Decimal(18, 2)
+  reorderQty          Decimal?      @default(0) @db.Decimal(18, 2)
+  remarks             String?       @db.Text
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  products            Products      @relation(fields: [product_id], references: [id])
+  @@index([product_id])
+
+}
+
+model ProductPrice {
+  id                  String        @id @db.Char(20)
+  product_id          String        @db.Char(20)
+  sellingPrice        Decimal?      @default(0) @db.Decimal(18, 2)
+  discount            Decimal?      @default(0) @db.Decimal(5, 2)
+  discountAmt         Decimal?      @default(0) @db.Decimal(18, 2)
+  unitPrice           Decimal?      @default(0) @db.Decimal(18, 2)
+  currency_cd         String?       @db.Char(3)
+  effective_date      DateTime?     @db.DateTime
+  expired_date        DateTime?     @db.DateTime
+  remarks             String?       @db.Text
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  products            Products  @relation(fields: [product_id], references: [id])
+  // currency            Currency  @relation(fields: [currency_cd], references: [id])
+  @@index([product_id])
+
 }
 
 model ProductImages {
@@ -378,7 +433,7 @@ model ProductImages {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  products   Products  @relation(fields: [product_id], references: [id])
+  products            Products      @relation(fields: [product_id], references: [id])
   @@index([product_id])
 }
 
@@ -450,7 +505,7 @@ model ProductSpecs {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  products           Products  @relation(fields: [id], references: [id])
+  products            Products  @relation(fields: [id], references: [id])
 }
 
 model sysCarousel {
@@ -494,8 +549,8 @@ model Suppliers {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  poHeader           PoHeader[]
-  status             MasterTableStatus? @relation(fields: [iStatus], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  poHeader            PoHeader[]
+  status              MasterTableStatus? @relation(fields: [iStatus], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model PoHeader {
@@ -519,9 +574,9 @@ model PoHeader {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  poDetail     PoDetail[]
-  status       TrxTableStatus? @relation(fields: [iStatus], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  suppliers    Suppliers       @relation(fields: [supplier_id], references: [id])
+  poDetail            PoDetail[]
+  status              TrxTableStatus? @relation(fields: [iStatus], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  suppliers           Suppliers       @relation(fields: [supplier_id], references: [id])
 }
 
 model PoDetail {
@@ -535,7 +590,7 @@ model PoDetail {
   disc_amt            Decimal?      @db.Decimal(18, 2)
   tax_pctg            Decimal?      @default(0) @db.Decimal(5, 2)
   tax_amt             Decimal?      @default(0) @db.Decimal(18, 2)
-  trx_amt             Decimal?      @default(0) @db.Decimal(18, 2)
+  trx_amt             Decimal?      @default(0) @db.Decimal(18, 2)        
   remarks             String?       @db.VarChar(250)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
@@ -543,8 +598,8 @@ model PoDetail {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  poHeader   PoHeader  @relation(fields: [po_id], references: [id])
-  uom        Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
+  poHeader            PoHeader  @relation(fields: [po_id], references: [id])
+  uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
 model vProductCategories {
