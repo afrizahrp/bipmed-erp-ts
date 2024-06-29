@@ -9,9 +9,11 @@ import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
-import { SubCategories, Categories, CategoryTypes } from '@prisma/client';
+import { SubCategories } from '@prisma/client';
 
-import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
+// import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
+import SubCategoryNameExist from '@/components/nameExistChecking/inventory/subCategoryNameExist';
+
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
@@ -34,10 +36,7 @@ import {
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 
-import {
-  SearchColumnMaterialCategory,
-  SearchColumnProductCategory,
-} from '@/components/searchColumns';
+import { SearchColumnCategory } from '@/components/searchColumns';
 
 import {
   SubCategoryFormValues,
@@ -47,19 +46,17 @@ import {
 
 interface SubcategoryFormProps {
   initialData?: SubCategories;
-  categories?: Categories[];
-  categoryTypes: CategoryTypes[];
 }
 
 export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
   initialData,
-  categoryTypes,
 }) => {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [searchTerms, setSearchTerms] = useState('');
+  const [categoryType, setCategoryType] = useState('0');
 
   const id = initialData?.id;
 
@@ -76,7 +73,7 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
       },
       {
         name: 'List',
-        href: routes.inventory.categories,
+        href: routes.inventory.subcategories,
       },
       {
         name: initialData ? 'Edit Subcategory' : 'New Subcategory',
@@ -88,7 +85,6 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
     resolver: zodResolver(subCategoryFormSchema),
     defaultValues: {
       ...initialData,
-      type: initialData?.type || '0',
       id: initialData?.id,
       name: initialData?.name || undefined,
       remarks: initialData?.remarks || undefined,
@@ -106,9 +102,9 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/inventory/subcategories/${params.id}`, data);
+        await axios.patch(`/api/inventory/subCategories/${params.id}`, data);
       } else {
-        await axios.post(`/api/inventory/subcategories`, data);
+        await axios.post(`/api/inventory/subCategories`, data);
       }
       router.push('/inventory/subcategories/subcategory-list');
       router.refresh();
@@ -122,8 +118,8 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
     }
   };
 
-  const onCategoryNameChange = (newCategoryName: string) => {
-    setSearchTerms(newCategoryName);
+  const onSubCategoryNameChange = (newSubCategoryName: string) => {
+    setSearchTerms(newSubCategoryName);
   };
 
   return (
@@ -154,48 +150,11 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
             <div>
               <FormField
                 control={form.control}
-                name='type'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Type</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value}
-                            placeholder='Select type'
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categoryTypes.map((_categoryType) => (
-                          <SelectItem
-                            key={_categoryType.id}
-                            value={_categoryType.id}
-                          >
-                            {_categoryType.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div>
-              <FormField
-                control={form.control}
                 name='category_id'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <SearchColumnProductCategory
+                    <SearchColumnCategory
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
@@ -222,7 +181,7 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
-                          onCategoryNameChange(e.target.value); // Call the new handler
+                          onSubCategoryNameChange(e.target.value); // Call the new handler
                         }}
                         className='font-bold'
                       />
@@ -238,9 +197,9 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
               )}
             />
 
-            <CategoryNameExist
+            <SubCategoryNameExist
               currentValue={searchTerms}
-              onChange={onCategoryNameChange}
+              onChange={onSubCategoryNameChange}
             />
           </div>
 

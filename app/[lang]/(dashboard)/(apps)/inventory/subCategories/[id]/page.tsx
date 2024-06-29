@@ -7,6 +7,7 @@ const SubCategoryPage = async ({
 }: {
   params: {
     id: string;
+    type: string;
   };
 }) => {
   const subCategory = await prisma.subCategories.findUnique({
@@ -18,6 +19,12 @@ const SubCategoryPage = async ({
     },
   });
 
+  const categoryTypes = await prisma.categoryTypes.findMany({
+    where: {
+      id: params.type,
+    },
+  });
+
   const categories = await prisma.categories.findMany({});
 
   return (
@@ -25,6 +32,7 @@ const SubCategoryPage = async ({
       <CardContent>
         <SubCategoryForm
           initialData={subCategory || undefined}
+          categoryTypes={categoryTypes}
           categories={categories}
         />
       </CardContent>

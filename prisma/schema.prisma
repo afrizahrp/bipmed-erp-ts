@@ -274,7 +274,6 @@ model CategoryTypes {
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
   categories          Categories[]
-  subCategories       SubCategories[]
   uoms                Uoms[]
 
 }
@@ -315,7 +314,6 @@ model SubCategories {
   updatedAt           DateTime?         @db.DateTime
   company_id          String            @db.Char(5)
   branch_id           String            @db.Char(10)
-  categoryType        CategoryTypes     @relation(fields: [type], references: [id], onUpdate: NoAction)
   status              MasterTableStatus @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
   products            Products[]
   category            Categories        @relation(fields: [category_id], references: [id])

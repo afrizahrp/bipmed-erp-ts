@@ -27,7 +27,7 @@ export const columns: ColumnDef<SubCategoryColumns>[] = [
     ),
     cell: ({ row }) => (
       <Link
-        href={`/inventory/categories/${row.getValue('id')}`}
+        href={`/inventory/subcategories/${row.getValue('id')}`}
         className='text-primary-600 dark:text-primary-400'
       >
         {row.getValue('id')}
