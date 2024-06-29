@@ -2123,7 +2123,7 @@ export const menusConfig = {
             href: '/inventory/master',
             multi_menu: [
               {
-                title: 'Finish Goods',
+                title: 'Products',
                 href: '/inventory/products/product-list',
               },
               {

@@ -116,6 +116,9 @@ model Currency {
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
   currencyRates       CurrencyRate[]
+  ProductPrice        ProductPrice[]
+  ProductUnitPriceHistory ProductUnitPriceHistory[]
+  ProductSellingPriceHistory ProductSellingPriceHistory[]
 }
 
 model CurrencyRate {
@@ -203,7 +206,7 @@ model CategoryCounter {
 }
 
 model SubCategoryCounter {
- id                   String        @db.Char(5)
+  id                  String        @db.Char(5)
   description         String        @db.VarChar(160) 
   digits              Int
   lastCounter         Int
@@ -334,6 +337,22 @@ model Brands {
   products            Products[]
 }
 
+model Warehouse {
+  id                  String        @id @db.Char(10)
+  name                String?       @db.VarChar(50)
+  address             String?       @db.VarChar(250)
+  isPrimary           Boolean       @default(false)
+  iStatus             Boolean       @default(false)
+  remarks             String?       @db.VarChar(250)
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  productStock        ProductStock[]
+}
+
 model Products {
   id                  String        @id @db.Char(20)
   catalog_id          String       @db.VarChar(20)
@@ -366,13 +385,17 @@ model Products {
   specs               ProductSpecs?
   stock               ProductStock[]
   price               ProductPrice[]
+  unitPriceHistory    ProductUnitPriceHistory[]
+  sellingPriceHistory ProductSellingPriceHistory[]
    
    @@index([name])
 
 }
 
+
 model ProductStock {
-  id                  String        @id @db.Char(20)
+  storage_id          String        @db.Char(10)
+  id                  Int           @id @default(autoincrement())
   product_id          String        @db.Char(20)
   qty                 Decimal?      @default(0) @db.Decimal(18, 2)
   avgDailyUsage       Decimal?      @default(0) @db.Decimal(18, 2)
@@ -392,19 +415,23 @@ model ProductStock {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
+  storage             Warehouse     @relation(fields: [storage_id], references: [id])
   products            Products      @relation(fields: [product_id], references: [id])
   @@index([product_id])
 
 }
 
 model ProductPrice {
-  id                  String        @id @db.Char(20)
+  id                  Int           @id @default(autoincrement())
   product_id          String        @db.Char(20)
   sellingPrice        Decimal?      @default(0) @db.Decimal(18, 2)
+  autoPrice           Boolean?      @default(false)
+  lastInvoice_id      String        @db.Char(20)  // automatic get selling price from last invoice
   discount            Decimal?      @default(0) @db.Decimal(5, 2)
   discountAmt         Decimal?      @default(0) @db.Decimal(18, 2)
   unitPrice           Decimal?      @default(0) @db.Decimal(18, 2)
-  currency_cd         String?       @db.Char(3)
+  lastPo_id           String        @db.Char(20) // automatic get unit price from last po
+  currency_id         String        @db.Char(3)
   effective_date      DateTime?     @db.DateTime
   expired_date        DateTime?     @db.DateTime
   remarks             String?       @db.Text
@@ -414,8 +441,8 @@ model ProductPrice {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  products            Products  @relation(fields: [product_id], references: [id])
-  // currency            Currency  @relation(fields: [currency_cd], references: [id])
+  products            Products      @relation(fields: [product_id], references: [id])
+  currency            Currency      @relation(fields: [currency_id], references: [id])
   @@index([product_id])
 
 }
@@ -432,6 +459,47 @@ model ProductImages {
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
   products            Products      @relation(fields: [product_id], references: [id])
+  @@index([product_id])
+}
+
+model ProductUnitPriceHistory {
+  id                  Int           @id @default(autoincrement())
+  product_id          String        @db.Char(20)
+  unitPrice           Decimal?      @default(0) @db.Decimal(18, 2)
+  lastPo_id           String        @db.Char(20)
+  currency_id         String        @db.Char(3)
+  effective_date      DateTime?     @db.DateTime
+  expired_date        DateTime?     @db.DateTime
+  remarks             String?       @db.Text
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  products            Products      @relation(fields: [product_id], references: [id])
+  currency            Currency      @relation(fields: [currency_id], references: [id])
+  @@index([product_id])
+}
+
+
+model ProductSellingPriceHistory {
+  id                  Int           @id @default(autoincrement())
+  product_id          String        @db.Char(20)
+  unitPrice           Decimal?      @default(0) @db.Decimal(18, 2)
+  lastInvoice_id      String        @db.Char(20)
+  currency_id         String        @db.Char(3)
+  effective_date      DateTime?     @db.DateTime
+  expired_date        DateTime?     @db.DateTime
+  remarks             String?       @db.Text
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  products            Products      @relation(fields: [product_id], references: [id])
+  currency            Currency      @relation(fields: [currency_id], references: [id])
   @@index([product_id])
 }
 
@@ -609,5 +677,4 @@ model vMaterialCategories {
   id                  String        @id @db.VarChar(10)
   name                String        @db.VarChar(50)
 }
-
 
