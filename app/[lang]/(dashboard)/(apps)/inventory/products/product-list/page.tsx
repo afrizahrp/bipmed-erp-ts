@@ -55,6 +55,7 @@ const ProductListPage = async () => {
       category: item.category?.name || '', // Add type assertion to ensure category is always a string
       subcategory: item.subCategory?.name || '',
       brand: item.brand?.name || '',
+      iStatus: item.iStatus, // Add type assertion to ensure iStatus is always a boolean
       status: item.status?.name || '',
       uom: item.uom?.name || '',
       remarks: item.remarks,

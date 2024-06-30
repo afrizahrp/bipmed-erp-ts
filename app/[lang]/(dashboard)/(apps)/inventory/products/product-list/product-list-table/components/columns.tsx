@@ -1,6 +1,12 @@
 'use client';
+import * as React from 'react';
+import axios from 'axios';
+
+// import { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 
@@ -11,10 +17,15 @@ export type ProductColumn = {
   category: string | null;
   subcategory: string | null;
   brand: string | null;
+  iStatus: boolean;
   status: string | null;
   uom: string | null;
   remarks: string | null;
 };
+
+export function changeStatusCaption(iStatus: boolean) {
+  return iStatus ? 'non Active' : 'active';
+}
 
 export function getStatusColor(status: string) {
   if (status.toLowerCase() === 'active') {
@@ -24,7 +35,92 @@ export function getStatusColor(status: string) {
   }
 }
 
+// console.log('ProductColumn', ProductColumn);
+
 export const columns: ColumnDef<ProductColumn>[] = [
+  {
+    id: 'iStatus',
+    accessorKey: 'iStatus',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label='Select all'
+      />
+    ),
+    cell: ({ row }) => {
+      const [isChecked, setIsChecked] = React.useState(row.original.iStatus);
+      const [name, setName] = React.useState(row.original.name);
+
+      const handleCheckboxChange = async (checked: boolean) => {
+        setIsChecked(checked);
+        console.log(row.original.id);
+
+        try {
+          const response = await axios.patch(
+            `/api/inventory/products/${row.original.id}`,
+            {
+              id: row.original.id,
+              iStatus: checked,
+              name: name,
+            }
+          );
+          // Handle response if needed, e.g., updating local state to reflect the change
+          console.log('Update successful', response.data);
+        } catch (error) {
+          // Handle error, e.g., displaying an error message to the user
+          console.error('Error updating iStatus', error);
+        }
+      };
+
+      return (
+        <div>
+          <Checkbox
+            color='secondary'
+            checked={isChecked}
+            onCheckedChange={handleCheckboxChange}
+            aria-label='Select row'
+          />
+          {/* {changeStatusCaption(isChecked)} */}
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Status'
+        className='text-black dark:text-slate-300'
+      />
+    ),
+    cell: ({ row }) => {
+      let value: string = row.getValue('status');
+      const color = getStatusColor(value);
+      return (
+        <div className='w-[140px]'>
+          <span
+            className={cn(
+              'inline-block h-3 w-3 rounded-full mr-2 dark:text-slate-300',
+              color
+            )}
+          ></span>
+          {value}
+        </div>
+      );
+    },
+    filterFn: (row, id, value: string) => {
+      return value.includes(row.getValue(id));
+    },
+  },
   {
     accessorKey: 'id',
     header: ({ column }) => (
@@ -167,34 +263,34 @@ export const columns: ColumnDef<ProductColumn>[] = [
       );
     },
   },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Status'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      let value: string = row.getValue('status');
-      const color = getStatusColor(value);
-      return (
-        <div className='w-[140px]'>
-          <span
-            className={cn(
-              'inline-block h-3 w-3 rounded-full mr-2 dark:text-slate-300',
-              color
-            )}
-          ></span>
-          {value}
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
+  // {
+  //   accessorKey: 'status',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='Status'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     let value: string = row.getValue('status');
+  //     const color = getStatusColor(value);
+  //     return (
+  //       <div className='w-[140px]'>
+  //         <span
+  //           className={cn(
+  //             'inline-block h-3 w-3 rounded-full mr-2 dark:text-slate-300',
+  //             color
+  //           )}
+  //         ></span>
+  //         {value}
+  //       </div>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   },
+  // },
 
   {
     accessorKey: 'remarks',
