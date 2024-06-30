@@ -1,9 +1,9 @@
-export type Products = {
+export interface Products {
   images?: string[];
   id: string;
   catalog_id?: string;
   registered_id?: string;
-  name: string;
+  name?: string | null;
   category_id?: string;
   subCategory_id?: string;
   uom_id?: string;
@@ -12,7 +12,7 @@ export type Products = {
   bmp_pctg?: number;
   ecatalog_URL?: string;
   iStatus?: boolean;
-  remarks?: string;
+  remarks?: string | null;
   isMaterial?: boolean;
   iShowedStatus?: boolean;
   slug?: string;
@@ -22,7 +22,7 @@ export type Products = {
   updatedAt?: Date;
   company?: string;
   branch?: string;
-};
+}
 
 export type ProductImages = {
   id: string;
