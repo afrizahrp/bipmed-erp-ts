@@ -35,10 +35,13 @@ export function middleware(request: any) {
 }
 
 export const config = {
-  matcher: [
-    // Skip all internal paths (_next, assets, api)
-    //"/((?!api|assets|.*\\..*|_next).*)",
-    '/((?!api|assets|docs|.*\\..*|_next).*)',
-    // Optional: only run on root (/) URL
-  ],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+
+  // matcher: [
+  //   // Skip all internal paths (_next, assets, api)
+  //   //"/((?!api|assets|.*\\..*|_next).*)",
+  //   '/((?!api|assets|docs|.*\\..*|_next).*)',
+
+  //   // Optional: only run on root (/) URL
+  // ],
 };
