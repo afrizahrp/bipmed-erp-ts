@@ -1,5 +1,7 @@
 'use client';
 import React from 'react';
+import { Poppins } from 'next/font/google';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -27,6 +29,10 @@ const schema = z.object({
   // company: z.string().min(3),
 });
 import { useMediaQuery } from '@/hooks/use-media-query';
+const font = Poppins({
+  subsets: ['latin'],
+  weight: ['600'],
+});
 
 const LogInForm = () => {
   const [isPending, startTransition] = React.useTransition();
@@ -72,74 +78,96 @@ const LogInForm = () => {
   };
   return (
     <>
-      <div className='py-2'>
+      <div className='w-full flex flex-col items-center justify-center pb-7'>
         <Image
           src='/images/logo/logo.svg'
           alt='logoAtlogin'
-          width={180}
-          height={180}
+          width={140}
+          height={140}
           style={{ top: 0, textAlign: 'left' }}
           priority
         />
-        <div className='text-2xl font-semibold text-default-400'>erpLite</div>
+        {/* <div className='text-2xl font-semibold text-default-400'>erpLite</div> */}
+        <h1
+          className={cn(
+            'text-2xl font-semibold text-[#0063A4]',
+            font.className
+          )}
+        >
+          🔐 User Authentication
+        </h1>
       </div>
 
       <div className='mt-6 xl:mt-8 w-full'>
         <form onSubmit={handleSubmit(onSubmit)} className='mt-2 2xl:mt-5'>
-          <div>
-            <Label htmlFor='name' className='mb-2 font-medium text-default-600'>
-              Username{' '}
-            </Label>
+          <div className='relative'>
             <Input
+              removeWrapper
+              type='name'
+              id='name'
+              size={!isDesktop2xl ? 'xl' : 'lg'}
+              placeholder=' '
               disabled={isPending}
               {...register('name')}
-              type='text'
-              id='name'
-              name='name'
-              className={cn('', {
+              className={cn('peer', {
                 'border-destructive': errors.name,
               })}
-              size={!isDesktop2xl ? 'lg' : 'lg'}
             />
+            <Label
+              htmlFor='name'
+              className={cn(
+                ' absolute text-base text-default-600  rounded-t duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0]   bg-background  px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1',
+                {
+                  ' text-sm ': isDesktop2xl,
+                }
+              )}
+            >
+              Username
+            </Label>
           </div>
           {errors.name && (
             <div className=' text-destructive mt-2'>{errors.name.message}</div>
           )}
 
-          <div className='mt-3.5'>
+          <div className='relative mt-6'>
+            <Input
+              removeWrapper
+              type={passwordType === 'password' ? 'password' : 'text'}
+              id='password'
+              size={!isDesktop2xl ? 'xl' : 'lg'}
+              placeholder=' '
+              disabled={isPending}
+              {...register('password')}
+              className={cn('peer', {
+                'border-destructive': errors.password,
+              })}
+            />
             <Label
               htmlFor='password'
-              className='mb-2 font-medium text-default-600'
+              className={cn(
+                ' absolute text-base  rounded-t text-default-600  duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0]   bg-background  px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1',
+                {
+                  ' text-sm ': isDesktop2xl,
+                }
+              )}
             >
-              Password{' '}
+              Password
             </Label>
-            <div className='relative'>
-              <Input
-                disabled={isPending}
-                {...register('password')}
-                type={passwordType}
-                id='password'
-                className='peer '
-                size={!isDesktop2xl ? 'lg' : 'lg'}
-                placeholder=' '
-              />
-
-              <div
-                className='absolute top-1/2 -translate-y-1/2 right-4 cursor-pointer'
-                onClick={togglePasswordType}
-              >
-                {passwordType === 'password' ? (
-                  <Icon
-                    icon='heroicons:eye'
-                    className='w-5 h-5 text-default-400'
-                  />
-                ) : (
-                  <Icon
-                    icon='heroicons:eye-slash'
-                    className='w-5 h-5 text-default-400'
-                  />
-                )}
-              </div>
+            <div
+              className='absolute top-1/2 -translate-y-1/2 ltr:right-4 rtl:left-4 cursor-pointer'
+              onClick={togglePasswordType}
+            >
+              {passwordType === 'password' ? (
+                <Icon
+                  icon='heroicons:eye'
+                  className='w-4 h-4 text-default-400'
+                />
+              ) : (
+                <Icon
+                  icon='heroicons:eye-slash'
+                  className='w-4 h-4 text-default-400'
+                />
+              )}
             </div>
           </div>
           {errors.password && (
@@ -148,16 +176,23 @@ const LogInForm = () => {
             </div>
           )}
 
-          <div className='mt-3.5'>
+          <div className='relative mt-6'>
             <Label
-              htmlFor='company'
-              className='mb-2 font-medium text-default-600'
+              htmlFor='unit'
+              className={cn(
+                ' absolute text-base  rounded-t text-default-600  duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0]   bg-background  px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1',
+                {
+                  ' text-sm ': isDesktop2xl,
+                }
+              )}
             >
-              Business Unit{' '}
+              Business Unit
             </Label>
+            {/* Business Unit{' '}
+            </Label> */}
             <Select name='company' disabled={isPending}>
               <SelectTrigger className='w-full'>
-                <SelectValue placeholder='Business Unit' />
+                <SelectValue placeholder='Select Business Unit' />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value='bip'>bipmed</SelectItem>

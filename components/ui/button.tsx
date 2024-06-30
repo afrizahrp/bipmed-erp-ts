@@ -9,8 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       color: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/80',
-        primary: 'bg-primary text-primary-foreground hover:bg-primary/80',
+        default: 'bg-[#0063A4] text-primary-foreground hover:bg-primary/80',
+        primary: 'bg-[#0063A4]  text-primary-foreground hover:bg-primary/80',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/80',
         success: 'bg-success text-success-foreground hover:bg-success/80',
@@ -25,6 +25,7 @@ const buttonVariants = cva(
           'border border-current  bg-transparent hover:text-primary-foreground',
         soft: ' bg-opacity-10  hover:text-primary-foreground',
         ghost: 'bg-transparent text-current hover:text-primary-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
         default: 'h-10 px-4 py-[10px]',
