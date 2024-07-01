@@ -1,7 +1,5 @@
 'use client';
 
-import * as z from 'zod';
-
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,7 +22,6 @@ import {
   Brands,
   Uoms,
   ProductImages,
-  ProductSpecs,
 } from '@prisma/client';
 
 // import { Products } from '@/types';
@@ -69,10 +66,11 @@ import ImageCollection from '@/components/ui/images-collection';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
-// import {
-//   ProductFormValues,
-//   productFormSchema,
-// } from '@/utils/schema/product.form.schema';
+import {
+  ProductFormValues,
+  productFormSchema,
+} from '@/utils/schema/product.form.schema';
+import { defaultValues } from '@/utils/defaultvalues/product..defaultValues';
 
 interface ProductFormProps {
   initialData:
@@ -122,38 +120,32 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ],
   };
 
-  const productFormSchema = z.object({
-    images: z.object({ imageURL: z.string() }).array(),
-    catalog_id: z.string().min(5).or(z.literal('')),
-    registered_id: z.string().min(5).or(z.literal('')),
-    id: z.string().min(5).or(z.literal('')).optional(),
-    name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-    category_id: z.string().min(3, { message: 'Category is required' }),
-    subCategory_id: z.string().min(5).or(z.literal('')),
-    uom_id: z.string().min(5).or(z.literal('')),
-    brand_id: z.string().min(5).or(z.literal('')),
-    tkdn_pctg: z.coerce.number().min(0),
-    bmp_pctg: z.coerce.number().min(0),
-    ecatalog_URL: z.string().min(5).or(z.literal('')),
-    iStatus: z.boolean().default(false),
-    remarks: z.string().min(5).or(z.literal('')).optional(),
-    slug: z.string().min(5).or(z.literal('')).optional(),
-    isMaterial: z.boolean().default(false),
-    // iShowedStatus: z.boolean().default(true),
-  });
+  // const productFormSchema = z.object({
+  //   images: z.object({ imageURL: z.string() }).array(),
+  //   catalog_id: z.string().min(5).or(z.literal('')),
+  //   registered_id: z.string().min(5).or(z.literal('')),
+  //   id: z.string().min(5).or(z.literal('')).optional(),
+  //   name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
+  //   category_id: z.string().min(3, { message: 'Category is required' }),
+  //   subCategory_id: z.string().min(5).or(z.literal('')),
+  //   uom_id: z.string().min(5).or(z.literal('')),
+  //   brand_id: z.string().min(5).or(z.literal('')),
+  //   tkdn_pctg: z.coerce.number().min(0),
+  //   bmp_pctg: z.coerce.number().min(0),
+  //   ecatalog_URL: z.string().min(5).or(z.literal('')),
+  //   iStatus: z.boolean().default(false),
+  //   remarks: z.string().min(5).or(z.literal('')).optional(),
+  //   slug: z.string().min(5).or(z.literal('')).optional(),
+  //   isMaterial: z.boolean().default(false),
+  //   // iShowedStatus: z.boolean().default(true),
+  // });
 
-  type ProductFormValues = z.infer<typeof productFormSchema>;
+  // type ProductFormValues = z.infer<typeof productFormSchema>;
 
   const defaultValues = initialData
     ? {
         ...initialData,
         images: initialData?.images || [],
-        // createdAt: initialData?.createdAt
-        //   ? new Date(initialData.createdAt)
-        //   : undefined,
-        // updatedAt: initialData?.updatedAt
-        //   ? new Date(initialData.updatedAt)
-        //   : undefined,
         catalog_id: initialData?.catalog_id ?? '',
         registered_id: initialData?.registered_id ?? '',
         id: initialData?.id ?? '',
@@ -169,7 +161,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         remarks: initialData?.remarks || undefined,
         isMaterial: initialData?.isMaterial ?? false,
         slug: initialData?.slug ?? '',
-        // iShowedStatus: initialData?.iShowedStatus ?? false,
       }
     : {
         images: [],
@@ -203,20 +194,28 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   //     ...initialData,
   //     images: initialData?.images || [],
 
-  //     id: initialData?.id,
-  //     name: initialData?.name ?? '',
-  //     catalog_id: initialData?.catalog_id ?? '',
-  //     registered_id: initialData?.registered_id ?? '',
-  //     category_id: initialData?.category_id ?? '',
+  // id: initialData?.id,
+  // name: initialData?.name ?? '',
+  // catalog_id: initialData?.catalog_id ?? '',
+  // registered_id: initialData?.registered_id ?? '',
+  // category_id: initialData?.category_id ?? '',
+  // subCategory_id: initialData?.subCategory_id ?? '',
+  // brand_id: initialData?.brand_id ?? '',
+  // uom_id: initialData?.uom_id ?? '',
+  // tkdn_pctg: initialData?.tkdn_pctg ?? 0,
+  // bmp_pctg: initialData?.bmp_pctg ?? 0,
+  // ecatalog_URL: initialData?.ecatalog_URL ?? '',
+  // iStatus: initialData?.iStatus ?? false,
+  // remarks: initialData?.remarks || undefined,
+  // isMaterial: initialData?.isMaterial ?? false,
+  //   },
+  // });
+
+  // const form = useForm<ProductFormValues>({
+  //   resolver: zodResolver(productFormSchema),
+  //   defaultValues: {
+  //     ...defaultValues(initialData ?? {}),
   //     subCategory_id: initialData?.subCategory_id ?? '',
-  //     brand_id: initialData?.brand_id ?? '',
-  //     uom_id: initialData?.uom_id ?? '',
-  //     tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-  //     bmp_pctg: initialData?.bmp_pctg ?? 0,
-  //     ecatalog_URL: initialData?.ecatalog_URL ?? '',
-  //     iStatus: initialData?.iStatus ?? false,
-  //     remarks: initialData?.remarks || undefined,
-  //     isMaterial: initialData?.isMaterial ?? false,
   //   },
   // });
 

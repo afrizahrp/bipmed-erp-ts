@@ -10,16 +10,16 @@ import {
 } from '@/components/ui/dialog';
 
 interface ModalProps {
-  title: string;
-  description: string;
+  // title: string;
+  // description: string;
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
 }
 
 export const Modal: React.FC<ModalProps> = ({
-  title,
-  description,
+  // title,
+  // description,
   isOpen,
   onClose,
   children,
@@ -33,10 +33,10 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent>
-        <DialogHeader>
+        {/* <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
+        </DialogHeader> */}
         <div>{children}</div>
       </DialogContent>
     </Dialog>
