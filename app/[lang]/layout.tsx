@@ -11,6 +11,7 @@ import QueryClientProvider from '@/provider/QueryClientProvider';
 
 import 'flatpickr/dist/themes/light.css';
 import DirectionProvider from '@/provider/direction.provider';
+import ModalProvider from '@/provider/modal-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -35,6 +36,7 @@ export default function RootLayout({
           <Providers>
             <DirectionProvider lang={lang}>
               <NextProgress />
+              <ModalProvider />
               {children}
             </DirectionProvider>
           </Providers>

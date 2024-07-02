@@ -1,10 +1,12 @@
 export interface Products {
-  images?: string[];
+  images: ProductImages[];
   id: string;
   catalog_id?: string;
+  catalog?: string | null;
   registered_id?: string;
   name?: string | null;
   category_id?: string;
+  category?: string | null;
   subCategory_id?: string;
   uom_id?: string;
   brand_id?: string;
@@ -24,12 +26,12 @@ export interface Products {
   branch?: string;
 }
 
-export type ProductImages = {
-  id: string;
-  product_id: string;
+export interface ProductImages {
+  id?: string;
+  product_id?: string;
   imageURL: string;
   isPrimary: boolean;
-};
+}
 
 export type CategoryTypes = {
   id: string;
@@ -40,7 +42,7 @@ export type Categories = {
   type?: string;
   id?: string;
   name?: string;
-  imageURL?: string;
+  imageURL?: string | undefined;
   remarks?: string;
   iStatus?: boolean;
 };

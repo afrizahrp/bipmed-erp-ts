@@ -64,14 +64,6 @@ const ProductPage = async ({
   return (
     <Card className='py-6'>
       <CardContent>
-        {/* <ProductDetailPage
-          initialData={product}
-          categories={categories}
-          subCategories={subCategories}
-          brands={brands}
-          uoms={uoms}
-        /> */}
-
         <ProductForm
           initialData={product}
           categories={categories}

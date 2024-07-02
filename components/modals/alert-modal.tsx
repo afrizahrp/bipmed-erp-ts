@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { Modal } from '@/components/ui/modal';
+import Modal from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import axios from 'axios';
@@ -10,6 +10,8 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import usePreviewModal from '@/hooks/use-preview-modal';
+
 import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
 
@@ -26,19 +28,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
-import {
-  SearchColumnProductCategory,
-  SearchColumnUom,
-  SearchColumnBrand,
-} from '@/components/searchColumns';
+import { SearchColumnProductCategory } from '@/components/searchColumns';
 
 import ImageCollection from '@/components/ui/images-collection';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -87,44 +78,16 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   const handleBack = (e: any) => {
     e.preventDefault();
     setisLoading(false);
-    // router.push('/inventory/products/product-list');
   };
 
   return (
-    <Modal
-      // title='Are you sure?'
-      // description='This action cannot be undone.'
-      isOpen={isOpen}
-      onClose={onClose}
-    >
+    <Modal open={isOpen} onClose={onClose}>
       <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onConfirm)}
             className='space-y-8 w-full'
           >
-            <div className='w-full flex items-center'>
-              <FormField
-                control={form.control}
-                name='images'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl className='flex flex-col gap-3'>
-                      <ImageCollection
-                        value={
-                          field.value?.map(
-                            (ProductImages) => ProductImages.imageURL
-                          ) || []
-                        }
-                        disabled={loading}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Separator />
-
             <div className='grid grid-cols-3 gap-4 py-2'>
               <div>
                 <FormField
@@ -170,32 +133,6 @@ export const AlertModal: React.FC<AlertModalProps> = ({
                   )}
                 />
               </div>
-            </div>
-            <div className='w-3/4'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Product Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder='Input product name here'
-                        {...field}
-                        onChange={field.onChange}
-                        className='font-bold'
-                      />
-                    </FormControl>
-                    {form.formState.errors.name && (
-                      <FormMessage>
-                        {form.formState.errors.name.message}
-                      </FormMessage>
-                    )}{' '}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
 
             <div className='grid grid-cols-4 gap-4 py-3'>

@@ -17,7 +17,9 @@ export type ProductColumn = {
   id: string;
   name: string | null;
   catalog: string | null;
+  catalog_id: string | null;
   category: string | null;
+  category_id: string | null;
   subcategory: string | null;
   brand: string | null;
   iStatus: boolean;
