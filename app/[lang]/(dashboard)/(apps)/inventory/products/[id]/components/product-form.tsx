@@ -10,10 +10,7 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 import { toast } from 'react-hot-toast';
 
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
-// import { Toaster } from 'sonner';
-// import { Loader2 } from 'lucide-react';
+
 
 import {
   Products,
@@ -24,15 +21,6 @@ import {
   ProductImages,
 } from '@prisma/client';
 
-// import { Products } from '@/types';
-
-// import {
-//   Materials,
-//   MaterialCategories,
-//   SubCategories,
-//   Brands,
-//   Uoms,
-// } from '@/types';
 
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';

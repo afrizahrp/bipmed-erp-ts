@@ -9,6 +9,7 @@ import { MoreVertical } from 'lucide-react';
 import { MouseEventHandler } from 'react';
 import { ProductColumn } from './columns';
 import { Products } from '@/types';
+import { ProductImages } from '@/types';
 
 // interface CellActionProps {
 //   data: ProductColumn;
@@ -35,7 +36,16 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onPreview = () => {
     // console.log('previewModal', previewModal);
     // event.stopPropagation();
-    previewModal.onOpen(data);
+    const modifiedData: Products = {
+      ...data,
+      images: data.images.map((image) => ({
+        id: '',
+        product_id: '',
+        imageURL: image,
+        isPrimary: false,
+      })),
+    };
+    previewModal.onOpen(modifiedData);
   };
   const onConfirm = async () => {
     // try {

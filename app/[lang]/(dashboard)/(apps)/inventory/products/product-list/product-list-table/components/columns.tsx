@@ -1,25 +1,23 @@
 'use client';
 import * as React from 'react';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Checkbox } from '@/components/ui/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
-import { AlertModal } from '@/components/modals/alert-modal';
+// import { ProductImages } from '@/types';
 
+// import { ProductImages } from '@prisma/client';
 import axios from 'axios';
-import { Switch } from '@/components/ui/switch';
 import { CellAction } from './cell-action';
 
 export type ProductColumn = {
   id: string;
   name: string | null;
   catalog: string | null;
-  catalog_id: string | null;
+  catalog_id: string;
   category: string | null;
-  category_id: string | null;
+  category_id: string;
   subcategory: string | null;
   brand: string | null;
   iStatus: boolean;
@@ -75,6 +73,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
       return value.includes(row.getValue(id));
     },
   },
+
   {
     accessorKey: 'id',
     header: ({ column }) => (
@@ -93,7 +92,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
       </Link>
     ),
     enableHiding: false,
-    // enableSorting: false,
+    enableSorting: false,
   },
   {
     accessorKey: 'catalog',

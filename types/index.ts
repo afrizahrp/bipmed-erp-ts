@@ -1,11 +1,10 @@
 export interface Products {
-  images: ProductImages[];
   id: string;
   catalog_id?: string;
   catalog?: string | null;
   registered_id?: string;
   name?: string | null;
-  category_id?: string;
+  category_id: string | null;
   category?: string | null;
   subCategory_id?: string;
   uom_id?: string;
@@ -24,11 +23,12 @@ export interface Products {
   updatedAt?: Date;
   company?: string;
   branch?: string;
+  images: ProductImages[];
 }
 
 export interface ProductImages {
-  id?: string;
-  product_id?: string;
+  id: string;
+  product_id: string;
   imageURL: string;
   isPrimary: boolean;
 }

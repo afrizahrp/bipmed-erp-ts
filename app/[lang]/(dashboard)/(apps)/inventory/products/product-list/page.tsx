@@ -50,7 +50,7 @@ const ProductListPage = async () => {
       status: item.status?.name || '',
       uom: item.uom?.name || '',
       remarks: item.remarks,
-      images: item.images ? item.images.map((image) => image.imageURL) : [],
+      images: item.images.map((image) => image.imageURL),
     })) ?? [];
 
   return (

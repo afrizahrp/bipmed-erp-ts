@@ -22,17 +22,21 @@ import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
 
 import { SearchColumnProductCategory } from '@/components/searchColumns';
 
 import ImageCollection from '@/components/ui/images-collection';
 import { Checkbox } from '@/components/ui/checkbox';
+
+import {
+  Products,
+  ProductImages,
+} from '@prisma/client';
+
 
 import { Separator } from '@/components/ui/separator';
 import {
@@ -41,7 +45,7 @@ import {
 } from '@/utils/schema/product.form.schema';
 
 interface PreviewProductProps {
-  data: any;
+  data:  any
   onConfirm: () => void;
   loading: boolean;
 }

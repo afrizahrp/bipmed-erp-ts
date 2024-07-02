@@ -16,28 +16,27 @@ const PreviewModal = () => {
   if (!product) {
     return null;
   }
-
-  // console.log('product', product);
-
   return (
     <Modal open={previewModal.isOpen} onClose={previewModal.onClose}>
       <div className='grid w-full'>
-        <div>
-          <Gallery images={product.images} />
+        {product.images ? (
+          <div>
+            <Gallery images={product.images} />
 
-          {/* <Image
+            {/* <Image
             src={product?.images?.[0]?.imageURL}
             alt='Product Image'
             width={100}
             height={100}
           /> */}
 
-          {/* <ImageCollection
+            {/* <ImageCollection
             value={product?.images?.map((images: any) => images.imageURL) || []}
             height={100}
             width={100}
           /> */}
-        </div>
+          </div>
+        ) : null}
         {/* <div>
           <div>Catalog: {product.catalog_id}</div>
           <div>
