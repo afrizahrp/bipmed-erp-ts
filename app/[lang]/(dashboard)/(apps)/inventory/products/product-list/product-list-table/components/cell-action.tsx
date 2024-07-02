@@ -40,7 +40,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       ...data,
       images: data.images.map((image) => ({
         id: '',
-        product_id: '',
+        product_id: data.id,
         imageURL: image,
         isPrimary: false,
       })),

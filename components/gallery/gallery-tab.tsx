@@ -8,7 +8,6 @@ interface GalleryTabProps {
 }
 
 const GalleryTab: React.FC<GalleryTabProps> = ({ image }) => {
-  console.log('imagefromgallerytab', image);
   return (
     <Tab className='relative flex aspect-square cursor-pointer items-center justify-center rounded-md bg-white'>
       {({ selected }) => (
@@ -19,6 +18,7 @@ const GalleryTab: React.FC<GalleryTabProps> = ({ image }) => {
               src={image.imageURL}
               alt='galerytab-image'
               className='object-cover object-center'
+              objectPosition='center'
             />
           </span>
           <span

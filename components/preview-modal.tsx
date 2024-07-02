@@ -18,37 +18,33 @@ const PreviewModal = () => {
   }
   return (
     <Modal open={previewModal.isOpen} onClose={previewModal.onClose}>
-      <div className='grid w-full'>
-        {product.images ? (
-          <div>
-            <Gallery images={product.images} />
-
-            {/* <Image
-            src={product?.images?.[0]?.imageURL}
-            alt='Product Image'
-            width={100}
-            height={100}
-          /> */}
-
-            {/* <ImageCollection
-            value={product?.images?.map((images: any) => images.imageURL) || []}
-            height={100}
-            width={100}
-          /> */}
+      <div className='grid grid-cols-[6fr,3fr] gap-8'>
+        <div>
+          {/* Product Id / Name */}
+          <div className='grid w-full items-start'>
+            <div>Catalog: {product.catalog_id}</div>
+            <div>
+              Product: {product.id}-{product.name}
+            </div>
           </div>
-        ) : null}
-        {/* <div>
-          <div>Catalog: {product.catalog_id}</div>
+
+          {/* PreviewProduct Component */}
           <div>
-            {product.id}- {product.name}
+            <PreviewProduct
+              data={product}
+              onConfirm={previewModal.onClose}
+              loading={false}
+            />
           </div>
-        </div> */}
-        <div className='sm:col-span-8 lg:col-span-7'>
-          <PreviewProduct
-            data={product}
-            onConfirm={previewModal.onClose}
-            loading={false}
-          />
+        </div>
+
+        <div className='w-full'>
+          {/* Gallery */}
+          {product && product.images && (
+            <div>
+              <Gallery images={product.images} />
+            </div>
+          )}
         </div>
       </div>
     </Modal>

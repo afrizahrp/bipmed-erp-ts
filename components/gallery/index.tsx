@@ -1,13 +1,8 @@
 'use client';
 
 import NextImage from 'next/image';
-// import Image from 'next/image';
-
 import { Tab } from '@headlessui/react';
-
 import { ProductImages } from '@/types';
-// import { ProductImages } from '@prisma/client';
-
 import GalleryTab from './gallery-tab';
 
 interface GalleryProps {
@@ -28,16 +23,15 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
           <Tab.Panel key={image.id}>
             <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
               {image.imageURL ? (
-                <NextImage
-                  fill
-                  src={image.imageURL} // Assuming imageURL is a valid string
-                  // src={
-                  //   'https://res.cloudinary.com/biwebapp/image/upload/v1703130600/upload/usbv29reiyoyatigdmg3.jpg'
-                  // }
-
-                  alt='Image'
-                  className='object-cover object-center'
-                />
+                <div className='border-2 border-gray-300'>
+                  <NextImage
+                    fill
+                    src={image.imageURL} // Assuming imageURL is a valid string
+                    alt='Image'
+                    className='object-cover object-center'
+                    objectPosition='center'
+                  />
+                </div>
               ) : (
                 <div>Image not available</div> // Or any other fallback rendering
               )}
