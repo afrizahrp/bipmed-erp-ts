@@ -8,6 +8,7 @@ interface GalleryTabProps {
 }
 
 const GalleryTab: React.FC<GalleryTabProps> = ({ image }) => {
+  // console.log('GalleryTab', image);
   return (
     <Tab className='relative flex aspect-square cursor-pointer items-center justify-center rounded-md bg-white'>
       {({ selected }) => (
