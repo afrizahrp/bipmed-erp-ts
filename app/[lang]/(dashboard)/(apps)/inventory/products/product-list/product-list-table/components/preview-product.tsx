@@ -1,24 +1,14 @@
 'use client';
-
-import { useEffect, useState } from 'react';
-
-import Modal from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
 import axios from 'axios';
-import { useParams, useRouter } from 'next/navigation';
 
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Switch } from '@/components/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+
 import usePreviewModal from '@/hooks/use-preview-modal';
 
-import PageHeader from '@/components/page-header';
-import FormFooter from '@/components/form-footer';
-
-import { toast } from 'react-hot-toast';
-import { routes } from '@/config/routes';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -29,34 +19,29 @@ import {
 
 import { SearchColumnProductCategory } from '@/components/searchColumns';
 
-import ImageCollection from '@/components/ui/images-collection';
-import { Checkbox } from '@/components/ui/checkbox';
-
-import {
-  Products,
-  ProductImages,
-} from '@prisma/client';
-
-
-import { Separator } from '@/components/ui/separator';
 import {
   ProductFormValues,
   productFormSchema,
 } from '@/utils/schema/product.form.schema';
+import { toast } from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
 
 interface PreviewProductProps {
-  data:  any
+  data: any;
   onConfirm: () => void;
   loading: boolean;
 }
 
 export const PreviewProduct: React.FC<PreviewProductProps> = ({
   data,
-  onConfirm,
   loading,
 }) => {
+  const previewModal = usePreviewModal();
+
   const [isMounted, setIsMounted] = useState(false);
   const [isloading, setisLoading] = useState(false);
+  const router = useRouter();
+  const params = useParams();
 
   const defaultValues = {
     id: data.id,
@@ -81,6 +66,22 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
     return null;
   }
 
+  const onConfirm = async () => {
+    try {
+      // setLoading(true);
+      await axios.patch(`/api/inventory/products/${data.id}`, data);
+      toast.success('Product has changed successfully.');
+      previewModal.onClose();
+
+      router.refresh();
+    } catch (error) {
+      toast.error('Something went wrong');
+    } finally {
+      // setLoading(false);
+      // setOpen(false);
+    }
+  };
+
   const handleBack = (e: any) => {
     e.preventDefault();
     setisLoading(false);
@@ -93,32 +94,7 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
           onSubmit={form.handleSubmit(onConfirm)}
           className='space-y-8 w-full'
         >
-          {/* <div className='w-full flex items-center'>
-            <FormField
-              control={form.control}
-              name='images'
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl className='flex flex-col gap-3'>
-                    <ImageCollection
-                      value={
-                        field.value?.map(
-                          (ProductImages) => ProductImages.imageURL
-                        ) || []
-                      }
-                      disabled={loading}
-                      height={100}
-                      width={100}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div> */}
-
           <div className='w-[300px]'>
-            {/* <div className='flex px-3 gap-x-4'> */}{' '}
-            {/* Add this wrapper with flexbox */}
             <FormField
               control={form.control}
               name='category_id'
@@ -136,7 +112,6 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
               )}
             />
           </div>
-
           <div>
             <FormField
               control={form.control}
@@ -157,11 +132,10 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
                     <Switch
                       checked={!!field.value}
                       // @ts-ignore
-                      onCheckedChange={(checked) => {
-                        // Assuming `field.onChange` can handle boolean values directly
-                        // If not, you might need to adapt this to your form library's needs
-                        field.onChange(checked);
-                      }}
+                      onCheckedChange={field.onChange}
+                      // onCheckedChange={(checked) => {
+                      //   field.onChange(checked);
+                      // }}
                       disabled={loading}
                       style={{
                         backgroundColor: field.value ? 'gray' : 'green',
@@ -183,7 +157,24 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
               )}
             />
           </div>
-          {/* </div> */}
+
+          <Button
+            onClick={previewModal.onClose}
+            disabled={loading}
+            className='ml-auto'
+            variant='outline'
+          >
+            Cancel
+          </Button>
+
+          <Button
+            onClick={onConfirm}
+            disabled={loading}
+            className='ml-auto'
+            type='submit'
+          >
+            Save
+          </Button>
         </form>
       </Form>
     </div>

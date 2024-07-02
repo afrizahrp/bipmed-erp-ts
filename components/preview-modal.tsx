@@ -2,12 +2,10 @@
 
 import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
-import { ProductImages } from '@/types';
 import Modal from '@/components/ui/modal';
 import { PreviewProduct } from '@/app/[lang]/(dashboard)/(apps)/inventory/products/product-list/product-list-table/components/preview-product';
-import Image from 'next/image';
 
-import ImageCollection from './ui/images-collection';
+import { Button } from './ui/button';
 
 const PreviewModal = () => {
   const previewModal = usePreviewModal();
@@ -16,6 +14,7 @@ const PreviewModal = () => {
   if (!product) {
     return null;
   }
+
   return (
     <Modal open={previewModal.isOpen} onClose={previewModal.onClose}>
       <div className='grid grid-cols-[6fr,3fr] gap-8'>
@@ -36,6 +35,12 @@ const PreviewModal = () => {
               loading={false}
             />
           </div>
+
+          {/* <div className='pt-6 space-x-2 flex justify-start w-full'>
+            <Button variant='outline' onClick={previewModal.onClose}>
+              Cancel
+            </Button>
+          </div> */}
         </div>
 
         <div className='w-full'>

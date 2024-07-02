@@ -1,15 +1,11 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import { AlertModal } from '@/components/modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import usePreviewModal from '@/hooks/use-preview-modal';
 import { MoreVertical } from 'lucide-react';
-import { MouseEventHandler } from 'react';
 import { ProductColumn } from './columns';
 import { Products } from '@/types';
-import { ProductImages } from '@/types';
 
 // interface CellActionProps {
 //   data: ProductColumn;
@@ -24,8 +20,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const params = useParams();
 
   // const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
   //   // console.log('previewModal', previewModal);
@@ -46,19 +40,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       })),
     };
     previewModal.onOpen(modifiedData);
-  };
-  const onConfirm = async () => {
-    // try {
-    //   setLoading(true);
-    //   await axios.delete(`/api/${params.storeId}/products/${data.id}`);
-    //   toast.success('Product deleted.');
-    //   router.refresh();
-    // } catch (error) {
-    //   toast.error('Something went wrong');
-    // } finally {
-    //   setLoading(false);
-    //   setOpen(false);
-    // }
   };
 
   return (

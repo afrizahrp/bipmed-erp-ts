@@ -1,14 +1,9 @@
 'use client';
 import * as React from 'react';
-
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
-// import { ProductImages } from '@/types';
-
-// import { ProductImages } from '@prisma/client';
-import axios from 'axios';
 import { CellAction } from './cell-action';
 
 export type ProductColumn = {

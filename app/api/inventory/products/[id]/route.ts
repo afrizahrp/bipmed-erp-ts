@@ -124,6 +124,8 @@ export async function PATCH(
         },
       },
     });
+
+    console.log('update id', product.id);
     return NextResponse.json(product);
   } catch (error) {
     console.log('[PRODUCT_PATCH]', error);

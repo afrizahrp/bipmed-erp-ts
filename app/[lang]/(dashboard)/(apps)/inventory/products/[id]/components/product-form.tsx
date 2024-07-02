@@ -10,8 +10,6 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 import { toast } from 'react-hot-toast';
 
-
-
 import {
   Products,
   Categories,
@@ -20,7 +18,6 @@ import {
   Uoms,
   ProductImages,
 } from '@prisma/client';
-
 
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
@@ -58,7 +55,6 @@ import {
   ProductFormValues,
   productFormSchema,
 } from '@/utils/schema/product.form.schema';
-import { defaultValues } from '@/utils/defaultvalues/product..defaultValues';
 
 interface ProductFormProps {
   initialData:
