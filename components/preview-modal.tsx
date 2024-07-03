@@ -1,19 +1,42 @@
 'use client';
+import axios from 'axios';
 
+import { useParams, useRouter } from 'next/navigation';
 import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
-import { PreviewProduct } from '@/app/[lang]/(dashboard)/(apps)/inventory/products/product-list/product-list-table/components/preview-product';
-
+import { PreviewProduct } from '@/app/[lang]/(dashboard)/(apps)/inventory/products/quickEdit/[id]/page';
+import { toast } from 'react-hot-toast';
 import { Button } from './ui/button';
+
+// interface PreviewModalProps {
+//   onConfirm: () => void;
+// }
 
 const PreviewModal = () => {
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
+  const router = useRouter();
 
   if (!product) {
     return null;
   }
+
+  // const onConfirm = async () => {
+  //   try {
+  //     // setLoading(true);
+  //     await axios.patch(`/api/inventory/products/${product.id}`, product);
+  //     toast.success('Product has changed successfully.');
+  //     previewModal.onClose();
+
+  //     router.refresh();
+  //   } catch (error) {
+  //     toast.error('Something went wrong');
+  //   } finally {
+  //     // setLoading(false);
+  //     // setOpen(false);
+  //   }
+  // };
 
   return (
     <Modal open={previewModal.isOpen} onClose={previewModal.onClose}>
@@ -27,18 +50,25 @@ const PreviewModal = () => {
             </div>
           </div>
 
-          {/* PreviewProduct Component */}
           <div>
             <PreviewProduct
               data={product}
-              onConfirm={previewModal.onClose}
+              // onConfirm={onConfirm}
               loading={false}
             />
           </div>
 
-          {/* <div className='pt-6 space-x-2 flex justify-start w-full'>
-            <Button variant='outline' onClick={previewModal.onClose}>
+          {/* <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
+            <Button
+              onClick={previewModal.onClose}
+              className='ml-auto'
+              variant='outline'
+            >
               Cancel
+            </Button>
+
+            <Button onClick={onConfirm} className='ml-auto' type='submit'>
+              Save
             </Button>
           </div> */}
         </div>

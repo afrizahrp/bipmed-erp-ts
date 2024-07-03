@@ -28,12 +28,13 @@ import { Button } from '@/components/ui/button';
 
 interface PreviewProductProps {
   data: any;
-  onConfirm: () => void;
   loading: boolean;
+  // onConfirm: () => void;
 }
 
 export const PreviewProduct: React.FC<PreviewProductProps> = ({
   data,
+  // onConfirm,
   loading,
 }) => {
   const previewModal = usePreviewModal();
@@ -43,20 +44,34 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
   const router = useRouter();
   const params = useParams();
 
-  const defaultValues = {
-    id: data.id,
-    images: data?.images || [],
+  const defaultValues = data
+    ? {
+        ...data,
+        images: data?.images || [],
+        id: data?.id ?? '',
+        name: data?.name ?? '',
+        category_id: data?.category_id ?? '',
+        iStatus: data?.iStatus ?? false,
+      }
+    : {
+        images: [],
+        catalog_id: undefined,
 
-    catalog_id: data.catalog_id,
-    name: data.name,
-    category_id: data.category_id,
-    iStatus: data.iStatus,
-  };
+        id: '',
+        name: '',
+        category_id: '',
+        iStatus: false,
+      };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
     defaultValues,
   });
+
+  // const form = useForm<ProductFormValues>({
+  //   resolver: zodResolver(productFormSchema),
+  //   defaultValues,
+  // });
 
   useEffect(() => {
     setIsMounted(true);
@@ -66,26 +81,42 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
     return null;
   }
 
-  const onConfirm = async () => {
-    try {
-      // setLoading(true);
-      await axios.patch(`/api/inventory/products/${data.id}`, data);
-      toast.success('Product has changed successfully.');
-      previewModal.onClose();
+  const onConfirm = (formData: FormData) => {
+    const category_id = formData.get('category_id') as string;
+    const iStatus = Boolean(formData.get('iStatus'));
+    const name = formData.get('name') as string;
+    const catalog_id = formData.get('catalog_id') as string;
+    const id = formData.get('id') as string;
+    console.log(category_id, iStatus);
 
-      router.refresh();
-    } catch (error) {
-      toast.error('Something went wrong');
-    } finally {
-      // setLoading(false);
-      // setOpen(false);
-    }
+    // try {
+    //   setisLoading(true);
+    //   await axios.patch(`/api/inventory/products/${data.id}`, values);
+    //   toast.success('Product has changed successfully.');
+    //   previewModal.onClose();
+    //   router.refresh();
+    // } catch (error) {
+    //   toast.error('Something went wrong');
+    // } finally {
+    //   setisLoading(false);
+    // }
   };
 
-  const handleBack = (e: any) => {
-    e.preventDefault();
-    setisLoading(false);
-  };
+  // const onConfirm = async () => {
+  //   try {
+  //     // setLoading(true);
+  //     await axios.patch(`/api/inventory/products/${data.id}`, data);
+  //     toast.success('Product has changed successfully.');
+  //     previewModal.onClose();
+
+  //     router.refresh();
+  //   } catch (error) {
+  //     toast.error('Something went wrong');
+  //   } finally {
+  //     // setLoading(false);
+  //     // setOpen(false);
+  //   }
+  // };
 
   return (
     <div className='pt-3 space-x-2 flex items-center justify-end w-full'>
@@ -157,24 +188,25 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
               )}
             />
           </div>
+          <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
+            <Button
+              onClick={previewModal.onClose}
+              disabled={loading}
+              className='ml-auto'
+              variant='outline'
+            >
+              Cancel
+            </Button>
 
-          <Button
-            onClick={previewModal.onClose}
-            disabled={loading}
-            className='ml-auto'
-            variant='outline'
-          >
-            Cancel
-          </Button>
-
-          <Button
-            onClick={onConfirm}
-            disabled={loading}
-            className='ml-auto'
-            type='submit'
-          >
-            Save
-          </Button>
+            <Button
+              onClick={onConfirm}
+              disabled={loading}
+              className='ml-auto'
+              type='submit'
+            >
+              Save
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

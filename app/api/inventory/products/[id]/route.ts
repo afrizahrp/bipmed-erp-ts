@@ -105,6 +105,8 @@ export async function PATCH(
       },
     });
 
+    console.log('new category id', category_id);
+
     const product = await prisma.products.update({
       where: {
         id: params.id,
