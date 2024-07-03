@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
-import { PreviewProduct } from '@/app/[lang]/(dashboard)/(apps)/inventory/products/quickEdit/[id]/page';
+import { PreviewProduct } from './preview-product';
 import { toast } from 'react-hot-toast';
 import { Button } from './ui/button';
 

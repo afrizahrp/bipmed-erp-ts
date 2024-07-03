@@ -7,7 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import usePreviewModal from '@/hooks/use-preview-modal';
+// import usePreviewModal from '@/hooks/use-preview-modal';
 
 import {
   Form,
@@ -26,18 +26,18 @@ import {
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 
-interface PreviewProductProps {
+interface ProductFormQuickEditProps {
   data: any;
   loading: boolean;
   // onConfirm: () => void;
 }
 
-export const PreviewProduct: React.FC<PreviewProductProps> = ({
+export const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
   data,
   // onConfirm,
   loading,
 }) => {
-  const previewModal = usePreviewModal();
+  // const previewModal = usePreviewModal();
 
   const [isMounted, setIsMounted] = useState(false);
   const [isloading, setisLoading] = useState(false);
@@ -81,42 +81,36 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
     return null;
   }
 
-  const onConfirm = (formData: FormData) => {
-    const category_id = formData.get('category_id') as string;
-    const iStatus = Boolean(formData.get('iStatus'));
-    const name = formData.get('name') as string;
-    const catalog_id = formData.get('catalog_id') as string;
-    const id = formData.get('id') as string;
-    console.log(category_id, iStatus);
+  // const onConfirm = () => {
+  //   console.log('data', data);
 
-    // try {
-    //   setisLoading(true);
-    //   await axios.patch(`/api/inventory/products/${data.id}`, values);
-    //   toast.success('Product has changed successfully.');
-    //   previewModal.onClose();
-    //   router.refresh();
-    // } catch (error) {
-    //   toast.error('Something went wrong');
-    // } finally {
-    //   setisLoading(false);
-    // }
-  };
-
-  // const onConfirm = async () => {
   //   try {
-  //     // setLoading(true);
-  //     await axios.patch(`/api/inventory/products/${data.id}`, data);
+  //     setisLoading(true);
+  //     await axios.patch(`/api/inventory/products/${data.id}`, values);
   //     toast.success('Product has changed successfully.');
   //     previewModal.onClose();
-
   //     router.refresh();
   //   } catch (error) {
   //     toast.error('Something went wrong');
   //   } finally {
-  //     // setLoading(false);
-  //     // setOpen(false);
+  //     setisLoading(false);
   //   }
   // };
+
+  const onConfirm = async () => {
+    try {
+      // setLoading(true);
+      await axios.patch(`/api/inventory/products/${data.id}`, data);
+      toast.success('Product has changed successfully.');
+      router.push('/inventory/products/product-list');
+      router.refresh();
+    } catch (error) {
+      toast.error('Something went wrong');
+    } finally {
+      // setLoading(false);
+      // setOpen(false);
+    }
+  };
 
   return (
     <div className='pt-3 space-x-2 flex items-center justify-end w-full'>
@@ -190,7 +184,7 @@ export const PreviewProduct: React.FC<PreviewProductProps> = ({
           </div>
           <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
             <Button
-              onClick={previewModal.onClose}
+              onClick={onConfirm}
               disabled={loading}
               className='ml-auto'
               variant='outline'

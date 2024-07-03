@@ -37,7 +37,14 @@ export function getStatusColor(status: string) {
 export const columns: ColumnDef<ProductColumn>[] = [
   {
     id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />,
+    cell: ({ row }) => <CellAction id={row.original.id} />,
+
+    //   <Link
+    //   href={`/inventory/products/${row.getValue('id')}`}
+    //   className='text-primary-600 dark:text-slate-200'
+    // >
+    //   {row.getValue('id')}
+    // </Link>
   },
 
   {
