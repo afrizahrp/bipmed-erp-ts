@@ -12,11 +12,12 @@ import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
-
 import { SearchColumnProductCategory } from '@/components/searchColumns';
 
 import {
@@ -25,6 +26,7 @@ import {
 } from '@/utils/schema/product.form.schema';
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface ProductFormQuickEditProps {
   data: any;
@@ -44,23 +46,46 @@ export const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
   const router = useRouter();
   const params = useParams();
 
+  console.log('data', data);
+
   const defaultValues = data
     ? {
         ...data,
         images: data?.images || [],
+        catalog_id: data?.catalog_id ?? '',
+        registered_id: data?.registered_id ?? '',
         id: data?.id ?? '',
         name: data?.name ?? '',
         category_id: data?.category_id ?? '',
+        subCategory_id: data?.subCategory_id ?? '',
+        brand_id: data?.brand_id ?? '',
+        uom_id: data?.uom_id ?? '',
+        tkdn_pctg: data?.tkdn_pctg ?? 0,
+        bmp_pctg: data?.bmp_pctg ?? 0,
+        ecatalog_URL: data?.ecatalog_URL ?? '',
         iStatus: data?.iStatus ?? false,
+        remarks: data?.remarks || undefined,
+        isMaterial: data?.isMaterial ?? false,
+        slug: data?.slug ?? '',
       }
     : {
         images: [],
         catalog_id: undefined,
-
+        registered_id: undefined,
         id: '',
         name: '',
         category_id: '',
+        subCategory_id: '',
+        brand_id: '',
+        uom_id: '',
+        tkdn_pctg: 0,
+        bmp_pctg: 0,
+        ecatalog_URL: '',
         iStatus: false,
+        remarks: '',
+        isMaterial: false,
+        slug: '',
+        iShowedStatus: true,
       };
 
   const form = useForm<ProductFormValues>({
@@ -68,38 +93,9 @@ export const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
     defaultValues,
   });
 
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
-  //   defaultValues,
-  // });
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
-  // const onConfirm = () => {
-  //   console.log('data', data);
-
-  //   try {
-  //     setisLoading(true);
-  //     await axios.patch(`/api/inventory/products/${data.id}`, values);
-  //     toast.success('Product has changed successfully.');
-  //     previewModal.onClose();
-  //     router.refresh();
-  //   } catch (error) {
-  //     toast.error('Something went wrong');
-  //   } finally {
-  //     setisLoading(false);
-  //   }
-  // };
-
-  const onConfirm = async () => {
+  const onConfirm = async (data: ProductFormValues) => {
     try {
-      // setLoading(true);
+      setisLoading(true);
       await axios.patch(`/api/inventory/products/${data.id}`, data);
       toast.success('Product has changed successfully.');
       router.push('/inventory/products/product-list');
@@ -107,8 +103,7 @@ export const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
-      // setLoading(false);
-      // setOpen(false);
+      setisLoading(false);
     }
   };
 
@@ -119,6 +114,33 @@ export const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
           onSubmit={form.handleSubmit(onConfirm)}
           className='space-y-8 w-full'
         >
+          <div className='w-3/4'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder='Input product name here'
+                      {...field}
+                      onChange={field.onChange}
+                      className='font-bold'
+                    />
+                  </FormControl>
+                  {form.formState.errors.name && (
+                    <FormMessage>
+                      {form.formState.errors.name.message}
+                    </FormMessage>
+                  )}{' '}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <div className='w-[300px]'>
             <FormField
               control={form.control}

@@ -19,7 +19,7 @@ export const CellAction: React.FC<CellActionProps> = ({
 }: CellActionProps) => {
   const router = useRouter();
 
-  const previewModal = usePreviewModal();
+  // const previewModal = usePreviewModal();
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);

@@ -1,9 +1,10 @@
 import { prisma } from '@/lib/client';
-import usePreviewModal from '@/hooks/use-preview-modal';
+// import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
+import { ProductFormQuickEdit } from '../../../quick-edit/[id]/product-form-quick-edit';
 
-import { ProductFormQuickEdit } from './product-form-quick-edit';
+// import { ProductFormQuickEdit } from '@/apps/inventory/products/quick-edit/[id]/product-form-quick-edit';
 
 interface QuickEditProductProps {
   open: boolean;
@@ -38,6 +39,7 @@ const QuickEditProduct = async ({
   }
 
   return (
+    // <Modal open={open} onClose={onClose}>
     <Modal>
       <div className='grid grid-cols-[6fr,3fr] gap-8'>
         <div>

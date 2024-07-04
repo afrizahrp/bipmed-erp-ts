@@ -114,13 +114,16 @@ export async function PATCH(
       data: {
         images: {
           createMany: {
-            data: [
-              ...images.map((image: { imageURL: string }) => ({
-                company_id: '',
-                branch_id: '',
-                ...image,
-              })),
-            ],
+            data: images.map((image: { imageURL: string }) => ({
+              imageURL: image.imageURL,
+              isPrimary: false,
+              createdBy: userName,
+              updatedBy: userName,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              company_id: company_id,
+              branch_id: branch_id,
+            })),
           },
         },
       },

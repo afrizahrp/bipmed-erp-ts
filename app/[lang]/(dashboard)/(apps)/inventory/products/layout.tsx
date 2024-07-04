@@ -1,14 +1,17 @@
-import { ReactNode } from 'react';
-
 export const metadata = {
-  title: "Products"
-}
-const ProductLayout = ({ children }: { children: ReactNode }) => {
+  title: 'Products',
+};
+export default function ProductsLayout({
+  children,
+  modal,
+}: Readonly<{
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}>) {
   return (
     <>
+      {modal}
       {children}
     </>
   );
-};
-
-export default ProductLayout; 
+}
