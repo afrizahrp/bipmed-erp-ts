@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 import { Products } from '@/types';
 
 interface PreviewModalStore {

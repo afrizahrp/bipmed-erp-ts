@@ -3,6 +3,7 @@ import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
 
+import ProducFormQuickEdit from './product-form-quick-edit';
 import PreviewModal from './preview-modal';
 
 interface QuickEditProductProps {
@@ -30,40 +31,24 @@ const QuickEditProduct = async ({
     },
   });
 
+  // const products: product = {
+  //       ...product,
+  //       images: product.images.map((image) => ({
+  //         id: '',
+  //         product_id: product.id,
+  //         imageURL: image,
+  //         isPrimary: false,
+  //       })),
+  //     };
+
   console.log('quick-edit', product?.id);
 
-  // if (!product) {
-  //   return null;
-  // }
-
   return (
-    // <div> Quick edit : {product?.id}</div>
-    <PreviewModal data={product} />
-    // <Modal open={previewModal.isOpen} onClose={previewModal.onClose}>
-    //   <div className='grid grid-cols-[6fr,3fr] gap-8'>
-    //     <div>
-    //       {/* Product Id / Name */}
-    //       <div className='grid w-full items-start'>
-    //         <div>Catalog: {product.catalog_id}</div>
-    //         <div>
-    //           Product: {product.id}-{product.name}
-    //         </div>
-    //       </div>
-
-    //       <div>
-    //         <ProductFormQuickEdit data={product} loading={false} />
-    //       </div>
-    //     </div>
-
-    //     {/* <div className='w-full'>
-    //       {product && product.images && (
-    //         <div>
-    //           <Gallery images={product.images} />
-    //         </div>
-    //       )}
-    //     </div> */}
-    //   </div>
-    // </Modal>
+    <div className='p-8 max-w-md space-y-2'>
+      {/* <h1 className='text-2xl'>Edit Product {product?.id}</h1> */}
+      {/* <ProducFormQuickEdit data={product} /> */}
+      <PreviewModal data={product} />
+    </div>
   );
 };
 

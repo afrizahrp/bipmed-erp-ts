@@ -28,17 +28,13 @@ import { Button } from '@/components/ui/button';
 
 interface ProducFormQuickEditProps {
   data: any;
-  loading: boolean;
 }
 
-const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
-  data,
-  loading,
-}) => {
+const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
   const previewModal = usePreviewModal();
 
   const [isMounted, setIsMounted] = useState(false);
-  const [isloading, setisLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const params = useParams();
 
@@ -66,15 +62,13 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
 
   // const onSubmit = () => {
   async function onSubmit(data: ProductFormValues): Promise<void> {
-    console.log('onSubmit', data);
-
     try {
+      console.log('product-form-quick-edit', data);
       // setLoading(true);
       await axios.patch(`/api/inventory/products/${data.id}`, data);
       toast.success('Product has changed successfully.');
-      previewModal.onClose();
-
       router.refresh();
+      previewModal.onClose();
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
@@ -85,7 +79,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
 
   const handleBack = (e: any) => {
     e.preventDefault();
-    setisLoading(false);
+    setLoading(false);
   };
 
   return (
@@ -101,7 +95,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
               name='category_id'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>Categories</FormLabel>
 
                   <SearchColumnProductCategory
                     {...field}
@@ -137,7 +131,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
                       // onCheckedChange={(checked) => {
                       //   field.onChange(checked);
                       // }}
-                      disabled={loading}
+                      // disabled={loading}
                       style={{
                         backgroundColor: field.value ? 'gray' : 'green',
                       }}
@@ -159,10 +153,10 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
             />
           </div>
 
-          <div>
+          <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
             <Button
               onClick={previewModal.onClose}
-              disabled={loading}
+              // disabled={loading}
               className='ml-auto'
               variant='outline'
             >
@@ -170,7 +164,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
             </Button>
 
             <Button
-              disabled={loading}
+              // disabled={loading}
               className='ml-auto'
               type='submit'
               onClick={(event) => {

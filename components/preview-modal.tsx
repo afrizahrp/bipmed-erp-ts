@@ -3,11 +3,11 @@
 import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
-import { PreviewProduct } from '@/app/[lang]/(dashboard)/(apps)/inventory/products/product-list/product-list-table/components/preview-product';
+import { PreviewProduct } from './preview-product';
 
 import { Button } from './ui/button';
 
-const PreviewModal = () => {
+const PreviewModalxxx = () => {
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
 
@@ -52,4 +52,4 @@ const PreviewModal = () => {
   );
 };
 
-export default PreviewModal;
+export default PreviewModalxxx;

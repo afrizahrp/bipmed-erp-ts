@@ -3,6 +3,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { X } from 'lucide-react';
 import { Fragment } from 'react';
+import { useRouter } from 'next/navigation';
 
 import IconButton from '@/components/ui/icon-button';
 
@@ -13,9 +14,14 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
+  const router = useRouter();
+
+  const closeModal = () => {
+    router.back();
+  };
   return (
-    <Transition show={open} appear as={Fragment}>
-      <Dialog as='div' className='relative z-10' onClose={onClose}>
+    <Transition show={true} appear as={Fragment}>
+      <Dialog as='div' className='relative z-10' open={open} onClose={onClose}>
         <div className='fixed inset-0 bg-black bg-opacity-50' />
 
         <div className='fixed inset-0 overflow-y-auto'>

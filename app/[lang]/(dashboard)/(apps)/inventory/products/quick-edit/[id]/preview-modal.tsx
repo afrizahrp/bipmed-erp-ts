@@ -12,10 +12,11 @@ interface QuickEditProductProps {
 const PreviewModal = ({ data }: QuickEditProductProps) => {
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
-
   console.log('previewModal', data);
 
   // const product = usePreviewModal(data); //usePreviewModal((state) => state.data);
+
+  console.log('PreviewModal', product);
 
   if (!product) {
     return null;
@@ -35,7 +36,7 @@ const PreviewModal = ({ data }: QuickEditProductProps) => {
 
           {/* PreviewProduct Component */}
           <div>
-            <ProductFormQuickEdit data={product} loading={false} />
+            <ProductFormQuickEdit data={product} />
           </div>
 
           {/* <div className='pt-6 space-x-2 flex justify-start w-full'>
@@ -45,14 +46,13 @@ const PreviewModal = ({ data }: QuickEditProductProps) => {
           </div> */}
         </div>
 
-        <div className='w-full'>
-          {/* Gallery */}
+        {/* <div className='w-full'>
           {product && product.images && (
             <div>
               <Gallery images={product.images} />
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </Modal>
   );
