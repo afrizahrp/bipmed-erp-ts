@@ -7,14 +7,15 @@ import { Fragment } from 'react';
 import IconButton from '@/components/ui/icon-button';
 
 interface ModalProps {
+  open: boolean;
+  onClose: () => void;
   children: React.ReactNode;
 }
 
-// const Modal = () => {
-const Modal: React.FC<ModalProps> = ({ children }) => {
+const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
   return (
-    <Transition show={true} appear as={Fragment}>
-      <Dialog as='div' className='relative z-10' onClose={close}>
+    <Transition show={open} appear as={Fragment}>
+      <Dialog as='div' className='relative z-10' onClose={onClose}>
         <div className='fixed inset-0 bg-black bg-opacity-50' />
 
         <div className='fixed inset-0 overflow-y-auto'>
@@ -31,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({ children }) => {
               <Dialog.Panel className='w-full max-w-3xl overflow-hidden rounded-lg text-left align-middle'>
                 <div className='relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8'>
                   <div className='absolute right-4 top-4'>
-                    <IconButton onClick={close} icon={<X size={15} />} />
+                    <IconButton onClick={onClose} icon={<X size={15} />} />
                   </div>
                   {children}
                 </div>

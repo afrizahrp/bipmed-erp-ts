@@ -26,12 +26,12 @@ import {
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 
-interface ProducFormQuickEditProps {
+interface PreviewProductProps {
   data: any;
   loading: boolean;
 }
 
-const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
+export const PreviewProduct: React.FC<PreviewProductProps> = ({
   data,
   loading,
 }) => {
@@ -187,5 +187,3 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({
     </div>
   );
 };
-
-export default ProducFormQuickEdit;

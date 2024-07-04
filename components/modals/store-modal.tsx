@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import Modal from '@/components/ui/modal';
+import { Modal } from '@/components/ui/modal';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -53,9 +53,9 @@ export const StoreModal = () => {
 
   return (
     <Modal
-      // title='Create store'
-      // description='Add a new store to manage products and categories.'
-      open={storeModal.isOpen}
+      title='Create store'
+      description='Add a new store to manage products and categories.'
+      isOpen={storeModal.isOpen}
       onClose={storeModal.onClose}
     >
       <div>

@@ -3,13 +3,19 @@
 import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
-import { PreviewProduct } from '@/app/[lang]/(dashboard)/(apps)/inventory/products/product-list/product-list-table/components/preview-product';
+import ProductFormQuickEdit from './product-form-quick-edit';
 
-import { Button } from './ui/button';
+// interface QuickEditProductProps {
+//   data: any;
+// }
 
 const PreviewModal = () => {
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
+
+  // const product = usePreviewModal(data); //usePreviewModal((state) => state.data);
+
+  console.log('previewModal', product);
 
   if (!product) {
     return null;
@@ -29,7 +35,7 @@ const PreviewModal = () => {
 
           {/* PreviewProduct Component */}
           <div>
-            <PreviewProduct data={product} loading={false} />
+            <ProductFormQuickEdit data={product} loading={false} />
           </div>
 
           {/* <div className='pt-6 space-x-2 flex justify-start w-full'>

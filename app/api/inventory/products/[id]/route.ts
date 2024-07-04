@@ -105,8 +105,6 @@ export async function PATCH(
       },
     });
 
-    console.log('new category id', category_id);
-
     const product = await prisma.products.update({
       where: {
         id: params.id,
@@ -117,9 +115,7 @@ export async function PATCH(
             data: images.map((image: { imageURL: string }) => ({
               imageURL: image.imageURL,
               isPrimary: false,
-              createdBy: userName,
               updatedBy: userName,
-              createdAt: new Date(),
               updatedAt: new Date(),
               company_id: company_id,
               branch_id: branch_id,
