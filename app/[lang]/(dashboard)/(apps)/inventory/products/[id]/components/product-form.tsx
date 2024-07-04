@@ -141,7 +141,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         tkdn_pctg: initialData?.tkdn_pctg ?? 0,
         bmp_pctg: initialData?.bmp_pctg ?? 0,
         ecatalog_URL: initialData?.ecatalog_URL ?? '',
-        iStatus: initialData?.iStatus ?? false,
+        iStatus: initialData?.iStatus ?? true,
         remarks: initialData?.remarks || undefined,
         isMaterial: initialData?.isMaterial ?? false,
         slug: initialData?.slug ?? '',
@@ -582,11 +582,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem
                   className={`flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 justify-self-end ${
                     field.value
-                      ? 'bg-slate-400 text-black'
-                      : 'bg-green-600 text-white'
+                      ? 'bg-green-600 text-white'
+                      : 'bg-slate-400 text-black'
                   }`}
                 >
-                  {' '}
                   <FormControl>
                     <Checkbox
                       checked={!!field.value}
@@ -598,22 +597,20 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <div className='space-y-1 leading-none'>
                     <FormLabel>
                       {field.value ? (
-                        <span className='text-red text-semibold'>
-                          Non Active
-                        </span>
+                        <span className='text-red text-semibold'>Active</span>
                       ) : (
-                        <span className='text-green'>Active</span>
+                        <span className='text-green'>Non Active</span>
                       )}{' '}
                     </FormLabel>
                     <FormDescription>
                       {field.value ? (
+                        <span className='text-white'>
+                          This product will be shown during transaction input
+                        </span>
+                      ) : (
                         <span className='text-black'>
                           This product will not be shown during transaction
                           input
-                        </span>
-                      ) : (
-                        <span className='text-white'>
-                          This product will be shown during transaction input
                         </span>
                       )}
                     </FormDescription>

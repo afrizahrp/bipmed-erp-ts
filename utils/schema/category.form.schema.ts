@@ -6,8 +6,8 @@ export const categoryFormSchema = z.object({
   type: z.string().min(1, { message: 'Type is required' }),
   name: z.string().min(5, { message: 'Category name is required' }), // {message: 'Name must be at least 5 characters long'
   remarks: z.string().min(5).or(z.literal('')).optional(),
-  iStatus: z.boolean().default(false).optional(),
-  iShowedStatus: z.boolean().default(true).optional(),
+  iStatus: z.boolean().default(true),
+  iShowedStatus: z.boolean().default(false),
   icon: z.string().min(5).or(z.literal('')).optional(),
   href: z.string().min(5).or(z.literal('')).optional(),
   slug: z.string().min(5).or(z.literal('')).optional(),

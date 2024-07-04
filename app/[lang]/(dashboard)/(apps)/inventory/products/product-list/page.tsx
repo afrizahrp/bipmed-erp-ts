@@ -39,7 +39,6 @@ const ProductListPage = async () => {
     products?.map((item) => ({
       id: item.id,
       name: item.name ?? '',
-
       catalog: item.catalog_id ?? '',
       catalog_id: item.catalog_id ?? '',
       category_id: item.category_id ?? '',

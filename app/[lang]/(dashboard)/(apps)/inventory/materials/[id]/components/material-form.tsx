@@ -11,10 +11,10 @@ import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
 import {
   Products,
-  Categories,
   SubCategories,
-  Brands,
-  Uoms,
+  // Categories,
+  // Brands,
+  // Uoms,
 } from '@prisma/client';
 
 // import {
@@ -61,18 +61,15 @@ import {
 
 interface MaterialFormProps {
   initialData: Products | null;
-  categories: Categories[] | null;
   subCategories: SubCategories[];
-  brands: Brands[];
-  uoms: Uoms[];
+  // categories: Categories[] | null;
+  // brands: Brands[];
+  // uoms: Uoms[];
 }
 
 export const MaterialForm: React.FC<MaterialFormProps> = ({
   initialData,
-  categories,
   subCategories,
-  brands,
-  uoms,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -115,7 +112,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
       subCategory_id: initialData?.subCategory_id ?? '',
       brand_id: initialData?.brand_id ?? '',
       uom_id: initialData?.uom_id ?? '',
-      iStatus: initialData?.iStatus ?? false,
+      iStatus: initialData?.iStatus ?? true,
       remarks: initialData?.remarks ?? '',
       isMaterial: initialData?.isMaterial ?? true,
       slug: initialData?.slug ?? '',
@@ -468,37 +465,35 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 <FormItem
                   className={`flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 justify-self-end ${
                     field.value
-                      ? 'bg-slate-400 text-black'
-                      : 'bg-green-600 text-white'
+                      ? 'bg-green-600 text-white'
+                      : 'bg-slate-400 text-black'
                   }`}
                 >
-                  {' '}
                   <FormControl>
                     <Checkbox
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
+                      disabled={loading}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>
                     <FormLabel>
                       {field.value ? (
-                        <span className='text-red text-semibold'>
-                          Non Active
-                        </span>
+                        <span className='text-red text-semibold'>Active</span>
                       ) : (
-                        <span className='text-green'>Active</span>
+                        <span className='text-green'>Non Active</span>
                       )}{' '}
                     </FormLabel>
                     <FormDescription>
                       {field.value ? (
+                        <span className='text-white'>
+                          This material will be shown during transaction input
+                        </span>
+                      ) : (
                         <span className='text-black'>
                           This material will not be shown during transaction
                           input
-                        </span>
-                      ) : (
-                        <span className='text-white'>
-                          This material will be shown during transaction input
                         </span>
                       )}
                     </FormDescription>

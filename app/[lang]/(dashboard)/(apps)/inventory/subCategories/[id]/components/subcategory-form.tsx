@@ -88,7 +88,7 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
       id: initialData?.id,
       name: initialData?.name || undefined,
       remarks: initialData?.remarks || undefined,
-      iStatus: initialData?.iStatus || undefined,
+      iStatus: initialData?.iStatus ?? true,
     },
   });
 
@@ -235,11 +235,10 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
                 <FormItem
                   className={`flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 justify-self-end ${
                     field.value
-                      ? 'bg-slate-400 text-black'
-                      : 'bg-green-600 text-white'
+                      ? 'bg-green-600 text-white'
+                      : 'bg-slate-400 text-black'
                   }`}
                 >
-                  {' '}
                   <FormControl>
                     <Checkbox
                       checked={!!field.value}
@@ -251,22 +250,21 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
                   <div className='space-y-1 leading-none'>
                     <FormLabel>
                       {field.value ? (
-                        <span className='text-red text-semibold'>
-                          Non Active
-                        </span>
+                        <span className='text-red text-semibold'>Active</span>
                       ) : (
-                        <span className='text-green'>Active</span>
+                        <span className='text-green'>Non Active</span>
                       )}{' '}
                     </FormLabel>
                     <FormDescription>
                       {field.value ? (
-                        <span className='text-black'>
-                          This category will not be shown during transaction
+                        <span className='text-white'>
+                          This subcategory will be shown during transaction
                           input
                         </span>
                       ) : (
-                        <span className='text-white'>
-                          This category will be shown during transaction input
+                        <span className='text-black'>
+                          This subcategory will not be shown during transaction
+                          input
                         </span>
                       )}
                     </FormDescription>

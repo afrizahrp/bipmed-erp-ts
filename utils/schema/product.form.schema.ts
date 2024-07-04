@@ -13,7 +13,7 @@ export const productFormSchema = z.object({
   tkdn_pctg: z.coerce.number().min(0),
   bmp_pctg: z.coerce.number().min(0),
   ecatalog_URL: z.string().min(5).or(z.literal('')),
-  iStatus: z.boolean().default(false),
+  iStatus: z.boolean().default(true),
   remarks: z.string().min(5).or(z.literal('')).optional(),
   slug: z.string().min(5).or(z.literal('')).optional(),
   isMaterial: z.boolean().default(false),

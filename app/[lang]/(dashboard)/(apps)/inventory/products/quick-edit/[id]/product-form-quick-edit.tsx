@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,7 +36,6 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const params = useParams();
 
   const defaultValues = {
     ...data,
@@ -129,23 +128,18 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
-                      // onCheckedChange={(checked) => {
-                      //   field.onChange(checked);
-                      // }}
                       // disabled={loading}
                       style={{
-                        backgroundColor: field.value ? 'gray' : 'green',
+                        backgroundColor: field.value ? 'green' : 'gray',
                       }}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>
                     <FormLabel>
                       {field.value ? (
-                        <span className='text-red text-semibold'>
-                          Non Active
-                        </span>
+                        <span className='text-red text-semibold'>Active</span>
                       ) : (
-                        <span className='text-green'>Active</span>
+                        <span className='text-green'> Non Active</span>
                       )}{' '}
                     </FormLabel>
                   </div>

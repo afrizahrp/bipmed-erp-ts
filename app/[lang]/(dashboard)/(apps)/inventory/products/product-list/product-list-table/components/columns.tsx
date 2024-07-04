@@ -22,10 +22,6 @@ export type ProductColumn = {
   images: string[];
 };
 
-export function changeStatusCaption(iStatus: boolean) {
-  return iStatus ? 'non Active' : 'active';
-}
-
 export function getStatusColor(status: string) {
   if (status.toLowerCase() === 'active') {
     return 'bg-green-600';
@@ -38,13 +34,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     id: 'actions',
     cell: ({ row }) => <CellAction id={row.original.id} />,
-
-    //   <Link
-    //   href={`/inventory/products/${row.getValue('id')}`}
-    //   className='text-primary-600 dark:text-slate-200'
-    // >
-    //   {row.getValue('id')}
-    // </Link>
   },
 
   {

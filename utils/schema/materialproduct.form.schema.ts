@@ -10,7 +10,7 @@ export const materialproductFormSchema = z.object({
   subCategory_id: z.string().min(5).or(z.literal('')).nullable(),
   uom_id: z.string().min(5).or(z.literal('')).nullable(),
   brand_id: z.string().min(5).or(z.literal('')).nullable(),
-  iStatus: z.boolean().default(false), //iStatus False = active
+  iStatus: z.boolean().default(true), //iStatus False = active
   remarks: z.string().min(5).or(z.literal('')).optional(),
   isMaterial: z.boolean().default(true),
   slug: z.string().min(5).or(z.literal('')),
