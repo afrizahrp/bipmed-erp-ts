@@ -38,7 +38,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import ImageUpload from '@/components/ui/image-upload';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
+// import { Checkbox } from '@/components/ui/checkbox';
 
 import {
   CategoryFormValues,
@@ -287,11 +288,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                   }`}
                 >
                   <FormControl>
-                    <Checkbox
+                    <Switch
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
-                      disabled={loading}
+                      // disabled={loading}
+                      style={{
+                        backgroundColor: field.value ? 'green' : 'gray',
+                      }}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>

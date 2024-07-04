@@ -27,14 +27,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import FormFooter from '@/components/form-footer';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
+
+import { Switch } from '@/components/ui/switch';
+// import { Checkbox } from '@/components/ui/checkbox';
 
 import { SearchColumnCategory } from '@/components/searchColumns';
 
@@ -240,11 +235,14 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
                   }`}
                 >
                   <FormControl>
-                    <Checkbox
+                    <Switch
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
-                      disabled={loading}
+                      // disabled={loading}
+                      style={{
+                        backgroundColor: field.value ? 'green' : 'gray',
+                      }}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>

@@ -53,7 +53,8 @@ import {
   SearchColumnBrand,
 } from '@/components/searchColumns';
 
-import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
+// import { Checkbox } from '@/components/ui/checkbox';
 import {
   MaterialProductFormValues,
   materialproductFormSchema,
@@ -470,11 +471,14 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                   }`}
                 >
                   <FormControl>
-                    <Checkbox
+                    <Switch
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
-                      disabled={loading}
+                      // disabled={loading}
+                      style={{
+                        backgroundColor: field.value ? 'green' : 'gray',
+                      }}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>

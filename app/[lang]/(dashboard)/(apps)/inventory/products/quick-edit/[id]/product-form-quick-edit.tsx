@@ -15,7 +15,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 import { SearchColumnProductCategory } from '@/components/searchColumns';
 
@@ -25,6 +27,7 @@ import {
 } from '@/utils/schema/product.form.schema';
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
+import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 
 interface ProducFormQuickEditProps {
   data: any;
@@ -34,6 +37,8 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
   const previewModal = usePreviewModal();
 
   const [isMounted, setIsMounted] = useState(false);
+  const [searchTerms, setSearchTerms] = useState('');
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -50,14 +55,6 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
     resolver: zodResolver(productFormSchema),
     defaultValues,
   });
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
 
   const onClosePreviewModal = (e: any) => {
     e.preventDefault();
@@ -81,15 +78,52 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
       // setOpen(false);
     }
   }
+  const onProductNameChange = (newCategoryName: string) => {
+    setSearchTerms(newCategoryName);
+  };
 
   return (
     <div className='pt-3 space-x-2 flex items-center justify-end w-full'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-8 w-full'
+          className='space-y-3 w-full'
         >
-          <div className='w-[300px]'>
+          <div className='w-full'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder='Edit product name here'
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        onProductNameChange(e.target.value); // Call the new handler
+                      }}
+                      className='font-bold w-full'
+                    />
+                  </FormControl>
+                  {form.formState.errors.name && (
+                    <FormMessage>
+                      {form.formState.errors.name.message}
+                    </FormMessage>
+                  )}{' '}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <ProductNameExist
+              currentValue={searchTerms}
+              onChange={onProductNameChange}
+            />
+            {/* </div>
+
+          <div className='w-[300px]'> */}
             <FormField
               control={form.control}
               name='category_id'

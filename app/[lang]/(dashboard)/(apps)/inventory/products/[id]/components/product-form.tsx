@@ -12,11 +12,11 @@ import { toast } from 'react-hot-toast';
 
 import {
   Products,
-  Categories,
   SubCategories,
-  Brands,
-  Uoms,
   ProductImages,
+  // Categories,
+  // Brands,
+  // Uoms,
 } from '@prisma/client';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -48,7 +48,8 @@ import {
 } from '@/components/searchColumns';
 
 import ImageCollection from '@/components/ui/images-collection';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
+// import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
 import {
@@ -62,18 +63,18 @@ interface ProductFormProps {
         images: ProductImages[];
       })
     | null;
-  categories: Categories[];
   subCategories: SubCategories[];
-  brands: Brands[];
-  uoms: Uoms[];
+  // categories: Categories[];
+  // brands: Brands[];
+  // uoms: Uoms[];
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
-  categories,
   subCategories,
-  brands,
-  uoms,
+  // categories,
+  // brands,
+  // uoms,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -587,11 +588,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   }`}
                 >
                   <FormControl>
-                    <Checkbox
+                    <Switch
                       checked={!!field.value}
                       // @ts-ignore
                       onCheckedChange={field.onChange}
-                      disabled={loading}
+                      // disabled={loading}
+                      style={{
+                        backgroundColor: field.value ? 'green' : 'gray',
+                      }}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>

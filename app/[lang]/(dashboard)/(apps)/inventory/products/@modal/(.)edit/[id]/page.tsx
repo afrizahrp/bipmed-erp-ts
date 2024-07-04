@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/client';
-import PreviewProduct from '../../../quick-edit/[id]/preview-modal';
+import PreviewProduct from '../../../quick-edit/[id]/product-dialog';
 
 const QuickEditProduct = async ({
   params,

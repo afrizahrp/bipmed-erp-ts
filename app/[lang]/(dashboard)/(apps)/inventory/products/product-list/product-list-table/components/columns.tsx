@@ -83,7 +83,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
       </Link>
     ),
     enableHiding: false,
-    enableSorting: false,
+    enableSorting: true,
   },
   {
     accessorKey: 'catalog',

@@ -1,26 +1,27 @@
 'use client';
 
-import usePreviewModal from '@/hooks/use-preview-modal';
+// import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
 import { useRouter } from 'next/navigation';
-import Modal from '@/components/ui/modal';
+// import Modal from '@/components/ui/modal';
 import ProductFormQuickEdit from './product-form-quick-edit';
 import PreviewModal from '@/components/preview-modal';
 
-interface PreviewProductProps {
-  data: any;
+interface ProductDialogProps {
+  product: any;
 }
 
-const PreviewProduct = ({ data }: PreviewProductProps) => {
+const ProductDialog = ({ product }: ProductDialogProps) => {
   const router = useRouter();
-  const previewModal = usePreviewModal();
-  const product = usePreviewModal((state) => state.data);
+  // const previewModal = usePreviewModal();
+  // const product = usePreviewModal((state) => state.data);
   // const product = usePreviewModal(data); //usePreviewModal((state) => state.data);
 
-  console.log('PreviewProduct', data);
+  // console.log('ProductDialog', data);
 
   const closeModal = () => {
-    previewModal.onClose();
+    router.back();
+    // previewModal.onClose();
     router.push('/inventory/products/product-list');
   };
 
@@ -33,21 +34,21 @@ const PreviewProduct = ({ data }: PreviewProductProps) => {
       <div className='grid grid-cols-[6fr,3fr] gap-8'>
         <div>
           <div className='grid w-full items-start'>
-            <div>Catalog: {data?.catalog_id}</div>
-            <div>
-              Product: {data?.id}-{data?.name}
-            </div>
+            <div>Catalog: {product?.catalog_id}</div>
+            {/* <div>
+              Product: {product?.id}-{product?.name}
+            </div> */}
           </div>
 
           <div>
-            <ProductFormQuickEdit data={data} />
+            <ProductFormQuickEdit data={product} />
           </div>
         </div>
 
         <div className='w-full'>
-          {data && data.images && (
+          {product && product.images && (
             <div>
-              <Gallery images={data.images} />
+              <Gallery images={product.images} />
             </div>
           )}
         </div>
@@ -56,4 +57,4 @@ const PreviewProduct = ({ data }: PreviewProductProps) => {
   );
 };
 
-export default PreviewProduct;
+export default ProductDialog;
