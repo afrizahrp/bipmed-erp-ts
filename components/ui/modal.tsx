@@ -3,9 +3,8 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { X } from 'lucide-react';
 import { Fragment } from 'react';
-import { useRouter } from 'next/navigation';
-
 import IconButton from '@/components/ui/icon-button';
+// import { useRouter } from 'next/navigation';
 
 interface ModalProps {
   open: boolean;
@@ -14,11 +13,21 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
-  const router = useRouter();
+  // const [isMounted, setIsMounted] = useState(false);
 
-  const closeModal = () => {
-    router.back();
-  };
+  // useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
+
+  // if (!isMounted) {
+  //   return null;
+  // }
+
+  // const router = useRouter();
+
+  // const closeModal = () => {
+  //   router.back();
+  // };
   return (
     <Transition show={true} appear as={Fragment}>
       <Dialog as='div' className='relative z-10' open={open} onClose={onClose}>

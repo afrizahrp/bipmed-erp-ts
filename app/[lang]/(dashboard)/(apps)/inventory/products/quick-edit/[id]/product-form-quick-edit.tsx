@@ -40,11 +40,11 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
 
   const defaultValues = {
     ...data,
-    id: data.id,
-    catalog_id: data.catalog_id,
-    name: data.name,
-    category_id: data.category_id,
-    iStatus: data.iStatus,
+    // id: data.id,
+    // catalog_id: data.catalog_id,
+    // name: data.name,
+    // category_id: data.category_id,
+    // iStatus: data.iStatus,
   };
 
   const form = useForm<ProductFormValues>({
@@ -60,6 +60,12 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
     return null;
   }
 
+  const onClosePreviewModal = (e: any) => {
+    e.preventDefault();
+
+    router.back();
+  };
+
   // const onSubmit = () => {
   async function onSubmit(data: ProductFormValues): Promise<void> {
     try {
@@ -67,8 +73,8 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
       // setLoading(true);
       await axios.patch(`/api/inventory/products/${data.id}`, data);
       toast.success('Product has changed successfully.');
+      router.push('/inventory/products/product-list');
       router.refresh();
-      previewModal.onClose();
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
@@ -76,11 +82,6 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
       // setOpen(false);
     }
   }
-
-  const handleBack = (e: any) => {
-    e.preventDefault();
-    setLoading(false);
-  };
 
   return (
     <div className='pt-3 space-x-2 flex items-center justify-end w-full'>
@@ -155,7 +156,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
 
           <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
             <Button
-              onClick={previewModal.onClose}
+              onClick={onClosePreviewModal}
               // disabled={loading}
               className='ml-auto'
               variant='outline'

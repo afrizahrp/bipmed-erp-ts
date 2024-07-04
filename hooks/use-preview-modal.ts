@@ -3,8 +3,8 @@ import { Products } from '@/types';
 
 interface PreviewModalStore {
   isOpen: boolean;
-  data?: Products;
-  onOpen: (data: Products) => void;
+  data?: any;
+  onOpen: (data: any) => void;
   onClose: () => void;
 }
 

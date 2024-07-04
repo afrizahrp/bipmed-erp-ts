@@ -68,7 +68,7 @@ const LogInForm = () => {
         redirect: false,
       });
       if (response?.ok) {
-        toast.success('Login Successful');
+        toast.success('Login Successfully');
         window.location.assign('/inventory');
         reset();
       } else if (response?.error) {

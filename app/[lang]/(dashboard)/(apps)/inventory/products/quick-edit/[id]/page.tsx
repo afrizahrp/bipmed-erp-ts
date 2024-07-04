@@ -4,7 +4,7 @@ import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
 
 import ProducFormQuickEdit from './product-form-quick-edit';
-import PreviewModal from './preview-modal';
+import PreviewProduct from './preview-modal';
 
 interface QuickEditProductProps {
   open: boolean;
@@ -47,7 +47,7 @@ const QuickEditProduct = async ({
     <div className='p-8 max-w-md space-y-2'>
       {/* <h1 className='text-2xl'>Edit Product {product?.id}</h1> */}
       {/* <ProducFormQuickEdit data={product} /> */}
-      <PreviewModal data={product} />
+      <PreviewProduct data={product} />
     </div>
   );
 };

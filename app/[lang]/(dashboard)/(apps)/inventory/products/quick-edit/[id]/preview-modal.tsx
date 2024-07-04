@@ -2,60 +2,58 @@
 
 import usePreviewModal from '@/hooks/use-preview-modal';
 import Gallery from '@/components/gallery';
+import { useRouter } from 'next/navigation';
 import Modal from '@/components/ui/modal';
 import ProductFormQuickEdit from './product-form-quick-edit';
+import PreviewModal from '@/components/preview-modal';
 
-interface QuickEditProductProps {
+interface PreviewProductProps {
   data: any;
 }
 
-const PreviewModal = ({ data }: QuickEditProductProps) => {
+const PreviewProduct = ({ data }: PreviewProductProps) => {
+  const router = useRouter();
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
-  console.log('previewModal', data);
-
   // const product = usePreviewModal(data); //usePreviewModal((state) => state.data);
 
-  console.log('PreviewModal', product);
+  console.log('PreviewProduct', data);
 
-  if (!product) {
-    return null;
-  }
+  const closeModal = () => {
+    previewModal.onClose();
+    router.push('/inventory/products/product-list');
+  };
+
+  // if (!product) {
+  //   return null;
+  // }
 
   return (
-    <Modal open={previewModal.isOpen} onClose={previewModal.onClose}>
+    <PreviewModal isOpen={true} onClose={closeModal}>
       <div className='grid grid-cols-[6fr,3fr] gap-8'>
         <div>
-          {/* Product Id / Name */}
           <div className='grid w-full items-start'>
-            <div>Catalog: {product.catalog_id}</div>
+            <div>Catalog: {data?.catalog_id}</div>
             <div>
-              Product: {product.id}-{product.name}
+              Product: {data?.id}-{data?.name}
             </div>
           </div>
 
-          {/* PreviewProduct Component */}
           <div>
-            <ProductFormQuickEdit data={product} />
+            <ProductFormQuickEdit data={data} />
           </div>
-
-          {/* <div className='pt-6 space-x-2 flex justify-start w-full'>
-            <Button variant='outline' onClick={previewModal.onClose}>
-              Cancel
-            </Button>
-          </div> */}
         </div>
 
-        {/* <div className='w-full'>
-          {product && product.images && (
+        <div className='w-full'>
+          {data && data.images && (
             <div>
-              <Gallery images={product.images} />
+              <Gallery images={data.images} />
             </div>
           )}
-        </div> */}
+        </div>
       </div>
-    </Modal>
+    </PreviewModal>
   );
 };
 
-export default PreviewModal;
+export default PreviewProduct;

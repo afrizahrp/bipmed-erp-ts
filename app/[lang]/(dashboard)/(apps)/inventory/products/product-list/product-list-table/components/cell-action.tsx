@@ -1,33 +1,35 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import usePreviewModal from '@/hooks/use-preview-modal';
 import { MoreVertical } from 'lucide-react';
 import { ProductColumn } from './columns';
 import { Products } from '@/types';
 
 interface CellActionProps {
-  data: ProductColumn;
+  id: string;
 }
 
-export const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  // const router = useRouter();
+export const CellAction: React.FC<CellActionProps> = ({
+  id,
+}: CellActionProps) => {
+  const router = useRouter();
   const previewModal = usePreviewModal();
 
   const onPreview = () => {
-    // router.push(`/inventory/products/quick-edit/${data.id}`);
+    router.push(`/inventory/products/quick-edit/${id}`);
 
-    const modifiedData: Products = {
-      ...data,
-      images: data.images.map((image) => ({
-        id: '',
-        product_id: data.id,
-        imageURL: image,
-        isPrimary: false,
-      })),
-    };
-    previewModal.onOpen(modifiedData);
+    //   const modifiedData: Products = {
+    //     ...data,
+    //     images: data.images.map((image) => ({
+    //       id: '',
+    //       product_id: data.id,
+    //       imageURL: image,
+    //       isPrimary: false,
+    //     })),
+    //   };
+    //   previewModal.onOpen(modifiedData);
   };
 
   return (
