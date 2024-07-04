@@ -5,17 +5,17 @@ import Gallery from '@/components/gallery';
 import Modal from '@/components/ui/modal';
 import ProductFormQuickEdit from './product-form-quick-edit';
 
-// interface QuickEditProductProps {
-//   data: any;
-// }
+interface QuickEditProductProps {
+  data: any;
+}
 
-const PreviewModal = () => {
+const PreviewModal = ({ data }: QuickEditProductProps) => {
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
 
-  // const product = usePreviewModal(data); //usePreviewModal((state) => state.data);
+  console.log('previewModal', data);
 
-  console.log('previewModal', product);
+  // const product = usePreviewModal(data); //usePreviewModal((state) => state.data);
 
   if (!product) {
     return null;

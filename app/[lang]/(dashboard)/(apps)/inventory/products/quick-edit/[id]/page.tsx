@@ -38,7 +38,7 @@ const QuickEditProduct = async ({
 
   return (
     // <div> Quick edit : {product?.id}</div>
-    <PreviewModal />
+    <PreviewModal data={product} />
     // <Modal open={previewModal.isOpen} onClose={previewModal.onClose}>
     //   <div className='grid grid-cols-[6fr,3fr] gap-8'>
     //     <div>
