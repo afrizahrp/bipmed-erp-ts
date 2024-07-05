@@ -11,8 +11,8 @@ interface GalleryProps {
 const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
   return (
     <Tab.Group as='div' className='flex flex-col-reverse'>
-      <div className='mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none'>
-        <Tab.List className='grid grid-cols-2 gap-6'>
+      <div className='mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none '>
+        <Tab.List className='grid grid-cols-3 gap-6 flex items-center justify-center'>
           {images.map((image) => (
             <GalleryTab key={image.id} image={image} />
           ))}
@@ -21,19 +21,19 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
       <Tab.Panels className='aspect-square w-full'>
         {images.map((image) => (
           <Tab.Panel key={image.id}>
-            <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
+            <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden flex items-center justify-center pt-28'>
               {image.imageURL ? (
-                <div className='border-2 border-gray-300'>
-                  <NextImage
-                    fill
-                    src={image.imageURL} // Assuming imageURL is a valid string
-                    alt='Image'
-                    className='object-cover object-center'
-                    objectPosition='center'
-                  />
-                </div>
+                <NextImage
+                  // fill
+                  height={400}
+                  width={400}
+                  src={image.imageURL}
+                  alt='Image'
+                  className='object-cover object-center'
+                  objectPosition='center'
+                />
               ) : (
-                <div>Image not available</div> // Or any other fallback rendering
+                <div>Image not available</div>
               )}
             </div>
           </Tab.Panel>

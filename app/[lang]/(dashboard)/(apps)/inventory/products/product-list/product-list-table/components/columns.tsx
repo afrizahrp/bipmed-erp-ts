@@ -33,7 +33,7 @@ export function getStatusColor(status: string) {
 export const columns: ColumnDef<ProductColumn>[] = [
   {
     id: 'actions',
-    cell: ({ row }) => <CellAction id={row.original.id} />,
+    cell: ({ row }) => <CellAction data={row.original} />,
   },
 
   {

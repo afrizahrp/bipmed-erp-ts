@@ -29,8 +29,8 @@ const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
   //   router.back();
   // };
   return (
-    <Transition show={true} appear as={Fragment}>
-      <Dialog as='div' className='relative z-10' open={open} onClose={onClose}>
+    <Transition show={open} appear as={Fragment}>
+      <Dialog as='div' className='relative z-10' onClose={onClose}>
         <div className='fixed inset-0 bg-black bg-opacity-50' />
 
         <div className='fixed inset-0 overflow-y-auto'>

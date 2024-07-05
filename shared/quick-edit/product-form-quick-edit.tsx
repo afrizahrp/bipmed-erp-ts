@@ -2,12 +2,12 @@
 import axios from 'axios';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import usePreviewModal from '@/hooks/use-preview-modal';
+import useProductDialog from '@/hooks/use-product-dialog';
 
 import {
   Form,
@@ -34,7 +34,7 @@ interface ProducFormQuickEditProps {
 }
 
 const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
-  const previewModal = usePreviewModal();
+  const productDialog = useProductDialog();
 
   const [isMounted, setIsMounted] = useState(false);
   const [searchTerms, setSearchTerms] = useState('');
@@ -59,23 +59,21 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
   const onClosePreviewModal = (e: any) => {
     e.preventDefault();
 
-    router.back();
+    productDialog.onClose();
   };
 
-  // const onSubmit = () => {
   async function onSubmit(data: ProductFormValues): Promise<void> {
     try {
-      console.log('product-form-quick-edit', data);
-      // setLoading(true);
+      setLoading(true);
       await axios.patch(`/api/inventory/products/${data.id}`, data);
       toast.success('Product has changed successfully.');
-      router.push('/inventory/products/product-list');
+      productDialog.onClose();
+
       router.refresh();
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
-      // setLoading(false);
-      // setOpen(false);
+      setLoading(false);
     }
   }
   const onProductNameChange = (newCategoryName: string) => {
@@ -121,9 +119,9 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
               currentValue={searchTerms}
               onChange={onProductNameChange}
             />
-            {/* </div>
+          </div>
 
-          <div className='w-[300px]'> */}
+          <div className='w-[300px]'>
             <FormField
               control={form.control}
               name='category_id'
@@ -166,6 +164,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
                       style={{
                         backgroundColor: field.value ? 'green' : 'gray',
                       }}
+                      disabled={loading}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>
@@ -185,7 +184,6 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
           <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
             <Button
               onClick={onClosePreviewModal}
-              // disabled={loading}
               className='ml-auto'
               variant='outline'
             >
@@ -193,7 +191,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
             </Button>
 
             <Button
-              // disabled={loading}
+              disabled={loading}
               className='ml-auto'
               type='submit'
               onClick={(event) => {

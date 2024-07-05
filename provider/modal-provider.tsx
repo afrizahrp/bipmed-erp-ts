@@ -1,14 +1,11 @@
 'use client';
-import { useEffect, useState, ReactNode } from 'react';
-import PreviewModal from '@/components/preview-modal';
 
-interface ModalContent {
-  children?: ReactNode;
-}
+import { useEffect, useState } from 'react';
 
-const ModalProvider = ({ children }: ModalContent) => {
+import ProductDialog from '@/shared/dialogs/product-dialog';
+
+const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -20,9 +17,7 @@ const ModalProvider = ({ children }: ModalContent) => {
 
   return (
     <>
-      <PreviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        {children}
-      </PreviewModal>
+      <ProductDialog />
     </>
   );
 };
