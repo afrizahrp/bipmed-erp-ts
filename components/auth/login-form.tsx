@@ -94,7 +94,7 @@ const LogInForm = () => {
             font.className
           )}
         >
-          🔐 User Authentication
+          erpLite
         </h1>
       </div>
 
