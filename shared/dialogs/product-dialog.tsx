@@ -30,7 +30,7 @@ const ProductDialog = () => {
 
         {/* <div className='border-2 border-gray-300'> */}
         {product && product.images && (
-          <div>
+          <div className='flex items-end justify-end'>
             <Gallery images={product.images} />
           </div>
         )}

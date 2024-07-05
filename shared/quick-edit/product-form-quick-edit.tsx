@@ -181,7 +181,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
             />
           </div>
 
-          <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
+          <div className='pt-8 space-x-2 items-start'>
             <Button
               onClick={onClosePreviewModal}
               className='ml-auto'
