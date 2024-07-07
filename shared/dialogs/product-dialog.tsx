@@ -34,7 +34,7 @@ const ProductDialog = () => {
         </div>
 
         {imageExist ? (
-          <div className='w-full lg:w-1/2 flex flex-col gap-6 drop-shadow-md pt-6 mx-3'>
+          <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'>
             <Gallery images={product.images} />
           </div>
         ) : null}
