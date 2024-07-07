@@ -12,9 +12,9 @@ import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 import {
   Products,
   SubCategories,
-  // Categories,
-  // Brands,
-  // Uoms,
+  Categories,
+  Brands,
+  Uoms,
 } from '@prisma/client';
 
 // import {
@@ -63,13 +63,16 @@ import {
 interface MaterialFormProps {
   initialData: Products | null;
   subCategories: SubCategories[];
-  // categories: Categories[] | null;
-  // brands: Brands[];
-  // uoms: Uoms[];
+  categories: Categories[] | null;
+  brands: Brands[];
+  uoms: Uoms[];
 }
 
 export const MaterialForm: React.FC<MaterialFormProps> = ({
   initialData,
+  categories,
+  brands,
+  uoms,
   subCategories,
 }) => {
   const params = useParams();

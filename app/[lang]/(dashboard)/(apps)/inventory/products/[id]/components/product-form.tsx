@@ -14,9 +14,9 @@ import {
   Products,
   SubCategories,
   ProductImages,
-  // Categories,
-  // Brands,
-  // Uoms,
+  Categories,
+  Brands,
+  Uoms,
 } from '@prisma/client';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -64,18 +64,18 @@ interface ProductFormProps {
         images: ProductImages[];
       })
     | null;
+  categories: Categories[];
   subCategories: SubCategories[];
-  // categories: Categories[];
-  // brands: Brands[];
-  // uoms: Uoms[];
+  brands: Brands[];
+  uoms: Uoms[];
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
   subCategories,
-  // categories,
-  // brands,
-  // uoms,
+  categories,
+  brands,
+  uoms,
 }) => {
   const params = useParams();
   const router = useRouter();
