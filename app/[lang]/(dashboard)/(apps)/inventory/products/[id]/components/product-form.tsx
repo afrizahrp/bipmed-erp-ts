@@ -56,6 +56,7 @@ import {
   ProductFormValues,
   productFormSchema,
 } from '@/utils/schema/product.form.schema';
+import ImageUpload from '@/components/ui/image-upload';
 
 interface ProductFormProps {
   initialData:
@@ -160,7 +161,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         tkdn_pctg: 0,
         bmp_pctg: 0,
         ecatalog_URL: '',
-        iStatus: false,
+        iStatus: true,
         remarks: '',
         isMaterial: false,
         slug: '',
@@ -269,14 +270,30 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl className='flex flex-col gap-3'>
-                    <ImageCollection
+                    <ImageUpload
+                      value={field.value.map((image) => image.imageURL)}
+                      disabled={loading}
+                      onChange={(imageURL) =>
+                        field.onChange([...field.value, { imageURL }])
+                      }
+                      onRemove={(imageURL) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (current) => current.imageURL !== imageURL
+                          ),
+                        ])
+                      }
+                      // disabled={loading}
+                    />
+
+                    {/* <ImageCollection
                       value={
                         field.value?.map(
                           (ProductImages) => ProductImages.imageURL
                         ) || []
                       }
                       disabled={loading}
-                    />
+                    /> */}
                   </FormControl>
                 </FormItem>
               )}

@@ -94,7 +94,7 @@ const LogInForm = () => {
             font.className
           )}
         >
-          erpLite
+          Integrated System
         </h1>
       </div>
 
