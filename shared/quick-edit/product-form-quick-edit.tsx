@@ -28,6 +28,7 @@ import {
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ProducFormQuickEditProps {
   data: any;
@@ -95,7 +96,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
                 <FormItem>
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input
+                    <Textarea
                       disabled={loading}
                       placeholder='Edit product name here'
                       {...field}
@@ -121,7 +122,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
             />
           </div>
 
-          <div className='w-[300px]'>
+          <div className='w-[200px]'>
             <FormField
               control={form.control}
               name='category_id'
@@ -181,7 +182,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
             />
           </div>
 
-          <div className='pt-8 space-x-2 items-start'>
+          <div className='pt-6 space-x-2 items-start'>
             <Button
               onClick={onClosePreviewModal}
               className='ml-auto'

@@ -13,28 +13,26 @@ const ProductDialog = () => {
     return null;
   }
 
+  const imageExist = product.images.length > 0;
+  console.log('productImage', imageExist);
+
   return (
     <Modal open={productDialog.isOpen} onClose={productDialog.onClose}>
-      <div className='grid grid-cols-[6fr,3fr] gap-12'>
-        <div>
-          <div className='grid w-full items-start'>
-            <div>
-              Product Id / Catalog: {product?.id} / {product?.catalog_id}
-            </div>
-            {/* </div>
-
-          <div className='w-full'> */}
-            <ProductFormQuickEdit data={product} />
-          </div>
+      <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'>
+        {/* <div className='w-full lg:w-1/2 lg:sticky pt-3 h-max'> */}
+        <div
+          className={`w-full ${imageExist ? 'lg:w-1/2 lg:sticky h-max' : 'lg:w-full'}`}
+          // className={`w-full ${!product.images || product.images.length === 0 ? 'lg:w-1/2' : 'lg:w-full lg:sticky h-max'}`}
+        >
+          Product Id / Catalog: {product?.id} / {product?.catalog_id}
+          <ProductFormQuickEdit data={product} />
         </div>
 
-        {/* <div className='border-2 border-gray-300'> */}
         {product && product.images && (
-          <div className='flex items-end justify-end'>
+          <div className='w-full lg:w-1/2 flex flex-col gap-6 border-gray drop-shadow-md pt-3 '>
             <Gallery images={product.images} />
           </div>
         )}
-        {/* </div> */}
       </div>
     </Modal>
   );
