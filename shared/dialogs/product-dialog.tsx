@@ -13,26 +13,37 @@ const ProductDialog = () => {
     return null;
   }
 
-  const imageExist = product.images.length > 0;
-  console.log('productImage', imageExist);
+  const imageExist = product.images.length;
 
   return (
     <Modal open={productDialog.isOpen} onClose={productDialog.onClose}>
       <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'>
         {/* <div className='w-full lg:w-1/2 lg:sticky pt-3 h-max'> */}
         <div
-          className={`w-full ${imageExist ? 'lg:w-1/2 lg:sticky h-max' : 'lg:w-full'}`}
-          // className={`w-full ${!product.images || product.images.length === 0 ? 'lg:w-1/2' : 'lg:w-full lg:sticky h-max'}`}
+          className={`w-full pt-3 ${imageExist === 0 ? 'w-full' : 'lg:w-1/2 lg:sticky h-max'}`}
         >
-          Product Id / Catalog: {product?.id} / {product?.catalog_id}
-          <ProductFormQuickEdit data={product} />
+          {product?.catalog_id ? (
+            <div className='text-md font-semibold'>
+              Catalog : {product?.catalog_id}
+            </div>
+          ) : null}
+          {/* <div>Catalog : {product?.catalog_id}</div> */}
+          <div>Product Id : {product?.id}</div>
+          <div>
+            <ProductFormQuickEdit data={product} />
+          </div>
         </div>
 
-        {product && product.images && (
+        {imageExist ? (
           <div className='w-full lg:w-1/2 flex flex-col gap-6 border-gray drop-shadow-md pt-3 '>
             <Gallery images={product.images} />
           </div>
-        )}
+        ) : null}
+        {/* (
+          <div className='flex items-center justify-center'>
+            No image available
+          </div>
+        )} */}
       </div>
     </Modal>
   );

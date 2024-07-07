@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 
 import { SearchColumnProductCategory } from '@/components/searchColumns';
 
@@ -27,8 +26,9 @@ import {
 } from '@/utils/schema/product.form.schema';
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
-import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 import { Textarea } from '@/components/ui/textarea';
+// import { Input } from '@/components/ui/input';
+// import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 
 interface ProducFormQuickEditProps {
   data: any;
@@ -88,7 +88,7 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-3 w-full'
         >
-          <div className='w-full'>
+          <div>
             <FormField
               control={form.control}
               name='name'
@@ -116,10 +116,10 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
                 </FormItem>
               )}
             />
-            <ProductNameExist
+            {/* <ProductNameExist
               currentValue={searchTerms}
               onChange={onProductNameChange}
-            />
+            /> */}
           </div>
 
           <div className='w-[200px]'>
