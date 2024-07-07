@@ -78,7 +78,7 @@ const LogInForm = () => {
   };
   return (
     <>
-      <div className='w-full flex flex-col items-center justify-center pb-7'>
+      <div className='w-full flex flex-col items-center justify-center pb-7 drop-shadow-md'>
         <Image
           src='/images/logo/logo.svg'
           alt='logoAtlogin'
@@ -90,7 +90,7 @@ const LogInForm = () => {
         {/* <div className='text-2xl font-semibold text-default-400'>erpLite</div> */}
         <h1
           className={cn(
-            'text-2xl font-semibold text-[#0063A4]',
+            'text-2xl font-semibold text-[#0063A4] drop-shadow-md',
             font.className
           )}
         >
