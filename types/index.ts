@@ -33,21 +33,21 @@ export interface ProductImages {
   isPrimary: boolean;
 }
 
-export type CategoryTypes = {
+export interface CategoryTypes {
   id: string;
   name: string;
-};
+}
 
-export type Categories = {
+export interface Categories {
   type?: string;
   id?: string;
   name?: string;
   imageURL?: string | undefined;
   remarks?: string;
   iStatus?: boolean;
-};
+}
 
-export type Materials = {
+export interface Materials {
   id: string;
   name: string;
   category_id: string;
@@ -57,28 +57,28 @@ export type Materials = {
   iStatus: boolean;
   remarks: string;
   isMaterial: boolean;
-};
+}
 
-export type MaterialCategories = {
+export interface MaterialCategories {
   id: string;
   name: string;
-};
+}
 
-export type SubCategories = {
+export interface SubCategories {
   category_id: string;
   id: string;
   name: string;
-};
+}
 
-export type Uoms = {
+export interface Uoms {
   id: string | '';
   name: string | '';
-};
+}
 
-export type Brands = {
+export interface Brands {
   id: string;
   name: string;
-};
+}
 
 // export interface SearchResponse {
 //   products: Products[];
