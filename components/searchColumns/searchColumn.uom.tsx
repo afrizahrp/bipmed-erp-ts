@@ -37,6 +37,7 @@ export function SearchColumnUom({
           selected={selected ?? ''}
           onChange={handleChange}
           placeholder='Select Uom'
+          disabled={disabled}
         />
       ) : (
         <div>

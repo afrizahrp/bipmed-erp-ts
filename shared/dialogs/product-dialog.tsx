@@ -20,14 +20,13 @@ const ProductDialog = () => {
       <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'>
         {/* <div className='w-full lg:w-1/2 lg:sticky pt-3 h-max'> */}
         <div
-          className={`w-full pt-3 ${imageExist === 0 ? 'w-full' : 'lg:w-1/2 lg:sticky h-max'}`}
+          className={`w-full pt-3 gap-12 ${imageExist === 0 ? 'w-full' : 'lg:w-1/2 lg:sticky h-max'}`}
         >
           {product?.catalog_id ? (
-            <div className='text-md font-semibold'>
+            <div className='text-lg font-semibold'>
               Catalog : {product?.catalog_id}
             </div>
           ) : null}
-          {/* <div>Catalog : {product?.catalog_id}</div> */}
           <div>Product Id : {product?.id}</div>
           <div>
             <ProductFormQuickEdit data={product} />
@@ -35,7 +34,7 @@ const ProductDialog = () => {
         </div>
 
         {imageExist ? (
-          <div className='w-full lg:w-1/2 flex flex-col gap-6 border-gray drop-shadow-md pt-3 '>
+          <div className='w-full lg:w-1/2 flex flex-col gap-6 drop-shadow-md pt-6 mx-3'>
             <Gallery images={product.images} />
           </div>
         ) : null}

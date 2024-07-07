@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-
 export type SearchColumnBaseOptions = {
   value: string;
   label: string;
@@ -35,6 +34,7 @@ interface SearchColumnBaseProps {
   placeholder?: string;
   onChange?: (event: string | string[]) => void; // Updated to handle multiple selections
   onCreate?: (value: string) => void;
+  disabled?: boolean;
 }
 
 export function SearchColumnBase({
@@ -45,6 +45,7 @@ export function SearchColumnBase({
   mode = 'single',
   onChange,
   onCreate,
+  disabled,
 }: SearchColumnBaseProps) {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState<string>('');
@@ -60,6 +61,7 @@ export function SearchColumnBase({
             role='combobox'
             aria-expanded={open}
             className='w-full justify-between'
+            disabled={disabled}
           >
             {selected && selected.length > 0 ? (
               <div className='relative mr-auto flex flex-grow flex-wrap items-center overflow-hidden'>

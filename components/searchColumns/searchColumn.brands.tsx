@@ -37,6 +37,7 @@ export function SearchColumnBrand({
           selected={selected ?? ''}
           onChange={handleChange}
           placeholder='Select Brand'
+          disabled={disabled}
         />
       ) : (
         <div>

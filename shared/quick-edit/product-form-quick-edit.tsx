@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 
 import useProductDialog from '@/hooks/use-product-dialog';
 
@@ -36,8 +37,6 @@ interface ProducFormQuickEditProps {
 
 const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
   const productDialog = useProductDialog();
-
-  const [isMounted, setIsMounted] = useState(false);
   const [searchTerms, setSearchTerms] = useState('');
 
   const [loading, setLoading] = useState(false);
@@ -51,6 +50,8 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
     // category_id: data.category_id,
     // iStatus: data.iStatus,
   };
+
+  const action = 'Save changes';
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
@@ -88,98 +89,100 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-3 w-full'
         >
-          <div>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Product Name</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      disabled={loading}
-                      placeholder='Edit product name here'
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        onProductNameChange(e.target.value); // Call the new handler
-                      }}
-                      className='font-bold w-full'
-                    />
-                  </FormControl>
-                  {form.formState.errors.name && (
-                    <FormMessage>
-                      {form.formState.errors.name.message}
-                    </FormMessage>
-                  )}{' '}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* <ProductNameExist
+          <div className='w-full'>
+            <div className='w-[400px] py-2 gap-4'>
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Product Name</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        disabled={loading}
+                        placeholder='Edit product name here'
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          onProductNameChange(e.target.value); // Call the new handler
+                        }}
+                        className='font-bold w-full'
+                      />
+                    </FormControl>
+                    {form.formState.errors.name && (
+                      <FormMessage>
+                        {form.formState.errors.name.message}
+                      </FormMessage>
+                    )}{' '}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* <ProductNameExist
               currentValue={searchTerms}
               onChange={onProductNameChange}
             /> */}
-          </div>
+            </div>
 
-          <div className='w-[200px]'>
-            <FormField
-              control={form.control}
-              name='category_id'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categories</FormLabel>
+            <div className='w-[300px] py-2 gap-4'>
+              <FormField
+                control={form.control}
+                name='category_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Categories</FormLabel>
 
-                  <SearchColumnProductCategory
-                    {...field}
-                    currentValue={field.value ?? ''}
-                    onChange={field.onChange}
-                    disabled={loading}
-                  />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div>
-            <FormField
-              control={form.control}
-              name='iStatus'
-              render={({ field }) => (
-                <FormItem>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                    }}
-                  >
-                    {/* Inline style for closer alignment */}
-                    <FormLabel>Status</FormLabel>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={!!field.value}
-                      // @ts-ignore
-                      onCheckedChange={field.onChange}
-                      // disabled={loading}
-                      style={{
-                        backgroundColor: field.value ? 'green' : 'gray',
-                      }}
+                    <SearchColumnProductCategory
+                      {...field}
+                      currentValue={field.value ?? ''}
+                      onChange={field.onChange}
                       disabled={loading}
                     />
-                  </FormControl>
-                  <div className='space-y-1 leading-none'>
-                    <FormLabel>
-                      {field.value ? (
-                        <span className='text-red text-semibold'>Active</span>
-                      ) : (
-                        <span className='text-green'> Non Active</span>
-                      )}{' '}
-                    </FormLabel>
-                  </div>
-                </FormItem>
-              )}
-            />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='py-2 gap-4'>
+              <FormField
+                control={form.control}
+                name='iStatus'
+                render={({ field }) => (
+                  <FormItem>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                      }}
+                    >
+                      {/* Inline style for closer alignment */}
+                      <FormLabel>Status</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={!!field.value}
+                        // @ts-ignore
+                        onCheckedChange={field.onChange}
+                        // disabled={loading}
+                        style={{
+                          backgroundColor: field.value ? 'green' : 'gray',
+                        }}
+                        disabled={loading}
+                      />
+                    </FormControl>
+                    <div className='space-y-1 leading-none'>
+                      <FormLabel>
+                        {field.value ? (
+                          <span className='text-red text-semibold'>Active</span>
+                        ) : (
+                          <span className='text-green'> Non Active</span>
+                        )}{' '}
+                      </FormLabel>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           <div className='pt-6 space-x-2 items-start'>
@@ -201,7 +204,8 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
                 onSubmit(data);
               }}
             >
-              Save
+              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+              {loading ? 'Saving...' : 'Save changes'}
             </Button>
           </div>
         </form>

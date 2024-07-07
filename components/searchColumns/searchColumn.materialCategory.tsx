@@ -38,6 +38,7 @@ export function SearchColumnMaterialCategory({
           selected={selected ?? ''}
           onChange={handleChange}
           placeholder='Select Category'
+          disabled={disabled}
         />
       ) : (
         <div>
