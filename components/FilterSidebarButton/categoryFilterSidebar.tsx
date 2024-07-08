@@ -34,9 +34,9 @@ export function CategoryFilterSidebar<TData>({
           )}
         </div>
         <div className='w-full py-1'>
-          {table.getColumn('type') && (
+          {table.getColumn('categoryType') && (
             <DataTableFacetedFilter
-              column={table.getColumn('type')}
+              column={table.getColumn('categoryType')}
               title='Category Type'
               options={categoryTypeOption}
               isLoading={isCategoryTypeLoading}

@@ -34,8 +34,8 @@ export interface ProductImages {
 }
 
 export interface CategoryTypes {
-  id: string;
-  name: string;
+  id?: string | null;
+  name?: string | null;
 }
 
 export interface Categories {
