@@ -50,15 +50,16 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
     const company_id = session?.user?.company_id || '';
     const branch_id = session?.user?.branch_id || '';
-    const username = session?.user?.name || '';
+    const userName = session?.user?.name || '';
 
     const body = await request.json();
     const {
       type,
       name,
       remarks,
-      imageURL,
       iStatus,
+      imageURL,
+      images,
       iShowedStatus,
       slug,
       href,
@@ -67,8 +68,9 @@ export async function POST(request: NextRequest) {
       type: string;
       name: string;
       remarks: string;
-      imageURL: string;
       iStatus: boolean;
+      imageURL: string;
+      images: { imageURL: string }[];
       iShowedStatus: boolean;
       slug: string;
       href: string;
@@ -76,7 +78,7 @@ export async function POST(request: NextRequest) {
     };
 
     const categoryType = type;
-    const userId = username; //session.user.id // Use the user ID from the session
+    const userId = userName; //session.user.id // Use the user ID from the session
     const categoryId = await getCategoryId(
       company_id,
       branch_id,
@@ -95,17 +97,41 @@ export async function POST(request: NextRequest) {
       slug,
       href,
       icon,
-      createdBy: username,
-      updatedBy: username,
+      images: {
+        deleteMany: {},
+      },
+      createdBy: userName,
+      updatedBy: userName,
       createdAt: new Date(),
       updatedAt: new Date(),
       company_id: company_id,
       branch_id: branch_id,
     };
 
+
+
     const category = await prisma.categories.create({
-      data: newCategory,
+      data: {
+        ...newCategory,
+        images: {
+          createMany: {
+            data: images.map((image: { imageURL: string }) => ({
+              imageURL: image.imageURL,
+              isPrimary: false,
+              createdBy: userName,
+              updatedBy: userName,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              company_id: company_id,
+              branch_id: branch_id,
+            })),
+          },
+        },
+      },
     });
+
+
+
 
     return NextResponse.json(category, { status: 201 });
   } catch (e) {

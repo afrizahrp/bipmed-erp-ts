@@ -31,9 +31,11 @@ const CategoryListPage = async () => {
 
   const formattedCategories: CategoryColumns[] =
     categories?.map((item) => ({
-      type: item.categoryType?.name,
+      type: item.type,
+      categoryType: item.categoryType?.name,
       id: item.id,
       name: item.name,
+      imageURL: item?.imageURL,
       status: item.status?.name,
       remarks: item?.remarks,
     })) ?? [];

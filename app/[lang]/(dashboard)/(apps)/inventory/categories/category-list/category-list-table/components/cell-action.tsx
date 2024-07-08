@@ -1,29 +1,25 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useProductDialog from '@/hooks/use-product-dialog';
+import useCategoryDialog from '@/hooks/use-category-dialog';
 import { Pencil } from 'lucide-react';
-import { ProductColumn } from './columns';
-import { Products } from '@/types';
-
+import { CategoryColumns } from './columns';
+import { Categories } from '@/types';
 interface CellActionProps {
-  data: ProductColumn;
+  data: CategoryColumns;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  const productDialog = useProductDialog();
+  const categoryDialog = useCategoryDialog();
 
   const onPreview = () => {
-    const modifiedData: Products = {
+    const modifiedData: Categories = {
       ...data,
-      images: data.images.map((image) => ({
-        id: '',
-        product_id: data.id,
-        imageURL: image,
-        isPrimary: false,
-      })),
+
+      type: data.type || '', // Set type to an empty string if it is null
     };
-    productDialog.onOpen(modifiedData);
+
+    categoryDialog.onOpen(modifiedData);
   };
 
   return (

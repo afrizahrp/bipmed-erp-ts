@@ -16,6 +16,7 @@ const CategoryPage = async ({
     },
     include: {
       categoryType: true,
+      images: true,
     },
   });
 
@@ -28,10 +29,7 @@ const CategoryPage = async ({
   return (
     <Card className='py-6'>
       <CardContent>
-        <CategoryForm
-          categoryTypes={categoryTypes}
-          initialData={category || undefined}
-        />
+        <CategoryForm categoryTypes={categoryTypes} initialData={category} />
       </CardContent>
     </Card>
   );

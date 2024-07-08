@@ -2123,20 +2123,20 @@ export const menusConfig = {
             href: '/inventory/master',
             multi_menu: [
               {
-                title: 'Products',
-                href: '/inventory/products/product-list',
-              },
-              {
-                title: 'Raw Materials',
-                href: '/inventory/materials/material-list',
-              },
-              {
                 title: 'Categories',
                 href: '/inventory/categories/category-list',
               },
               {
+                title: 'Products',
+                href: '/inventory/products/product-list',
+              },
+              {
                 title: 'Subcategories',
                 href: '/inventory/subcategories/subcategory-list',
+              },
+              {
+                title: 'Raw Materials',
+                href: '/inventory/materials/material-list',
               },
               {
                 title: 'Unit Of Measurement (UOMS)',

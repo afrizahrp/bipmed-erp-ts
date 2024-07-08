@@ -123,28 +123,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
       );
     },
   },
-  {
-    accessorKey: 'uom',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='UOM'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
-            {row.getValue('uom')}
-          </span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
 
   {
     accessorKey: 'category',
@@ -160,6 +138,28 @@ export const columns: ColumnDef<ProductColumn>[] = [
         <div className='flex space-x-1'>
           <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
             {row.getValue('category')}
+          </span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: 'uom',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='UOM'
+        className='text-black dark:text-slate-300'
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='flex space-x-1'>
+          <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
+            {row.getValue('uom')}
           </span>
         </div>
       );

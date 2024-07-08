@@ -12,13 +12,15 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 // import { Loader2 } from 'lucide-react';
 
-import { Categories, CategoryTypes } from '@prisma/client';
+import { Categories, CategoryImages, CategoryTypes } from '@prisma/client';
 // import { Categories, CategoryTypes } from '@/types';
 
 import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+
 // import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -45,10 +47,15 @@ import {
   CategoryFormValues,
   categoryFormSchema,
 } from '@/utils/schema/category.form.schema';
+import ImageCollection from '@/components/ui/images-collection';
 // import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
 
 interface CategoryFormProps {
-  initialData?: Categories;
+  initialData:
+    | (Categories & {
+        images: CategoryImages[];
+      })
+    | null;
   categoryTypes: CategoryTypes[];
 }
 
@@ -89,14 +96,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       ...initialData,
-      imageURL: initialData?.imageURL || undefined,
+      images: initialData?.images || [],
       id: initialData?.id ?? '',
       type: initialData?.type ?? '0',
       name: initialData?.name ?? '',
       href: initialData?.href ?? '',
       icon: initialData?.icon ?? '',
       slug: initialData?.slug ?? '',
-      iShowedStatus: initialData?.iShowedStatus ?? true, // Not display in website
+      iShowedStatus: initialData?.iShowedStatus ?? false, // Not display in website
       remarks: initialData?.remarks ?? '',
       iStatus: initialData?.iStatus ?? true,
     },
@@ -141,23 +148,42 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <FormField
-            control={form.control}
-            name='imageURL'
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    disabled={loading}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange('')}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className='w-full flex items-center'>
+            <FormField
+              control={form.control}
+              name='images'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl className='flex flex-col gap-3'>
+                    {/* <ImageUpload
+                      value={field.value.map((image) => image.imageURL)}
+                      disabled={loading}
+                      onChange={(imageURL) =>
+                        field.onChange([...field.value, { imageURL }])
+                      }
+                      onRemove={(imageURL) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (current) => current.imageURL !== imageURL
+                          ),
+                        ])
+                      }
+                    /> */}
+
+                    <ImageCollection
+                      value={
+                        field.value?.map(
+                          (ProductImages) => ProductImages.imageURL
+                        ) || []
+                      }
+                      disabled={loading}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+          <Separator />
 
           <div className='grid grid-cols-4 gap-4 py-2'>
             <div>

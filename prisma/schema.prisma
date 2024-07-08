@@ -286,7 +286,6 @@ model Categories {
   id                  String        @id @db.Char(10)
   name                String?       @db.VarChar(50)
   slug                String?       @db.VarChar(50)
-  imageURL            String?       @db.VarChar(250)
   iStatus             Boolean       @default(false)
   remarks             String?       @db.VarChar(250)
   iShowedStatus       Boolean?      @default(true)
@@ -302,6 +301,23 @@ model Categories {
   categoryType        CategoryTypes     @relation(fields: [type], references: [id], onUpdate: NoAction)
   products            Products[]
   subCategories       SubCategories[]
+  images              CategoryImages[]
+  }
+
+
+model CategoryImages {
+  id                  Int           @id @default(autoincrement())
+  category_id         String        @db.Char(10)
+  imageURL            String        @db.VarChar(250)
+  isPrimary           Boolean?      @default(false)
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  categories            Categories      @relation(fields: [category_id], references: [id])
+  @@index([category_id])
 }
 
 model SubCategories {
@@ -668,13 +684,13 @@ model PoDetail {
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
-model vProductCategories {
-  id                  String        @id @db.VarChar(10)
-  name                String        @db.VarChar(50)
-}
+// model vProductCategories {
+//   id                  String        @id @db.VarChar(10)
+//   name                String        @db.VarChar(50)
+// }
 
-model vMaterialCategories {
-  id                  String        @id @db.VarChar(10)
-  name                String        @db.VarChar(50)
-}
+// model vMaterialCategories {
+//   id                  String        @id @db.VarChar(10)
+//   name                String        @db.VarChar(50)
+// }
 

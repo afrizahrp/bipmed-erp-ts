@@ -39,13 +39,21 @@ export interface CategoryTypes {
 }
 
 export interface Categories {
-  type?: string;
-  id?: string;
-  name?: string;
-  imageURL?: string | undefined;
-  remarks?: string;
+  type: string;
+  id?: string | null;
+  name?: string | null;
+  remarks?: string | null;
   iStatus?: boolean;
+  images: CategoryImages[];
 }
+
+export interface CategoryImages {
+  id: string;
+  category_id: string;
+  imageURL: string;
+  isPrimary: boolean;
+}
+
 
 export interface Materials {
   id: string;

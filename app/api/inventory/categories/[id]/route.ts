@@ -24,60 +24,92 @@ export async function GET(
 }
 
 export async function PATCH(
-  request: NextRequest,
+  req: Request,
   { params }: { params: { id: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  const username = session?.user?.name || '';
-  if (!session) return NextResponse.json({}, { status: 401 });
-
   try {
-    const body = await request.json();
-    const { id, type, name, remarks, imageURL, iStatus } = body as {
-      id: string;
-      type: string;
-      name: string;
-      remarks: string;
-      imageURL: string;
-      updatedBy: string;
-      iStatus: boolean;
-    };
+    const session = await getServerSession(authOptions);
+    const company_id = session?.user?.company_id || '';
+    const branch_id = session?.user?.branch_id || '';
+    const userName = session?.user?.name || '';
+    if (!session) return NextResponse.json({}, { status: 401 });
 
-    const categories = await prisma.categories.findUnique({
-      where: { id: params.id },
-    });
-    if (!categories)
-      return NextResponse.json(
-        { error: 'Kategori tidak ditemukan' },
-        { status: 404 }
-      );
-    const editCategory = {
-      id,
+    const body = await req.json();
+
+    const {
       type,
       name,
       iStatus,
       remarks,
-      imageURL,
-      updatedBy: username,
-      updatedAt: new Date(),
+      images,
+      iShowedStatus,
+      slug,
+    } = body as {
+      type: string;
+      name: string;
+      iStatus: boolean;
+      remarks: string;
+      images: { imageURL: string }[];
+      iShowedStatus: boolean;
+      slug: string;
     };
 
+    if (!session) {
+      return new NextResponse('Unauthenticated', { status: 403 });
+    }
 
-    const updatedCategories = await prisma.categories.update({
-      where: { id: params.id },
-      data: editCategory,
+    if (!params.id) {
+      return new NextResponse('Category id is not found', {
+        status: 400,
+      });
+    }
+
+    if (!name) {
+      return new NextResponse('Category name is required', { status: 400 });
+    }
+    await prisma.categories.update({
+      where: {
+        id: params.id,
+      },
+      data: {
+        type,
+        name,
+        images: {
+          deleteMany: {},
+        },
+        iStatus,
+        remarks,
+        iShowedStatus,
+        slug,
+        updatedBy: userName,
+        updatedAt: new Date(),
+      },
     });
 
-    return NextResponse.json(updatedCategories);
-  } catch (e) {
-    console.error(e);
-
-    return NextResponse.json(
-      {
-        message: 'Something went wrong while trying to updating categories',
-        result: e,
+    const category = await prisma.categories.update({
+      where: {
+        id: params.id,
       },
-      { status: 500 }
-    );
+      data: {
+        images: {
+          createMany: {
+            data: images.map((image: { imageURL: string }) => ({
+              imageURL: image.imageURL,
+              isPrimary: false,
+              updatedBy: userName,
+              updatedAt: new Date(),
+              company_id: company_id,
+              branch_id: branch_id,
+            })),
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(category);
+  } catch (error) {
+    console.log('[CATEGORY_PATCH]', error);
+    return new NextResponse('Internal error', { status: 500 });
   }
 }
+

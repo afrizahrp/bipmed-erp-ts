@@ -31,11 +31,13 @@ import { Textarea } from '@/components/ui/textarea';
 // import { Input } from '@/components/ui/input';
 // import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 
-interface ProducFormQuickEditProps {
+interface ProductFormQuickEditProps {
   data: any;
 }
 
-const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
+const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
+  data,
+}) => {
   const productDialog = useProductDialog();
   const [searchTerms, setSearchTerms] = useState('');
 
@@ -44,11 +46,6 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
 
   const defaultValues = {
     ...data,
-    // id: data.id,
-    // catalog_id: data.catalog_id,
-    // name: data.name,
-    // category_id: data.category_id,
-    // iStatus: data.iStatus,
   };
 
   const action = 'Save changes';
@@ -214,4 +211,4 @@ const ProducFormQuickEdit: React.FC<ProducFormQuickEditProps> = ({ data }) => {
   );
 };
 
-export default ProducFormQuickEdit;
+export default ProductFormQuickEdit;

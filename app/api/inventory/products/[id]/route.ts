@@ -60,7 +60,6 @@ export async function PATCH(
       bmp_pctg: number;
       ecatalog_URL: string;
       iShowedStatus: boolean;
-
       slug: string;
     };
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import ProductDialog from '@/shared/dialogs/product-dialog';
+import CategoryDialog from '@/shared/dialogs/category-dialog';
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,6 +18,7 @@ const ModalProvider = () => {
 
   return (
     <>
+      <CategoryDialog />
       <ProductDialog />
     </>
   );
