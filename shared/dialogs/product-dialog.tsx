@@ -2,7 +2,7 @@
 
 import Modal from '@/components/ui/modal';
 import useProductDialog from '@/hooks/use-product-dialog';
-import Gallery from '@/components/gallery';
+import Gallery from '@/components/gallery/products';
 import ProductFormQuickEdit from '@/shared/quick-edit/product-form-quick-edit';
 
 const ProductDialog = () => {
@@ -22,11 +22,10 @@ const ProductDialog = () => {
         <div
           className={`w-full pt-3 gap-12 ${imageExist === 0 ? 'w-full' : 'lg:w-1/2 lg:sticky h-max'}`}
         >
-          {product?.catalog_id ? (
-            <div className='text-lg font-semibold'>
-              Catalog : {product?.catalog_id}
-            </div>
-          ) : null}
+          <div className='text-lg font-semibold'>
+            Catalog : {product?.catalog_id ? product.catalog_id : null}
+          </div>
+
           <div>Product Id : {product?.id}</div>
           <div>
             <ProductFormQuickEdit data={product} />

@@ -28,14 +28,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
-      {/* <AlertModal
-        data={data}
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
-        loading={loading}
-      /> */}
-
       <Button variant='ghost' className='h-8 w-8 p-0' onClick={onPreview}>
         <span className='sr-only'>Open menu</span>
         <Pencil className='h-4 w-4' />

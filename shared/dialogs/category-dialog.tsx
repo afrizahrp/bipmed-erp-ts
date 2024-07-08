@@ -2,7 +2,7 @@
 
 import Modal from '@/components/ui/modal';
 import useCategoryDialog from '@/hooks/use-category-dialog';
-import Gallery from '@/components/gallery';
+import Gallery from '@/components/gallery/products';
 import CategoryFormQuickEdit from '@/shared/quick-edit/category-form-quick-edit';
 
 const CategoryDialog = () => {
@@ -13,9 +13,7 @@ const CategoryDialog = () => {
     return null;
   }
 
-  const imageExist = category.imageURL;
-
-  console.log(imageExist);
+  const imageExist = category.images.length;
 
   return (
     <Modal open={categoryDialog.isOpen} onClose={categoryDialog.onClose}>
@@ -24,18 +22,18 @@ const CategoryDialog = () => {
           {/* <div
           className={`w-full pt-3 gap-12 ${imageExist === 0 ? 'w-full' : 'lg:w-1/2 lg:sticky h-max'}`}
         > */}
-
           <div>Category Id : {category?.id}</div>
+          <div>Category Type : {category?.categoryType}</div>
           <div>
             <CategoryFormQuickEdit data={category} />
           </div>
         </div>
 
-        {/* {imageExist ? (
-          <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'>
+        {imageExist ? (
+          <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center'>
             <Gallery images={category.images} />
           </div>
-        ) : null} */}
+        ) : null}
       </div>
     </Modal>
   );

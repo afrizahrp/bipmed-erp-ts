@@ -22,6 +22,7 @@ const CategoryListPage = async () => {
   const categories = await prisma.categories.findMany({
     include: {
       categoryType: true,
+      images: true,
       status: true,
     },
     orderBy: {
@@ -35,9 +36,10 @@ const CategoryListPage = async () => {
       categoryType: item.categoryType?.name,
       id: item.id,
       name: item.name,
-      imageURL: item?.imageURL,
+      iStatus: item.iStatus, // Add type assertion to ensure iStatus is always a boolean
       status: item.status?.name,
       remarks: item?.remarks,
+      images: item.images.map((image) => image.imageURL),
     })) ?? [];
 
   return (

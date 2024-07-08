@@ -100,7 +100,7 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <div className='w-[400px] py-2 gap-4'>
+          <div className='w-[300px] py-2 gap-4'>
             <FormField
               control={form.control}
               name='name'

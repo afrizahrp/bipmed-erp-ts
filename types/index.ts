@@ -40,7 +40,7 @@ export interface CategoryTypes {
 
 export interface Categories {
   type: string;
-  id?: string | null;
+  id: string;
   name?: string | null;
   remarks?: string | null;
   iStatus?: boolean;
@@ -53,7 +53,6 @@ export interface CategoryImages {
   imageURL: string;
   isPrimary: boolean;
 }
-
 
 export interface Materials {
   id: string;

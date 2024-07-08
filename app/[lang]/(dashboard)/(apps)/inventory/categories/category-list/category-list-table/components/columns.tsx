@@ -10,9 +10,10 @@ export type CategoryColumns = {
   categoryType: string | null;
   id: string;
   name: string | null;
-  imageURL: string | null;
+  iStatus: boolean;
   status: string | null;
   remarks: string | null;
+  images: string[];
 };
 
 export function getStatusColor(status: string) {
