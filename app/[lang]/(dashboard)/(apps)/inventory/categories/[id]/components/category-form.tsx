@@ -155,7 +155,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl className='flex flex-col gap-3'>
-                    {/* <ImageUpload
+                    <ImageUpload
                       value={field.value.map((image) => image.imageURL)}
                       disabled={loading}
                       onChange={(imageURL) =>
@@ -168,16 +168,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                           ),
                         ])
                       }
-                    /> */}
+                    />
 
-                    <ImageCollection
+                    {/* <ImageCollection
                       value={
                         field.value?.map(
                           (ProductImages) => ProductImages.imageURL
                         ) || []
                       }
                       disabled={loading}
-                    />
+                    /> */}
                   </FormControl>
                 </FormItem>
               )}
