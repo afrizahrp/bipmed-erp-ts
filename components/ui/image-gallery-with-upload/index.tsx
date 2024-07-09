@@ -5,6 +5,7 @@ import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
 import { ProductImages } from '@/types';
 import GalleryTabWithUpload from './gallery-tab';
+import cloudinary from 'cloudinary';
 import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 
@@ -27,6 +28,20 @@ interface GalleryWithUploadProps {
   onRemove: (value: string) => void;
   images: ProductImages[];
 }
+
+function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
+  // Assuming the URL is in the 'url' property of the 'image' object
+  const lastPart = image.url[0].split('/').pop();
+
+  const publicIdWithPossibleTransformations = lastPart
+    ? lastPart.split('.')[0]
+    : '';
+
+  const publicId = publicIdWithPossibleTransformations.split(',').pop();
+
+  return publicId;
+}
+
 const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   disabled,
   onChange,
@@ -34,24 +49,11 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   images,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  const handleImageRemove = async (imageURL: string) => {
-    try {
-      console.log('image id', imageURL);
-      await axios.delete(`/api/cloudinary/delete?url=${imageURL}`);
-      // await axios.delete(`/api/inventory/productImages/${id}`);
-
-      onRemove(imageURL);
-      toast.success('Image has been removed successfully.');
-    } catch (error) {
-      console.error(error);
-      toast.error('Something went wrong');
-    }
-  };
 
   const onUpload = (result: any) => {
     onChange(result.info.secure_url);
@@ -61,7 +63,29 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     return null;
   }
 
-  // console.log('images', images[0].id);
+  const handleImageRemove = async (imageURL: string, id: string) => {
+    try {
+      setLoading(true);
+
+      const cloudinaryImageId = extractPublicIdFromCloudinaryUrl({
+        url: images.map((image) => image.imageURL),
+      });
+
+      const response = await axios.delete(
+        `/api/system/cloudinary/${cloudinaryImageId}`
+      );
+      console.log('response', response);
+
+      await axios.delete(`/api/inventory/productImages/${id}`);
+
+      onRemove(imageURL);
+      toast.success('Image has been removed successfully.');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+      setLoading(false);
+    }
+  };
 
   return (
     <Tab.Group as='div' className='flex flex-col-reverse'>
@@ -78,9 +102,10 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
             <div className='z-10 absolute top-1 right-1'>
               <Button
                 type='button'
-                onClick={() => handleImageRemove(image.imageURL)}
+                onClick={() => handleImageRemove(image.imageURL, image.id)}
                 color='destructive'
                 size='xs'
+                disabled={loading}
               >
                 <Trash className='h-4 w-4' />
               </Button>
@@ -103,7 +128,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
 
         <div className='py-3'>
           <CldUploadWidget
-            onUpload={onUpload}
+            onSuccess={onUpload}
             options={{
               sources: ['local'],
               resourceType: 'image',
@@ -119,7 +144,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
               return (
                 <Button
                   type='button'
-                  disabled={disabled}
+                  disabled={loading}
                   variant='outline'
                   onClick={onClick}
                 >
