@@ -1,4 +1,5 @@
 'use client';
+import axios from 'axios';
 
 import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
@@ -8,9 +9,18 @@ import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import { ImagePlus, Trash } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { on } from 'events';
 
+// import {
+//   Magnifier,
+//   GlassMagnifier,
+//   SideBySideMagnifier,
+//   PictureInPictureMagnifier,
+//   MOUSE_ACTIVATION,
+//   TOUCH_ACTIVATION,
+// } from 'react-image-magnifiers';
 interface GalleryWithUploadProps {
   disabled?: boolean;
   onChange: (value: string) => void;
@@ -28,6 +38,20 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const handleImageRemove = async (id: number) => {
+    try {
+      console.log('id', id);
+      await axios.delete(`/api/inventory/productImages/${id}`);
+
+      await axios.delete(`/api/cloudinary/delete?public_id=${id}`);
+      // onRemove(id);
+      toast.success('Image has been removed successfully.');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+    }
+  };
 
   const onUpload = (result: any) => {
     onChange(result.info.secure_url);
@@ -52,7 +76,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
             <div className='z-10 absolute top-1 right-1'>
               <Button
                 type='button'
-                onClick={() => onRemove(image.imageURL)}
+                onClick={() => handleImageRemove(Number(image.id))}
                 color='destructive'
                 size='xs'
               >
