@@ -2175,21 +2175,21 @@ export const menusConfig = {
       },
 
       {
-        title: 'Purchasing',
+        title: 'Production',
         icon: Note2,
         child: [
           {
             title: 'List',
             multi_menu: [
               {
-                title: 'Suppliers',
-                href: '#',
+                title: 'Finish Goods',
+                href: '/production/products/product-list',
               },
             ],
           },
 
           {
-            title: 'Transaction',
+            title: 'Activity',
             multi_menu: [
               {
                 title: 'Purchase Requesition',
