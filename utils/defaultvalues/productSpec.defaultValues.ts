@@ -1,6 +1,6 @@
 import { ProductSpecFormValues } from '@/utils/schema/productSpec.form.schema';
 
-export function defaultValues(specData: ProductSpecFormValues) {
+export function productSpecdefaultValues(specData: ProductSpecFormValues) {
   return {
     /* specification section */
 
@@ -60,5 +60,6 @@ export function defaultValues(specData: ProductSpecFormValues) {
     medicineBox: specData?.medicineBox ?? '',
     handleTrolley: specData?.handleTrolley ?? '',
     drawer: specData?.drawer ?? '',
+    remarks: specData?.remarks || undefined,
   };
 }

@@ -1,10 +1,13 @@
 import { prisma } from '@/lib/client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { ProductForm } from './components/product-form';
+import PageHeader from '@/components/page-header';
+import { routes } from '@/config/routes';
+import { ProducImageForm } from './components/productImage-form';
 import ProductDetailPage from './components';
+import { ProductForm } from './components/product-form';
 import { ProductSpecForm } from '../../productSpecs/[id]/components/product-spec-form';
-import { ProducImageForm } from '../../producImages/[product_id]/components/productImage-form';
+
 const ProductPage = async ({
   params,
 }: {
@@ -64,37 +67,54 @@ const ProductPage = async ({
     },
   });
 
+  const pageHeader = {
+    title: params.id ? 'Edit Finish Goods' : 'New Finish Goods',
+
+    breadcrumb: [
+      {
+        name: 'List',
+        href: routes.production.products,
+      },
+      {
+        name: params.id ? 'Finish Goods' : 'Finish Goods',
+      },
+    ],
+  };
+
   return (
     <>
-      <Card>
-        <CardContent className='space-y-2'>
-          <ProducImageForm imageData={productImages} />
-        </CardContent>
-      </Card>
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
-      <Card className='py-6'>
-        <CardContent>
-          {/*   <ProductForm
-          initialData={product}
-          categories={categories}
-          subCategories={subCategories}
-          brands={brands}
-          uoms={uoms}
-        /> */}
+      <div className='flex gap-x-2'>
+        <div className='w-full'>
+          <Card>
+            <CardContent className='space-y-2'>
+              <ProducImageForm
+                imageData={productImages.map((image) => ({
+                  ...image,
+                  id: image.id.toString(),
+                }))}
+              />
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* <ProductDetailPage
-          productId={params.id}
-          initialData={product}
-          specData={productSpec}
-          categories={categories}
-          subCategories={subCategories}
-          brands={brands}
-          uoms={uoms}
-        /> */}
-
-          <ProductSpecForm initialData={productSpec} />
-        </CardContent>
-      </Card>
+        <div className='w-full'>
+          <Card>
+            <CardContent>
+              <ProductDetailPage
+                productId={params.id}
+                initialData={product}
+                specData={productSpec}
+                categories={categories}
+                subCategories={subCategories}
+                brands={brands}
+                uoms={uoms}
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </>
   );
 };

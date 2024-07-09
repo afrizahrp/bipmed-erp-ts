@@ -580,14 +580,14 @@ model ProductSpecs {
   drawer              String?       @default("") @db.VarChar(250)
   systemControl       String?       @default("") @db.VarChar(250)
   bodyFrameWork       String?       @default("") @db.VarChar(250)
-  remarks             String?       @default("") @db.VarChar(1000)
+  remarks             String        @db.Text
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  products            Products  @relation(fields: [id], references: [id])
+  products            Products      @relation(fields: [id], references: [id])
 }
 
 model sysCarousel {
@@ -684,6 +684,7 @@ model PoDetail {
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
+
  model vProductCategories {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
@@ -693,4 +694,3 @@ model PoDetail {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
  }
-

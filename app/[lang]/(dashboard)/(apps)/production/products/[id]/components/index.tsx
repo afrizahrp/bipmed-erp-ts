@@ -77,23 +77,23 @@ export default function ProductDetailPage({
     // defaultValues(initialData ?? {}, specData ?? {}),
   });
 
-  const pageHeader = {
-    title: initialData ? 'Edit Finish Goods' : 'New Finish Goods',
+  // const pageHeader = {
+  //   title: initialData ? 'Edit Finish Goods' : 'New Finish Goods',
 
-    breadcrumb: [
-      {
-        name: 'Dashboard',
-        href: routes.production.dashboard,
-      },
-      {
-        name: 'List',
-        href: routes.production.products,
-      },
-      {
-        name: initialData ? 'Finish Goods' : 'Finish Goods',
-      },
-    ],
-  };
+  //   breadcrumb: [
+  //     {
+  //       name: 'Dashboard',
+  //       href: routes.production.dashboard,
+  //     },
+  //     {
+  //       name: 'List',
+  //       href: routes.production.products,
+  //     },
+  //     {
+  //       name: initialData ? 'Finish Goods' : 'Finish Goods',
+  //     },
+  //   ],
+  // };
   const description = initialData
     ? `Change Product ${initialData.id}-> ${initialData.name}`
     : 'Add New Product';
@@ -150,10 +150,10 @@ export default function ProductDetailPage({
 
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
 
       <div className='@container'>
-        <FormNav className={cn('z-[999] 2xl:top-[65px]')} />
+        <FormNav className={cn('z-[999] 2xl:top-[64px]')} />
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
@@ -175,17 +175,11 @@ export default function ProductDetailPage({
                       subCategories={subCategories}
                       brands={brands}
                       uoms={uoms}
-                      specData={specData}
                       className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
                   {key === formParts.specs && (
                     <Component
-                      initialData={initialData}
-                      categories={categories}
-                      subCategories={subCategories}
-                      brands={brands}
-                      uoms={uoms}
                       specData={specData}
                       className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />

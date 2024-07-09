@@ -241,7 +241,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <div className='w-full flex items-center'>
+          {/* <div className='w-full flex items-center'>
             <FormField
               control={form.control}
               name='images'
@@ -262,21 +262,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         ])
                       }
                     />
-
-                    {/* <ImageCollection
-                      value={
-                        field.value?.map(
-                          (ProductImages) => ProductImages.imageURL
-                        ) || []
-                      }
-                      disabled={loading}
-                    /> */}
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
-          <Separator />
+          <Separator /> */}
 
           <div className='grid grid-cols-3 gap-4 py-2'>
             <div>
@@ -330,7 +321,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 name='registered_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Registration Number</FormLabel>
+                    <FormLabel>Reg.No</FormLabel>
                     <FormControl>
                       <Input
                         placeholder='Input registration id here'
@@ -552,7 +543,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             </div>
           </div>
 
-          <div>
+          {/* <div>
             <FormField
               control={form.control}
               name='iStatus'
@@ -600,7 +591,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-          </div>
+          </div> */}
 
           {/* <FormFooter
             isLoading={loading}

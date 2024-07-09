@@ -6,30 +6,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ProductSpecs } from '@prisma/client';
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-
 import cn from '@/utils/class-names';
-import {
-  productSpecFormSchema,
-  ProductSpecFormValues,
-} from '@/utils/schema/productSpec.form.schema';
 import FormGroup from './form-group';
 import { Textarea } from '@/components/ui/textarea';
 
 interface ProductSpecFormProps {
   specData: ProductSpecs | null;
+  className?: string;
 }
 
 export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
   specData,
+  className,
 }) => {
   const {
     register,

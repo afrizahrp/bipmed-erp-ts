@@ -1,6 +1,6 @@
 import { ProductFormValues } from '@/utils/schema/product.form.schema';
 
-export function defaultValues(initialData?: ProductFormValues) {
+export function productdefaultValues(initialData?: ProductFormValues) {
   return {
     images: initialData?.images || [],
     id: initialData?.id,
