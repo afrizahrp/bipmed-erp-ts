@@ -2,6 +2,7 @@ import { prisma } from '@/lib/client';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { ProductForm } from './components/product-form';
+import ProductDetailPage from './components';
 const ProductPage = async ({
   params,
 }: {
@@ -28,11 +29,11 @@ const ProductPage = async ({
   //   },
   // });
 
-  // const productSpec = await prisma.productSpecs.findUnique({
-  //   where: {
-  //     id: params.id,
-  //   },
-  // });
+  const productSpec = await prisma.productSpecs.findUnique({
+    where: {
+      id: params.id,
+    },
+  });
 
   const categories = await prisma.categories.findMany({
     where: {
@@ -64,8 +65,18 @@ const ProductPage = async ({
   return (
     <Card className='py-6'>
       <CardContent>
-        <ProductForm
+        {/*   <ProductForm
           initialData={product}
+          categories={categories}
+          subCategories={subCategories}
+          brands={brands}
+          uoms={uoms}
+        /> */}
+
+        <ProductDetailPage
+          productId={params.id}
+          initialData={product}
+          specData={productSpec}
           categories={categories}
           subCategories={subCategories}
           brands={brands}

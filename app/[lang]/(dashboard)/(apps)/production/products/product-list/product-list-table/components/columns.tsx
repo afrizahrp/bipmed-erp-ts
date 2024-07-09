@@ -64,22 +64,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   //     return value.includes(row.getValue(id));
   //   },
   // },
-  {
-    accessorKey: 'catalog',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Catalog'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => (
-      <div className='w-[140px] dark:text-slate-300'>
-        {row.getValue('catalog')}
-      </div>
-    ),
-    enableHiding: false,
-  },
 
   {
     accessorKey: 'id',
@@ -100,6 +84,23 @@ export const columns: ColumnDef<ProductColumn>[] = [
     ),
     enableHiding: false,
     enableSorting: true,
+  },
+
+  {
+    accessorKey: 'catalog',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Catalog'
+        className='text-black dark:text-slate-300'
+      />
+    ),
+    cell: ({ row }) => (
+      <div className='w-[140px] dark:text-slate-300'>
+        {row.getValue('catalog')}
+      </div>
+    ),
+    enableHiding: false,
   },
 
   {

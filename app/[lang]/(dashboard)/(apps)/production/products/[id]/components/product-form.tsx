@@ -106,28 +106,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ],
   };
 
-  // const productFormSchema = z.object({
-  //   images: z.object({ imageURL: z.string() }).array(),
-  //   catalog_id: z.string().min(5).or(z.literal('')),
-  //   registered_id: z.string().min(5).or(z.literal('')),
-  //   id: z.string().min(5).or(z.literal('')).optional(),
-  //   name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-  //   category_id: z.string().min(3, { message: 'Category is required' }),
-  //   subCategory_id: z.string().min(5).or(z.literal('')),
-  //   uom_id: z.string().min(5).or(z.literal('')),
-  //   brand_id: z.string().min(5).or(z.literal('')),
-  //   tkdn_pctg: z.coerce.number().min(0),
-  //   bmp_pctg: z.coerce.number().min(0),
-  //   ecatalog_URL: z.string().min(5).or(z.literal('')),
-  //   iStatus: z.boolean().default(false),
-  //   remarks: z.string().min(5).or(z.literal('')).optional(),
-  //   slug: z.string().min(5).or(z.literal('')).optional(),
-  //   isMaterial: z.boolean().default(false),
-  //   // iShowedStatus: z.boolean().default(true),
-  // });
-
-  // type ProductFormValues = z.infer<typeof productFormSchema>;
-
   const defaultValues = initialData
     ? {
         ...initialData,
@@ -257,7 +235,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -333,7 +311,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         placeholder='Input catalog here'
                         value={field.value ?? ''}
                         onChange={field.onChange}
-                        disabled={loading}
+                        disabled={true}
                       />
                     </FormControl>
                     {form.formState.errors.catalog_id && (
@@ -358,7 +336,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         placeholder='Input registration id here'
                         value={field.value ?? ''}
                         onChange={field.onChange}
-                        disabled={loading}
+                        disabled={true}
                       />
                     </FormControl>
                     {form.formState.errors.registered_id && (
@@ -380,7 +358,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={loading}
+                      disabled={true}
                       placeholder='Input name here'
                       {...field}
                       onChange={(e) => {
@@ -418,7 +396,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
-                      disabled={loading}
+                      disabled={true}
                     />
                   </FormItem>
                 )}
@@ -433,7 +411,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormItem>
                     <FormLabel>Subcategory</FormLabel>
                     <Select
-                      disabled={loading}
+                      disabled={true}
                       onValueChange={field.onChange}
                       value={field.value ?? ''}
                       defaultValue={field.value ?? ''}
@@ -483,7 +461,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
-                      disabled={loading}
+                      disabled={true}
                     />
                   </FormItem>
                 )}
@@ -501,7 +479,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
-                      disabled={loading}
+                      disabled={true}
                     />
                   </FormItem>
                 )}
@@ -565,7 +543,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         placeholder='http://ekatalog'
                         value={field.value ?? ''}
                         onChange={field.onChange}
-                        disabled={loading}
+                        disabled={true}
                       />
                     </FormControl>
                   </FormItem>
@@ -575,23 +553,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
 
           <div>
-            <FormField
-              control={form.control}
-              name='remarks'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Remarks</FormLabel>
-                  <FormControl>
-                    <SimpleMDE
-                      disabled={loading}
-                      placeholder='Type here to add remarks'
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name='iStatus'
@@ -612,6 +573,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       style={{
                         backgroundColor: field.value ? 'green' : 'gray',
                       }}
+                      disabled={true}
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>
@@ -640,11 +602,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
           </div>
 
-          <FormFooter
+          {/* <FormFooter
             isLoading={loading}
             handleAltBtn={handleBack}
             submitBtnText={id ? 'Update' : 'Save'}
-          />
+          /> */}
         </form>
       </Form>
     </>
