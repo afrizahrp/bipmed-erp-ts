@@ -11,7 +11,7 @@ export async function DELETE(
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({}, { status: 401 });
 
-    console.log('params', params.id.toString());
+    console.log('params', params.id);
 
     if (!session) {
       return new NextResponse('Unauthenticated', { status: 403 });
@@ -19,7 +19,7 @@ export async function DELETE(
 
     await prisma.productImages.delete({
       where: {
-        id: Number(params.id),
+        id: params.id,
       },
     });
 
