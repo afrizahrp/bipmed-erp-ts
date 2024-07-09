@@ -88,7 +88,7 @@ const ProductPage = async ({
       <div className='flex gap-x-2'>
         <div className='w-full'>
           <Card>
-            <CardContent className='space-y-2'>
+            <CardContent>
               <ProducImageForm
                 imageData={productImages.map((image) => ({
                   ...image,
