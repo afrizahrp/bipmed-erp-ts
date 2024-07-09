@@ -36,7 +36,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   return (
     <div>
-      {/* Add border classes here */}
       <div className='mb-4 flex items-center gap-4'>
         {value.map((url) => (
           <div key={url} className='relative w-[300px] h-[300px] rounded-md'>

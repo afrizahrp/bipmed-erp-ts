@@ -14,7 +14,7 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
   return (
     <Tab.Group as='div' className='flex flex-col-reverse'>
       <div className='mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none '>
-        <Tab.List className='grid grid-cols-3 gap-6 flex items-center justify-center'>
+        <Tab.List className='grid grid-cols-4 gap-6 flex items-center justify-center'>
           {images.map((image) => (
             <GalleryTab key={image.id} image={image} />
           ))}

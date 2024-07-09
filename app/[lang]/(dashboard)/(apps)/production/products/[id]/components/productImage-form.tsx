@@ -1,37 +1,59 @@
 'use client';
 
-import { Products, ProductImages } from '@prisma/client';
+import React, { useState } from 'react';
+// import { Products, ProductImages } from '@prisma/client';
+// import { ProductImages } from '@/types';
 
-import Gallery from '@/components/gallery/products';
-import { CldUploadButton } from 'next-cloudinary';
+import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 
 interface ProductImage {
-  id: string; // Assuming each image has an ID
-  imageURL: string; // The URL of the image
+  id: string;
+  imageURL: string;
 }
 
-interface ProducImageFormProps {
+interface ProductImageFormProps {
   imageData: ProductImage[];
 }
 
-export const ProducImageForm: React.FC<ProducImageFormProps> = ({
-  imageData,
-}) => {
+const ProductImageForm: React.FC<ProductImageFormProps> = ({ imageData }) => {
+  // State to manage image URLs
+  const [images, setImages] = useState(imageData);
+
+  // Handler to add a new image URL
+  const handleImageChange = (newImageUrl: string) => {
+    const newImage = {
+      id: Date.now().toString(), // Generate a pseudo-unique ID for the new image
+      imageURL: newImageUrl,
+    };
+    setImages([...images, newImage]);
+  };
+
+  // Handler to remove an image URL
+  const handleImageRemove = (imageUrlToRemove: string) => {
+    setImages(images.filter((image) => image.imageURL !== imageUrlToRemove));
+  };
+
   return (
     <>
       <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'>
-        <Gallery
-          images={imageData.map((image) => ({
+        <GalleryWithUpload
+          images={images.map((image) => ({
             id: image.id,
+            product_id: '', // Add the product_id property with an empty string value
+            isPrimary: false, // Add the isPrimary property with a default value
             imageURL: image.imageURL,
-            product_id: '', // Add a placeholder value for product_id
-            isPrimary: false, // Add a placeholder value for isPrimary
           }))}
+          onChange={handleImageChange}
+          onRemove={handleImageRemove}
         />
-      </div>
-      <div className='flex flex-col gap-6'>
-        <CldUploadButton />
+        {/* <ImageUpload
+          value={images.map((image) => image.imageURL)} // Pass image URLs to ImageUpload
+          onChange={handleImageChange}
+          onRemove={handleImageRemove}
+        /> */}
       </div>
     </>
   );
 };
+
+export default ProductImageForm;

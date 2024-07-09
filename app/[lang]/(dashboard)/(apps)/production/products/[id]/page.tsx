@@ -3,7 +3,7 @@ import { prisma } from '@/lib/client';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
-import { ProducImageForm } from './components/productImage-form';
+import ProducImageForm from './components/productImage-form';
 import ProductDetailPage from './components';
 import { ProductForm } from './components/product-form';
 import { ProductSpecForm } from '../../productSpecs/[id]/components/product-spec-form';
@@ -86,9 +86,10 @@ const ProductPage = async ({
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <div className='flex gap-x-2'>
-        <div className='w-full'>
+        {/* <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'> */}
+        <div className='w-full lg:w-1/2 lg:sticky top-20 h-max'>
           <Card>
-            <CardContent>
+            <CardContent className='pt-4'>
               <ProducImageForm
                 imageData={productImages.map((image) => ({
                   ...image,
