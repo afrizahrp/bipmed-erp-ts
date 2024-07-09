@@ -39,13 +39,13 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  const handleImageRemove = async (id: number) => {
+  const handleImageRemove = async (imageURL: string) => {
     try {
-      console.log('id', id);
-      await axios.delete(`/api/inventory/productImages/${id}`);
+      console.log('image id', imageURL);
+      await axios.delete(`/api/cloudinary/delete?url=${imageURL}`);
+      // await axios.delete(`/api/inventory/productImages/${id}`);
 
-      await axios.delete(`/api/cloudinary/delete?public_id=${id}`);
-      // onRemove(id);
+      onRemove(imageURL);
       toast.success('Image has been removed successfully.');
     } catch (error) {
       console.error(error);
@@ -60,6 +60,8 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   if (!isMounted) {
     return null;
   }
+
+  // console.log('images', images[0].id);
 
   return (
     <Tab.Group as='div' className='flex flex-col-reverse'>
@@ -76,7 +78,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
             <div className='z-10 absolute top-1 right-1'>
               <Button
                 type='button'
-                onClick={() => handleImageRemove(Number(image.id))}
+                onClick={() => handleImageRemove(image.imageURL)}
                 color='destructive'
                 size='xs'
               >

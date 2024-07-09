@@ -17,6 +17,16 @@ export async function DELETE(
       return new NextResponse('Unauthenticated', { status: 403 });
     }
 
+    const productImage = await prisma.productImages.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+
+    if (!productImage) {
+      return new NextResponse('Product image not found', { status: 404 });
+    }
+
     await prisma.productImages.delete({
       where: {
         id: params.id,
