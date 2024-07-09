@@ -24,14 +24,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form_T';
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select_T';
+} from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const formSchema = z.object({
@@ -234,9 +234,9 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
                   <FormControl>
                     <Input disabled placeholder='Id' {...field} />
                   </FormControl>
-                  {form.formState.errors.name && (
+                  {form.formState.errors.id && (
                     <FormMessage>
-                      {form.formState.errors.name.message}
+                      {form.formState.errors.id.message}
                     </FormMessage>
                   )}{' '}
                   <FormMessage />
@@ -259,9 +259,9 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
                       {...field}
                     />
                   </FormControl>
-                  {form.formState.errors.name && (
+                  {form.formState.errors.remarks && (
                     <FormMessage>
-                      {form.formState.errors.name.message}
+                      {form.formState.errors.remarks.message}
                     </FormMessage>
                   )}{' '}
                   <FormMessage />

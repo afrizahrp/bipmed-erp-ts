@@ -3,6 +3,8 @@ import { prisma } from '@/lib/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { ProductForm } from './components/product-form';
 import ProductDetailPage from './components';
+import { ProductSpecForm } from '../../productSpecs/[id]/components/product-spec-form';
+import { ProducImageForm } from '../../producImages/[product_id]/components/productImage-form';
 const ProductPage = async ({
   params,
 }: {
@@ -23,11 +25,11 @@ const ProductPage = async ({
     },
   });
 
-  // const productImages = await prisma.productImages.findMany({
-  //   where: {
-  //     product_id: params.id,
-  //   },
-  // });
+  const productImages = await prisma.productImages.findMany({
+    where: {
+      product_id: params.id,
+    },
+  });
 
   const productSpec = await prisma.productSpecs.findUnique({
     where: {
@@ -63,9 +65,16 @@ const ProductPage = async ({
   });
 
   return (
-    <Card className='py-6'>
-      <CardContent>
-        {/*   <ProductForm
+    <>
+      <Card>
+        <CardContent className='space-y-2'>
+          <ProducImageForm imageData={productImages} />
+        </CardContent>
+      </Card>
+
+      <Card className='py-6'>
+        <CardContent>
+          {/*   <ProductForm
           initialData={product}
           categories={categories}
           subCategories={subCategories}
@@ -73,7 +82,7 @@ const ProductPage = async ({
           uoms={uoms}
         /> */}
 
-        <ProductDetailPage
+          {/* <ProductDetailPage
           productId={params.id}
           initialData={product}
           specData={productSpec}
@@ -81,9 +90,12 @@ const ProductPage = async ({
           subCategories={subCategories}
           brands={brands}
           uoms={uoms}
-        />
-      </CardContent>
-    </Card>
+        /> */}
+
+          <ProductSpecForm initialData={productSpec} />
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
