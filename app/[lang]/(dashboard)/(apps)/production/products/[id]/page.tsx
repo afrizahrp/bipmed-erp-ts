@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/client';
-
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
@@ -91,6 +90,7 @@ const ProductPage = async ({
           <Card>
             <CardContent className='pt-4'>
               <ProducImageForm
+                product_id={params.id}
                 imageData={productImages.map((image) => ({
                   ...image,
                   id: image.id.toString(),

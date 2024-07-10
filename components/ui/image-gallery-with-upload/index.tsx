@@ -5,14 +5,12 @@ import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
 import { ProductImages } from '@/types';
 import GalleryTabWithUpload from './gallery-tab';
-import cloudinary from 'cloudinary';
 import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
-
 import { Button } from '@/components/ui/button';
 import { ImagePlus, Trash } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { on } from 'events';
+import { Loader2 } from 'lucide-react';
 
 // import {
 //   Magnifier,
@@ -26,6 +24,7 @@ interface GalleryWithUploadProps {
   disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
+  product_id: string;
   images: ProductImages[];
 }
 
@@ -46,10 +45,13 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   disabled,
   onChange,
   onRemove,
+  product_id,
   images,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  console.log('product id from galleryupload', product_id);
 
   useEffect(() => {
     setIsMounted(true);
@@ -63,22 +65,39 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     return null;
   }
 
+  const handleUpload = async (product_id: string, imageURL: string) => {
+    try {
+      setLoading(true);
+
+      const { data } = await axios.post('/api/inventory/productImages', {
+        product_id: product_id,
+        isPrimary: false,
+        imageURL,
+      });
+
+      onUpload(data);
+      setLoading(false);
+      toast.success('Image has been uploaded successfully.');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+      setLoading(false);
+    }
+  };
+
   const handleImageRemove = async (imageURL: string, id: string) => {
     try {
       setLoading(true);
 
-      const cloudinaryImageId = extractPublicIdFromCloudinaryUrl({
+      const cloudinaryImgId = extractPublicIdFromCloudinaryUrl({
         url: images.map((image) => image.imageURL),
       });
 
-      const response = await axios.delete(
-        `/api/system/cloudinary/${cloudinaryImageId}`
-      );
-      console.log('response', response);
-
+      await axios.delete(`/api/system/cloudinary/${cloudinaryImgId}`);
       await axios.delete(`/api/inventory/productImages/${id}`);
 
       onRemove(imageURL);
+      setLoading(false);
       toast.success('Image has been removed successfully.');
     } catch (error) {
       console.error(error);
@@ -107,17 +126,19 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                 size='xs'
                 disabled={loading}
               >
+                {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
                 <Trash className='h-4 w-4' />
               </Button>
             </div>
             <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
               {image.imageURL ? (
                 <NextImage
-                  fill
+                  height={500}
+                  width={500}
                   src={image.imageURL}
                   alt='Image'
+                  objectFit='cover'
                   className='object-cover object-center'
-                  objectPosition='center'
                 />
               ) : (
                 <div>Image not available</div>
@@ -147,7 +168,15 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                   disabled={loading}
                   variant='outline'
                   onClick={onClick}
+
+                  // onClick={() =>
+                  //   handleUpload(
+                  //     product_id,
+                  //     images.map((image) => image.imageURL).join(', ')
+                  //   )
+                  // }
                 >
+                  {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
                   <ImagePlus className='h-4 w-4 mr-2' />
                   Upload Images
                 </Button>
@@ -155,7 +184,6 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
             }}
           </CldUploadWidget>
         </div>
-        {/* End of Tab.Panel */}
       </Tab.Panels>
     </Tab.Group>
   );

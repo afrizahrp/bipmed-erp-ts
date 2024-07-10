@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Products } from '@/types';
 // import { Products, ProductImages } from '@prisma/client';
 // import { ProductImages } from '@/types';
 
@@ -12,10 +13,14 @@ interface ProductImage {
 }
 
 interface ProductImageFormProps {
+  product_id: string;
   imageData: ProductImage[];
 }
 
-const ProductImageForm: React.FC<ProductImageFormProps> = ({ imageData }) => {
+const ProductImageForm: React.FC<ProductImageFormProps> = ({
+  product_id,
+  imageData,
+}) => {
   // State to manage image URLs
   const [images, setImages] = useState(imageData);
 
@@ -33,16 +38,21 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ imageData }) => {
     setImages(images.filter((image) => image.imageURL !== imageUrlToRemove));
   };
 
+  // const product_id = products.id;
+
+  // console.log('product id', product_id);
+
   return (
     <>
       <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'>
         <GalleryWithUpload
           images={images.map((image) => ({
             id: image.id,
-            product_id: '', // Add the product_id property with an empty string value
+            product_id: product_id, // Add the product_id property with an empty string value
             isPrimary: false, // Add the isPrimary property with a default value
             imageURL: image.imageURL,
           }))}
+          product_id={product_id}
           onChange={handleImageChange}
           onRemove={handleImageRemove}
         />

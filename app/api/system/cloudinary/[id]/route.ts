@@ -10,6 +10,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+function checkImageExists(publicId: string) {
+  return new Promise((resolve, reject) => {
+    cloudinary.api.resource(publicId, { type: 'upload' }, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
 export async function DELETE(
   req: Request,
   { params }: { params: { id: string } }
@@ -26,26 +38,38 @@ export async function DELETE(
       return new NextResponse('Cloudinary image id not found', { status: 404 });
     }
 
-    // console.log('id from cloudinary api', params.id);
+    const imageId = 'upload/' + params.id;
+    // 'https://api.cloudinary.com/v1_1/biwebapp/resources/image/upload/vea73p88abfgwnsoyxqk?';
 
-    // const deleteImage = cloudinary.uploader
-    //   .destroy(params.id, {
+    checkImageExists(imageId)
+      .then((result) => {
+        console.log('Image exists:');
+        // Proceed to destroy the image
+        return cloudinary.uploader.destroy(imageId, { invalidate: true });
+      })
+      .then((destroyResult) => {
+        console.log('Image destroyed:', destroyResult);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        if (error.http_code === 404) {
+          console.log('Image does not exist, no action needed');
+        } else {
+          console.log('An error occurred:', error.message);
+        }
+      });
+    // await cloudinary.uploader
+    //   .destroy(imageId, {
     //     invalidate: true,
-    //     type: 'authenticated',
+    //     type: 'authenticated', // or 'upload', 'private', depending on your use case
+    //     resource_type: 'image', // or 'video', 'raw', depending on your file type
+    //     // If your image is in a folder, specify the full public ID including the folder name
     //   })
-    //   .then((result) => console.log(result));
-
-    const result = await cloudinary.uploader.destroy(params.id);
-
-    if (result.result !== 'ok') {
-      console.error('Failed to delete image:', result);
-      return new NextResponse('Deletion failed', { status: 500 });
-    }
-
-    // await cloudinary.uploader.destroy(params.id);
-    // if (!deleteImage) {
-    //   return new NextResponse('Deleting image failed', { status: 404 });
-    // }
+    //   .then((result) => {
+    //     if (result !== 'ok') {
+    //       console.log('Failed to delete image:', result);
+    //     }
+    //   });
 
     return NextResponse.json({ message: 'Product image deleted' });
   } catch (error) {
