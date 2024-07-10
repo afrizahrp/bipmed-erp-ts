@@ -17,79 +17,118 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import {
-  productImageFormSchema,
-  ProductImageFormValues,
-} from '@/utils/schema/productImage.form.schema';
+// import {
+//   productImageFormSchema,
+//   ProductImageFormValues,
+// } from '@/utils/schema/productImage.form.schema';
 
-import { Products } from '@/types';
+import {
+  ProductFormValues,
+  productFormSchema,
+} from '@/utils/schema/product.form.schema';
+
+import { Products, ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
 import { FcPrevious } from 'react-icons/fc';
 
-interface ProductImage {
-  id: string;
-  imageURL: string;
-}
-
 interface ProductImageFormProps {
-  product_id: string;
-  imageData: ProductImage[];
+  initialData:
+    | (Products & {
+        images: ProductImages[];
+      })
+    | null;
 }
 
-const ProductImageForm: React.FC<ProductImageFormProps> = ({
-  product_id,
-  imageData,
-}) => {
+const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
   // State to manage image URLs
-  const [images, setImages] = useState(imageData);
+  const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
 
-  const defaultValues: ProductImageFormValues = {
-    ...imageData[0],
-    id: '',
-    product_id: product_id,
-    imageURL: imageData[0]?.imageURL || '',
-    isPrimary: false,
-  };
+  const defaultValues = initialData
+    ? {
+        ...initialData,
+        images: initialData?.images || [],
+        catalog_id: initialData?.catalog_id ?? '',
+        registered_id: initialData?.registered_id ?? '',
+        id: initialData?.id ?? '',
+        name: initialData?.name ?? '',
+        category_id: initialData?.category_id ?? '',
+        subCategory_id: initialData?.subCategory_id ?? '',
+        brand_id: initialData?.brand_id ?? '',
+        uom_id: initialData?.uom_id ?? '',
+        tkdn_pctg: initialData?.tkdn_pctg ?? 0,
+        bmp_pctg: initialData?.bmp_pctg ?? 0,
+        ecatalog_URL: initialData?.ecatalog_URL ?? '',
+        iStatus: initialData?.iStatus ?? true,
+        remarks: initialData?.remarks || undefined,
+        isMaterial: initialData?.isMaterial ?? false,
+        slug: initialData?.slug ?? '',
+      }
+    : {
+        images: [],
+        catalog_id: undefined,
+        registered_id: undefined,
+        id: '',
+        name: '',
+        category_id: '',
+        subCategory_id: '',
+        brand_id: '',
+        uom_id: '',
+        tkdn_pctg: 0,
+        bmp_pctg: 0,
+        ecatalog_URL: '',
+        iStatus: true,
+        remarks: '',
+        isMaterial: false,
+        slug: '',
+        iShowedStatus: false,
+      };
 
-  const form = useForm<ProductImageFormValues>({
-    resolver: zodResolver(productImageFormSchema),
+  const form = useForm<ProductFormValues>({
+    resolver: zodResolver(productFormSchema),
     defaultValues,
   });
 
-  const handleImageChange = (newImageUrl: string) => {
-    // Assuming `extractPublicIdFromCloudinaryUrl` expects a single URL string and returns an ID
-    const cloudinaryImgId = extractPublicIdFromCloudinaryUrl({
-      url: [newImageUrl], // Pass newImageUrl as an array
-    });
+  const handleImageRemove = async (imageURL: string) => {
+    try {
+      setLoading(true);
 
-    const newImage = {
-      id: cloudinaryImgId, // Use the extracted ID
-      imageURL: newImageUrl,
-    };
-    setImages([...images, newImage]);
-  };
+      const imageId = extractPublicIdFromCloudinaryUrl({
+        url: [imageURL],
+      });
 
-  const handleImageRemove = (imageUrlToRemove: string) => {
-    setImages(images.filter((image) => image.imageURL !== imageUrlToRemove));
+      console.log(imageId);
+      // await axios.delete(`/api/system/cloudinary/${imageId}`);
+      // await axios.delete(`/api/inventory/productImages/${imageId}`);
+
+      setLoading(false);
+      toast.success('Image has been removed successfully.');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+      setLoading(false);
+    }
   };
 
   const actionMessage = 'New images has added successfully.';
 
-  async function onSubmit(data: ProductImageFormValues): Promise<void> {
+  const onSubmit = async (data: ProductFormValues) => {
     try {
-      console.log(data);
       setLoading(true);
-      await axios.post(`/api/inventory/productImages`, data);
+      if (initialData) {
+        await axios.patch(`/api/inventory/products/${data.id}`, data);
+      }
+
       toast.success(actionMessage);
     } catch (error: any) {
       console.error(error);
+
       toast.error(error.response?.data?.message || 'Save failed');
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -102,33 +141,42 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
             <div className='w-full flex items-center'>
               <FormField
                 control={form.control}
-                name='imageURL'
+                name='images'
                 render={({ field }) => (
                   <FormItem>
                     <FormControl className='flex flex-col gap-3'>
                       <GalleryWithUpload
-                        images={images.map((image) => ({
-                          id: image.id,
-                          product_id: product_id, // Add the product_id property with an empty string value
-                          isPrimary: false, // Add the isPrimary property with a default value
-                          imageURL: image.imageURL,
-                        }))}
-                        product_id={product_id}
-                        // onChange={(imageURL) =>
-                        //   field.onChange([...field.value, { imageURL }])
-                        // }
-                        onChange={handleImageChange}
-                        onRemove={handleImageRemove}
+                        images={field.value.map((image) => image.imageURL)}
+                        onChange={(imageURL) =>
+                          field.onChange([
+                            ...field.value,
+                            {
+                              imageURL,
+                              id: extractPublicIdFromCloudinaryUrl({
+                                url: [imageURL],
+                              }),
+                            },
+                          ])
+                        }
+                        // onRemove={() => handleImageRemove(images?.imageURL)}
+
+                        onRemove={(imageURL) =>
+                          field.onChange([
+                            ...field.value.filter(
+                              (current) => current.imageURL !== imageURL
+                            ),
+                          ])
+                        }
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
-            <div className='w-full flex items-center'>
+            <div className='w-full flex items-left justify-start'>
               <Button
                 disabled={loading}
-                className='ml-auto'
+                // className='ml-auto'
                 type='submit'
                 onClick={(event) => {
                   event.preventDefault(); // Prevent default if necessary
@@ -137,7 +185,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 }}
               >
                 {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {loading ? 'Saving...' : 'Save changes'}
+                {loading ? 'Saving...' : 'Save'}
               </Button>
             </div>
           </form>

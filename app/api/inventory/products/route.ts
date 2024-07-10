@@ -47,6 +47,20 @@ async function getProductId(
   }
 }
 
+function extractPublicIdFromCloudinaryUrl(arg0: { url: string[] }): string {
+  const { url } = arg0;
+  const publicIds: string[] = [];
+
+  url.forEach((imageUrl) => {
+    const publicId = imageUrl.split('/').pop()?.split('.')[0];
+    if (publicId) {
+      publicIds.push(publicId);
+    }
+  });
+
+  return publicIds.join(',');
+}
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -105,7 +119,6 @@ export async function POST(request: NextRequest) {
       userId
     );
 
-    console.log('productId', productId);
     const newProduct = {
       id: productId,
       name,
@@ -134,13 +147,19 @@ export async function POST(request: NextRequest) {
       branch_id: branch_id,
     };
 
+    let url = images.map((image: { imageURL: string }) => image.imageURL);
+    const publicIds = extractPublicIdFromCloudinaryUrl({ url });
+    console.log('public id', publicIds);
+
     const product = await prisma.products.create({
       data: {
         ...newProduct,
         images: {
           createMany: {
             data: images.map((image: { imageURL: string }) => ({
+              id: publicIds,
               imageURL: image.imageURL,
+              product_id: productId,
               isPrimary: false,
               createdBy: userName,
               updatedBy: userName,

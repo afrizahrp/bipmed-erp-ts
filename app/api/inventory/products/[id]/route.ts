@@ -15,6 +15,14 @@ export async function GET(
 
   return NextResponse.json(products);
 }
+function extractPublicIdFromCloudinaryUrl(urls: string[]): string[] {
+  return urls.map((url) => {
+    // Extract the public ID from each URL
+    // This is a simplified example; adjust the logic to match your URL structure and extraction logic
+    const parts = url.split('/');
+    return parts[parts.length - 1].split('.')[0];
+  });
+}
 
 export async function PATCH(
   req: Request,
@@ -104,6 +112,21 @@ export async function PATCH(
       },
     });
 
+    let urls = images.map((image) => image.imageURL);
+    const publicIds = extractPublicIdFromCloudinaryUrl(urls);
+
+    const imageData = images.map(
+      (image: { imageURL: string; id?: string }, index: number) => ({
+        id: publicIds[index], // Use the public ID as the image ID
+        imageURL: image.imageURL,
+        isPrimary: false,
+        updatedBy: userName,
+        updatedAt: new Date(),
+        company_id: company_id,
+        branch_id: branch_id,
+      })
+    );
+
     const product = await prisma.products.update({
       where: {
         id: params.id,
@@ -111,14 +134,7 @@ export async function PATCH(
       data: {
         images: {
           createMany: {
-            data: images.map((image: { imageURL: string }) => ({
-              imageURL: image.imageURL,
-              isPrimary: false,
-              updatedBy: userName,
-              updatedAt: new Date(),
-              company_id: company_id,
-              branch_id: branch_id,
-            })),
+            data: imageData,
           },
         },
       },

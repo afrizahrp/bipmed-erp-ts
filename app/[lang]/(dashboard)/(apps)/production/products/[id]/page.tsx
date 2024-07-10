@@ -88,21 +88,15 @@ const ProductPage = async ({
         {/* <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'> */}
         <div className='w-full lg:w-1/2 lg:sticky top-20 h-max'>
           <Card>
-            <CardContent className='pt-4'>
-              <ProducImageForm
-                product_id={params.id}
-                imageData={productImages.map((image) => ({
-                  ...image,
-                  id: image.id.toString(),
-                }))}
-              />
+            <CardContent className='pt-2'>
+              <ProducImageForm initialData={product} />
             </CardContent>
           </Card>
         </div>
 
         <div className='w-full'>
           <Card>
-            <CardContent>
+            <CardContent className='pt-2'>
               <ProductDetailPage
                 productId={params.id}
                 initialData={product}

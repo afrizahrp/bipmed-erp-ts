@@ -464,9 +464,9 @@ model ProductPrice {
 }
 
 model ProductImages {
-  id                  String        @id @default(uuid())
+  id                  String        @id @db.Char(25)
   product_id          String        @db.Char(20)
-  imageURL            String         @db.VarChar(250)
+  imageURL            String        @db.VarChar(250)
   isPrimary           Boolean?      @default(false)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())

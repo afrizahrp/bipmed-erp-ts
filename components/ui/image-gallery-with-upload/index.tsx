@@ -1,9 +1,7 @@
 'use client';
 import axios from 'axios';
-import { useDropzone } from 'react-dropzone';
-import cn from '@/utils/class-names';
 
-import NextImage from 'next/image';
+import Image from 'next/image';
 import { Tab } from '@headlessui/react';
 import { ProductImages } from '@/types';
 import GalleryTabWithUpload from './gallery-tab';
@@ -23,11 +21,9 @@ import {
   TOUCH_ACTIVATION,
 } from 'react-image-magnifiers';
 interface GalleryWithUploadProps {
-  disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
-  product_id: string;
-  images: ProductImages[];
+  images: string[];
 }
 
 export function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
@@ -44,57 +40,36 @@ export function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
 }
 
 const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
-  disabled,
   onChange,
   onRemove,
   images,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const negMargin = '-mx-4 md:-mx-5 lg:-mx-6 3xl:-mx-8 4xl:-mx-10';
-
-  const imageExist = images.length;
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const onUpload = (result: any) => {
-    console.log('onUploadClicked', result);
     onChange(result.info.secure_url);
   };
 
   if (!isMounted) {
     return null;
   }
-  const actionMessage = 'New images has added successfully.';
 
-  const handleUpload = async (product_id: string, imageURL: string) => {
-    try {
-      setLoading(true);
-      await axios.post(`/api/inventory/productImages`, {
-        product_id,
-        imageURL,
-        isPrimary: false,
-      });
-      toast.success(actionMessage);
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.response?.data?.message || 'Save failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleImageRemove = async (imageURL: string, id: string) => {
+  const handleImageRemove = async (imageURL: string) => {
     try {
       setLoading(true);
 
-      const cloudinaryImgId = extractPublicIdFromCloudinaryUrl({
-        url: images.map((image) => image.imageURL),
+      const imageId = extractPublicIdFromCloudinaryUrl({
+        url: [imageURL],
       });
 
-      await axios.delete(`/api/system/cloudinary/${cloudinaryImgId}`);
-      await axios.delete(`/api/inventory/productImages/${id}`);
+      // console.log(imageId);
+      await axios.delete(`/api/system/cloudinary/${imageId}`);
+      await axios.delete(`/api/inventory/productImages/${imageId}`);
 
       onRemove(imageURL);
       setLoading(false);
@@ -106,57 +81,55 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     }
   };
 
-  const product_id = images[0].product_id;
-
+  // const imageExist = images.length;
+  // console.log(images);
   return (
     <>
       <Tab.Group as='div' className='flex flex-col-reverse'>
         <div className='mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none '>
           <Tab.List className='grid grid-cols-4 gap-6 flex items-center justify-center'>
-            {images.map((image) => (
-              <GalleryTabWithUpload key={image.id} image={image} />
+            {images.map((image: string, index: number) => (
+              <GalleryTabWithUpload
+                key={index}
+                image={image}
+                disabled={loading}
+              />
             ))}
           </Tab.List>
         </div>
         <Tab.Panels className='aspect-square w-full'>
-          {imageExist > 0 ? (
-            images.map((image) => (
-              <Tab.Panel key={image.id}>
-                <div className='z-10 absolute top-1 right-1'>
-                  <Button
-                    type='button'
-                    onClick={() => handleImageRemove(image.imageURL, image.id)}
-                    color='destructive'
-                    size='xs'
-                    disabled={loading}
-                  >
-                    {loading && (
-                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    )}
-                    <Trash className='h-4 w-4' />
-                  </Button>
-                </div>
-                <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
-                  {image.imageURL ? (
-                    <NextImage
-                      height={500}
-                      width={500}
-                      src={image.imageURL}
-                      alt='Image'
-                      objectFit='cover'
-                      className='object-cover object-center'
-                    />
-                  ) : (
-                    <div>Image not available</div>
-                  )}
-                </div>
-              </Tab.Panel>
-            ))
-          ) : (
-            <div className='flex justify-center items-center h-full'>
-              No images available
-            </div>
-          )}
+          {/* {imageExist > 0 ? ( */}
+          {images.map((imageURL) => (
+            <Tab.Panel key={imageURL} className='aspect-square relative'>
+              <div className='z-10 absolute top-1 left-1'>
+                <Button
+                  type='button'
+                  onClick={() => handleImageRemove(imageURL)}
+                  variant='soft'
+                  color='destructive'
+                  size='xs'
+                  disabled={loading}
+                >
+                  {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                  <Trash className='h-4 w-4' />
+                </Button>
+              </div>
+              <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
+                {imageURL ? (
+                  <Image
+                    height={380}
+                    width={380}
+                    src={imageURL}
+                    alt='Image'
+                    objectFit='cover'
+                    className='object-cover object-center'
+                  />
+                ) : (
+                  <div>Image not available</div>
+                )}
+              </div>
+            </Tab.Panel>
+          ))}
 
           <div className='py-3'>
             <CldUploadWidget
@@ -180,36 +153,12 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                       disabled={loading}
                       variant='outline'
                       onClick={onClick}
-
-                      // onClick={() =>
-                      //   handleUpload(
-                      //     product_id,
-                      //     images.map((image) => image.imageURL).join(', ')
-                      //   )
-                      // }
                     >
                       {loading && (
                         <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                       )}
                       <ImagePlus className='h-4 w-4 mr-2' />
                       Upload
-                    </Button>
-
-                    <Button
-                      type='button'
-                      disabled={loading}
-                      variant='outline'
-                      onClick={() =>
-                        handleUpload(
-                          product_id,
-                          images.map((image) => image.imageURL).join(', ')
-                        )
-                      }
-                    >
-                      {loading && (
-                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                      )}
-                      Save
                     </Button>
                   </div>
                 );
