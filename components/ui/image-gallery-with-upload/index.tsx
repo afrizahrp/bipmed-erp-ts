@@ -98,38 +98,49 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
           </Tab.List>
         </div>
         <Tab.Panels className='aspect-square w-full'>
-          {/* {imageExist > 0 ? ( */}
-          {images.map((imageURL) => (
-            <Tab.Panel key={imageURL} className='aspect-square relative'>
-              <div className='z-10 absolute top-1 left-1'>
-                <Button
-                  type='button'
-                  onClick={() => handleImageRemove(imageURL)}
-                  variant='soft'
-                  color='destructive'
-                  size='xs'
-                  disabled={loading}
-                >
-                  {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                  <Trash className='h-4 w-4' />
-                </Button>
+          {images.length > 0 ? (
+            images.map((imageURL) => (
+              <Tab.Panel key={imageURL} className='aspect-square relative'>
+                <div className='z-10 absolute top-1 left-1'>
+                  <Button
+                    type='button'
+                    onClick={() => handleImageRemove(imageURL)}
+                    variant='soft'
+                    color='destructive'
+                    size='xs'
+                    disabled={loading}
+                  >
+                    {loading && (
+                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    )}
+                    <Trash className='h-4 w-4' />
+                  </Button>
+                </div>
+                <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
+                  {imageURL ? (
+                    <Image
+                      height={380}
+                      width={380}
+                      src={imageURL}
+                      alt='Image'
+                      objectFit='cover'
+                      className='object-cover object-center'
+                    />
+                  ) : (
+                    <div>Image not available</div>
+                  )}
+                </div>
+              </Tab.Panel>
+            ))
+          ) : (
+            <div className='flex items-center justify-center w-full h-full'>
+              <div className='text-center'>
+                <div className='text-lg font-semibold flex items-center justify-center w-full h-full'>
+                  No images available
+                </div>
               </div>
-              <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
-                {imageURL ? (
-                  <Image
-                    height={380}
-                    width={380}
-                    src={imageURL}
-                    alt='Image'
-                    objectFit='cover'
-                    className='object-cover object-center'
-                  />
-                ) : (
-                  <div>Image not available</div>
-                )}
-              </div>
-            </Tab.Panel>
-          ))}
+            </div>
+          )}
 
           <div className='py-3'>
             <CldUploadWidget

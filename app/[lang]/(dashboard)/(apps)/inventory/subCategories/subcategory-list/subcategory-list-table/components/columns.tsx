@@ -23,7 +23,7 @@ export const columns: ColumnDef<SubCategoryColumns>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Subcategory Id' />
+      <DataTableColumnHeader column={column} title='Id' />
     ),
     cell: ({ row }) => (
       <Link

@@ -169,45 +169,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
       return value.includes(row.getValue(id));
     },
   },
-
-  {
-    accessorKey: 'subcategory',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Subcategory'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
-            {row.getValue('subcategory')}
-          </span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: 'brand',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Brand'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
-            {row.getValue('brand')}
-          </span>
-        </div>
-      );
-    },
-  },
   {
     accessorKey: 'status',
     header: ({ column }) => (
@@ -236,7 +197,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
       return value.includes(row.getValue(id));
     },
   },
-
   {
     accessorKey: 'remarks',
     header: ({ column }) => (
@@ -256,4 +216,43 @@ export const columns: ColumnDef<ProductColumn>[] = [
       );
     },
   },
+
+  // {
+  //   accessorKey: 'subcategory',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='Subcategory'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
+  //           {row.getValue('subcategory')}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: 'brand',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='Brand'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
+  //           {row.getValue('brand')}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  // },
 ];

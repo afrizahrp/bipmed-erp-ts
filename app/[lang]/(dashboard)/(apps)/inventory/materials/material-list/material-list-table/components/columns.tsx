@@ -29,7 +29,7 @@ export const columns: ColumnDef<MaterialColumn>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title='Material Id'
+        title='Id'
         className='text-black dark:text-slate-300'
       />
     ),
@@ -66,29 +66,6 @@ export const columns: ColumnDef<MaterialColumn>[] = [
     },
   },
   {
-    accessorKey: 'uom',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='UOM'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
-            {row.getValue('uom')}
-          </span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
-
-  {
     accessorKey: 'category',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -110,13 +87,12 @@ export const columns: ColumnDef<MaterialColumn>[] = [
       return value.includes(row.getValue(id));
     },
   },
-
   {
-    accessorKey: 'subcategory',
+    accessorKey: 'uom',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title='Subcategory'
+        title='UOM'
         className='text-black dark:text-slate-300'
       />
     ),
@@ -124,13 +100,15 @@ export const columns: ColumnDef<MaterialColumn>[] = [
       return (
         <div className='flex space-x-1'>
           <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
-            {row.getValue('subcategory')}
+            {row.getValue('uom')}
           </span>
         </div>
       );
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
-
   {
     accessorKey: 'status',
     header: ({ column }) => (
@@ -179,23 +157,43 @@ export const columns: ColumnDef<MaterialColumn>[] = [
       );
     },
   },
-  {
-    accessorKey: 'brand',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Brand'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
-            {row.getValue('brand')}
-          </span>
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: 'subcategory',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='Subcategory'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
+  //           {row.getValue('subcategory')}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  // },
+
+  // {
+  //   accessorKey: 'brand',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='Brand'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
+  //           {row.getValue('brand')}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  // },
 ];

@@ -174,19 +174,20 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
               />
             </div>
             <div className='w-full flex items-left justify-start'>
-              <Button
-                disabled={loading}
-                // className='ml-auto'
-                type='submit'
-                onClick={(event) => {
-                  event.preventDefault(); // Prevent default if necessary
-                  const data = { ...form.getValues() };
-                  onSubmit(data);
-                }}
-              >
-                {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {loading ? 'Saving...' : 'Save'}
-              </Button>
+              {images && (
+                <Button
+                  disabled={loading}
+                  type='submit'
+                  onClick={(event) => {
+                    event.preventDefault(); // Prevent default if necessary
+                    const data = { ...form.getValues() };
+                    onSubmit(data);
+                  }}
+                >
+                  {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                  {loading ? 'Saving...' : 'Save'}
+                </Button>
+              )}
             </div>
           </form>
         </Form>
