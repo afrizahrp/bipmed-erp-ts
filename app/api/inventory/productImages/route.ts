@@ -24,6 +24,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('tambah product image');
+
     const session = await getServerSession(authOptions);
     const company_id = session?.user?.company_id || '';
     const branch_id = session?.user?.branch_id || '';
@@ -42,7 +44,6 @@ export async function POST(request: NextRequest) {
       product_id: string;
       isPrimary: boolean;
       imageURL: string;
-
       createdBy: string;
       createdAt: Date;
       updatedBy: string;

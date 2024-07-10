@@ -18,7 +18,7 @@ const GalleryTabWithUpload: React.FC<GalleryTabWithUploadProps> = ({
             <NextImage
               fill
               src={image.imageURL}
-              alt='galerytab-image'
+              alt='images'
               className='object-cover object-center'
               objectPosition='center'
             />
