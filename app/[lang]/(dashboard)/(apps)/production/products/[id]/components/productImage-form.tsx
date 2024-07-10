@@ -45,28 +45,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   const [images, setImages] = useState(imageData);
   const [loading, setLoading] = useState(false);
 
-  // Handler to add a new image URL
-  const handleImageChange = (newImageUrl: string) => {
-    const newImage = {
-      id: Date.now().toString(), // Generate a pseudo-unique ID for the new image
-      imageURL: newImageUrl,
-    };
-    setImages([...images, newImage]);
-  };
-
-  // Handler to remove an image URL
-  const handleImageRemove = (imageUrlToRemove: string) => {
-    setImages(images.filter((image) => image.imageURL !== imageUrlToRemove));
-  };
-
-  // const defaultValues = {
-  //   ...imageData[0],
-  //   id: '',
-  //   product_id: product_id,
-  //   imageURL: imageData[0]?.imageURL || '',
-  //   isPrimary: false,
-  // };
-
   const defaultValues: ProductImageFormValues = {
     ...imageData[0],
     id: '',
@@ -80,13 +58,30 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     defaultValues,
   });
 
+  const handleImageChange = (newImageUrl: string) => {
+    // Assuming `extractPublicIdFromCloudinaryUrl` expects a single URL string and returns an ID
+    const cloudinaryImgId = extractPublicIdFromCloudinaryUrl({
+      url: [newImageUrl], // Pass newImageUrl as an array
+    });
+
+    const newImage = {
+      id: cloudinaryImgId, // Use the extracted ID
+      imageURL: newImageUrl,
+    };
+    setImages([...images, newImage]);
+  };
+
+  const handleImageRemove = (imageUrlToRemove: string) => {
+    setImages(images.filter((image) => image.imageURL !== imageUrlToRemove));
+  };
+
   const actionMessage = 'New images has added successfully.';
 
-  const onSubmit = async (data: ProductImageFormValues) => {
+  async function onSubmit(data: ProductImageFormValues): Promise<void> {
     try {
       console.log(data);
       setLoading(true);
-      // await axios.post(`/api/inventory/productImages`, data);
+      await axios.post(`/api/inventory/productImages`, data);
       toast.success(actionMessage);
     } catch (error: any) {
       console.error(error);
@@ -94,7 +89,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <>
@@ -119,9 +114,10 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                           imageURL: image.imageURL,
                         }))}
                         product_id={product_id}
-                        onChange={(imageURL) =>
-                          field.onChange([...field.value, { imageURL }])
-                        }
+                        // onChange={(imageURL) =>
+                        //   field.onChange([...field.value, { imageURL }])
+                        // }
+                        onChange={handleImageChange}
                         onRemove={handleImageRemove}
                       />
                     </FormControl>
@@ -150,5 +146,19 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     </>
   );
 };
+
+function extractPublicIdFromCloudinaryUrl(arg0: { url: string[] }): string {
+  const { url } = arg0;
+  const publicIds: string[] = [];
+
+  url.forEach((imageUrl) => {
+    const publicId = imageUrl.split('/').pop()?.split('.')[0];
+    if (publicId) {
+      publicIds.push(publicId);
+    }
+  });
+
+  return publicIds.join(',');
+}
 
 export default ProductImageForm;

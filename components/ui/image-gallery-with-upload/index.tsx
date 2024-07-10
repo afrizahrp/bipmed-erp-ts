@@ -30,7 +30,7 @@ interface GalleryWithUploadProps {
   images: ProductImages[];
 }
 
-function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
+export function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
   // Assuming the URL is in the 'url' property of the 'image' object
   const lastPart = image.url[0].split('/').pop();
 
@@ -52,6 +52,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const negMargin = '-mx-4 md:-mx-5 lg:-mx-6 3xl:-mx-8 4xl:-mx-10';
+
   const imageExist = images.length;
 
   useEffect(() => {
@@ -59,32 +60,31 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   }, []);
 
   const onUpload = (result: any) => {
+    console.log('onUploadClicked', result);
     onChange(result.info.secure_url);
   };
 
   if (!isMounted) {
     return null;
   }
+  const actionMessage = 'New images has added successfully.';
 
-  // const handleUpload = async (imageURL: string) => {
-  //   try {
-  //     setLoading(true);
-
-  //     const { data } = await axios.post('/api/inventory/productImages', {
-  //       isPrimary: false,
-  //       imageURL,
-  //     });
-
-  //     onUpload(data);
-  //     setLoading(false);
-  //     toast.success('Image has been uploaded successfully.');
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error('Something went wrong');
-  //     setLoading(false);
-  //   }
-  // };
-
+  const handleUpload = async (product_id: string, imageURL: string) => {
+    try {
+      setLoading(true);
+      await axios.post(`/api/inventory/productImages`, {
+        product_id,
+        imageURL,
+        isPrimary: false,
+      });
+      toast.success(actionMessage);
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data?.message || 'Save failed');
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleImageRemove = async (imageURL: string, id: string) => {
     try {
       setLoading(true);
@@ -105,6 +105,8 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
       setLoading(false);
     }
   };
+
+  const product_id = images[0].product_id;
 
   return (
     <>
@@ -193,19 +195,22 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                       Upload
                     </Button>
 
-                    {/* <Button
-                        type='button'
-                        disabled={loading}
-                        variant='outline'
-                        onClick={() =>
-                          handleUpload(images.map((image) => image.imageURL))
-                        }
-                      >
-                        {loading && (
-                          <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                        )}
-                        Save
-                      </Button> */}
+                    <Button
+                      type='button'
+                      disabled={loading}
+                      variant='outline'
+                      onClick={() =>
+                        handleUpload(
+                          product_id,
+                          images.map((image) => image.imageURL).join(', ')
+                        )
+                      }
+                    >
+                      {loading && (
+                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                      )}
+                      Save
+                    </Button>
                   </div>
                 );
               }}
