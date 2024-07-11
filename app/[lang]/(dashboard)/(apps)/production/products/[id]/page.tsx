@@ -5,7 +5,7 @@ import { routes } from '@/config/routes';
 import ProducImageForm from './components/productImage-form';
 import ProductDetailPage from './components';
 import { ProductForm } from './components/product-form';
-import { ProductSpecForm } from '../../productSpecs/[id]/components/product-spec-form';
+import { ProductSpecForm } from './components/product-spec-form';
 
 const ProductPage = async ({
   params,
@@ -75,7 +75,7 @@ const ProductPage = async ({
         href: routes.production.products,
       },
       {
-        name: params.id ? 'Finish Goods' : 'Finish Goods',
+        name: 'Finish Goods',
       },
     ],
   };
@@ -97,8 +97,8 @@ const ProductPage = async ({
         <div className='w-full'>
           <Card>
             <CardContent className='pt-2'>
+              {/* <ProductSpecForm specData={productSpec} /> */}
               <ProductDetailPage
-                productId={params.id}
                 initialData={product}
                 specData={productSpec}
                 categories={categories}

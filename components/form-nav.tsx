@@ -33,7 +33,7 @@ export default function FormNav({ className }: FormNavProps) {
   return (
     <div
       className={cn(
-        'z-100 sticky top-[64px] border-b border-gray-300  bg-white py-0 font-medium text-gray-500 @2xl:top-[72px] dark:bg-gray-50 2xl:top-20',
+        'z-100 sticky top-[64px] border-b border-gray-300 bg-white py-0 font-medium text-gray-500 @2xl:top-[72px] dark:bg-gray-50 2xl:top-20',
         className
       )}
     >
@@ -50,7 +50,7 @@ export default function FormNav({ className }: FormNavProps) {
               offset={idx === 0 ? -250 : -150}
               duration={500}
               className='relative cursor-pointer whitespace-nowrap py-4 hover:text-gray-1000'
-              activeClass='active before:absolute before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:w-full before:bg-gray-1000 font-semibold text-gray-1000'
+              activeClass='active before:absolute text-green-500 before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:w-full before:bg-gray-1000 font-semibold text-gray-1000'
             >
               {tab.label}
             </Link>

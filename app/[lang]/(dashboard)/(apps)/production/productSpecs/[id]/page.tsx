@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/client';
-import { Card, CardContent } from '@/components/ui/card_T';
-import { ProductDetail } from './components/index';
-import { ProductSpecForm } from './components/product-spec-form';
+import { Card, CardContent } from '@/components/ui/card';
+import { ProductSpecForm } from '../../products/[id]/components/product-spec-form';
 
 const ProductSpecsPage = async ({
   params,
@@ -20,15 +19,7 @@ const ProductSpecsPage = async ({
     },
   });
 
-  return (
-    <>
-      <Card>
-        <CardContent className='space-y-2'>
-          <ProductSpecForm initialData={productSpec} />
-        </CardContent>
-      </Card>
-    </>
-  );
+  return <ProductSpecForm specData={productSpec} />;
 };
 
 export default ProductSpecsPage;

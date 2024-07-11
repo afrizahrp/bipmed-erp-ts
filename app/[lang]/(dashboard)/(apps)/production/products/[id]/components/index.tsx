@@ -8,7 +8,7 @@ import { Element } from 'react-scroll';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import cn from '@/utils/class-names';
-import FormNav, { formParts } from './form-nav';
+import FormNav, { formParts } from '@/components/form-nav';
 // import { useLayout } from '@/hooks/use-layout';
 
 import {
@@ -22,13 +22,23 @@ import {
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { ProductForm } from './product-form';
-import { defaultValues } from './form-utils';
+import { defaultValues } from '../../../../../../../../components/form-utils';
 import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
 import {
   ProductFormValues,
   productFormSchema,
 } from '@/utils/schema/product.form.schema';
+
+import {
+  ProductSpecFormValues,
+  productSpecFormSchema,
+} from '@/utils/schema/productSpec.form.schema';
+
+import {
+  productAndSpecCombinedSchema,
+  CombinedProductFormValues,
+} from '@/utils/schema/product-and-spec-combined.form.schema';
 
 import { routes } from '@/config/routes';
 
@@ -38,7 +48,6 @@ const MAP_STEP_TO_COMPONENT = {
 };
 
 interface IndexProps {
-  productId: string;
   initialData:
     | (Products & {
         images: ProductImages[];
@@ -54,7 +63,6 @@ interface IndexProps {
 
 // console.log(productSpecData);
 export default function ProductDetailPage({
-  productId,
   initialData,
   specData,
   categories,
@@ -68,8 +76,8 @@ export default function ProductDetailPage({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const methods = useForm<ProductFormValues>({
-    resolver: zodResolver(productFormSchema),
+  const methods = useForm<CombinedProductFormValues>({
+    resolver: zodResolver(productAndSpecCombinedSchema),
     defaultValues: {
       ...defaultValues(initialData ?? {}, specData ?? {}),
     },
@@ -77,23 +85,6 @@ export default function ProductDetailPage({
     // defaultValues(initialData ?? {}, specData ?? {}),
   });
 
-  // const pageHeader = {
-  //   title: initialData ? 'Edit Finish Goods' : 'New Finish Goods',
-
-  //   breadcrumb: [
-  //     {
-  //       name: 'Dashboard',
-  //       href: routes.production.dashboard,
-  //     },
-  //     {
-  //       name: 'List',
-  //       href: routes.production.products,
-  //     },
-  //     {
-  //       name: initialData ? 'Finish Goods' : 'Finish Goods',
-  //     },
-  //   ],
-  // };
   const description = initialData
     ? `Change Product ${initialData.id}-> ${initialData.name}`
     : 'Add New Product';
@@ -110,18 +101,21 @@ export default function ProductDetailPage({
 
   const id = params.id;
 
-  const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
+  console.log('product id ', id);
+
+  const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {
       setLoading(true);
-
-      if (specData) {
-        await axios.patch(`/api/inventory/products/${productId}`, data);
-        await axios.patch(`/api/inventory/productSpecs/${id}`, data);
-      } else {
-        console.log('create product spec data first row ', productId);
-        // await axios.post(`/api/inventory/${params.id}/products`, data);
-        await axios.post(`/api/inventory/productSpecs`, data);
-      }
+      console.log('update product spec data first row ', id);
+      // if (initialData) {
+      //   console.log('update product spec data first row ', id);
+      //   await axios.patch(`/api/inventory/products/${id}`, data);
+      //   await axios.patch(`/api/inventory/productSpecs/${id}`, data);
+      // } else {
+      //   console.log('create product spec data first row ', id);
+      //   // await axios.post(`/api/inventory/${params.id}/products`, data);
+      //   await axios.post(`/api/inventory/productSpecs`, data);
+      // }
 
       // if (initialData) {
       //   await axios.patch(`/api/inventory/products/${initialData.id}`, data);
@@ -150,8 +144,6 @@ export default function ProductDetailPage({
 
   return (
     <>
-      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
-
       <div className='@container'>
         <FormNav className={cn('z-[999] 2xl:top-[64px]')} />
         <FormProvider {...methods}>
@@ -171,17 +163,24 @@ export default function ProductDetailPage({
                   {key === formParts.general && (
                     <Component
                       initialData={initialData}
+                      specData={specData}
                       categories={categories}
                       subCategories={subCategories}
                       brands={brands}
                       uoms={uoms}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
                   {key === formParts.specs && (
                     <Component
+                      initialData={initialData}
                       specData={specData}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                      categories={categories}
+                      subCategories={subCategories}
+                      brands={brands}
+                      uoms={uoms}
+
+                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
                   {key !== formParts.general && key !== formParts.specs && (
@@ -192,7 +191,7 @@ export default function ProductDetailPage({
                       subCategories={subCategories}
                       brands={brands}
                       uoms={uoms}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
                 </Element>

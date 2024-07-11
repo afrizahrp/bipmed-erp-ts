@@ -57,6 +57,7 @@ import {
   productFormSchema,
 } from '@/utils/schema/product.form.schema';
 import ImageUpload from '@/components/ui/image-upload';
+import FormGroup from '@/components/form-group';
 
 interface ProductFormProps {
   initialData:
@@ -235,371 +236,298 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   return (
     <>
-      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-8 w-full'
-        >
-          {/* <div className='w-full flex items-center'>
-            <FormField
-              control={form.control}
-              name='images'
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl className='flex flex-col gap-3'>
-                    <ImageUpload
-                      value={field.value.map((image) => image.imageURL)}
-                      disabled={loading}
-                      onChange={(imageURL) =>
-                        field.onChange([...field.value, { imageURL }])
-                      }
-                      onRemove={(imageURL) =>
-                        field.onChange([
-                          ...field.value.filter(
-                            (current) => current.imageURL !== imageURL
-                          ),
-                        ])
-                      }
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
-          <Separator /> */}
-
-          <div className='grid grid-cols-3 gap-4 py-2'>
-            <div>
-              <FormField
-                control={form.control}
-                name='id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Id</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled
-                        placeholder='Id'
-                        value={field.value ?? ''}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div>
-              <FormField
-                control={form.control}
-                name='catalog_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Catalog</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='Input catalog here'
-                        value={field.value ?? ''}
-                        onChange={field.onChange}
-                        disabled={true}
-                      />
-                    </FormControl>
-                    {form.formState.errors.catalog_id && (
-                      <FormMessage>
-                        {form.formState.errors.catalog_id.message}
-                      </FormMessage>
-                    )}{' '}
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div>
-              <FormField
-                control={form.control}
-                name='registered_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Reg.No</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='Input registration id here'
-                        value={field.value ?? ''}
-                        onChange={field.onChange}
-                        disabled={true}
-                      />
-                    </FormControl>
-                    {form.formState.errors.registered_id && (
-                      <FormMessage>
-                        {form.formState.errors.registered_id.message}
-                      </FormMessage>
-                    )}{' '}
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-          <div className='w-3/4'>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={true}
-                      placeholder='Input name here'
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        onProductNameChange(e.target.value); // Call the new handler
-                      }}
-                      className='font-bold'
-                    />
-                  </FormControl>
-                  {form.formState.errors.name && (
-                    <FormMessage>
-                      {form.formState.errors.name.message}
-                    </FormMessage>
-                  )}{' '}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <ProductNameExist
-              currentValue={searchTerms}
-              onChange={onProductNameChange}
-            />
-          </div>
-
-          <div className='grid grid-cols-4 gap-4 py-3'>
-            <div>
-              <FormField
-                control={form.control}
-                name='category_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <SearchColumnProductCategory
-                      {...field}
-                      currentValue={field.value ?? ''}
-                      onChange={field.onChange}
-                      disabled={true}
-                    />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div>
-              <FormField
-                control={form.control}
-                name='subCategory_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Subcategory</FormLabel>
-                    <Select
-                      disabled={true}
-                      onValueChange={field.onChange}
-                      value={field.value ?? ''}
-                      defaultValue={field.value ?? ''}
-                    >
+      <FormGroup
+        title='General Product Information'
+        description='Edit product general product information from here'
+      >
+        <Separator />
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-8 w-full'
+          >
+            <div className='grid grid-cols-3 gap-4 py-2'>
+              <div>
+                <FormField
+                  control={form.control}
+                  name='id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Id</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value ?? ''}
-                            placeholder='Subcategory'
-                          />
-                        </SelectTrigger>
+                        <Input
+                          disabled
+                          placeholder='Id'
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                        />
                       </FormControl>
-                      {form.formState.errors.subCategory_id && (
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div>
+                <FormField
+                  control={form.control}
+                  name='catalog_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Catalog</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='Input catalog here'
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          disabled={loading}
+                        />
+                      </FormControl>
+                      {form.formState.errors.catalog_id && (
                         <FormMessage>
-                          {form.formState.errors.subCategory_id.message}
+                          {form.formState.errors.catalog_id.message}
                         </FormMessage>
                       )}{' '}
-                      <SelectContent>
-                        {subCategories
-                          ?.filter(
-                            (subCategory: SubCategories) =>
-                              subCategory.category_id === selectedCategoryId
-                          )
-                          .map((subCategory: SubCategories) => (
-                            <SelectItem
-                              key={subCategory.id}
-                              value={subCategory.id}
-                            >
-                              {subCategory.name}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
-            </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div>
-              <FormField
-                control={form.control}
-                name='uom_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Uom</FormLabel>
-                    <SearchColumnUom
-                      {...field}
-                      currentValue={field.value ?? ''}
-                      onChange={field.onChange}
-                      disabled={true}
-                    />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div>
-              <FormField
-                control={form.control}
-                name='brand_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Brands</FormLabel>
-                    <SearchColumnBrand
-                      {...field}
-                      currentValue={field.value ?? ''}
-                      onChange={field.onChange}
-                      disabled={true}
-                    />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-
-          {/* <div className='flex-col gap-4'> */}
-          <div className='grid grid-cols-4 gap-4 py-2'>
-            <div className='col-span-1'>
-              <FormField
-                control={form.control}
-                name='tkdn_pctg'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>TKDN (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        disabled={loading}
-                        placeholder='99.99'
-                        {...field}
-                        className='text-right'
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className='col-span-1'>
-              <FormField
-                control={form.control}
-                name='bmp_pctg'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>BMP (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        disabled={loading}
-                        placeholder='99.99'
-                        {...field}
-                        className='text-right'
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className='col-span-2'>
-              <FormField
-                control={form.control}
-                name='ecatalog_URL'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>eCatalog Link</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='http://ekatalog'
-                        value={field.value ?? ''}
-                        onChange={field.onChange}
-                        disabled={true}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-
-          {/* <div>
-            <FormField
-              control={form.control}
-              name='iStatus'
-              render={({ field }) => (
-                <FormItem
-                  className={`flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 justify-self-end ${
-                    field.value
-                      ? 'bg-green-600 text-white'
-                      : 'bg-slate-400 text-black'
-                  }`}
-                >
-                  <FormControl>
-                    <Switch
-                      checked={!!field.value}
-                      // @ts-ignore
-                      onCheckedChange={field.onChange}
-                      // disabled={loading}
-                      style={{
-                        backgroundColor: field.value ? 'green' : 'gray',
-                      }}
-                      disabled={true}
-                    />
-                  </FormControl>
-                  <div className='space-y-1 leading-none'>
-                    <FormLabel>
-                      {field.value ? (
-                        <span className='text-red text-semibold'>Active</span>
-                      ) : (
-                        <span className='text-green'>Non Active</span>
+              <div>
+                <FormField
+                  control={form.control}
+                  name='registered_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Reg.No</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='Input registration id here'
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          disabled={loading}
+                        />
+                      </FormControl>
+                      {form.formState.errors.registered_id && (
+                        <FormMessage>
+                          {form.formState.errors.registered_id.message}
+                        </FormMessage>
                       )}{' '}
-                    </FormLabel>
-                    <FormDescription>
-                      {field.value ? (
-                        <span className='text-white'>
-                          This product will be shown during transaction input
-                        </span>
-                      ) : (
-                        <span className='text-black'>
-                          This product will not be shown during transaction
-                          input
-                        </span>
-                      )}
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-          </div> */}
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <div className='w-3/4'>
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder='Input name here'
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          onProductNameChange(e.target.value); // Call the new handler
+                        }}
+                        className='font-bold'
+                      />
+                    </FormControl>
+                    {form.formState.errors.name && (
+                      <FormMessage>
+                        {form.formState.errors.name.message}
+                      </FormMessage>
+                    )}{' '}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          {/* <FormFooter
+              <ProductNameExist
+                currentValue={searchTerms}
+                onChange={onProductNameChange}
+              />
+            </div>
+
+            <div className='grid grid-cols-4 gap-4 py-3'>
+              <div>
+                <FormField
+                  control={form.control}
+                  name='category_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category</FormLabel>
+                      <SearchColumnProductCategory
+                        {...field}
+                        currentValue={field.value ?? ''}
+                        onChange={field.onChange}
+                        disabled={loading}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div>
+                <FormField
+                  control={form.control}
+                  name='subCategory_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Subcategory</FormLabel>
+                      <Select
+                        disabled={loading}
+                        onValueChange={field.onChange}
+                        value={field.value ?? ''}
+                        defaultValue={field.value ?? ''}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue
+                              defaultValue={field.value ?? ''}
+                              placeholder='Subcategory'
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        {form.formState.errors.subCategory_id && (
+                          <FormMessage>
+                            {form.formState.errors.subCategory_id.message}
+                          </FormMessage>
+                        )}{' '}
+                        <SelectContent>
+                          {subCategories
+                            ?.filter(
+                              (subCategory: SubCategories) =>
+                                subCategory.category_id === selectedCategoryId
+                            )
+                            .map((subCategory: SubCategories) => (
+                              <SelectItem
+                                key={subCategory.id}
+                                value={subCategory.id}
+                              >
+                                {subCategory.name}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div>
+                <FormField
+                  control={form.control}
+                  name='uom_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Uom</FormLabel>
+                      <SearchColumnUom
+                        {...field}
+                        currentValue={field.value ?? ''}
+                        onChange={field.onChange}
+                        disabled={loading}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div>
+                <FormField
+                  control={form.control}
+                  name='brand_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Brands</FormLabel>
+                      <SearchColumnBrand
+                        {...field}
+                        currentValue={field.value ?? ''}
+                        onChange={field.onChange}
+                        disabled={loading}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* <div className='flex-col gap-4'> */}
+            <div className='grid grid-cols-4 gap-4 py-2'>
+              <div className='col-span-1'>
+                <FormField
+                  control={form.control}
+                  name='tkdn_pctg'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>TKDN (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type='number'
+                          disabled={loading}
+                          placeholder='99.99'
+                          {...field}
+                          className='text-right'
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className='col-span-1'>
+                <FormField
+                  control={form.control}
+                  name='bmp_pctg'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>BMP (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type='number'
+                          disabled={loading}
+                          placeholder='99.99'
+                          {...field}
+                          className='text-right'
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className='col-span-2'>
+                <FormField
+                  control={form.control}
+                  name='ecatalog_URL'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>eCatalog Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='http://ekatalog'
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          disabled={loading}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* <FormFooter
             isLoading={loading}
             handleAltBtn={handleBack}
             submitBtnText={id ? 'Update' : 'Save'}
           /> */}
-        </form>
-      </Form>
+          </form>
+        </Form>
+      </FormGroup>
     </>
   );
 };

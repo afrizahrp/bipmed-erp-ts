@@ -8,7 +8,6 @@ export const productSpecFormSchema = z.object({
 
   /* specification section */
 
-  id: z.string().min(5).or(z.literal('')),
   construction: z.string().min(5).or(z.literal('')),
   base: z.string().min(5).or(z.literal('')),
   bodyFrame: z.string().min(5).or(z.literal('')),
