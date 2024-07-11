@@ -17,8 +17,6 @@ export async function GET(
 }
 function extractPublicIdFromCloudinaryUrl(urls: string[]): string[] {
   return urls.map((url) => {
-    // Extract the public ID from each URL
-    // This is a simplified example; adjust the logic to match your URL structure and extraction logic
     const parts = url.split('/');
     return parts[parts.length - 1].split('.')[0];
   });
@@ -113,13 +111,29 @@ export async function PATCH(
     });
 
     let urls = images.map((image) => image.imageURL);
-    const publicIds = extractPublicIdFromCloudinaryUrl(urls);
+    const publicIds = extractPublicIdFromCloudinaryUrl(urls); // Extract the public ID from the Cloudinary URL
+
+    const currentProduct = await prisma.products.findUnique({
+      // Get the current product createdBy and createdAt fields
+      where: {
+        id: params.id,
+      },
+      select: {
+        createdBy: true, // Select only the createdBy and createdAt fields
+        createdAt: true,
+      },
+    });
+
+    const productCreatedBy = currentProduct?.createdBy;
+    const productCreatedAt = currentProduct?.createdAt;
 
     const imageData = images.map(
       (image: { imageURL: string; id?: string }, index: number) => ({
         id: publicIds[index], // Use the public ID as the image ID
         imageURL: image.imageURL,
         isPrimary: false,
+        createdBy: productCreatedBy,
+        createdAt: productCreatedAt,
         updatedBy: userName,
         updatedAt: new Date(),
         company_id: company_id,

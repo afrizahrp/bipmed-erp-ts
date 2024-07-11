@@ -133,7 +133,7 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
                 name={'id'}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Subcategory Id</FormLabel>
+                    <FormLabel>Id</FormLabel>
                     <FormControl>
                       <Input disabled placeholder='id' {...field} />
                     </FormControl>
@@ -168,7 +168,7 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
               render={({ field }) => (
                 <div>
                   <FormItem>
-                    <FormLabel>Subcategory Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}

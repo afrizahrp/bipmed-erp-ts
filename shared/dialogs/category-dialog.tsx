@@ -22,8 +22,8 @@ const CategoryDialog = () => {
           {/* <div
           className={`w-full pt-3 gap-12 ${imageExist === 0 ? 'w-full' : 'lg:w-1/2 lg:sticky h-max'}`}
         > */}
-          <div>Category Id : {category?.id}</div>
-          <div>Category Type : {category?.categoryType}</div>
+          <div>Type : {category?.categoryType}</div>
+          <div>Id : {category?.id}</div>
           <div>
             <CategoryFormQuickEdit data={category} />
           </div>

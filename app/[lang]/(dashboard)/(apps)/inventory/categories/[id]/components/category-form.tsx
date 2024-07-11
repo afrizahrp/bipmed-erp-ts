@@ -192,7 +192,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                 name={'id'}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category Id</FormLabel>
+                    <FormLabel>Id</FormLabel>
                     <FormControl>
                       <Input disabled placeholder='id' {...field} />
                     </FormControl>
@@ -247,7 +247,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               render={({ field }) => (
                 <div>
                   <FormItem>
-                    <FormLabel>Category Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}

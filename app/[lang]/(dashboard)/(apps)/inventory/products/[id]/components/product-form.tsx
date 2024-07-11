@@ -307,7 +307,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 name='id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Product Id</FormLabel>
+                    <FormLabel>Id</FormLabel>
                     <FormControl>
                       <Input
                         disabled
@@ -377,7 +377,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}

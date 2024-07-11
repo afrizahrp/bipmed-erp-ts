@@ -26,7 +26,7 @@ const ProductDialog = () => {
             Catalog : {product?.catalog_id ? product.catalog_id : null}
           </div>
 
-          <div>Product Id : {product?.id}</div>
+          <div>Id : {product?.id}</div>
           <div>
             <ProductFormQuickEdit data={product} />
           </div>

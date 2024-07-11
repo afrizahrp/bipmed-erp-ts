@@ -187,7 +187,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 name='id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Material Id</FormLabel>
+                    <FormLabel>Id</FormLabel>
                     <FormControl>
                       <Input
                         disabled
@@ -209,7 +209,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
               render={({ field }) => (
                 <div>
                   <FormItem>
-                    <FormLabel>Material Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
