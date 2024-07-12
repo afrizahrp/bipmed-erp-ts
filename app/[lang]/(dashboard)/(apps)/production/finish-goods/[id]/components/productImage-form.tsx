@@ -145,7 +145,15 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormControl className='flex flex-col gap-3'>
                       <GalleryWithUpload
-                        images={field.value.map((image) => image.imageURL)}
+                        images={field.value.map(
+                          (image: {
+                            imageURL: string;
+                            isPrimary?: boolean;
+                          }) => ({
+                            imageURL: image.imageURL,
+                            isPrimary: image.isPrimary || false,
+                          })
+                        )}
                         onChange={(imageURL) =>
                           field.onChange([
                             ...field.value,

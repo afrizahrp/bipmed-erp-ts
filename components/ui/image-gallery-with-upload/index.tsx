@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 interface GalleryWithUploadProps {
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
-  images: string[];
+  images: { imageURL: string; isPrimary: boolean }[];
 }
 
 export function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
@@ -39,7 +39,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isPrimary, setIsPrimary] = useState(false);
+  const [isNewPrimary, setIsNewPrimary] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -74,27 +74,20 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     }
   };
 
-  const imageLabel = isPrimary ? (
-    <Badge color='success'> As Primary Image</Badge>
-  ) : (
-    <Badge color='secondary'> As Non Primary Image</Badge>
-  );
-
   const handleUpdateMainImage = async (imageURL: string) => {
-    console.log(
-      `Switch is now ${isPrimary ? 'ON' : 'OFF'}. Image URL: ${imageURL}`
-    );
-
     try {
       setLoading(true);
 
-      // console.log(imageId);
-      // await axios.delete(`/api/system/cloudinary/${imageId}`);
-      // await axios.delete(`/api/inventory/productImages/${imageId}`);
+      const imageId = extractPublicIdFromCloudinaryUrl({
+        url: [imageURL],
+      });
 
-      // onRemove(imageURL);
+      console.log('imageId', imageId);
+
+      await axios.patch(`/api/inventory/productImages/${imageId}`);
+
       setLoading(false);
-      toast.success('Image has been removed successfully.');
+      toast.success('Image has been set as primary');
     } catch (error) {
       console.error(error);
       toast.error('Something went wrong');
@@ -107,25 +100,30 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
       <Tab.Group as='div' className='flex flex-col-reverse'>
         <div className='mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none '>
           <Tab.List className='grid grid-cols-4 gap-6 flex items-center justify-center'>
-            {images.map((image: string, index: number) => (
-              <GalleryTabWithUpload
-                key={index}
-                image={image}
-                disabled={loading}
-              />
-            ))}
+            {images.map(
+              (
+                image: { imageURL: string; isPrimary: boolean },
+                index: number
+              ) => (
+                <GalleryTabWithUpload
+                  key={index}
+                  image={image.imageURL}
+                  disabled={loading}
+                />
+              )
+            )}
           </Tab.List>
         </div>
         <Tab.Panels className='aspect-square w-full'>
           {images.length > 0 ? (
-            images.map((imageURL) => (
+            images.map(({ imageURL, isPrimary }) => (
               <Tab.Panel key={imageURL} className='aspect-square relative'>
                 <div className='z-10 absolute bottom-0 left-0 bg-white w-full rounded'>
                   <Switch
                     id='mainImage'
                     name='isPrimary'
+                    checked={isPrimary}
                     onCheckedChange={() => {
-                      setIsPrimary(!isPrimary); // Toggle the state
                       handleUpdateMainImage(imageURL); // Call your function with the new state
                     }}
                     className='peer peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
@@ -134,7 +132,16 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                       backgroundColor: isPrimary ? 'green' : 'gray',
                     }}
                   />
-                  {imageLabel}
+
+                  <div className='text-center'>
+                    <div className='z-10 absolute top-1 right-1'>
+                      {isPrimary ? (
+                        <Badge color='success'> As Primary Image</Badge>
+                      ) : (
+                        <Badge color='secondary'> As Non Primary Image</Badge>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className='z-10 absolute top-1 left-1'>
                   <Button
@@ -164,7 +171,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                       style={{ width: '100%', height: '100%' }}
                     />
                   ) : (
-                    <div>Image not available</div>
+                    <div>Image not availabless</div>
                   )}
                 </div>
               </Tab.Panel>
