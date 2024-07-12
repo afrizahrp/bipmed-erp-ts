@@ -158,8 +158,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
                             },
                           ])
                         }
-                        // onRemove={() => handleImageRemove(images?.imageURL)}
-
                         onRemove={(imageURL) =>
                           field.onChange([
                             ...field.value.filter(

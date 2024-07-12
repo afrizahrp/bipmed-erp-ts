@@ -85,7 +85,6 @@ const FinishGoodsPage = async ({
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <div className='flex gap-x-2'>
-        {/* <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'> */}
         <div className='w-full lg:w-1/2 lg:sticky top-20 h-max'>
           <Card>
             <CardContent className='pt-2'>
@@ -97,7 +96,6 @@ const FinishGoodsPage = async ({
         <div className='w-full'>
           <Card>
             <CardContent className='pt-2'>
-              {/* <ProductSpecForm specData={productSpec} /> */}
               <ProductDetailPage
                 initialData={product}
                 specData={productSpec}
