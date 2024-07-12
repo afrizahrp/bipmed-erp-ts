@@ -101,7 +101,7 @@ export default function ProductDetailPage({
 
   const id = params.id;
 
-  console.log('product id ', id);
+  // console.log('product id ', id);
 
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {

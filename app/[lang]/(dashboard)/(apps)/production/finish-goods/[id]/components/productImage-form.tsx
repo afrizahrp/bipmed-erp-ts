@@ -98,7 +98,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
         url: [imageURL],
       });
 
-      console.log(imageId);
       // await axios.delete(`/api/system/cloudinary/${imageId}`);
       // await axios.delete(`/api/inventory/productImages/${imageId}`);
 

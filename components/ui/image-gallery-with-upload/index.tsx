@@ -3,7 +3,6 @@ import axios from 'axios';
 
 import Image from 'next/image';
 import { Tab } from '@headlessui/react';
-import { ProductImages } from '@/types';
 import GalleryTabWithUpload from './gallery-tab';
 import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
@@ -11,6 +10,9 @@ import { Button } from '@/components/ui/button';
 import { ImagePlus, Trash } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 import {
   Magnifier,
@@ -20,6 +22,7 @@ import {
   MOUSE_ACTIVATION,
   TOUCH_ACTIVATION,
 } from 'react-image-magnifiers';
+// import { ProductImages } from '@/types';
 interface GalleryWithUploadProps {
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
@@ -81,8 +84,26 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     }
   };
 
-  // const imageExist = images.length;
-  // console.log(images);
+  const handleUpdateMainImage = async (imageURL: string) => {
+    console.log('imageURL', imageURL);
+
+    try {
+      setLoading(true);
+
+      // console.log(imageId);
+      // await axios.delete(`/api/system/cloudinary/${imageId}`);
+      // await axios.delete(`/api/inventory/productImages/${imageId}`);
+
+      // onRemove(imageURL);
+      setLoading(false);
+      toast.success('Image has been removed successfully.');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Tab.Group as='div' className='flex flex-col-reverse'>
@@ -101,6 +122,22 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
           {images.length > 0 ? (
             images.map((imageURL) => (
               <Tab.Panel key={imageURL} className='aspect-square relative'>
+                <div className='z-10 absolute bottom-1 left-3 bg-white'>
+                  <Switch
+                    id='mainImage'
+                    name='isPrimary'
+                    onCheckedChange={() => handleUpdateMainImage(imageURL)}
+                    className='peer peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                    disabled={loading}
+                    // onChange={() => handleUpdateMainImage(imageURL)}
+                  />
+                  <label
+                    htmlFor='mainImage'
+                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                  >
+                    Set as main image
+                  </label>
+                </div>
                 <div className='z-10 absolute top-1 left-1'>
                   <Button
                     type='button'
