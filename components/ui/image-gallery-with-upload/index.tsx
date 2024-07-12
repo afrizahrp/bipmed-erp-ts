@@ -9,19 +9,9 @@ import { Button } from '@/components/ui/button';
 import { ImagePlus, Trash } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 
-import {
-  Magnifier,
-  GlassMagnifier,
-  SideBySideMagnifier,
-  PictureInPictureMagnifier,
-  MOUSE_ACTIVATION,
-  TOUCH_ACTIVATION,
-} from 'react-image-magnifiers';
 // import { ProductImages } from '@/types';
 interface GalleryWithUploadProps {
   onChange: (value: string) => void;
@@ -71,7 +61,6 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
         url: [imageURL],
       });
 
-      // console.log(imageId);
       await axios.delete(`/api/system/cloudinary/${imageId}`);
       await axios.delete(`/api/inventory/productImages/${imageId}`);
 
