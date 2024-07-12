@@ -152,44 +152,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     defaultValues,
   });
 
-  /* Getting from productFormSchema files */
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
-  //   defaultValues: {
-  //     ...initialData,
-  //     images: initialData?.images || [],
-
-  // id: initialData?.id,
-  // name: initialData?.name ?? '',
-  // catalog_id: initialData?.catalog_id ?? '',
-  // registered_id: initialData?.registered_id ?? '',
-  // category_id: initialData?.category_id ?? '',
-  // subCategory_id: initialData?.subCategory_id ?? '',
-  // brand_id: initialData?.brand_id ?? '',
-  // uom_id: initialData?.uom_id ?? '',
-  // tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-  // bmp_pctg: initialData?.bmp_pctg ?? 0,
-  // ecatalog_URL: initialData?.ecatalog_URL ?? '',
-  // iStatus: initialData?.iStatus ?? false,
-  // remarks: initialData?.remarks || undefined,
-  // isMaterial: initialData?.isMaterial ?? false,
-  //   },
-  // });
-
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
-  //   defaultValues: {
-  //     ...defaultValues(initialData ?? {}),
-  //     subCategory_id: initialData?.subCategory_id ?? '',
-  //   },
-  // });
-
-  // console.log('initialData', initialData);
-
   const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
-    router.push('/production/products/product-list');
+    router.push('/production/finish-goods/finish-goods-list');
   };
 
   const onSubmit = async (data: ProductFormValues) => {
@@ -201,7 +167,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         console.log('add new product', data);
         await axios.post(`/api/inventory/products`, data);
       }
-      router.push('/production/products/product-list');
+      router.push('/production/finish-goods/finish-goods-list');
       router.refresh();
       toast.success(actionMessage);
     } catch (error: any) {

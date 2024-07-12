@@ -2047,66 +2047,6 @@ export const menusConfig = {
         title: 'Application',
       },
 
-      // {
-      //   title: 'Productions',
-      //   href: '#',
-      //   icon: DashBoard,
-      //   child: [
-      //     {
-      //       title: 'Dashboard',
-      //       href: '/production/dashboard',
-      //       icon: DashBoard,
-      //     },
-
-      //     {
-      //       title: 'List',
-      //       href: '/production/master',
-      //       multi_menu: [
-      //         {
-      //           title: 'Finish Goods',
-      //           href: '/production/products/product-list',
-      //         },
-      //         {
-      //           title: 'Product Specification',
-      //           href: '#',
-      //         },
-
-      //         {
-      //           title: 'Categories',
-      //           href: '/production/categories/category-list',
-      //         },
-      //         {
-      //           title: 'Subcategories',
-      //           href: '/production/subcategories/subcategory-list',
-      //         },
-      //         {
-      //           title: 'Unit Of Measurement (UOMS)',
-      //           href: '/utility/maintinance',
-      //         },
-      //         {
-      //           title: 'Brands',
-      //           href: '/production/brand/brand-list',
-      //         },
-
-      //         {
-      //           title: 'Storage Location',
-      //           href: '#',
-      //         },
-      //       ],
-      //     },
-
-      //     {
-      //       title: 'Activities',
-      //       multi_menu: [
-      //         {
-      //           title: 'Work Order',
-      //           href: '#',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
-
       {
         title: 'Inventory',
         href: '#',
@@ -2183,7 +2123,7 @@ export const menusConfig = {
             multi_menu: [
               {
                 title: 'Finish Goods',
-                href: '/production/products/product-list',
+                href: '/production/finish-goods/finish-goods-list',
               },
             ],
           },

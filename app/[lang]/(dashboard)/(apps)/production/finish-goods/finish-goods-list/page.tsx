@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/client';
-import { ProductListTable } from './product-list-table/components';
-import { ProductColumn } from './product-list-table/components/columns';
+import { FinishGoodsListTable } from './finish-goods-list-table/components';
+import { ProductColumn } from './finish-goods-list-table/components/columns';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
@@ -17,7 +17,7 @@ const pageHeader = {
     },
   ],
 };
-const ProductListPage = async () => {
+const FinishGoodsListPage = async () => {
   const products = await prisma.products.findMany({
     where: {
       isMaterial: false,
@@ -58,7 +58,7 @@ const ProductListPage = async () => {
       <div>
         <Card className='mt-6'>
           <CardContent className='p-10'>
-            <ProductListTable data={formattedProducts} />
+            <FinishGoodsListTable data={formattedProducts} />
           </CardContent>
         </Card>
       </div>
@@ -66,4 +66,4 @@ const ProductListPage = async () => {
   );
 };
 
-export default ProductListPage;
+export default FinishGoodsListPage;

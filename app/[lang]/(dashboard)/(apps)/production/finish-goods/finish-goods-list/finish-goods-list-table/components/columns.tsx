@@ -76,7 +76,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     ),
     cell: ({ row }) => (
       <Link
-        href={`/production/products/${row.getValue('id')}`}
+        href={`/production/finish-goods/${row.getValue('id')}`}
         className='text-primary-600 dark:text-slate-200'
       >
         {row.getValue('id')}
