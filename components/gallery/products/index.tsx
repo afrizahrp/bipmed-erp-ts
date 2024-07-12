@@ -29,10 +29,12 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
                   <NextImage
                     height={450}
                     width={450}
+                    // fill
                     src={image.imageURL}
                     alt='Image'
                     className='object-cover object-center'
                     objectPosition='center'
+                    // style={{ height: '100%', width: '100%' }}
                   />
                 ) : (
                   <div>Image not available</div>

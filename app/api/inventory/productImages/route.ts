@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const {
+      id,
       product_id,
       isPrimary,
       imageURL,
@@ -41,6 +42,7 @@ export async function POST(request: NextRequest) {
       updatedBy,
       updatedAt,
     } = body as {
+      id: string;
       product_id: string;
       isPrimary: boolean;
       imageURL: string;
@@ -50,7 +52,8 @@ export async function POST(request: NextRequest) {
       updatedAt: Date;
     };
 
-    const newProductImage = {
+    const newProductImages = {
+      id,
       product_id,
       isPrimary,
       imageURL,
@@ -62,8 +65,8 @@ export async function POST(request: NextRequest) {
       branch_id,
     };
 
-    const productImage = await prisma.productImages.create({
-      data: newProductImage,
+    const productImage = await prisma.productImages.createMany({
+      data: newProductImages,
     });
 
     return NextResponse.json(productImage, { status: 201 });
