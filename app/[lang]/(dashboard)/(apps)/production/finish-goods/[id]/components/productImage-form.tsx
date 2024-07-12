@@ -30,8 +30,8 @@ import {
 import { Products, ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
-import { FcPrevious } from 'react-icons/fc';
 
+import { Switch } from '@/components/ui/switch';
 interface ProductImageFormProps {
   initialData:
     | (Products & {
@@ -170,6 +170,40 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
                 )}
               />
             </div>
+
+            {/* <div className='w-full flex items-center'>
+              <FormField
+                control={form.control}
+                name='isPrimary'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl className='flex flex-col gap-3'>
+                      <GalleryWithUpload
+                        images={field.value.map((image) => image.imageURL)}
+                        onChange={(imageURL) =>
+                          field.onChange([
+                            ...field.value,
+                            {
+                              imageURL,
+                              id: extractPublicIdFromCloudinaryUrl({
+                                url: [imageURL],
+                              }),
+                            },
+                          ])
+                        }
+                        onRemove={(imageURL) =>
+                          field.onChange([
+                            ...field.value.filter(
+                              (current) => current.imageURL !== imageURL
+                            ),
+                          ])
+                        }
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div> */}
             <div className='w-full flex items-left justify-start'>
               {images && (
                 <Button

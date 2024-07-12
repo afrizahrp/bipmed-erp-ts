@@ -1,6 +1,5 @@
 'use client';
 import axios from 'axios';
-
 import Image from 'next/image';
 import { Tab } from '@headlessui/react';
 import GalleryTabWithUpload from './gallery-tab';
@@ -13,6 +12,7 @@ import { Loader2 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 
 import {
   Magnifier,
@@ -49,6 +49,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPrimary, setIsPrimary] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -84,8 +85,16 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     }
   };
 
+  const imageLabel = isPrimary ? (
+    <Badge color='success'> As Primary Image</Badge>
+  ) : (
+    <Badge color='secondary'> As Non Primary Image</Badge>
+  );
+
   const handleUpdateMainImage = async (imageURL: string) => {
-    console.log('imageURL', imageURL);
+    console.log(
+      `Switch is now ${isPrimary ? 'ON' : 'OFF'}. Image URL: ${imageURL}`
+    );
 
     try {
       setLoading(true);
@@ -122,27 +131,26 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
           {images.length > 0 ? (
             images.map((imageURL) => (
               <Tab.Panel key={imageURL} className='aspect-square relative'>
-                <div className='z-10 absolute bottom-1 left-3 bg-white'>
+                <div className='z-10 absolute bottom-0 left-0 bg-white w-full rounded'>
                   <Switch
                     id='mainImage'
                     name='isPrimary'
-                    onCheckedChange={() => handleUpdateMainImage(imageURL)}
+                    onCheckedChange={() => {
+                      setIsPrimary(!isPrimary); // Toggle the state
+                      handleUpdateMainImage(imageURL); // Call your function with the new state
+                    }}
                     className='peer peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
                     disabled={loading}
-                    // onChange={() => handleUpdateMainImage(imageURL)}
+                    style={{
+                      backgroundColor: isPrimary ? 'green' : 'gray',
+                    }}
                   />
-                  <label
-                    htmlFor='mainImage'
-                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                  >
-                    Set as main image
-                  </label>
+                  {imageLabel}
                 </div>
                 <div className='z-10 absolute top-1 left-1'>
                   <Button
                     type='button'
                     onClick={() => handleImageRemove(imageURL)}
-                    variant='soft'
                     color='destructive'
                     size='xs'
                     disabled={loading}
@@ -156,12 +164,15 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                 <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
                   {imageURL ? (
                     <Image
-                      height={380}
-                      width={380}
+                      height={100}
+                      width={0}
+                      // fill
                       src={imageURL}
                       alt='Image'
                       objectFit='cover'
                       className='object-cover object-center'
+                      sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw'
+                      style={{ width: '100%', height: '100%' }}
                     />
                   ) : (
                     <div>Image not available</div>

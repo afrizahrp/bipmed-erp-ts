@@ -270,7 +270,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl className='flex flex-col gap-3'>
-                    <ImageUpload
+                    {/* <ImageUpload
                       value={field.value.map((image) => image.imageURL)}
                       disabled={loading}
                       onChange={(imageURL) =>
@@ -283,16 +283,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                           ),
                         ])
                       }
-                    />
+                    /> */}
 
-                    {/* <ImageCollection
+                    <ImageCollection
                       value={
                         field.value?.map(
                           (ProductImages) => ProductImages.imageURL
                         ) || []
                       }
                       disabled={loading}
-                    /> */}
+                    />
                   </FormControl>
                 </FormItem>
               )}
