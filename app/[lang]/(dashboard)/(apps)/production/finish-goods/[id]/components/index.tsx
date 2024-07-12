@@ -21,7 +21,7 @@ import {
   ProductSpecs,
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
-import { ProductForm } from './product-form';
+import { FinishGoodsForm } from './finish-goods-form';
 import { defaultValues } from '../../../../../../../../components/form-utils';
 import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
@@ -43,7 +43,7 @@ import {
 import { routes } from '@/config/routes';
 
 const MAP_STEP_TO_COMPONENT = {
-  [formParts.general]: ProductForm,
+  [formParts.general]: FinishGoodsForm,
   [formParts.specs]: ProductSpecForm,
 };
 
@@ -96,7 +96,7 @@ export default function ProductDetailPage({
   const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
-    router.push('/production/products/product-list');
+    router.push('/production/finish-goods/finish-goods-list');
   };
 
   const id = params.id;
@@ -130,7 +130,7 @@ export default function ProductDetailPage({
       //   await axios.post(`/api/${productId}/productSpecs`, data);
       // }
 
-      router.push('/production/products/product-list');
+      router.push('/production/finish-goods/finish-goods-list');
       router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {

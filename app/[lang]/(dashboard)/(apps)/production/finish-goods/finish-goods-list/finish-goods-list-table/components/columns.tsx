@@ -6,7 +6,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import { CellAction } from './cell-action';
 
-export type ProductColumn = {
+export type FinishGoodsColumn = {
   id: string;
   name: string | null;
   catalog: string | null;
@@ -30,7 +30,7 @@ export function getStatusColor(status: string) {
   }
 }
 
-export const columns: ColumnDef<ProductColumn>[] = [
+export const columns: ColumnDef<FinishGoodsColumn>[] = [
   // {
   //   id: 'actions',
   //   cell: ({ row }) => <CellAction data={row.original} />,

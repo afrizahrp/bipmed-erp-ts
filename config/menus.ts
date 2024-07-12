@@ -2127,32 +2127,6 @@ export const menusConfig = {
               },
             ],
           },
-
-          {
-            title: 'Activity',
-            multi_menu: [
-              {
-                title: 'Purchase Requesition',
-                href: '#',
-              },
-              {
-                title: 'Purchase Order (PO)',
-                href: '#',
-              },
-              {
-                title: 'Goods Receive by PO',
-                href: '#',
-              },
-              {
-                title: 'Goods Receive by Supplier',
-                href: '#',
-              },
-              {
-                title: 'Purchase Return',
-                href: '#',
-              },
-            ],
-          },
         ],
       },
 

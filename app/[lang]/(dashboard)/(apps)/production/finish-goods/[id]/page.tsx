@@ -4,10 +4,10 @@ import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
 import ProducImageForm from './components/productImage-form';
 import ProductDetailPage from './components';
-import { ProductForm } from './components/product-form';
-import { ProductSpecForm } from './components/product-spec-form';
+// import { ProductForm } from './components/product-form';
+// import { ProductSpecForm } from './components/product-spec-form';
 
-const ProductPage = async ({
+const FinishGoodsPage = async ({
   params,
 }: {
   params: {
@@ -27,11 +27,11 @@ const ProductPage = async ({
     },
   });
 
-  const productImages = await prisma.productImages.findMany({
-    where: {
-      product_id: params.id,
-    },
-  });
+  // const productImages = await prisma.productImages.findMany({
+  //   where: {
+  //     product_id: params.id,
+  //   },
+  // });
 
   const productSpec = await prisma.productSpecs.findUnique({
     where: {
@@ -114,4 +114,4 @@ const ProductPage = async ({
   );
 };
 
-export default ProductPage;
+export default FinishGoodsPage;

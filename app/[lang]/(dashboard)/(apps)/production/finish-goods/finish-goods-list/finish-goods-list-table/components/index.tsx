@@ -1,10 +1,10 @@
 // 'use client'
 import { DataTable } from '@/components/ui/data-table';
-import { ProductColumn, columns } from './columns';
+import { FinishGoodsColumn, columns } from './columns';
 import { routes } from '@/config/routes';
 
 interface ProductsClientProps {
-  data: ProductColumn[];
+  data: FinishGoodsColumn[];
 }
 
 export const FinishGoodsListTable: React.FC<ProductsClientProps> = ({

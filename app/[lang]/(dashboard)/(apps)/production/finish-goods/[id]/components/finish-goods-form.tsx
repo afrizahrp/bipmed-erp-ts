@@ -59,7 +59,7 @@ import {
 import ImageUpload from '@/components/ui/image-upload';
 import FormGroup from '@/components/form-group';
 
-interface ProductFormProps {
+interface FinishGoodsFormProps {
   initialData:
     | (Products & {
         images: ProductImages[];
@@ -71,7 +71,7 @@ interface ProductFormProps {
   uoms: Uoms[];
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({
+export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
   initialData,
   subCategories,
   categories,

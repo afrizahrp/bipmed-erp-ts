@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/client';
 import { FinishGoodsListTable } from './finish-goods-list-table/components';
-import { ProductColumn } from './finish-goods-list-table/components/columns';
+import { FinishGoodsColumn } from './finish-goods-list-table/components/columns';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
@@ -35,7 +35,7 @@ const FinishGoodsListPage = async () => {
     },
   });
 
-  const formattedProducts: ProductColumn[] =
+  const formattedProducts: FinishGoodsColumn[] =
     products?.map((item) => ({
       id: item.id,
       name: item.name ?? '',

@@ -50,7 +50,7 @@ export default function FormNav({ className }: FormNavProps) {
               offset={idx === 0 ? -250 : -150}
               duration={500}
               className='relative cursor-pointer whitespace-nowrap py-4 hover:text-gray-1000'
-              activeClass='active before:absolute text-green-500 before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:w-full before:bg-gray-1000 font-semibold text-gray-1000'
+              activeClass='active before:absolute text-lg before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:w-full before:bg-gray-1000 font-semibold text-gray-1000'
             >
               {tab.label}
             </Link>

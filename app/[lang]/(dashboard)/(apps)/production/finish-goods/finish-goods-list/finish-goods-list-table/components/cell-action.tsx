@@ -3,11 +3,11 @@
 import { Button } from '@/components/ui/button';
 import useProductDialog from '@/hooks/use-product-dialog';
 import { Pencil } from 'lucide-react';
-import { ProductColumn } from './columns';
+import { FinishGoodsColumn } from './columns';
 import { Products } from '@/types';
 
 interface CellActionProps {
-  data: ProductColumn;
+  data: FinishGoodsColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
