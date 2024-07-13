@@ -17,27 +17,24 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-// import {
-//   productImageFormSchema,
-//   ProductImageFormValues,
-// } from '@/utils/schema/productImage.form.schema';
-
 import {
-  ProductFormValues,
-  productFormSchema,
-} from '@/utils/schema/product.form.schema';
+  productImageFormSchema,
+  ProductImageFormValues,
+} from '@/utils/schema/productImage.form.schema';
 
-import { Products, ProductImages } from '@prisma/client';
+// import {
+//   ProductFormValues,
+//   productFormSchema,
+// } from '@/utils/schema/product.form.schema';
+
+// import { Products, ProductImages } from '@prisma/client';
+import { ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
 
 import { Switch } from '@/components/ui/switch';
 interface ProductImageFormProps {
-  initialData:
-    | (Products & {
-        images: ProductImages[];
-      })
-    | null;
+  initialData: ProductImages[];
 }
 
 const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
@@ -45,49 +42,20 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
 
-  const defaultValues = initialData
-    ? {
-        ...initialData,
-        images: initialData?.images || [],
-        catalog_id: initialData?.catalog_id ?? '',
-        registered_id: initialData?.registered_id ?? '',
-        id: initialData?.id ?? '',
-        name: initialData?.name ?? '',
-        category_id: initialData?.category_id ?? '',
-        subCategory_id: initialData?.subCategory_id ?? '',
-        brand_id: initialData?.brand_id ?? '',
-        uom_id: initialData?.uom_id ?? '',
-        tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-        bmp_pctg: initialData?.bmp_pctg ?? 0,
-        ecatalog_URL: initialData?.ecatalog_URL ?? '',
-        iStatus: initialData?.iStatus ?? true,
-        remarks: initialData?.remarks || undefined,
-        isMaterial: initialData?.isMaterial ?? false,
-        slug: initialData?.slug ?? '',
-      }
-    : {
-        images: [],
-        catalog_id: undefined,
-        registered_id: undefined,
-        id: '',
-        name: '',
-        category_id: '',
-        subCategory_id: '',
-        brand_id: '',
-        uom_id: '',
-        tkdn_pctg: 0,
-        bmp_pctg: 0,
-        ecatalog_URL: '',
-        iStatus: true,
-        remarks: '',
-        isMaterial: false,
-        slug: '',
-        iShowedStatus: false,
-      };
+  const defaultValues = {
+    imageURL: initialData.map((image) => image.imageURL),
+    isPrimary: initialData.find((image) => image.isPrimary)?.isPrimary ?? false,
+    product_id: initialData.length > 0 ? initialData[0].product_id : '',
+  };
 
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productFormSchema),
-    defaultValues,
+  const form = useForm<ProductImageFormValues>({
+    resolver: zodResolver(productImageFormSchema),
+    defaultValues: {
+      imageURL: initialData.map((image) => image.imageURL),
+      isPrimary:
+        initialData.find((image) => image.isPrimary)?.isPrimary ?? false,
+      product_id: initialData.length > 0 ? initialData[0].product_id : '',
+    },
   });
 
   const handleImageRemove = async (imageURL: string) => {
@@ -112,7 +80,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
 
   const actionMessage = 'New images has added successfully.';
 
-  const onSubmit = async (data: ProductFormValues) => {
+  const onSubmit = async (data: ProductImageFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
@@ -140,38 +108,25 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
             <div className='w-full flex items-center'>
               <FormField
                 control={form.control}
-                name='images'
+                name='imageURL'
                 render={({ field }) => (
                   <FormItem>
                     <FormControl className='flex flex-col gap-3'>
                       <GalleryWithUpload
-                        images={field.value.map(
-                          (image: {
-                            imageURL: string;
-                            isPrimary?: boolean;
-                          }) => ({
-                            imageURL: image.imageURL,
-                            isPrimary: image.isPrimary || false,
-                          })
-                        )}
+                        images={field.value as string[]}
                         onChange={(imageURL) =>
-                          field.onChange([
-                            ...field.value,
-                            {
-                              imageURL,
-                              id: extractPublicIdFromCloudinaryUrl({
-                                url: [imageURL],
-                              }),
-                            },
-                          ])
+                          field.onChange([...field.value, imageURL])
                         }
-                        onRemove={(imageURL) =>
-                          field.onChange([
-                            ...field.value.filter(
-                              (current) => current.imageURL !== imageURL
-                            ),
-                          ])
-                        }
+                        onRemove={(imageURL) => {
+                          handleImageRemove(imageURL);
+                          // Ensure field.value is treated as an array before filtering
+                          const newValue = Array.isArray(field.value)
+                            ? field.value.filter(
+                                (url: string) => url !== imageURL
+                              )
+                            : [];
+                          field.onChange(newValue);
+                        }}
                       />
                     </FormControl>
                   </FormItem>
@@ -179,39 +134,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
               />
             </div>
 
-            {/* <div className='w-full flex items-center'>
-              <FormField
-                control={form.control}
-                name='isPrimary'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl className='flex flex-col gap-3'>
-                      <GalleryWithUpload
-                        images={field.value.map((image) => image.imageURL)}
-                        onChange={(imageURL) =>
-                          field.onChange([
-                            ...field.value,
-                            {
-                              imageURL,
-                              id: extractPublicIdFromCloudinaryUrl({
-                                url: [imageURL],
-                              }),
-                            },
-                          ])
-                        }
-                        onRemove={(imageURL) =>
-                          field.onChange([
-                            ...field.value.filter(
-                              (current) => current.imageURL !== imageURL
-                            ),
-                          ])
-                        }
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div> */}
             <div className='w-full flex items-left justify-start'>
               {images && (
                 <Button

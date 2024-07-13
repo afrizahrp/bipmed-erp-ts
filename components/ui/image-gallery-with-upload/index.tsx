@@ -1,6 +1,6 @@
 'use client';
 import axios from 'axios';
-import Image from 'next/image';
+import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
 import GalleryTabWithUpload from './gallery-tab';
 import { CldUploadWidget } from 'next-cloudinary';
@@ -12,12 +12,13 @@ import { Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
+import { ProductImages } from '@/types';
 
 // import { ProductImages } from '@/types';
 interface GalleryWithUploadProps {
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
-  images: { imageURL: string; isPrimary: boolean }[];
+  images: string[];
 }
 
 export function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
@@ -118,51 +119,16 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
       <Tab.Group as='div' className='flex flex-col-reverse'>
         <div className='mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none '>
           <Tab.List className='grid grid-cols-4 gap-6 flex items-center justify-center'>
-            {images.map(
-              (
-                image: { imageURL: string; isPrimary: boolean },
-                index: number
-              ) => (
-                <GalleryTabWithUpload
-                  key={index}
-                  image={image.imageURL}
-                  disabled={loading}
-                />
-              )
-            )}
+            {images.map((image) => (
+              <GalleryTabWithUpload key={image} image={image} />
+            ))}
           </Tab.List>
         </div>
         <Tab.Panels className='aspect-square w-full'>
           {images.length > 0 ? (
-            images.map(({ imageURL, isPrimary }) => (
+            images.map((imageURL) => (
               <Tab.Panel key={imageURL} className='aspect-square relative'>
-                <div className='z-10 absolute bottom-0 left-0 bg-white w-full rounded'>
-                  <Switch
-                    id='mainImage'
-                    name='isPrimary'
-                    checked={isPrimary}
-                    onCheckedChange={(newIsPrimary) => {
-                      setIsNewPrimary(newIsPrimary);
-                      handleUpdateMainImage(imageURL, newIsPrimary);
-                    }}
-                    className='peer peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                    disabled={loading}
-                    style={{
-                      backgroundColor: isPrimary ? 'green' : 'gray',
-                    }}
-                  />
-
-                  <div className='text-center'>
-                    <div className='z-10 absolute top-1 right-1'>
-                      {isPrimary ? (
-                        <Badge color='success'> As Primary Image</Badge>
-                      ) : (
-                        <Badge color='secondary'> As Non Primary Image</Badge>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className='z-10 absolute top-1 left-1'>
+                <div className='z-10 absolute top-0 left-10'>
                   <Button
                     type='button'
                     onClick={() => handleImageRemove(imageURL)}
@@ -176,22 +142,23 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                     <Trash className='h-4 w-4' />
                   </Button>
                 </div>
-                <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
-                  {imageURL ? (
-                    <Image
-                      height={100}
-                      width={0}
-                      // fill
-                      src={imageURL}
-                      alt='Image'
-                      objectFit='cover'
-                      className='object-cover object-center'
-                      sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw'
-                      style={{ width: '100%', height: '100%' }}
-                    />
-                  ) : (
+                <div className='flex aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden'>
+                  {/* {imageURL ? ( */}
+                  <NextImage
+                    priority
+                    height={700}
+                    width={0}
+                    src={imageURL}
+                    alt='Image'
+                    // fill
+                    // objectFit='contain'
+                    className='object-center'
+                    sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
+                    style={{ width: '85%', height: '100%' }}
+                  />
+                  {/* ) : (
                     <div>Image not availabless</div>
-                  )}
+                  )} */}
                 </div>
               </Tab.Panel>
             ))

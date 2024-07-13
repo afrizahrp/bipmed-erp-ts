@@ -31,6 +31,12 @@ export interface ProductImages {
   product_id: string;
   imageURL: string;
   isPrimary: boolean;
+  createdBy?: string | null;
+  createdAt?: Date | null;
+  updatedBy?: string | null;
+  updatedAt?: Date | null;
+  company_id: string;
+  branch_id: string;
 }
 
 export interface CategoryTypes {

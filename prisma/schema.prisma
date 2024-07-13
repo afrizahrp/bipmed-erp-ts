@@ -467,7 +467,7 @@ model ProductImages {
   id                  String        @id @db.Char(25)
   product_id          String        @db.Char(20)
   imageURL            String        @db.VarChar(250)
-  isPrimary           Boolean?      @default(false)
+  isPrimary           Boolean      @default(false)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)
@@ -685,6 +685,7 @@ model PoDetail {
 }
 
 
+
  model vProductCategories {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
@@ -694,5 +695,4 @@ model PoDetail {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
  }
-
 

@@ -27,11 +27,11 @@ const FinishGoodsPage = async ({
     },
   });
 
-  // const productImages = await prisma.productImages.findMany({
-  //   where: {
-  //     product_id: params.id,
-  //   },
-  // });
+  const productImages = await prisma.productImages.findMany({
+    where: {
+      product_id: params.id,
+    },
+  });
 
   const productSpec = await prisma.productSpecs.findUnique({
     where: {
@@ -80,6 +80,8 @@ const FinishGoodsPage = async ({
     ],
   };
 
+  console.log('productImages', productImages);
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
@@ -88,7 +90,7 @@ const FinishGoodsPage = async ({
         <div className='w-full lg:w-1/2 lg:sticky top-20 h-max'>
           <Card>
             <CardContent className='pt-2'>
-              <ProducImageForm initialData={product} />
+              <ProducImageForm initialData={productImages} />
             </CardContent>
           </Card>
         </div>
