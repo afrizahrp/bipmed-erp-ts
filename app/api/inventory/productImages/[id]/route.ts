@@ -78,7 +78,7 @@ export async function PATCH(
     //   },
     // });
 
-    console.log('id', params.id);
+    // console.log('id', params.id);
 
     // const productId = editProductImage?.product_id;
 
@@ -109,7 +109,7 @@ export async function PATCH(
 
     return NextResponse.json({ message: 'Product image has been updated' });
   } catch (error) {
-    console.log('[PRODUCT_IMAGE_PATCH]', error);
+    console.log('[PRODUCT_IMAGE_PATCHED]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }

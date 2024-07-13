@@ -11,6 +11,7 @@ import { toast } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
+import { useRouter } from 'next/navigation';
 
 // import { ProductImages } from '@/types';
 interface GalleryWithUploadProps {
@@ -37,6 +38,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   onRemove,
   images,
 }) => {
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isNewPrimary, setIsNewPrimary] = useState(false);
@@ -53,6 +55,43 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     return null;
   }
 
+  const handleUpdateMainImage = async (
+    imageURL: string,
+    newIsPrimary: boolean
+  ) => {
+    try {
+      setLoading(true);
+
+      const imageId = extractPublicIdFromCloudinaryUrl({
+        url: [imageURL],
+      });
+
+      console.log('isPrimary', newIsPrimary);
+
+      const data = {
+        isPrimary: newIsPrimary,
+      };
+
+      const respons = await axios.patch(
+        `/api/inventory/productImages/${imageId}`,
+        data
+      );
+
+      {
+        newIsPrimary
+          ? toast.success('Image has been set as primary')
+          : toast.success('Image has been set as Non primary');
+      }
+      setLoading(false);
+      router.refresh();
+      return respons.data;
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+      setLoading(false);
+    }
+  };
+
   const handleImageRemove = async (imageURL: string) => {
     try {
       setLoading(true);
@@ -67,27 +106,6 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
       onRemove(imageURL);
       setLoading(false);
       toast.success('Image has been removed successfully.');
-    } catch (error) {
-      console.error(error);
-      toast.error('Something went wrong');
-      setLoading(false);
-    }
-  };
-
-  const handleUpdateMainImage = async (imageURL: string) => {
-    try {
-      setLoading(true);
-
-      const imageId = extractPublicIdFromCloudinaryUrl({
-        url: [imageURL],
-      });
-
-      console.log('imageId', imageId);
-
-      await axios.patch(`/api/inventory/productImages/${imageId}`);
-
-      setLoading(false);
-      toast.success('Image has been set as primary');
     } catch (error) {
       console.error(error);
       toast.error('Something went wrong');
@@ -123,8 +141,9 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                     id='mainImage'
                     name='isPrimary'
                     checked={isPrimary}
-                    onCheckedChange={() => {
-                      handleUpdateMainImage(imageURL); // Call your function with the new state
+                    onCheckedChange={(newIsPrimary) => {
+                      setIsNewPrimary(newIsPrimary);
+                      handleUpdateMainImage(imageURL, newIsPrimary);
                     }}
                     className='peer peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
                     disabled={loading}
