@@ -35,10 +35,16 @@ import { toast } from 'react-hot-toast';
 import { Switch } from '@/components/ui/switch';
 interface ProductImageFormProps {
   initialData: ProductImages[];
+  product_id: string;
 }
 
-const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
+const ProductImageForm: React.FC<ProductImageFormProps> = ({
+  initialData,
+  product_id,
+}) => {
   // State to manage image URLs
+
+  console.log('product id', product_id);
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
 
@@ -80,11 +86,21 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ initialData }) => {
 
   const actionMessage = 'New images has added successfully.';
 
+  console.log('initialData', initialData);
+
   const onSubmit = async (data: ProductImageFormValues) => {
     try {
       setLoading(true);
-      if (initialData) {
-        await axios.patch(`/api/inventory/products/${data.id}`, data);
+      if (initialData && initialData.length > 0) {
+        console.log('patch data', data);
+        await axios.patch(`/api/inventory/productImages/${data.id}`, data);
+      } else {
+        // const  publicId = extractPublicIdFromCloudinaryUrl({
+        //   url : data.imageURL[]
+        // }),
+        console.log('post data', data);
+
+        await axios.post(`/api/inventory/productImages`, data);
       }
 
       toast.success(actionMessage);

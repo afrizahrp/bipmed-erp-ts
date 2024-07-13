@@ -18,7 +18,7 @@ const GalleryTabWithUpload: React.FC<GalleryTabWithUploadProps> = ({
       disabled={disabled}
     >
       {({ selected }) => (
-        <div>
+        <div className='flex items-center justify-center'>
           <span className='absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md'>
             <NextImage
               fill
@@ -26,6 +26,7 @@ const GalleryTabWithUpload: React.FC<GalleryTabWithUploadProps> = ({
               src={image}
               alt='images'
               sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
+              className='object-center'
 
               // className='object-cover object-center'
               // objectPosition='center'

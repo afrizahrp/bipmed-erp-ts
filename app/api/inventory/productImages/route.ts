@@ -52,18 +52,34 @@ export async function POST(request: NextRequest) {
       updatedAt: Date;
     };
 
-    const newProductImages = {
-      id,
-      product_id,
-      isPrimary,
+    let urls = imageURL.split(','); // Split the image URL
+    const publicIds = extractPublicIdFromCloudinaryUrl(urls); // Extract the public ID from the Cloudinary URL
+
+    const newProductImages = urls.map((imageURL: string, index: number) => ({
+      id: publicIds[index], // Use the public ID as the image ID
       imageURL,
+      isPrimary,
+      product_id,
       createdBy: userName,
       createdAt: new Date(),
       updatedBy: userName,
       updatedAt: new Date(),
       company_id,
       branch_id,
-    };
+    }));
+
+    // const newProductImages = {
+    //   id:publicIds,
+    //   product_id,
+    //   isPrimary,
+    //   imageURL,
+    //   createdBy: userName,
+    //   createdAt: new Date(),
+    //   updatedBy: userName,
+    //   updatedAt: new Date(),
+    //   company_id,
+    //   branch_id,
+    // };
 
     const productImage = await prisma.productImages.createMany({
       data: newProductImages,
@@ -77,4 +93,11 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+function extractPublicIdFromCloudinaryUrl(urls: string[]): string[] {
+  return urls.map((url) => {
+    const parts = url.split('/');
+    return parts[parts.length - 1].split('.')[0];
+  });
 }

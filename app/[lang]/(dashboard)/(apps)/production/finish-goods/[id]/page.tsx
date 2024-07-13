@@ -80,8 +80,6 @@ const FinishGoodsPage = async ({
     ],
   };
 
-  console.log('productImages', productImages);
-
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
@@ -90,7 +88,10 @@ const FinishGoodsPage = async ({
         <div className='w-full lg:w-1/2 lg:sticky top-20 h-max'>
           <Card>
             <CardContent className='pt-2'>
-              <ProducImageForm initialData={productImages} />
+              <ProducImageForm
+                initialData={productImages}
+                product_id={params.id}
+              />
             </CardContent>
           </Card>
         </div>
