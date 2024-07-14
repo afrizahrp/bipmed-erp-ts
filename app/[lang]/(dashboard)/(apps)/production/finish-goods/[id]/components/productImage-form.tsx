@@ -1,20 +1,13 @@
 'use client';
-
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { CldUploadWidget } from 'next-cloudinary';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ImagePlus, Loader2 } from 'lucide-react';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import {
   productImageFormSchema,
   ProductImageFormValues,
@@ -22,6 +15,7 @@ import {
 import { ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
+import { Switch } from '@/components/ui/switch';
 
 interface ProductImageFormProps {
   initialData: ProductImages[];
@@ -46,25 +40,40 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
       product_id: initialData.length > 0 ? initialData[0].product_id : '',
     },
   });
+
   const onUpload = (result: any) => {
-    form.setValue('imageURL', [
-      ...form.getValues().imageURL,
-      result.info.secure_url,
-    ]);
+    const newImage = result.info.secure_url;
+    const updatedImages = [...form.getValues().imageURL, newImage];
+
+    // Create a new ProductImages object with default values
+    const newProductImage: ProductImages = {
+      id: '', // Provide a unique ID if available, or handle it in your API
+      product_id,
+      imageURL: newImage,
+      isPrimary: false, // Set default value for isPrimary
+      createdBy: '', // Set default value or handle it in your API
+      createdAt: null, // Set default value or handle it in your API
+      updatedBy: '', // Set default value or handle it in your API
+      updatedAt: null, // Set default value or handle it in your API
+      company_id: '', // Set default value or handle it in your API
+      branch_id: '', // Set default value or handle it in your API
+    };
+
+    form.setValue('imageURL', updatedImages);
+    setImages([...images, newProductImage]);
   };
   const handleImageRemove = async (imageURL: string) => {
     try {
       setLoading(true);
+
       const imageId = extractPublicIdFromCloudinaryUrl(imageURL);
+
       await axios.delete(`/api/system/cloudinary/${imageId}`);
       await axios.delete(`/api/inventory/productImages/${imageId}`);
+
       setImages(images.filter((image) => image.imageURL !== imageURL));
-      form.setValue(
-        'imageURL',
-        images
-          .filter((image) => image.imageURL !== imageURL)
-          .map((image) => image.imageURL)
-      );
+      router.refresh();
+
       setLoading(false);
       toast.success('Image has been removed successfully.');
     } catch (error) {
@@ -80,20 +89,29 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   ) => {
     try {
       setLoading(true);
-      const updatedImages = images.map((image) => ({
-        ...image,
-        isPrimary: image.imageURL === imageURL ? newIsPrimary : false,
-      }));
-      setImages(updatedImages);
+
       const imageId = extractPublicIdFromCloudinaryUrl(imageURL);
-      await axios.patch(`/api/inventory/productImages/${imageId}`, {
-        isPrimary: newIsPrimary,
-      });
+
+      const data = { isPrimary: newIsPrimary };
+
+      await axios.patch(`/api/inventory/productImages/${imageId}`, data);
+
+      const updatedImages = images.map((image) =>
+        image.imageURL === imageURL
+          ? { ...image, isPrimary: newIsPrimary }
+          : { ...image, isPrimary: false }
+      );
+
+      setImages(updatedImages);
+
       setLoading(false);
       router.refresh();
-      newIsPrimary
-        ? toast.success('Image has been set as primary')
-        : toast.success('Image has been set as non-primary');
+
+      toast.success(
+        newIsPrimary
+          ? 'Image has been set as primary'
+          : 'Image has been set as non-primary'
+      );
     } catch (error) {
       console.error(error);
       toast.error('Something went wrong');
@@ -101,27 +119,32 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     }
   };
 
+  const orderedImages = [...images].sort((a, b) => (b.isPrimary ? 1 : -1));
+
   const onSubmit = async (data: ProductImageFormValues) => {
     try {
       setLoading(true);
+
       const datatoPost =
         typeof data.imageURL === 'string'
           ? data.imageURL
           : data.imageURL.map((imageURL) => ({
               id: extractPublicIdFromCloudinaryUrl(imageURL),
               imageURL,
-              isPrimary:
-                images.find((img) => img.imageURL === imageURL)?.isPrimary ||
-                false,
+              isPrimary: data.isPrimary,
               product_id,
             }));
+
       await axios.post(`/api/inventory/productImages`, datatoPost);
       router.refresh();
+
       toast.success('New images have been added successfully.');
       setLoading(false);
     } catch (error: any) {
       console.error(error);
+
       toast.error(error.response?.data?.message || 'Save failed');
+    } finally {
       setLoading(false);
     }
   };
@@ -141,7 +164,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 <FormItem>
                   <FormControl className='flex flex-col gap-3'>
                     <GalleryWithUpload
-                      images={images}
+                      images={orderedImages}
                       onChange={(imageURL) =>
                         field.onChange([...field.value, imageURL])
                       }
@@ -174,26 +197,30 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
               }}
               uploadPreset='uploadBiwebapp'
             >
-              {({ open }) => {
-                const onClick = () => open();
-                return (
-                  <Button
-                    type='button'
-                    disabled={loading}
-                    variant='outline'
-                    onClick={onClick}
-                  >
-                    {loading && (
-                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    )}
-                    <ImagePlus className='h-4 w-4 mr-2' />
-                    Upload
-                  </Button>
-                );
-              }}
+              {({ open }) => (
+                <Button
+                  type='button'
+                  disabled={loading}
+                  variant='outline'
+                  onClick={() => open()}
+                >
+                  {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                  <ImagePlus className='h-4 w-4 mr-2' />
+                  Upload
+                </Button>
+              )}
             </CldUploadWidget>
+
             {images && (
-              <Button disabled={loading} type='submit'>
+              <Button
+                disabled={loading}
+                type='submit'
+                onClick={(event) => {
+                  event.preventDefault(); // Prevent default if necessary
+                  const data = { ...form.getValues() };
+                  onSubmit(data);
+                }}
+              >
                 {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
                 {loading ? 'Saving...' : 'Save'}
               </Button>
@@ -207,13 +234,13 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
 
 function extractPublicIdFromCloudinaryUrl(imageURL: string): string | null {
   const parts = imageURL.split('/');
-  const fileName = parts.pop();
+  const fileName = parts.pop(); // Gets "myimage.jpg"
   if (typeof fileName === 'string') {
     const id = fileName.split('.')[0];
-    return id;
+    return id; // Return the extracted id
   } else {
     console.error('fileName is not a string');
-    return null;
+    return null; // Return null or handle the error as needed
   }
 }
 
