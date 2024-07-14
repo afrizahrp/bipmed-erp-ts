@@ -74,7 +74,12 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
       await axios.delete(`/api/system/cloudinary/${imageId}`);
       await axios.delete(`/api/inventory/productImages/${imageId}`);
 
-      setImages(images.filter((image) => image.imageURL !== imageURL));
+      // setImages(images.filter((image) => image.imageURL !== imageURL));
+
+      setImages((prevImages) =>
+        prevImages.filter((image) => image.imageURL !== imageURL)
+      );
+
       router.refresh();
 
       setLoading(false);
