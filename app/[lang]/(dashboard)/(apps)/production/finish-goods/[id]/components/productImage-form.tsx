@@ -71,7 +71,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
 
       const imageId = extractPublicIdFromCloudinaryUrl(imageURL);
 
-      await axios.delete(`/api/system/cloudinary/${imageId}`);
       await axios.delete(`/api/inventory/productImages/${imageId}`);
 
       // setImages(images.filter((image) => image.imageURL !== imageURL));
@@ -133,18 +132,17 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     try {
       setLoading(true);
 
-      const datatoPost =
+      const dataToPost =
         typeof data.imageURL === 'string'
           ? data.imageURL
           : data.imageURL.map((imageURL) => ({
               id: extractPublicIdFromCloudinaryUrl(imageURL),
               imageURL,
               product_id: product_id,
-              // data.isPrimary,
               isPrimary: false,
             }));
 
-      await axios.post(`/api/inventory/productImages`, datatoPost);
+      await axios.post(`/api/inventory/productImages`, dataToPost);
       router.refresh();
 
       toast.success('New images have been added successfully.');
@@ -173,7 +171,11 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 <FormItem>
                   <FormControl className='flex flex-col gap-3'>
                     <GalleryWithUpload
-                      images={orderedImages}
+                      images={orderedImages.map((image) => ({
+                        ...image,
+                        isPrimary:
+                          image.isPrimary === null ? false : image.isPrimary, // Assuming default is false if null
+                      }))}
                       onChange={(imageURL) =>
                         field.onChange([...field.value, imageURL])
                       }

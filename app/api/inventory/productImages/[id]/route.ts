@@ -1,7 +1,26 @@
 import { prisma } from '@/lib/client';
+import { v2 as cloudinary } from 'cloudinary';
 import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+
+cloudinary.config({
+  cloud_name: 'biwebapp',
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+function checkImageExists(publicId: string) {
+  return new Promise((resolve, reject) => {
+    cloudinary.api.resource(publicId, { type: 'upload' }, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
 
 export async function DELETE(
   req: Request,
@@ -10,12 +29,6 @@ export async function DELETE(
   try {
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({}, { status: 401 });
-
-    // console.log('id from product Images api', params.id);
-
-    if (!session) {
-      return new NextResponse('Unauthenticated', { status: 403 });
-    }
 
     const productImage = await prisma.productImages.findUnique({
       where: {
@@ -26,6 +39,10 @@ export async function DELETE(
     if (!productImage) {
       return new NextResponse('Product image not found', { status: 404 });
     }
+
+    const imageId = 'upload/' + params.id;
+
+    await cloudinary.uploader.destroy(imageId, { invalidate: true });
 
     await prisma.productImages.delete({
       where: {

@@ -39,7 +39,6 @@ export async function DELETE(
     }
 
     const imageId = 'upload/' + params.id;
-    // 'https://api.cloudinary.com/v1_1/biwebapp/resources/image/upload/vea73p88abfgwnsoyxqk?';
 
     checkImageExists(imageId)
       .then((result) => {
@@ -58,18 +57,6 @@ export async function DELETE(
           console.log('An error occurred:', error.message);
         }
       });
-    // await cloudinary.uploader
-    //   .destroy(imageId, {
-    //     invalidate: true,
-    //     type: 'authenticated', // or 'upload', 'private', depending on your use case
-    //     resource_type: 'image', // or 'video', 'raw', depending on your file type
-    //     // If your image is in a folder, specify the full public ID including the folder name
-    //   })
-    //   .then((result) => {
-    //     if (result !== 'ok') {
-    //       console.log('Failed to delete image:', result);
-    //     }
-    //   });
 
     return NextResponse.json({ message: 'Product image deleted' });
   } catch (error) {

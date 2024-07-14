@@ -10,11 +10,6 @@ import { toast } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 // import { useRouter } from 'next/navigation';
-import {
-  SortableContext,
-  arrayMove,
-  horizontalListSortingStrategy,
-} from '@dnd-kit/sortable';
 
 interface Image {
   imageURL: string;
@@ -53,21 +48,21 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     return null;
   }
 
-  const handleImageRemove = async (imageURL: string) => {
-    try {
-      setLoading(true);
-      const imageId = extractPublicIdFromCloudinaryUrl({ url: imageURL });
-      await axios.delete(`/api/system/cloudinary/${imageId}`);
-      await axios.delete(`/api/inventory/productImages/${imageId}`);
-      onRemove(imageURL);
-      setLoading(false);
-      toast.success('Image has been removed successfully.');
-    } catch (error) {
-      console.error(error);
-      toast.error('Something went wrong');
-      setLoading(false);
-    }
-  };
+  // const handleImageRemove = async (imageURL: string) => {
+  //   try {
+  //     setLoading(true);
+  //     const imageId = extractPublicIdFromCloudinaryUrl({ url: imageURL });
+  //     await axios.delete(`/api/system/cloudinary/${imageId}`);
+  //     await axios.delete(`/api/inventory/productImages/${imageId}`);
+  //     onRemove(imageURL);
+  //     setLoading(false);
+  //     toast.success('Image has been removed successfully.');
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error('Something went wrong');
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <>
@@ -93,7 +88,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                 <div className='z-10 flex absolute top-0 left-1'>
                   <Button
                     type='button'
-                    onClick={() => handleImageRemove(image.imageURL)}
+                    onClick={() => onRemove(image.imageURL)}
                     color='destructive'
                     size='xs'
                     disabled={loading}
@@ -118,7 +113,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                   />
                 </div>
 
-                <div className='flex aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden'>
+                <div className='aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden'>
                   <NextImage
                     priority
                     height={1000}

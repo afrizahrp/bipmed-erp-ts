@@ -45,6 +45,12 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    const imagCount = await prisma.productImages.count({
+      where: {
+        product_id,
+      },
+    });
+
     const newProductImages = body.map((item: any) => ({
       id: item.id,
       product_id: item.product_id,
@@ -57,8 +63,6 @@ export async function POST(request: NextRequest) {
       company_id,
       branch_id,
     }));
-
-    console.log('newProductImages', newProductImages);
 
     const productImage = await prisma.productImages.createMany({
       data: newProductImages,
