@@ -2,12 +2,13 @@
 
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { CldUploadWidget } from 'next-cloudinary';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { ImagePlus, Loader2 } from 'lucide-react';
 import {
   Form,
   FormControl,
@@ -59,6 +60,13 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
       product_id: initialData.length > 0 ? initialData[0].product_id : '',
     },
   });
+
+  const onUpload = (result: any) => {
+    form.setValue('imageURL', [
+      ...form.getValues().imageURL,
+      result.info.secure_url,
+    ]);
+  };
 
   const handleImageRemove = async (imageURL: string) => {
     try {
@@ -177,7 +185,42 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
               />
             </div>
 
-            <div className='w-full flex items-left justify-start'>
+            <div className='w-full flex items-left justify-start gap-x-6'>
+              <CldUploadWidget
+                onUpload={onUpload}
+                options={{
+                  sources: ['local'],
+                  resourceType: 'image',
+                  multiple: true,
+                }}
+                uploadPreset='uploadBiwebapp'
+              >
+                {({ open }) => {
+                  const onClick = () => {
+                    open();
+                  };
+
+                  return (
+                    <div>
+                      <Button
+                        type='button'
+                        disabled={loading}
+                        variant='outline'
+                        onClick={onClick}
+                      >
+                        {loading && (
+                          <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                        )}
+                        <ImagePlus className='h-4 w-4 mr-2' />
+                        Upload
+                      </Button>
+                    </div>
+                  );
+                }}
+              </CldUploadWidget>
+              {/* </div>
+
+            <div className='w-full flex items-center justify-center gap-x-6'> */}
               {images && (
                 <Button
                   disabled={loading}

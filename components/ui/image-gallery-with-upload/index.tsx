@@ -3,16 +3,17 @@ import axios from 'axios';
 import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
 import GalleryTabWithUpload from './gallery-tab';
-import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ImagePlus, Trash } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { useRouter } from 'next/navigation';
-import { ProductImages } from '@/types';
+// import { useRouter } from 'next/navigation';
+import {
+  SortableContext,
+  arrayMove,
+  horizontalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 // import { ProductImages } from '@/types';
 interface GalleryWithUploadProps {
@@ -41,7 +42,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   onUpdatePrimary,
   images,
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isNewPrimary, setIsNewPrimary] = useState(false);
@@ -50,50 +51,9 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  const onUpload = (result: any) => {
-    onChange(result.info.secure_url);
-  };
-
   if (!isMounted) {
     return null;
   }
-
-  const handleUpdateMainImage = async (
-    imageURL: string,
-    newIsPrimary: boolean
-  ) => {
-    try {
-      setLoading(true);
-
-      const imageId = extractPublicIdFromCloudinaryUrl({
-        url: [imageURL],
-      });
-
-      console.log('isPrimary', newIsPrimary);
-
-      const data = {
-        isPrimary: newIsPrimary,
-      };
-
-      const respons = await axios.patch(
-        `/api/inventory/productImages/${imageId}`,
-        data
-      );
-
-      {
-        newIsPrimary
-          ? toast.success('Image has been set as primary')
-          : toast.success('Image has been set as Non primary');
-      }
-      setLoading(false);
-      router.refresh();
-      return respons.data;
-    } catch (error) {
-      console.error(error);
-      toast.error('Something went wrong');
-      setLoading(false);
-    }
-  };
 
   const handleImageRemove = async (imageURL: string) => {
     try {
@@ -119,18 +79,28 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   return (
     <>
       <Tab.Group as='div' className='flex flex-col-reverse'>
-        <div className='mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none justify-center items-center '>
+        <SortableContext items={images.map((image) => image)}>
+          <div className='mx-auto mt-6 hidden h-full w-full max-w-2xl sm:block lg:max-w-none justify-center items-center '>
+            <Tab.List className='grid grid-cols-4 gap-6 flex items-center justify-center'>
+              {images.map((image) => (
+                <GalleryTabWithUpload key={image} image={image} />
+              ))}
+            </Tab.List>
+          </div>
+        </SortableContext>
+
+        {/* <div className='mx-auto mt-6 hidden h-full w-full max-w-2xl sm:block lg:max-w-none justify-center items-center '>
           <Tab.List className='grid grid-cols-4 gap-6 flex items-center justify-center'>
             {images.map((image) => (
               <GalleryTabWithUpload key={image} image={image} />
             ))}
           </Tab.List>
-        </div>
+        </div> */}
         <Tab.Panels className='aspect-square w-full'>
           {images.length > 0 ? (
             images.map((imageURL) => (
               <Tab.Panel key={imageURL} className='aspect-square relative'>
-                <div className='z-10 absolute top-0 left-1'>
+                <div className='z-10 flex absolute top-0 left-1'>
                   <Button
                     type='button'
                     onClick={() => onRemove(imageURL)}
@@ -145,30 +115,29 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                   </Button>
                 </div>
 
-                <div className='z-10 absolute bottom-0 left-1'>
+                {/* <div className='z-10 absolute bottom-0 left-1'>
                   <Switch
                     checked={isNewPrimary}
                     // @ts-ignore
 
                     disabled={loading}
-                    onCheckedChange={() =>
-                      onUpdatePrimary(imageURL, isNewPrimary)
-                    }
+                    onCheckedChange={() => onUpdatePrimary}
                     style={{
                       backgroundColor: isNewPrimary ? 'green' : 'gray',
                     }}
                   />
-                </div>
+                </div> */}
                 <div className='flex aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden'>
                   <NextImage
                     priority
-                    height={700}
+                    height={1000}
                     width={0}
                     src={imageURL}
                     alt='Image'
                     className='object-center'
+                    // objectFit='cover'
                     sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
-                    style={{ width: '85%', height: '100%' }}
+                    style={{ width: '80%', height: '100%' }}
                   />
                 </div>
               </Tab.Panel>
@@ -181,7 +150,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
             </div>
           )}
 
-          <div className='py-3'>
+          {/* <div className='py-3'>
             <CldUploadWidget
               onUpload={onUpload}
               options={{
@@ -214,7 +183,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                 );
               }}
             </CldUploadWidget>
-          </div>
+          </div> */}
         </Tab.Panels>
       </Tab.Group>
     </>

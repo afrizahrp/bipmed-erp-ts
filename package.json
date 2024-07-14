@@ -66,7 +66,6 @@
     "@types/negotiator": "^0.6.3",
     "@types/react-flatpickr": "^3.8.11",
     "@types/react-syntax-highlighter": "^15.5.13",
-    "@vanyapr/react-image-magnifiers": "^1.4.2",
     "@vercel/analytics": "^1.2.2",
     "apexcharts": "^3.42.0",
     "autoprefixer": "10.4.15",
