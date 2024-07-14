@@ -49,56 +49,48 @@ export async function PATCH(
     const userName = session?.user?.name || '';
     if (!session) return NextResponse.json({}, { status: 401 });
 
-    if (!session) {
-      return new NextResponse('Unauthenticated', { status: 403 });
-    }
-
     const productImage = await prisma.productImages.findUnique({
       where: {
         id: params.id,
       },
     });
 
-    console.log('Routes id', productImage);
+    if (!productImage) {
+      return new NextResponse('Product image not found', { status: 404 });
+    }
 
     const body = await req.json();
+    const { isPrimary } = body as { isPrimary: boolean };
 
-    const { imageURL, isPrimary } = body as {
-      imageURL: string[];
-      isPrimary: boolean;
-    };
-
-    if (!session) {
-      return new NextResponse('Unauthenticated', { status: 403 });
-    }
-
-    if (!params.id) {
-      return new NextResponse('Product id is not found', {
-        status: 400,
+    if (isPrimary) {
+      // Set isPrimary to false for all other images of the same product
+      await prisma.productImages.updateMany({
+        where: {
+          product_id: productImage.product_id,
+          id: {
+            not: params.id,
+          },
+        },
+        data: {
+          isPrimary: false,
+        },
       });
     }
-
-    if (!imageURL) {
-      return new NextResponse('Image URL is required', { status: 400 });
-    }
-
-    const joinedImageURL = imageURL.join(',');
 
     await prisma.productImages.update({
       where: {
         id: params.id,
       },
       data: {
-        imageURL: joinedImageURL,
         isPrimary,
-        updatedBy: 'nikname',
+        updatedBy: userName,
         updatedAt: new Date(),
       },
     });
 
     return NextResponse.json({ message: 'Product image has been updated' });
   } catch (error) {
-    console.log('[PRODUCT_IMAGE_PATCHEDX]', error);
+    console.log('[PRODUCT_IMAGE_PATCH]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
