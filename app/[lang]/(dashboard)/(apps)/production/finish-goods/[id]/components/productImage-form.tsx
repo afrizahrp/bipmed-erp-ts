@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import {
@@ -33,6 +34,7 @@ import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
 
 import { Switch } from '@/components/ui/switch';
+import { routeros } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 interface ProductImageFormProps {
   initialData: ProductImages[];
   product_id: string;
@@ -42,21 +44,15 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   initialData,
   product_id,
 }) => {
-  // State to manage image URLs
-
-  console.log('product id', product_id);
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
-
-  const defaultValues = {
-    imageURL: initialData.map((image) => image.imageURL),
-    isPrimary: initialData.find((image) => image.isPrimary)?.isPrimary ?? false,
-    product_id: initialData.length > 0 ? initialData[0].product_id : '',
-  };
+  const [isPrimaryImage, setIsPrimaryImage] = useState(false);
+  const router = useRouter();
 
   const form = useForm<ProductImageFormValues>({
     resolver: zodResolver(productImageFormSchema),
     defaultValues: {
+      id: initialData.length > 0 ? initialData[0].id : '',
       imageURL: initialData.map((image) => image.imageURL),
       isPrimary:
         initialData.find((image) => image.isPrimary)?.isPrimary ?? false,
@@ -68,12 +64,14 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     try {
       setLoading(true);
 
-      const imageId = extractPublicIdFromCloudinaryUrl({
-        url: [imageURL],
-      });
+      const imageId = extractPublicIdFromCloudinaryUrl(imageURL);
 
-      // await axios.delete(`/api/system/cloudinary/${imageId}`);
-      // await axios.delete(`/api/inventory/productImages/${imageId}`);
+      // console.log('image ID', imageId);
+
+      await axios.delete(`/api/system/cloudinary/${imageId}`);
+      await axios.delete(`/api/inventory/productImages/${imageId}`);
+
+      router.refresh();
 
       setLoading(false);
       toast.success('Image has been removed successfully.');
@@ -84,26 +82,53 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     }
   };
 
-  const actionMessage = 'New images has added successfully.';
+  const handleUpdateImagePrimary = async (
+    imageURL: string,
+    newIsPrimary: boolean
+  ) => {
+    try {
+      setLoading(true);
 
-  console.log('initialData', initialData);
+      const imageId = extractPublicIdFromCloudinaryUrl(imageURL);
+
+      const data = {
+        isPrimary: newIsPrimary,
+      };
+
+      await axios.patch(`/api/inventory/productImages/${imageId}`, data);
+
+      setLoading(false);
+      router.refresh();
+
+      newIsPrimary
+        ? toast.success('Image has been set as primary')
+        : toast.success('Image has been set as Non primary');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+      setLoading(false);
+    }
+  };
 
   const onSubmit = async (data: ProductImageFormValues) => {
     try {
       setLoading(true);
-      if (initialData && initialData.length > 0) {
-        console.log('patch data', data);
-        await axios.patch(`/api/inventory/productImages/${data.id}`, data);
-      } else {
-        // const  publicId = extractPublicIdFromCloudinaryUrl({
-        //   url : data.imageURL[]
-        // }),
-        console.log('post data', data);
 
-        await axios.post(`/api/inventory/productImages`, data);
-      }
+      const datatoPost =
+        typeof data.imageURL === 'string'
+          ? data.imageURL
+          : data.imageURL.map((imageURL) => ({
+              id: extractPublicIdFromCloudinaryUrl(imageURL),
+              imageURL: imageURL,
+              isPrimary: data.isPrimary,
+              product_id: product_id,
+            }));
 
-      toast.success(actionMessage);
+      await axios.post(`/api/inventory/productImages`, datatoPost);
+      router.refresh();
+
+      toast.success('New images has added successfully.');
+      setLoading(false);
     } catch (error: any) {
       console.error(error);
 
@@ -135,7 +160,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                         }
                         onRemove={(imageURL) => {
                           handleImageRemove(imageURL);
-                          // Ensure field.value is treated as an array before filtering
                           const newValue = Array.isArray(field.value)
                             ? field.value.filter(
                                 (url: string) => url !== imageURL
@@ -143,6 +167,9 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                             : [];
                           field.onChange(newValue);
                         }}
+                        onUpdatePrimary={(imageURL, isPrimary) =>
+                          handleUpdateImagePrimary(imageURL, isPrimary)
+                        }
                       />
                     </FormControl>
                   </FormItem>
@@ -173,18 +200,16 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   );
 };
 
-function extractPublicIdFromCloudinaryUrl(arg0: { url: string[] }): string {
-  const { url } = arg0;
-  const publicIds: string[] = [];
-
-  url.forEach((imageUrl) => {
-    const publicId = imageUrl.split('/').pop()?.split('.')[0];
-    if (publicId) {
-      publicIds.push(publicId);
-    }
-  });
-
-  return publicIds.join(',');
+function extractPublicIdFromCloudinaryUrl(imageURL: string): string | null {
+  const parts = imageURL.split('/');
+  const fileName = parts.pop(); // Gets "myimage.jpg"
+  if (typeof fileName === 'string') {
+    const id = fileName.split('.')[0];
+    return id; // Return the extracted id
+  } else {
+    console.error('fileName is not a string');
+    return null; // Return null or handle the error as needed
+  }
 }
 
 export default ProductImageForm;

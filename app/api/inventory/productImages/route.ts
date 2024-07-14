@@ -32,34 +32,24 @@ export async function POST(request: NextRequest) {
     const userName = session?.user?.name || '';
 
     const body = await request.json();
-    const {
-      id,
-      product_id,
-      isPrimary,
-      imageURL,
-      createdBy,
-      createdAt,
-      updatedBy,
-      updatedAt,
-    } = body as {
+    const { id, product_id, isPrimary, imageURL } = body as {
       id: string;
       product_id: string;
       isPrimary: boolean;
       imageURL: string;
-      createdBy: string;
-      createdAt: Date;
-      updatedBy: string;
-      updatedAt: Date;
     };
 
-    let urls = imageURL.split(','); // Split the image URL
-    const publicIds = extractPublicIdFromCloudinaryUrl(urls); // Extract the public ID from the Cloudinary URL
+    await prisma.productImages.deleteMany({
+      where: {
+        product_id,
+      },
+    });
 
-    const newProductImages = urls.map((imageURL: string, index: number) => ({
-      id: publicIds[index], // Use the public ID as the image ID
-      imageURL,
-      isPrimary,
-      product_id,
+    const newProductImages = body.map((item: any) => ({
+      id: item.id,
+      product_id: item.product_id,
+      isPrimary: item.isPrimary,
+      imageURL: item.imageURL,
       createdBy: userName,
       createdAt: new Date(),
       updatedBy: userName,
@@ -68,18 +58,7 @@ export async function POST(request: NextRequest) {
       branch_id,
     }));
 
-    // const newProductImages = {
-    //   id:publicIds,
-    //   product_id,
-    //   isPrimary,
-    //   imageURL,
-    //   createdBy: userName,
-    //   createdAt: new Date(),
-    //   updatedBy: userName,
-    //   updatedAt: new Date(),
-    //   company_id,
-    //   branch_id,
-    // };
+    console.log('newProductImages', newProductImages);
 
     const productImage = await prisma.productImages.createMany({
       data: newProductImages,

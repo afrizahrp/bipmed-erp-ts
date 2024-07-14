@@ -18,6 +18,7 @@ import { ProductImages } from '@/types';
 interface GalleryWithUploadProps {
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
+  onUpdatePrimary: (value: string, primaryStatus: boolean) => void;
   images: string[];
 }
 
@@ -37,6 +38,7 @@ export function extractPublicIdFromCloudinaryUrl(image: { url: string[] }) {
 const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   onChange,
   onRemove,
+  onUpdatePrimary,
   images,
 }) => {
   const router = useRouter();
@@ -128,10 +130,10 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
           {images.length > 0 ? (
             images.map((imageURL) => (
               <Tab.Panel key={imageURL} className='aspect-square relative'>
-                <div className='z-10 absolute top-0 left-10'>
+                <div className='z-10 absolute top-0 left-1'>
                   <Button
                     type='button'
-                    onClick={() => handleImageRemove(imageURL)}
+                    onClick={() => onRemove(imageURL)}
                     color='destructive'
                     size='xs'
                     disabled={loading}
@@ -142,32 +144,39 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                     <Trash className='h-4 w-4' />
                   </Button>
                 </div>
+
+                <div className='z-10 absolute bottom-0 left-1'>
+                  <Switch
+                    checked={isNewPrimary}
+                    // @ts-ignore
+
+                    disabled={loading}
+                    onCheckedChange={() =>
+                      onUpdatePrimary(imageURL, isNewPrimary)
+                    }
+                    style={{
+                      backgroundColor: isNewPrimary ? 'green' : 'gray',
+                    }}
+                  />
+                </div>
                 <div className='flex aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden'>
-                  {/* {imageURL ? ( */}
                   <NextImage
                     priority
                     height={700}
                     width={0}
                     src={imageURL}
                     alt='Image'
-                    // fill
-                    // objectFit='contain'
                     className='object-center'
                     sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
                     style={{ width: '85%', height: '100%' }}
                   />
-                  {/* ) : (
-                    <div>Image not availabless</div>
-                  )} */}
                 </div>
               </Tab.Panel>
             ))
           ) : (
             <div className='flex items-center justify-center w-full h-full'>
-              <div className='text-center'>
-                <div className='text-lg font-semibold flex items-center justify-center w-full h-full'>
-                  No images available
-                </div>
+              <div className='text-lg font-semibold flex items-center justify-center w-full h-full'>
+                No images available
               </div>
             </div>
           )}

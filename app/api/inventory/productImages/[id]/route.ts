@@ -49,16 +49,22 @@ export async function PATCH(
     const userName = session?.user?.name || '';
     if (!session) return NextResponse.json({}, { status: 401 });
 
-    // console.log('id from product Images api', params.id);
-
     if (!session) {
       return new NextResponse('Unauthenticated', { status: 403 });
     }
 
+    const productImage = await prisma.productImages.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+
+    console.log('Routes id', productImage);
+
     const body = await req.json();
 
     const { imageURL, isPrimary } = body as {
-      imageURL: string;
+      imageURL: string[];
       isPrimary: boolean;
     };
 
@@ -72,44 +78,27 @@ export async function PATCH(
       });
     }
 
-    // const editProductImage = await prisma.productImages.findUnique({
-    //   where: {
-    //     id: params.id,
-    //   },
-    // });
+    if (!imageURL) {
+      return new NextResponse('Image URL is required', { status: 400 });
+    }
 
-    // console.log('id', params.id);
-
-    // const productId = editProductImage?.product_id;
-
-    // console.log('editProductImage', productId);
-
-    // if (editProductImage?.isPrimary) {
-    //   await prisma.productImages.updateMany({
-    //     where: {
-    //       product_id: productId, // Assuming each image is linked to a product via `productId`
-    //     },
-    //     data: {
-    //       isPrimary: false,
-    //     },
-    //   });
-    // }
+    const joinedImageURL = imageURL.join(',');
 
     await prisma.productImages.update({
       where: {
         id: params.id,
       },
       data: {
-        imageURL,
+        imageURL: joinedImageURL,
         isPrimary,
-        updatedBy: userName,
+        updatedBy: 'nikname',
         updatedAt: new Date(),
       },
     });
 
     return NextResponse.json({ message: 'Product image has been updated' });
   } catch (error) {
-    console.log('[PRODUCT_IMAGE_PATCHED]', error);
+    console.log('[PRODUCT_IMAGE_PATCHEDX]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
