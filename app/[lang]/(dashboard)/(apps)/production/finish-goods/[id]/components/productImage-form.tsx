@@ -41,7 +41,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     },
   });
 
-  const onUpload = (result: any) => {
+  const onUpload = async (result: any) => {
     const newImage = result.info.secure_url;
     const updatedImages = [...form.getValues().imageURL, newImage];
 
@@ -61,6 +61,9 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
 
     form.setValue('imageURL', updatedImages);
     setImages([...images, newProductImage]);
+
+    // await form.trigger(); // Ensure all validation rules are checked
+    // await form.handleSubmit(onSubmit)(); // Submit the form
   };
   const handleImageRemove = async (imageURL: string) => {
     try {
@@ -131,8 +134,9 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           : data.imageURL.map((imageURL) => ({
               id: extractPublicIdFromCloudinaryUrl(imageURL),
               imageURL,
-              isPrimary: data.isPrimary,
-              product_id,
+              product_id: product_id,
+              // data.isPrimary,
+              isPrimary: false,
             }));
 
       await axios.post(`/api/inventory/productImages`, datatoPost);
