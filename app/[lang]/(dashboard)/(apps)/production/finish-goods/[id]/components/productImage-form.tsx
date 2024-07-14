@@ -45,9 +45,11 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     const newImage = result.info.secure_url;
     const updatedImages = [...form.getValues().imageURL, newImage];
 
+    const imageId = extractPublicIdFromCloudinaryUrl(newImage);
+
     // Create a new ProductImages object with default values
     const newProductImage: ProductImages = {
-      id: '', // Provide a unique ID if available, or handle it in your API
+      id: imageId || '', // Extracted id from Cloudinary URL
       product_id,
       imageURL: newImage,
       isPrimary: false, // Set default value for isPrimary
@@ -62,9 +64,27 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     form.setValue('imageURL', updatedImages);
     setImages([...images, newProductImage]);
 
-    // await form.trigger(); // Ensure all validation rules are checked
-    // await form.handleSubmit(onSubmit)(); // Submit the form
+    await form.trigger(); // Ensure all validation rules are checked
+
+    await form.handleSubmit(onSubmit)(); // Submit the form
   };
+
+  // const handleUploadAndSubmit = async(result: any)  => {
+  //   // Assuming result.info contains the uploaded image info
+  //   const uploadedImages = result.info.files.map((file: any) => ({
+  //     product_id: product_id,
+  //     id: extractPublicIdFromCloudinaryUrl(file.uploadInfo.secure_url),
+  //     imageURL: file.uploadInfo.secure_url,
+  //   }));
+
+  //   const data = {
+  //     imageURL: uploadedImages.map((image: { imageURL: string }) => image.imageURL),
+  //   };
+
+  //   // Call onSubmit with the prepared data
+  //   await onSubmit({ imageURL: uploadedImages });
+  // }
+
   const handleImageRemove = async (imageURL: string) => {
     try {
       setLoading(true);
@@ -72,8 +92,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
       const imageId = extractPublicIdFromCloudinaryUrl(imageURL);
 
       await axios.delete(`/api/inventory/productImages/${imageId}`);
-
-      // setImages(images.filter((image) => image.imageURL !== imageURL));
 
       setImages((prevImages) =>
         prevImages.filter((image) => image.imageURL !== imageURL)
@@ -129,17 +147,26 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   const orderedImages = [...images].sort((a, b) => (b.isPrimary ? 1 : -1));
 
   const onSubmit = async (data: ProductImageFormValues) => {
+    // const onSubmit = async (data: { imageURL: { id: string; imageURL: string; product_id: string; isPrimary: boolean }[] }) => {
+
     try {
       setLoading(true);
 
       const dataToPost =
         typeof data.imageURL === 'string'
-          ? data.imageURL
-          : data.imageURL.map((imageURL) => ({
+          ? [
+              {
+                id: extractPublicIdFromCloudinaryUrl(data.imageURL),
+                imageURL: data.imageURL,
+                product_id: product_id,
+                isPrimary: true, // If it's a single image string, set isPrimary to true
+              },
+            ]
+          : data.imageURL.map((imageURL, index, array) => ({
               id: extractPublicIdFromCloudinaryUrl(imageURL),
               imageURL,
               product_id: product_id,
-              isPrimary: false,
+              isPrimary: array.length === 1 ? true : false, // Set isPrimary based on array length
             }));
 
       await axios.post(`/api/inventory/productImages`, dataToPost);
@@ -201,6 +228,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           <div className='w-full flex items-left justify-start gap-x-6'>
             <CldUploadWidget
               onUpload={onUpload}
+              // onUpload={handleUploadAndSubmit}
               options={{
                 sources: ['local'],
                 resourceType: 'image',
@@ -222,7 +250,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
               )}
             </CldUploadWidget>
 
-            {images && (
+            {/* {images && (
               <Button
                 disabled={loading}
                 type='submit'
@@ -235,7 +263,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
                 {loading ? 'Saving...' : 'Save'}
               </Button>
-            )}
+            )} */}
           </div>
         </form>
       </Form>
