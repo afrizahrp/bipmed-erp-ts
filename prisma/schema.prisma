@@ -374,6 +374,7 @@ model Products {
   catalog_id          String       @db.VarChar(20)
   registered_id       String       @db.VarChar(20)
   name                String       @db.VarChar(250)
+  description         String       @db.Text
   category_id         String       @db.Char(10)
   subCategory_id      String?       @db.Char(10)
   uom_id              String?       @db.Char(10) @default("UNIT")
@@ -684,6 +685,7 @@ model PoDetail {
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
+
  model vProductCategories {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
@@ -693,6 +695,3 @@ model PoDetail {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
  }
-
-
-
