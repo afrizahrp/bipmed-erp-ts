@@ -44,9 +44,9 @@ export function SearchColumnBrand({
           {/* {isBrandOption && <Loader2 className='mr-2 h-4 w-4 animate-spin' />} */}
 
           {isBrandOption && (
-            <span className=' inline-flex gap-1'>
+            <span className=' inline-flex gap-1 text-xs'>
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              Retrieving brand list...
+              Loading brand list...
             </span>
           )}
         </div> // Show a loading state or similar message

@@ -1,18 +1,28 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { SubCategories } from '@/types';
+// import { SubCategories } from '@/types';
 
-export const useSubCategories = () => {
+interface SubCategories {
+  category_id: string;
+  id: string;
+  name: string;
+}
+
+export const useSubCategories = (category_id: string) => {
   const { data, isLoading, error, ...rest } = useQuery<SubCategories[], Error>({
-    queryKey: ['subcategories'],
+    queryKey: ['subcategories', category_id],
     queryFn: () =>
-      axios.get('/api/inventory/subcategories', {}).then((res) => res.data),
+      axios.get('/api/inventory/subCategories', {}).then((res) => res.data),
 
     staleTime: 60 * 1000, //60s
     retry: 3,
   });
 
-  return { data, isLoading, error, ...rest };
+  const filteredData = category_id
+    ? data?.filter((subCategory) => subCategory.category_id === category_id)
+    : data;
+
+  return { data: filteredData, isLoading, error, ...rest };
 };
 
 export default useSubCategories;

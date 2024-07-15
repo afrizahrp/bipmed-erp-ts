@@ -5,6 +5,7 @@ import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter';
 import masterTableStatusOptions from '@/data/masterTableStatusOptions';
+import categoryOptions from '@/data/categoryOptions';
 import categoryTypeOptions from '@/data/categoryTypeOptions';
 
 interface SubCategoryFilterSidebarProps<TData> {
@@ -18,8 +19,8 @@ export function SubCategoryFilterSidebar<TData>({
 
   const { options: statusOptionList, isLoading: isStatusLoading } =
     masterTableStatusOptions();
-  const { options: categoryTypeOption, isLoading: isCategoryTypeLoading } =
-    categoryTypeOptions({ filterData: 1 });
+  const { options: categoryOption, isLoading: isCategoryLoading } =
+    categoryOptions({ filterData: 1 });
 
   return (
     <div className='flex items-center justify-end py-2 '>
@@ -35,12 +36,12 @@ export function SubCategoryFilterSidebar<TData>({
           )}
         </div>
         <div className='w-full py-1'>
-          {table.getColumn('type') && (
+          {table.getColumn('category') && (
             <DataTableFacetedFilter
-              column={table.getColumn('type')}
-              title='Category Type'
-              options={categoryTypeOption}
-              isLoading={isCategoryTypeLoading}
+              column={table.getColumn('category')}
+              title='Category'
+              options={categoryOption}
+              isLoading={isCategoryLoading}
             />
           )}
         </div>

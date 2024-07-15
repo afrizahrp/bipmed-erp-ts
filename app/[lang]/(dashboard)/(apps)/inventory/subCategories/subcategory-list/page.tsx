@@ -21,9 +21,6 @@ const pageHeader = {
 
 const SubCategoriesPage = async () => {
   const subcategories = await prisma.subCategories.findMany({
-    where: {
-      type: '0',
-    },
     include: {
       category: true,
       status: true,

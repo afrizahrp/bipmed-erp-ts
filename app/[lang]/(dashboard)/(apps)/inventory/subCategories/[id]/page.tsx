@@ -7,7 +7,7 @@ const SubCategoryPage = async ({
 }: {
   params: {
     id: string;
-    type: string;
+    // type: string;
   };
 }) => {
   const subCategory = await prisma.subCategories.findUnique({
@@ -18,8 +18,6 @@ const SubCategoryPage = async ({
       category: true,
     },
   });
-
-  const categories = await prisma.categories.findMany({});
 
   return (
     <Card className='py-6'>

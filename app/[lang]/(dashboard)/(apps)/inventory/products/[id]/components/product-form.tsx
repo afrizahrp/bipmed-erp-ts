@@ -56,7 +56,8 @@ import {
   ProductFormValues,
   productFormSchema,
 } from '@/utils/schema/product.form.schema';
-import ImageUpload from '@/components/ui/image-upload';
+// import ImageUpload from '@/components/ui/image-upload';
+import { InputGroup, InputGroupText } from '@/components/ui/input-group';
 
 interface ProductFormProps {
   initialData:
@@ -510,7 +511,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
 
           {/* <div className='flex-col gap-4'> */}
-          <div className='grid grid-cols-4 gap-4 py-2'>
+          <div className='grid grid-cols-6 gap-2 py-2'>
             <div className='col-span-1'>
               <FormField
                 control={form.control}
@@ -519,13 +520,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormItem>
                     <FormLabel>TKDN (%)</FormLabel>
                     <FormControl>
-                      <Input
-                        type='number'
-                        disabled={loading}
-                        placeholder='99.99'
-                        {...field}
-                        className='text-right'
-                      />
+                      <InputGroup>
+                        <Input
+                          type='number'
+                          disabled={loading}
+                          placeholder='99.99'
+                          {...field}
+                          className='text-right'
+                        />
+                        <InputGroupText className='bg-slate-200'>
+                          %
+                        </InputGroupText>
+                      </InputGroup>
                     </FormControl>
                   </FormItem>
                 )}
@@ -538,22 +544,27 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 name='bmp_pctg'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>BMP (%)</FormLabel>
+                    <FormLabel>BMP</FormLabel>
                     <FormControl>
-                      <Input
-                        type='number'
-                        disabled={loading}
-                        placeholder='99.99'
-                        {...field}
-                        className='text-right'
-                      />
+                      <InputGroup>
+                        <Input
+                          type='number'
+                          disabled={loading}
+                          placeholder='99.99'
+                          {...field}
+                          className='text-right'
+                        />
+                        <InputGroupText className='bg-slate-200'>
+                          %
+                        </InputGroupText>
+                      </InputGroup>
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-4'>
               <FormField
                 control={form.control}
                 name='ecatalog_URL'

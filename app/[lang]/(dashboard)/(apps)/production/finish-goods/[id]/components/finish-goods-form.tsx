@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useFormContext } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
 import { Input } from '@/components/ui/input';
+import { InputGroup, InputGroupText } from '@/components/ui/input-group';
+
 import { Label } from '@/components/ui/label';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
@@ -25,18 +27,12 @@ import { useParams, useRouter } from 'next/navigation';
 import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 import {
   SearchColumnProductCategory,
+  SearchColumnSubSubCategory,
   SearchColumnUom,
   SearchColumnBrand,
 } from '@/components/searchColumns';
 
-import ImageCollection from '@/components/ui/images-collection';
 import { Switch } from '@/components/ui/switch';
-// import { Checkbox } from '@/components/ui/checkbox';
-
-import {
-  ProductFormValues,
-  productFormSchema,
-} from '@/utils/schema/product.form.schema';
 
 interface FinishGoodsFormProps {
   initialData:
@@ -68,8 +64,27 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
 
   const {
     register,
+    watch,
+    setValue,
     formState: { errors },
   } = useFormContext();
+  const [subcategories, setSubcategories] = useState([]);
+
+  const selectedCategory_id = watch('category_id');
+  useEffect(() => {
+    const selectedSubCategory = watch('subCategory_id');
+    const subCategoryBelongsToCategory =
+      subCategories &&
+      subCategories.some(
+        (subCategory) =>
+          subCategory.id === selectedSubCategory &&
+          subCategory.category_id === selectedCategory_id
+      );
+
+    if (!subCategoryBelongsToCategory) {
+      setValue('subCategory_id', '');
+    }
+  }, [selectedCategory_id, setValue, watch, subCategories]);
 
   const onProductNameChange = (newCategoryName: string) => {
     setSearchTerms(newCategoryName);
@@ -85,8 +100,6 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div>
             <Label>Id</Label>
             <Input
-              removeWrapper
-              type='id'
               id='id'
               placeholder=' '
               disabled
@@ -105,8 +118,6 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div>
             <Label>Catalog</Label>
             <Input
-              removeWrapper
-              type='catalog_id'
               id='catalog_id'
               placeholder=' '
               disabled={loading}
@@ -125,8 +136,6 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div>
             <Label>Reg.No</Label>
             <Input
-              removeWrapper
-              type='registered_id'
               id='registered_id'
               placeholder=' '
               disabled={loading}
@@ -146,13 +155,12 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
         <div className='pt-2'>
           <Label>Name</Label>
           <Input
-            removeWrapper
             type='name'
             id='name'
             placeholder=' '
             disabled={loading}
             {...register('name')}
-            className={cn('peer', {
+            className={cn('peer font-semibold', {
               'border-destructive': errors.name,
             })}
           />
@@ -161,6 +169,148 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
               {errors.name.message?.toString()}
             </div>
           )}
+        </div>
+
+        <div className='flex grid grid-cols-4 gap-4'>
+          <div>
+            <div className='col-span-4'>Category</div>
+            <SearchColumnProductCategory
+              currentValue={initialData?.category_id}
+              onChange={(value) => {
+                setValue('category_id', value);
+              }}
+              disabled={loading}
+            />
+            <Input
+              removeWrapper
+              type='hidden'
+              id='category_id'
+              {...register('category_id')}
+            />
+            {errors.category_id && (
+              <div className='text-destructive'>
+                {errors.category_id.message?.toString()}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <SearchColumnSubSubCategory
+              currentValue={initialData?.subCategory_id ?? ''}
+              onChange={(value) => {
+                setValue('subCategory_id', value);
+              }}
+              disabled={loading}
+              category_id={selectedCategory_id}
+            />
+            <Input
+              removeWrapper
+              type='hidden'
+              id='subCategory_id'
+              {...register('subCategory_id')}
+            />
+          </div>
+
+          <div>
+            <div className='col-span-4'>Uom</div>
+            <SearchColumnUom
+              currentValue={initialData?.uom_id ?? ''}
+              onChange={(value) => {
+                setValue('uom_id', value);
+              }}
+              disabled={loading}
+            />
+            <Input
+              removeWrapper
+              type='hidden'
+              id='uom_id'
+              {...register('uom_id')}
+            />
+          </div>
+
+          <div>
+            <div className='col-span-4'>Brand</div>
+            <SearchColumnBrand
+              currentValue={initialData?.brand_id ?? ''}
+              onChange={(value) => {
+                setValue('brand_id', value);
+              }}
+              disabled={loading}
+            />
+            <Input
+              removeWrapper
+              type='hidden'
+              id='brand_id'
+              {...register('brand_id')}
+            />
+          </div>
+        </div>
+        <div className='grid grid-cols-6 gap-2 py-2'>
+          {' '}
+          <div className='col-span-1'>
+            <Label>TKDN</Label>
+
+            <InputGroup>
+              <Input
+                type='number'
+                min={0}
+                id='tkdn_pctg'
+                placeholder=' '
+                disabled={loading}
+                {...register('tkdn_pctg')}
+                className={cn('peer text-right justify-end', {
+                  'border-destructive': errors.tkdn_pctg,
+                })}
+              />
+
+              <InputGroupText className='bg-slate-200'>%</InputGroupText>
+            </InputGroup>
+
+            {errors.tkdn_pctg && (
+              <div className='text-destructive'>
+                {errors.tkdn_pctg.message?.toString()}
+              </div>
+            )}
+          </div>
+          <div className='col-span-1'>
+            <Label>BMP</Label>
+            <InputGroup>
+              <Input
+                type='number'
+                min={0}
+                id='bmp_pctg'
+                placeholder=' '
+                disabled={loading}
+                {...register('bmp_pctg')}
+                className={cn('peer text-right justify-end', {
+                  'border-destructive': errors.bmp_pctg,
+                })}
+              />
+              <InputGroupText className='bg-slate-200'>%</InputGroupText>
+            </InputGroup>
+            {errors.bmp_pctg && (
+              <div className='text-destructive'>
+                {errors.bmp_pctg.message?.toString()}
+              </div>
+            )}
+          </div>
+          <div className='col-span-4'>
+            <Label>eCatalog Link</Label>
+            <Input
+              id='ecatalog_URL'
+              placeholder='http://ekatalog'
+              disabled={loading}
+              {...register('ecatalog_URL')}
+              className={cn('peer', {
+                'border-destructive': errors.ecatalog_URL,
+              })}
+            />
+            {errors.ecatalog_URL && (
+              <div className='text-destructive'>
+                {errors.ecatalog_URL.message?.toString()}
+              </div>
+            )}
+          </div>
         </div>
       </FormGroup>
     </>

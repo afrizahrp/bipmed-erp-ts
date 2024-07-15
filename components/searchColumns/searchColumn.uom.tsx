@@ -42,9 +42,9 @@ export function SearchColumnUom({
       ) : (
         <div>
           {isUomLoading && (
-            <span className=' inline-flex gap-1'>
+            <span className=' inline-flex gap-1 text-xs'>
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              Retrieving uom list...
+              Loading uom list...
             </span>
           )}
         </div> // Show a loading state or similar message
