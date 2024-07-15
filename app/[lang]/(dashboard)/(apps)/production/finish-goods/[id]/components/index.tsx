@@ -76,15 +76,6 @@ export default function ProductDetailPage({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const methods = useForm<CombinedProductFormValues>({
-    resolver: zodResolver(productAndSpecCombinedSchema),
-    defaultValues: {
-      ...defaultValues(initialData ?? {}, specData ?? {}),
-    },
-
-    // defaultValues(initialData ?? {}, specData ?? {}),
-  });
-
   const description = initialData
     ? `Change Product ${initialData.id}-> ${initialData.name}`
     : 'Add New Product';
@@ -101,21 +92,29 @@ export default function ProductDetailPage({
 
   const id = params.id;
 
-  // console.log('product id ', id);
+  const methods = useForm<CombinedProductFormValues>({
+    resolver: zodResolver(productFormSchema, productSpecFormSchema),
+    defaultValues: {
+      ...defaultValues(initialData ?? {}, specData ?? {}),
+    },
+
+    // defaultValues(initialData ?? {}, specData ?? {}),
+  });
 
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
+    console.log('update product spec data first row ', id);
     try {
       setLoading(true);
-      console.log('update product spec data first row ', id);
       // if (initialData) {
-      //   console.log('update product spec data first row ', id);
-      //   await axios.patch(`/api/inventory/products/${id}`, data);
-      //   await axios.patch(`/api/inventory/productSpecs/${id}`, data);
-      // } else {
-      //   console.log('create product spec data first row ', id);
-      //   // await axios.post(`/api/inventory/${params.id}/products`, data);
-      //   await axios.post(`/api/inventory/productSpecs`, data);
-      // }
+      if (id) {
+        console.log('update product spec data first row ', id);
+        await axios.patch(`/api/inventory/products/${id}`, data);
+        await axios.patch(`/api/inventory/productSpecs/${id}`, data);
+      } else {
+        console.log('create product spec data first row ', id);
+        // await axios.post(`/api/inventory/${params.id}/products`, data);
+        // await axios.post(`/api/inventory/productSpecs`, data);
+      }
 
       // if (initialData) {
       //   await axios.patch(`/api/inventory/products/${initialData.id}`, data);
@@ -130,7 +129,7 @@ export default function ProductDetailPage({
       //   await axios.post(`/api/${productId}/productSpecs`, data);
       // }
 
-      router.push('/production/finish-goods/finish-goods-list');
+      // router.push('/production/finish-goods/finish-goods-list');
       router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {

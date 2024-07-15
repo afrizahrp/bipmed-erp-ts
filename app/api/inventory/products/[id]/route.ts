@@ -82,7 +82,7 @@ export async function PATCH(
     if (!name) {
       return new NextResponse('Product name is required', { status: 400 });
     }
-    await prisma.products.update({
+    const product = await prisma.products.update({
       where: {
         id: params.id,
       },
@@ -92,9 +92,10 @@ export async function PATCH(
         subCategory_id,
         brand_id,
         uom_id,
-        images: {
-          deleteMany: {},
-        },
+
+        // images: {
+        //   deleteMany: {},
+        // },
         iStatus,
         remarks,
         registered_id,
@@ -110,49 +111,45 @@ export async function PATCH(
       },
     });
 
-    let urls = images.map((image) => image.imageURL);
-    const publicIds = extractPublicIdFromCloudinaryUrl(urls); // Extract the public ID from the Cloudinary URL
+    // let urls = images.map((image) => image.imageURL);
+    // const publicIds = extractPublicIdFromCloudinaryUrl(urls); // Extract the public ID from the Cloudinary URL
 
-    const currentProduct = await prisma.products.findUnique({
-      // Get the current product createdBy and createdAt fields
-      where: {
-        id: params.id,
-      },
-      select: {
-        createdBy: true, // Select only the createdBy and createdAt fields
-        createdAt: true,
-      },
-    });
+    // const currentProduct = await prisma.products.findUnique({
+    //   // Get the current product createdBy and createdAt fields
+    //   where: {
+    //     id: params.id,
+    //   },
+    //   select: {
+    //     createdBy: true, // Select only the createdBy and createdAt fields
+    //     createdAt: true,
+    //   },
+    // });
 
-    const productCreatedBy = currentProduct?.createdBy;
-    const productCreatedAt = currentProduct?.createdAt;
+    // const productCreatedBy = currentProduct?.createdBy;
+    // const productCreatedAt = currentProduct?.createdAt;
 
-    const imageData = images.map(
-      (image: { imageURL: string; id?: string }, index: number) => ({
-        id: publicIds[index], // Use the public ID as the image ID
-        imageURL: image.imageURL,
-        isPrimary: false,
-        createdBy: productCreatedBy,
-        createdAt: productCreatedAt,
-        updatedBy: userName,
-        updatedAt: new Date(),
-        company_id: company_id,
-        branch_id: branch_id,
-      })
-    );
+    // const imageData = images.map(
+    //   (image: { imageURL: string; id?: string }, index: number) => ({
+    //     id: publicIds[index], // Use the public ID as the image ID
+    //     imageURL: image.imageURL,
+    //     isPrimary: false,
+    //     createdBy: productCreatedBy,
+    //     createdAt: productCreatedAt,
+    //     updatedBy: userName,
+    //     updatedAt: new Date(),
+    //     company_id: company_id,
+    //     branch_id: branch_id,
+    //   })
+    // );
 
-    const product = await prisma.products.update({
-      where: {
-        id: params.id,
-      },
-      data: {
-        images: {
-          createMany: {
-            data: imageData,
-          },
-        },
-      },
-    });
+    // const product = await prisma.products.update({
+    //   where: {
+    //     id: params.id,
+    //   },
+    //   data: {
+    //     ...body,
+    //   },
+    // });
 
     return NextResponse.json(product);
   } catch (error) {

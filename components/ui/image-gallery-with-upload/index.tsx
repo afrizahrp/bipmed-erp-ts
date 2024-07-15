@@ -118,7 +118,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                     priority
                     height={100}
                     width={100}
-                    objectPosition='center'
+                    // objectPosition='center'
                     layout='responsive'
                     src={image.imageURL}
                     alt='Image'

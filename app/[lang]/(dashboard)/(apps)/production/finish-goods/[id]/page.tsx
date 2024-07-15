@@ -84,7 +84,8 @@ const FinishGoodsPage = async ({
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
-      <div className='flex gap-x-2'>
+      <div className='w-full flex gap-x-2'>
+        {/* <div className='w-full'> */}
         <div className='w-full lg:w-1/2 lg:sticky top-20 h-max'>
           <Card>
             <CardContent className='pt-2'>

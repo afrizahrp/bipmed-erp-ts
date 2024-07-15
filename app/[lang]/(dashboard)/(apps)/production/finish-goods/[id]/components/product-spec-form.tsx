@@ -1074,12 +1074,12 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
               </div>
             </div>
 
-            <div className='flex items-center justify-between px-3 py-20 top-13'>
+            {/* <div className='flex items-center justify-between px-3 py-20 top-13'>
               <Button disabled={loading} className='ml-auto' type='submit'>
                 {action}{' '}
                 {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
               </Button>
-            </div>
+            </div> */}
           </form>
         </Form>
       </FormGroup>

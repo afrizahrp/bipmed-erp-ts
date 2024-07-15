@@ -65,6 +65,7 @@ interface FinishGoodsFormProps {
         images: ProductImages[];
       })
     | null;
+  roducts: Products;
   categories: Categories[];
   subCategories: SubCategories[];
   brands: Brands[];

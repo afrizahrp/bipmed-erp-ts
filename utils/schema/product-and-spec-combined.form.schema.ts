@@ -5,9 +5,10 @@ import {
   ProductSpecFormValues,
 } from './productSpec.form.schema';
 
-export const productAndSpecCombinedSchema = productFormSchema.merge(
-  productSpecFormSchema
-);
+export const productAndSpecCombinedSchema = z.object({
+  ...productFormSchema.shape,
+  ...productSpecFormSchema.shape,
+});
 
 export type CombinedProductFormValues = ProductFormValues &
   ProductSpecFormValues;
