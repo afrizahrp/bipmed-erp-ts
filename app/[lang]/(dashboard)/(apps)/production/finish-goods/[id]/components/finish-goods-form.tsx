@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
 import SimpleMDE from 'react-simplemde-editor';
@@ -65,7 +65,6 @@ interface FinishGoodsFormProps {
         images: ProductImages[];
       })
     | null;
-  roducts: Products;
   categories: Categories[];
   subCategories: SubCategories[];
   brands: Brands[];
@@ -153,32 +152,31 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     defaultValues,
   });
 
-  const handleBack = (e: any) => {
-    e.preventDefault();
-    setLoading(false);
-    router.push('/production/finish-goods/finish-goods-list');
-  };
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
-  const onSubmit = async (data: ProductFormValues) => {
-    try {
-      setLoading(true);
-      if (initialData) {
-        await axios.patch(`/api/inventory/products/${params.id}`, data);
-      } else {
-        console.log('add new product', data);
-        await axios.post(`/api/inventory/products`, data);
-      }
-      router.push('/production/finish-goods/finish-goods-list');
-      router.refresh();
-      toast.success(actionMessage);
-    } catch (error: any) {
-      console.error(error);
+  // const onSubmit = async (data: ProductFormValues) => {
+  //   try {
+  //     setLoading(true);
+  //     if (initialData) {
+  //       await axios.patch(`/api/inventory/products/${params.id}`, data);
+  //     } else {
+  //       console.log('add new product', data);
+  //       await axios.post(`/api/inventory/products`, data);
+  //     }
+  //     router.push('/production/finish-goods/finish-goods-list');
+  //     router.refresh();
+  //     toast.success(actionMessage);
+  //   } catch (error: any) {
+  //     console.error(error);
 
-      toast.error(error.response?.data?.message || 'Save failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     toast.error(error.response?.data?.message || 'Save failed');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const selectedCategoryId = form.watch('category_id');
 
@@ -206,295 +204,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
       <FormGroup
         title='General Product Information'
         description='Edit product general product information from here'
-      >
-        <Separator />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-8 w-full'
-          >
-            <div className='grid grid-cols-3 gap-4 py-2'>
-              <div>
-                <FormField
-                  control={form.control}
-                  name='id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Id</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled
-                          placeholder='Id'
-                          value={field.value ?? ''}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div>
-                <FormField
-                  control={form.control}
-                  name='catalog_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Catalog</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='Input catalog here'
-                          value={field.value ?? ''}
-                          onChange={field.onChange}
-                          disabled={loading}
-                        />
-                      </FormControl>
-                      {form.formState.errors.catalog_id && (
-                        <FormMessage>
-                          {form.formState.errors.catalog_id.message}
-                        </FormMessage>
-                      )}{' '}
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div>
-                <FormField
-                  control={form.control}
-                  name='registered_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Reg.No</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='Input registration id here'
-                          value={field.value ?? ''}
-                          onChange={field.onChange}
-                          disabled={loading}
-                        />
-                      </FormControl>
-                      {form.formState.errors.registered_id && (
-                        <FormMessage>
-                          {form.formState.errors.registered_id.message}
-                        </FormMessage>
-                      )}{' '}
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-            <div className='w-3/4'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder='Input name here'
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          onProductNameChange(e.target.value); // Call the new handler
-                        }}
-                        className='font-bold'
-                      />
-                    </FormControl>
-                    {form.formState.errors.name && (
-                      <FormMessage>
-                        {form.formState.errors.name.message}
-                      </FormMessage>
-                    )}{' '}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <ProductNameExist
-                currentValue={searchTerms}
-                onChange={onProductNameChange}
-              />
-            </div>
-
-            <div className='grid grid-cols-4 gap-4 py-3'>
-              <div>
-                <FormField
-                  control={form.control}
-                  name='category_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category</FormLabel>
-                      <SearchColumnProductCategory
-                        {...field}
-                        currentValue={field.value ?? ''}
-                        onChange={field.onChange}
-                        disabled={loading}
-                      />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div>
-                <FormField
-                  control={form.control}
-                  name='subCategory_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Subcategory</FormLabel>
-                      <Select
-                        disabled={loading}
-                        onValueChange={field.onChange}
-                        value={field.value ?? ''}
-                        defaultValue={field.value ?? ''}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              defaultValue={field.value ?? ''}
-                              placeholder='Subcategory'
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        {form.formState.errors.subCategory_id && (
-                          <FormMessage>
-                            {form.formState.errors.subCategory_id.message}
-                          </FormMessage>
-                        )}{' '}
-                        <SelectContent>
-                          {subCategories
-                            ?.filter(
-                              (subCategory: SubCategories) =>
-                                subCategory.category_id === selectedCategoryId
-                            )
-                            .map((subCategory: SubCategories) => (
-                              <SelectItem
-                                key={subCategory.id}
-                                value={subCategory.id}
-                              >
-                                {subCategory.name}
-                              </SelectItem>
-                            ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div>
-                <FormField
-                  control={form.control}
-                  name='uom_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Uom</FormLabel>
-                      <SearchColumnUom
-                        {...field}
-                        currentValue={field.value ?? ''}
-                        onChange={field.onChange}
-                        disabled={loading}
-                      />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div>
-                <FormField
-                  control={form.control}
-                  name='brand_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Brands</FormLabel>
-                      <SearchColumnBrand
-                        {...field}
-                        currentValue={field.value ?? ''}
-                        onChange={field.onChange}
-                        disabled={loading}
-                      />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* <div className='flex-col gap-4'> */}
-            <div className='grid grid-cols-4 gap-4 py-2'>
-              <div className='col-span-1'>
-                <FormField
-                  control={form.control}
-                  name='tkdn_pctg'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>TKDN (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type='number'
-                          disabled={loading}
-                          placeholder='99.99'
-                          {...field}
-                          className='text-right'
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className='col-span-1'>
-                <FormField
-                  control={form.control}
-                  name='bmp_pctg'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>BMP (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type='number'
-                          disabled={loading}
-                          placeholder='99.99'
-                          {...field}
-                          className='text-right'
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className='col-span-2'>
-                <FormField
-                  control={form.control}
-                  name='ecatalog_URL'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>eCatalog Link</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='http://ekatalog'
-                          value={field.value ?? ''}
-                          onChange={field.onChange}
-                          disabled={loading}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* <FormFooter
-            isLoading={loading}
-            handleAltBtn={handleBack}
-            submitBtnText={id ? 'Update' : 'Save'}
-          /> */}
-          </form>
-        </Form>
-      </FormGroup>
+      ></FormGroup>
     </>
   );
 };

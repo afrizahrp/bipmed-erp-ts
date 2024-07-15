@@ -7,7 +7,6 @@ import 'simplebar-react/dist/simplebar.min.css';
 export const formParts = {
   general: 'general',
   specs: 'specs',
-  productStock: 'productStock',
 };
 
 export const menuItems = [

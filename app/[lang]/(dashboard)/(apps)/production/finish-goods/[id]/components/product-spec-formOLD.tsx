@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ProductSpecs } from '@prisma/client';
 
-import FormGroup from './form-group';
+import FormGroup from '@/components/form-group';
 import { Textarea } from '@/components/ui/textarea';
 
 interface ProductSpecFormProps {
@@ -28,10 +28,7 @@ export const ProductSpecFormOLD: React.FC<ProductSpecFormProps> = ({
   const {
     register,
     formState: { errors },
-  } = useForm<ProductSpecFormValues>({
-    resolver: zodResolver(productSpecFormSchema),
-  });
-
+  } = useFormContext();
   return (
     <div className='flex flex-col gap-2'>
       <FormGroup
@@ -54,15 +51,6 @@ export const ProductSpecFormOLD: React.FC<ProductSpecFormProps> = ({
             'border-destructive focus:border-destructive': errors.item_model,
           })}
         />
-        {errors.item_model && (
-          <p
-            className={cn('text-xs', {
-              'text-destructive': errors.item_model,
-            })}
-          >
-            {errors.item_model.message}
-          </p>
-        )}
 
         <Label
           htmlFor='itemFunctions'
@@ -80,15 +68,6 @@ export const ProductSpecFormOLD: React.FC<ProductSpecFormProps> = ({
             'border-destructive focus:border-destructive': errors.itemFunctions,
           })}
         />
-        {errors.itemFunctions && (
-          <p
-            className={cn('text-xs', {
-              'text-destructive': errors.itemFunctions,
-            })}
-          >
-            {errors.itemFunctions.message}
-          </p>
-        )}
 
         {/* <Input
         label='Model'

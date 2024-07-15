@@ -21,6 +21,7 @@ import {
   ProductSpecs,
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
+import { ProductSpecFormOLD } from './product-spec-formOLD';
 import { FinishGoodsForm } from './finish-goods-form';
 import { defaultValues } from '../../../../../../../../components/form-utils';
 import PageHeader from '@/components/page-header';
@@ -41,10 +42,11 @@ import {
 } from '@/utils/schema/product-and-spec-combined.form.schema';
 
 import { routes } from '@/config/routes';
+import { combine } from 'zustand/middleware';
 
 const MAP_STEP_TO_COMPONENT = {
   [formParts.general]: FinishGoodsForm,
-  [formParts.specs]: ProductSpecForm,
+  [formParts.specs]: ProductSpecFormOLD,
 };
 
 interface IndexProps {
@@ -93,7 +95,7 @@ export default function ProductDetailPage({
   const id = params.id;
 
   const methods = useForm<CombinedProductFormValues>({
-    resolver: zodResolver(productFormSchema, productSpecFormSchema),
+    resolver: zodResolver(productAndSpecCombinedSchema),
     defaultValues: {
       ...defaultValues(initialData ?? {}, specData ?? {}),
     },
@@ -106,15 +108,15 @@ export default function ProductDetailPage({
     try {
       setLoading(true);
       // if (initialData) {
-      if (id) {
-        console.log('update product spec data first row ', id);
-        await axios.patch(`/api/inventory/products/${id}`, data);
-        await axios.patch(`/api/inventory/productSpecs/${id}`, data);
-      } else {
-        console.log('create product spec data first row ', id);
-        // await axios.post(`/api/inventory/${params.id}/products`, data);
-        // await axios.post(`/api/inventory/productSpecs`, data);
-      }
+      // if (id) {
+      console.log('update product spec data first row ', id);
+      await axios.patch(`/api/inventory/products/${id}`, data);
+      // await axios.patch(`/api/inventory/productSpecs/${id}`, data);
+      // } else {
+      //   console.log('create product spec data first row ', id);
+      // await axios.post(`/api/inventory/${params.id}/products`, data);
+      // await axios.post(`/api/inventory/productSpecs`, data);
+      // }
 
       // if (initialData) {
       //   await axios.patch(`/api/inventory/products/${initialData.id}`, data);

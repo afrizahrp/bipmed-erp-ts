@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/client';
-
+// import { routes } from '@/config/routes';
+// import PageHeader from '@/components/page-header';
 import { Card, CardContent } from '@/components/ui/card';
+
 import { ProductForm } from './components/product-form';
 const ProductPage = async ({
   params,
@@ -61,18 +63,41 @@ const ProductPage = async ({
     },
   });
 
+  // const id = params.id;
+
+  // const pageHeader = {
+  //   title: id ? 'Edit Product' : 'New Product',
+  //   breadcrumb: [
+  //     {
+  //       name: 'Dashboard',
+  //       href: routes.inventory.dashboard,
+  //     },
+  //     {
+  //       name: 'List',
+  //       href: routes.inventory.products,
+  //     },
+  //     {
+  //       name: id ? 'Edit Product' : 'New Product',
+  //     },
+  //   ],
+  // };
+
   return (
-    <Card className='py-6'>
-      <CardContent>
-        <ProductForm
-          initialData={product}
-          categories={categories}
-          subCategories={subCategories}
-          brands={brands}
-          uoms={uoms}
-        />
-      </CardContent>
-    </Card>
+    <>
+      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
+
+      <Card className='py-6'>
+        <CardContent>
+          <ProductForm
+            initialData={product}
+            categories={categories}
+            subCategories={subCategories}
+            brands={brands}
+            uoms={uoms}
+          />
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
