@@ -410,25 +410,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
           </div>
 
-          <div>
-            <FormField
-              control={form.control}
-              name='description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description'</FormLabel>
-                  <FormControl>
-                    <SimpleMDE
-                      disabled={loading}
-                      placeholder='Type here to add description'
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
-
           <div className='grid grid-cols-4 gap-4 py-3'>
             <div>
               <FormField

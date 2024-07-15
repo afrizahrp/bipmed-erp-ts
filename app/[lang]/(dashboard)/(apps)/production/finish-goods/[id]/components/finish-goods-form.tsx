@@ -31,7 +31,6 @@ import {
 } from '@/components/searchColumns';
 
 import { Switch } from '@/components/ui/switch';
-import { CleaveInput } from '@/components/ui/cleave';
 
 interface FinishGoodsFormProps {
   initialData:
@@ -75,6 +74,15 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     setSearchTerms(newCategoryName);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = Number(e.target.value);
+    if (value < 0) {
+      value = 0; // Ensure the value is not less than min
+    }
+    // Optionally, you can add more validation logic here
+    e.target.value = value.toString();
+  };
+
   return (
     <>
       <FormGroup
@@ -107,7 +115,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
               placeholder=' '
               disabled={loading}
               {...register('catalog_id')}
-              className={cn('peer', {
+              className={cn('peer font-semibold', {
                 'border-destructive': errors.catalog_id,
               })}
             />
@@ -236,18 +244,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
             <Label>TKDN</Label>
 
             <InputGroup>
-              <CleaveInput
-                id='tkdn_pctg'
-                options={{ delimiter: '.', blocks: [2, 2], uppercase: true }}
-                placeholder='99.99'
-                disabled={loading}
-                {...register('tkdn_pctg')}
-                className={cn('peer text-right justify-end', {
-                  'border-destructive': errors.tkdn_pctg,
-                })}
-              />
-
-              {/* <Input
+              <Input
                 type='number'
                 min={0}
                 step={1} // Set the step value according to your requirement
@@ -258,7 +255,8 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
                 className={cn('peer text-right justify-end', {
                   'border-destructive': errors.tkdn_pctg,
                 })}
-              /> */}
+                onChange={handleInputChange}
+              />
 
               <InputGroupText className='bg-slate-200'>%</InputGroupText>
             </InputGroup>
@@ -272,19 +270,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div className='col-span-1'>
             <Label>BMP</Label>
             <InputGroup>
-              <CleaveInput
-                id='bmp_pctg'
-                size={8}
-                options={{ delimiter: '.', blocks: [2, 2], uppercase: true }}
-                placeholder='99.99'
-                disabled={loading}
-                {...register('bmp_pctg')}
-                className={cn('peer text-right justify-end', {
-                  'border-destructive': errors.bmp_pctg,
-                })}
-              />
-
-              {/* <Input
+              <Input
                 type='number'
                 min={0}
                 step={1} // Set the step value according to your requirement
@@ -295,7 +281,8 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
                 className={cn('peer text-right justify-end', {
                   'border-destructive': errors.bmp_pctg,
                 })}
-              /> */}
+                onChange={handleInputChange}
+              />
               <InputGroupText className='bg-slate-200'>%</InputGroupText>
             </InputGroup>
             {errors.bmp_pctg && (
