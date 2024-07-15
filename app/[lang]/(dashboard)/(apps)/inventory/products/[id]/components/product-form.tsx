@@ -58,6 +58,7 @@ import {
 } from '@/utils/schema/product.form.schema';
 // import ImageUpload from '@/components/ui/image-upload';
 import { InputGroup, InputGroupText } from '@/components/ui/input-group';
+import { de } from '@faker-js/faker';
 
 interface ProductFormProps {
   initialData:
@@ -137,6 +138,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         registered_id: initialData?.registered_id ?? '',
         id: initialData?.id ?? '',
         name: initialData?.name ?? '',
+        description: initialData?.description ?? '',
         category_id: initialData?.category_id ?? '',
         subCategory_id: initialData?.subCategory_id ?? '',
         brand_id: initialData?.brand_id ?? '',
@@ -155,6 +157,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         registered_id: undefined,
         id: '',
         name: '',
+        description: '',
         category_id: '',
         subCategory_id: '',
         brand_id: '',
@@ -404,6 +407,25 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             <ProductNameExist
               currentValue={searchTerms}
               onChange={onProductNameChange}
+            />
+          </div>
+
+          <div>
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description'</FormLabel>
+                  <FormControl>
+                    <SimpleMDE
+                      disabled={loading}
+                      placeholder='Type here to add description'
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
             />
           </div>
 

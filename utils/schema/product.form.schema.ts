@@ -6,6 +6,7 @@ export const productFormSchema = z.object({
   registered_id: z.string().min(5).or(z.literal('')),
   id: z.string().min(5).or(z.literal('')).optional(),
   name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
+  description: z.string().min(5).or(z.literal('')).optional(),
   category_id: z.string().min(3, { message: 'Category is required' }),
   subCategory_id: z.string().min(5).or(z.literal('')),
   uom_id: z.string().min(5).or(z.literal('')),
