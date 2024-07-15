@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Trash } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
-
 import { Badge } from '@/components/ui/badge';
 
 // import { useRouter } from 'next/navigation';
@@ -130,7 +129,6 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                 <div className='w-full bg-white'>
                   <div className='z-10 absolute bottom-0 left- w-full bg-white'>
                     <Switch
-                      // checked={image.isPrimary}
                       checked={images.length === 1 ? true : image.isPrimary}
                       disabled={loading}
                       onCheckedChange={() =>
@@ -145,6 +143,14 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                               : 'gray',
                       }}
                     />
+                    {image.isPrimary && (
+                      <Badge
+                        color='success'
+                        className='absolute right-1 text-xs'
+                      >
+                        This image will be displayed first on the website.
+                      </Badge>
+                    )}
                   </div>
                 </div>
                 {zoomedImage && (

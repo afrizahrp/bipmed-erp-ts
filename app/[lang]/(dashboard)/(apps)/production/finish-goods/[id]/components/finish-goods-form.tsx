@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useFormContext } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
@@ -10,8 +10,6 @@ import { InputGroup, InputGroupText } from '@/components/ui/input-group';
 import { Label } from '@/components/ui/label';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-import { toast } from 'react-hot-toast';
-import { useMediaQuery } from '@/hooks/use-media-query';
 
 import {
   Products,
@@ -33,6 +31,7 @@ import {
 } from '@/components/searchColumns';
 
 import { Switch } from '@/components/ui/switch';
+import { CleaveInput } from '@/components/ui/cleave';
 
 interface FinishGoodsFormProps {
   initialData:
@@ -58,7 +57,6 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
 
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
-  const isDesktop2xl = useMediaQuery('(max-width: 1530px)');
 
   const id = initialData?.id;
 
@@ -69,22 +67,9 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     formState: { errors },
   } = useFormContext();
   const [subcategories, setSubcategories] = useState([]);
+  const [remarks, setRemarks] = useState(initialData?.remarks || '');
 
   const selectedCategory_id = watch('category_id');
-  useEffect(() => {
-    const selectedSubCategory = watch('subCategory_id');
-    const subCategoryBelongsToCategory =
-      subCategories &&
-      subCategories.some(
-        (subCategory) =>
-          subCategory.id === selectedSubCategory &&
-          subCategory.category_id === selectedCategory_id
-      );
-
-    if (!subCategoryBelongsToCategory) {
-      setValue('subCategory_id', '');
-    }
-  }, [selectedCategory_id, setValue, watch, subCategories]);
 
   const onProductNameChange = (newCategoryName: string) => {
     setSearchTerms(newCategoryName);
@@ -251,9 +236,21 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
             <Label>TKDN</Label>
 
             <InputGroup>
-              <Input
+              <CleaveInput
+                id='tkdn_pctg'
+                options={{ delimiter: '.', blocks: [2, 2], uppercase: true }}
+                placeholder='99.99'
+                disabled={loading}
+                {...register('tkdn_pctg')}
+                className={cn('peer text-right justify-end', {
+                  'border-destructive': errors.tkdn_pctg,
+                })}
+              />
+
+              {/* <Input
                 type='number'
                 min={0}
+                step={1} // Set the step value according to your requirement
                 id='tkdn_pctg'
                 placeholder=' '
                 disabled={loading}
@@ -261,7 +258,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
                 className={cn('peer text-right justify-end', {
                   'border-destructive': errors.tkdn_pctg,
                 })}
-              />
+              /> */}
 
               <InputGroupText className='bg-slate-200'>%</InputGroupText>
             </InputGroup>
@@ -275,9 +272,22 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div className='col-span-1'>
             <Label>BMP</Label>
             <InputGroup>
-              <Input
+              <CleaveInput
+                id='bmp_pctg'
+                size={8}
+                options={{ delimiter: '.', blocks: [2, 2], uppercase: true }}
+                placeholder='99.99'
+                disabled={loading}
+                {...register('bmp_pctg')}
+                className={cn('peer text-right justify-end', {
+                  'border-destructive': errors.bmp_pctg,
+                })}
+              />
+
+              {/* <Input
                 type='number'
                 min={0}
+                step={1} // Set the step value according to your requirement
                 id='bmp_pctg'
                 placeholder=' '
                 disabled={loading}
@@ -285,7 +295,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
                 className={cn('peer text-right justify-end', {
                   'border-destructive': errors.bmp_pctg,
                 })}
-              />
+              /> */}
               <InputGroupText className='bg-slate-200'>%</InputGroupText>
             </InputGroup>
             {errors.bmp_pctg && (
@@ -311,6 +321,11 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
               </div>
             )}
           </div>
+        </div>
+
+        <div>
+          <Label>Remarks</Label>
+          <SimpleMDE placeholder='Type here to add remarks' value={remarks} />
         </div>
       </FormGroup>
     </>
