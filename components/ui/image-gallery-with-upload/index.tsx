@@ -1,14 +1,15 @@
 'use client';
-import axios from 'axios';
 import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
 import GalleryTabWithUpload from './gallery-tab';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Trash } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
+
+import { Badge } from '@/components/ui/badge';
+
 // import { useRouter } from 'next/navigation';
 
 interface Image {
@@ -39,6 +40,15 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+
+  const openZoomedImage = (imageUrl: string) => {
+    setZoomedImage(imageUrl);
+  };
+  // Function to close zoomed image
+  const closeZoomedImage = () => {
+    setZoomedImage(null);
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -47,22 +57,6 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
   if (!isMounted) {
     return null;
   }
-
-  // const handleImageRemove = async (imageURL: string) => {
-  //   try {
-  //     setLoading(true);
-  //     const imageId = extractPublicIdFromCloudinaryUrl({ url: imageURL });
-  //     await axios.delete(`/api/system/cloudinary/${imageId}`);
-  //     await axios.delete(`/api/inventory/productImages/${imageId}`);
-  //     onRemove(imageURL);
-  //     setLoading(false);
-  //     toast.success('Image has been removed successfully.');
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error('Something went wrong');
-  //     setLoading(false);
-  //   }
-  // };
 
   return (
     <>
@@ -100,31 +94,62 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                   </Button>
                 </div>
 
-                <div className='z-10 absolute bottom-0 left-1'>
-                  <Switch
-                    checked={image.isPrimary}
-                    disabled={loading}
-                    onCheckedChange={() =>
-                      onUpdatePrimary(image.imageURL, !image.isPrimary)
-                    }
-                    style={{
-                      backgroundColor: image.isPrimary ? 'green' : 'gray',
-                    }}
-                  />
+                <div className='w-full bg-white'>
+                  <div className='z-10 absolute bottom-0 left-1'>
+                    <Switch
+                      checked={image.isPrimary}
+                      disabled={loading}
+                      onCheckedChange={() =>
+                        onUpdatePrimary(image.imageURL, !image.isPrimary)
+                      }
+                      style={{
+                        backgroundColor: image.isPrimary ? 'green' : 'gray',
+                      }}
+                    />
+                    {image.isPrimary && (
+                      <Badge color='success' className='text-xs'>
+                        Primary
+                      </Badge>
+                    )}
+                  </div>
                 </div>
+                {/* <div className='z-10 flex bottom-0 justify-end items-center text-xs'>
+                  {image.isPrimary ? (
+                    <Badge color='success'>Has been set as Primary</Badge>
+                  ) : (
+                    <Badge color='secondary'>Has Not been set as Primary</Badge>
+                  )}
+                </div> */}
 
-                <div className='aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden'>
+                <div
+                  className='aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden
+                  cursor-zoom-in'
+                  onClick={() => openZoomedImage(image.imageURL)}
+                >
                   <NextImage
                     priority
-                    height={1000}
-                    width={0}
+                    height={100}
+                    width={100}
                     src={image.imageURL}
                     alt='Image'
                     className='object-center'
                     sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
-                    style={{ width: '80%', height: '100%' }}
+                    style={{ width: '90%', height: '100%' }}
                   />
                 </div>
+                {zoomedImage && (
+                  <div
+                    className='zoomed-image-container'
+                    onClick={closeZoomedImage}
+                  >
+                    <NextImage
+                      src={zoomedImage}
+                      alt='zoomed-image'
+                      layout='fill'
+                      objectFit='contain'
+                    />
+                  </div>
+                )}
               </Tab.Panel>
             ))
           ) : (

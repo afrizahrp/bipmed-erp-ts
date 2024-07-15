@@ -69,22 +69,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     await form.handleSubmit(onSubmit)(); // Submit the form
   };
 
-  // const handleUploadAndSubmit = async(result: any)  => {
-  //   // Assuming result.info contains the uploaded image info
-  //   const uploadedImages = result.info.files.map((file: any) => ({
-  //     product_id: product_id,
-  //     id: extractPublicIdFromCloudinaryUrl(file.uploadInfo.secure_url),
-  //     imageURL: file.uploadInfo.secure_url,
-  //   }));
-
-  //   const data = {
-  //     imageURL: uploadedImages.map((image: { imageURL: string }) => image.imageURL),
-  //   };
-
-  //   // Call onSubmit with the prepared data
-  //   await onSubmit({ imageURL: uploadedImages });
-  // }
-
   const handleImageRemove = async (imageURL: string) => {
     try {
       setLoading(true);
@@ -228,7 +212,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           <div className='w-full flex items-left justify-start gap-x-6'>
             <CldUploadWidget
               onUpload={onUpload}
-              // onUpload={handleUploadAndSubmit}
               options={{
                 sources: ['local'],
                 resourceType: 'image',
@@ -250,7 +233,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
               )}
             </CldUploadWidget>
 
-            {/* {images && (
+            {images && (
               <Button
                 disabled={loading}
                 type='submit'
@@ -263,7 +246,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
                 {loading ? 'Saving...' : 'Save'}
               </Button>
-            )} */}
+            )}
           </div>
         </form>
       </Form>

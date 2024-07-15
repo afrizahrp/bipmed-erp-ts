@@ -684,8 +684,6 @@ model PoDetail {
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
-
-
  model vProductCategories {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
@@ -695,4 +693,6 @@ model PoDetail {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)
  }
+
+
 
