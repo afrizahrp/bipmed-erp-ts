@@ -14,6 +14,9 @@ const ProductDialog = () => {
   }
 
   const imageExist = product.images.length;
+  const orderedImages = [...product.images].sort((a, b) =>
+    b.isPrimary ? 1 : -1
+  );
 
   return (
     <Modal open={productDialog.isOpen} onClose={productDialog.onClose}>
@@ -34,7 +37,7 @@ const ProductDialog = () => {
 
         {imageExist ? (
           <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'>
-            <Gallery images={product.images} />
+            <Gallery images={orderedImages} />
           </div>
         ) : null}
         {/* (

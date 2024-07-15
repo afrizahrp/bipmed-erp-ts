@@ -233,7 +233,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
               )}
             </CldUploadWidget>
 
-            {images && (
+            {/* {images && (
               <Button
                 disabled={loading}
                 type='submit'
@@ -246,7 +246,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
                 {loading ? 'Saving...' : 'Save'}
               </Button>
-            )}
+            )} */}
           </div>
         </form>
       </Form>

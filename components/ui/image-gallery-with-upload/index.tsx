@@ -79,7 +79,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                 key={image.imageURL}
                 className='aspect-square relative'
               >
-                <div className='z-10 flex absolute top-0 left-1'>
+                <div className='z-10 flex absolute top-0 left-0'>
                   <Button
                     type='button'
                     onClick={() => onRemove(image.imageURL)}
@@ -94,8 +94,8 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                   </Button>
                 </div>
 
-                <div className='w-full bg-white'>
-                  <div className='z-10 absolute bottom-0 left-1'>
+                {/* <div className='w-full bg-white'>
+                  <div className='z-10 absolute bottom-0 left-1 w-full bg-white'>
                     <Switch
                       checked={image.isPrimary}
                       disabled={loading}
@@ -106,19 +106,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                         backgroundColor: image.isPrimary ? 'green' : 'gray',
                       }}
                     />
-                    {image.isPrimary && (
-                      <Badge color='success' className='text-xs'>
-                        Primary
-                      </Badge>
-                    )}
                   </div>
-                </div>
-                {/* <div className='z-10 flex bottom-0 justify-end items-center text-xs'>
-                  {image.isPrimary ? (
-                    <Badge color='success'>Has been set as Primary</Badge>
-                  ) : (
-                    <Badge color='secondary'>Has Not been set as Primary</Badge>
-                  )}
                 </div> */}
 
                 <div
@@ -130,12 +118,34 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                     priority
                     height={100}
                     width={100}
+                    objectPosition='center'
+                    layout='responsive'
                     src={image.imageURL}
                     alt='Image'
                     className='object-center'
                     sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
-                    style={{ width: '90%', height: '100%' }}
+                    style={{ width: '85%', height: '100%' }}
                   />
+                </div>
+                <div className='w-full bg-white'>
+                  <div className='z-10 absolute bottom-0 left- w-full bg-white'>
+                    <Switch
+                      // checked={image.isPrimary}
+                      checked={images.length === 1 ? true : image.isPrimary}
+                      disabled={loading}
+                      onCheckedChange={() =>
+                        onUpdatePrimary(image.imageURL, !image.isPrimary)
+                      }
+                      style={{
+                        backgroundColor:
+                          images.length === 1
+                            ? 'green'
+                            : image.isPrimary
+                              ? 'green'
+                              : 'gray',
+                      }}
+                    />
+                  </div>
                 </div>
                 {zoomedImage && (
                   <div

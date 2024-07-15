@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const productImage = await prisma.productImages.findMany({
       orderBy: {
-        updatedAt: 'desc',
+        isPrimary: 'desc',
       },
     });
 
