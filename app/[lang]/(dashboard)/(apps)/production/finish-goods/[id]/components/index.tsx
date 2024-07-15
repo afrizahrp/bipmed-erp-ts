@@ -94,8 +94,8 @@ export default function ProductDetailPage({
 
   const id = params.id;
 
-  const methods = useForm<CombinedProductFormValues>({
-    resolver: zodResolver(productAndSpecCombinedSchema),
+  const methods = useForm<ProductFormValues>({
+    resolver: zodResolver(productFormSchema),
     defaultValues: {
       ...defaultValues(initialData ?? {}, specData ?? {}),
     },
@@ -103,7 +103,7 @@ export default function ProductDetailPage({
     // defaultValues(initialData ?? {}, specData ?? {}),
   });
 
-  const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
     console.log('update product spec data first row ', id);
     try {
       setLoading(true);
