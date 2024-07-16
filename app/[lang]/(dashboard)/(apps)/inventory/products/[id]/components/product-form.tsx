@@ -138,7 +138,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         registered_id: initialData?.registered_id ?? '',
         id: initialData?.id ?? '',
         name: initialData?.name ?? '',
-        description: initialData?.description ?? '',
         category_id: initialData?.category_id ?? '',
         subCategory_id: initialData?.subCategory_id ?? '',
         brand_id: initialData?.brand_id ?? '',
@@ -153,11 +152,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       }
     : {
         images: [],
-        catalog_id: undefined,
-        registered_id: undefined,
+        catalog_id: '',
+        registered_id: '',
         id: '',
         name: '',
-        description: '',
         category_id: '',
         subCategory_id: '',
         brand_id: '',

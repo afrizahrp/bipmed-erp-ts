@@ -148,7 +148,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                         color='success'
                         className='absolute right-1 text-xs'
                       >
-                        This image will be displayed first on the website.
+                        Image will be displayed first on the website.
                       </Badge>
                     )}
                   </div>

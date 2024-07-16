@@ -8,6 +8,7 @@ export const productSpecFormSchema = z.object({
 
   /* specification section */
 
+  id: z.string().min(5).or(z.literal('')).optional(),
   construction: z.string().min(5).or(z.literal('')),
   base: z.string().min(5).or(z.literal('')),
   bodyFrame: z.string().min(5).or(z.literal('')),
@@ -15,7 +16,6 @@ export const productSpecFormSchema = z.object({
   itemFunctions: z.string().or(z.literal('')),
   item_type: z.string().or(z.literal('')),
   item_model: z.string().or(z.literal('')),
-  expired_at: z.date(),
   mattress: z.string().or(z.literal('')),
   mattressSize: z.string().or(z.literal('')),
   mattressThickness: z.string().or(z.literal('')),

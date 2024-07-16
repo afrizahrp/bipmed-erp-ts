@@ -33,11 +33,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 interface FinishGoodsFormProps {
-  initialData:
-    | (Products & {
-        images: ProductImages[];
-      })
-    | null;
+  initialProductData: Products;
   categories: Categories[];
   subCategories: SubCategories[];
   brands: Brands[];
@@ -45,7 +41,7 @@ interface FinishGoodsFormProps {
 }
 
 export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
-  initialData,
+  initialProductData,
   subCategories,
   categories,
   brands,
@@ -57,7 +53,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const id = initialData?.id;
+  const id = initialProductData?.id;
 
   const {
     register,
@@ -65,8 +61,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     setValue,
     formState: { errors },
   } = useFormContext();
-  const [subcategories, setSubcategories] = useState([]);
-  const [remarks, setRemarks] = useState(initialData?.remarks || '');
+  const [remarks, setRemarks] = useState(initialProductData?.remarks || '');
 
   const selectedCategory_id = watch('category_id');
 
@@ -168,7 +163,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div>
             <div className='col-span-4'>Category</div>
             <SearchColumnProductCategory
-              currentValue={initialData?.category_id}
+              currentValue={initialProductData?.category_id}
               onChange={(value) => {
                 setValue('category_id', value);
               }}
@@ -189,7 +184,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
 
           <div>
             <SearchColumnSubSubCategory
-              currentValue={initialData?.subCategory_id ?? ''}
+              currentValue={initialProductData?.subCategory_id ?? ''}
               onChange={(value) => {
                 setValue('subCategory_id', value);
               }}
@@ -207,7 +202,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div>
             <div className='col-span-4'>Uom</div>
             <SearchColumnUom
-              currentValue={initialData?.uom_id ?? ''}
+              currentValue={initialProductData?.uom_id ?? ''}
               onChange={(value) => {
                 setValue('uom_id', value);
               }}
@@ -224,7 +219,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <div>
             <div className='col-span-4'>Brand</div>
             <SearchColumnBrand
-              currentValue={initialData?.brand_id ?? ''}
+              currentValue={initialProductData?.brand_id ?? ''}
               onChange={(value) => {
                 setValue('brand_id', value);
               }}
@@ -312,7 +307,11 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
 
         <div>
           <Label>Remarks</Label>
-          <SimpleMDE placeholder='Type here to add remarks' value={remarks} />
+          <SimpleMDE
+            placeholder='Type here to add remarks'
+            value={remarks}
+            {...register('remarks')}
+          />
         </div>
       </FormGroup>
     </>

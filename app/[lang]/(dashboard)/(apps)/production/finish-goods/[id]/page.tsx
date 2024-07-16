@@ -101,8 +101,8 @@ const FinishGoodsPage = async ({
           <Card>
             <CardContent className='pt-2'>
               <ProductDetailPage
-                initialData={product}
-                specData={productSpec}
+                initialProductData={product}
+                initialProductSpecData={productSpec}
                 categories={categories}
                 subCategories={subCategories}
                 brands={brands}

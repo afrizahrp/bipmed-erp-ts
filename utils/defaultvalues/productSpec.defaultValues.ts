@@ -12,7 +12,6 @@ export function productSpecdefaultValues(specData: ProductSpecFormValues) {
     itemFunctions: specData?.itemFunctions ?? '',
     item_type: specData?.item_type ?? '',
     item_model: specData?.item_model ?? '',
-    expired_at: specData?.expired_at ?? '',
     mattress: specData?.mattress ?? '',
     mattressSize: specData?.mattressSize ?? '',
     mattressThickness: specData?.mattressThickness ?? '',

@@ -34,15 +34,125 @@ export async function PATCH(
 
   try {
     const body = await request.json();
-    const { construction, base, material, bodyFrame, cover, mattress } =
-      body as {
-        construction: string;
-        base: string;
-        material: string;
-        bodyFrame: string;
-        cover: string;
-        mattress: string;
-      };
+    const {
+      itemFunctions,
+      item_type,
+      item_model,
+      construction,
+      mattress,
+      mattressSize,
+      mattressThickness,
+      finishing,
+      dimension,
+      powerSupply,
+      loadCapacity,
+      systemFilter,
+      accessories,
+      sideRail,
+      ivStand,
+      wheels,
+      maxLoad,
+      size,
+      weight,
+      standSize,
+      position,
+      base,
+      basePlate,
+      cover,
+      material,
+      coverMaterial,
+      typeScreen,
+      powerConsumption,
+      lamp,
+      movers,
+      rim,
+      custodyFeet,
+      foot,
+      footWear,
+      pole,
+      inputVoltage,
+      outputVoltage,
+      sideGuard,
+      footandheadPanel,
+      temperatureControl,
+      top,
+      foodTray,
+      traycorpse,
+      pillowthecorpse,
+      lightPole,
+      sterilizing,
+      filter,
+      bodyFrame,
+      underPressure,
+      foundationTray,
+      door,
+      handle,
+      medicineBox,
+      handleTrolley,
+      drawer,
+      systemControl,
+      bodyFrameWork,
+      remarks,
+    } = body as {
+      itemFunctions: string;
+      item_type: string;
+      item_model: string;
+      construction: string;
+      mattress: string;
+      mattressSize: string;
+      mattressThickness: string;
+      finishing: string;
+      dimension: string;
+      powerSupply: string;
+      loadCapacity: string;
+      systemFilter: string;
+      accessories: string;
+      sideRail: string;
+      ivStand: string;
+      wheels: string;
+      maxLoad: string;
+      size: string;
+      weight: string;
+      standSize: string;
+      position: string;
+      base: string;
+      basePlate: string;
+      cover: string;
+      material: string;
+      coverMaterial: string;
+      typeScreen: string;
+      powerConsumption: string;
+      lamp: string;
+      movers: string;
+      rim: string;
+      custodyFeet: string;
+      foot: string;
+      footWear: string;
+      pole: string;
+      inputVoltage: string;
+      outputVoltage: string;
+      sideGuard: string;
+      footandheadPanel: string;
+      temperatureControl: string;
+      top: string;
+      foodTray: string;
+      traycorpse: string;
+      pillowthecorpse: string;
+      lightPole: string;
+      sterilizing: string;
+      filter: string;
+      bodyFrame: string;
+      underPressure: string;
+      foundationTray: string;
+      door: string;
+      handle: string;
+      medicineBox: string;
+      handleTrolley: string;
+      drawer: string;
+      systemControl: string;
+      bodyFrameWork: string;
+      remarks: string;
+    };
 
     const productSpec = await prisma.productSpecs.findUnique({
       where: { id: params.id },
@@ -53,12 +163,64 @@ export async function PATCH(
         { status: 404 }
       );
     const editProductSpec = {
+      itemFunctions,
+      item_type,
+      item_model,
       construction,
-      base,
-      material,
-      bodyFrame,
-      cover,
       mattress,
+      mattressSize,
+      mattressThickness,
+      finishing,
+      dimension,
+      powerSupply,
+      loadCapacity,
+      systemFilter,
+      accessories,
+      sideRail,
+      ivStand,
+      wheels,
+      maxLoad,
+      size,
+      weight,
+      standSize,
+      position,
+      base,
+      basePlate,
+      cover,
+      material,
+      coverMaterial,
+      typeScreen,
+      powerConsumption,
+      lamp,
+      movers,
+      rim,
+      custodyFeet,
+      foot,
+      footWear,
+      pole,
+      inputVoltage,
+      outputVoltage,
+      sideGuard,
+      footandheadPanel,
+      temperatureControl,
+      top,
+      foodTray,
+      traycorpse,
+      pillowthecorpse,
+      lightPole,
+      sterilizing,
+      filter,
+      bodyFrame,
+      underPressure,
+      foundationTray,
+      door,
+      handle,
+      medicineBox,
+      handleTrolley,
+      drawer,
+      systemControl,
+      bodyFrameWork,
+      remarks,
       updatedBy: username,
       updatedAt: new Date(),
     };
