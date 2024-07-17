@@ -1,4 +1,6 @@
 import { prisma } from '@/lib/client';
+import PageHeader from '@/components/page-header';
+import { routes } from '@/config/routes';
 import { Card, CardContent } from '@/components/ui/card';
 import { CategoryForm } from './components/category-form';
 
@@ -20,6 +22,23 @@ const CategoryPage = async ({
     },
   });
 
+  const pageHeader = {
+    title: category ? 'Edit category' : 'New category',
+    breadcrumb: [
+      {
+        name: 'Dashboard',
+        href: routes.inventory.dashboard,
+      },
+      {
+        name: 'List',
+        href: routes.inventory.categories,
+      },
+      {
+        name: category ? 'Edit category' : 'New category',
+      },
+    ],
+  };
+
   const categoryTypes = await prisma.categoryTypes.findMany({
     where: {
       id: params.type,
@@ -27,11 +46,15 @@ const CategoryPage = async ({
   });
 
   return (
-    <Card className='py-6'>
-      <CardContent>
-        <CategoryForm categoryTypes={categoryTypes} initialData={category} />
-      </CardContent>
-    </Card>
+    <>
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+
+      <Card className='py-6'>
+        <CardContent>
+          <CategoryForm categoryTypes={categoryTypes} initialData={category} />
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

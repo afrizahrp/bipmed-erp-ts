@@ -6,7 +6,7 @@ import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
 
 const pageHeader = {
-  title: 'Categories',
+  title: 'Category List',
   breadcrumb: [
     {
       name: 'Dashboard',

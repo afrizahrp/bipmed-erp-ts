@@ -1,15 +1,25 @@
 'use client';
-
+import { useState } from 'react';
 import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
 import { ProductImages } from '@/types';
 import GalleryTab from './gallery-tab';
+import { FileImage } from 'lucide-react';
 
 interface GalleryProps {
   images: ProductImages[];
 }
 const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
   const imageExist = images.length;
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+
+  const openZoomedImage = (imageUrl: string) => {
+    setZoomedImage(imageUrl);
+  };
+  // Function to close zoomed image
+  const closeZoomedImage = () => {
+    setZoomedImage(null);
+  };
 
   return (
     <Tab.Group as='div' className='flex flex-col-reverse'>
@@ -21,30 +31,52 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
         </Tab.List>
       </div>
       <Tab.Panels className='aspect-square w-full'>
-        {imageExist > 0 ? (
+        {images.length > 0 ? (
           images.map((image) => (
             <Tab.Panel key={image.id}>
-              <div className='aspect-square relative h-full w-full sm:rounded-lg overflow-hidden'>
+              <div
+                className='aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden
+                  cursor-zoom-in'
+                onClick={() => openZoomedImage(image.imageURL)}
+              >
                 {image.imageURL ? (
                   <NextImage
                     height={450}
                     width={450}
-                    // fill
                     src={image.imageURL}
                     alt='Image'
-                    className='object-cover object-center'
+                    className='object-contain'
                     objectPosition='center'
-                    // style={{ height: '100%', width: '100%' }}
+                    sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
                   />
                 ) : (
-                  <div>Image not available</div>
+                  // <div>Image not available</div>
+                  <div className='text-lg font-semibold flex items-center justify-center w-full h-full'>
+                    No images available
+                  </div>
                 )}
               </div>
+              {zoomedImage && (
+                <div
+                  className='zoomed-image-container'
+                  onClick={closeZoomedImage}
+                >
+                  <NextImage
+                    src={zoomedImage}
+                    alt='zoomed-image'
+                    layout='fill'
+                    objectFit='contain'
+                  />
+                </div>
+              )}
             </Tab.Panel>
           ))
         ) : (
-          <div className='flex justify-center items-center h-full'>
-            No images available
+          <div className='text-center'>
+            <FileImage className='w-32 h-32 text-slate-200' size='lg' />
+            <div className='text-slate-400 text-sm mt-2'>
+              No image available
+            </div>
           </div>
         )}
       </Tab.Panels>

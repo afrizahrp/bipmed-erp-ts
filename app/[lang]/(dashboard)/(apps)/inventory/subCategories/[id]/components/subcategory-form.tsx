@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import PageHeader from '@/components/page-header';
 
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
@@ -11,11 +10,9 @@ import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
 import { SubCategories } from '@prisma/client';
 
-// import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import SubCategoryNameExist from '@/components/nameExistChecking/inventory/subCategoryNameExist';
 
 import { useParams, useRouter } from 'next/navigation';
-import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -29,7 +26,6 @@ import {
 import FormFooter from '@/components/form-footer';
 
 import { Switch } from '@/components/ui/switch';
-// import { Checkbox } from '@/components/ui/checkbox';
 
 import { SearchColumnCategory } from '@/components/searchColumns';
 
@@ -38,6 +34,8 @@ import {
   subCategoryFormSchema,
 } from '@/utils/schema/subcategory.form.schema';
 // import { defaultValues } from '@/utils/defaultvalues/category.defaultValues';
+// import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
+// import { Checkbox } from '@/components/ui/checkbox';
 
 interface SubcategoryFormProps {
   initialData?: SubCategories;
@@ -58,23 +56,6 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
   const actionMessage = initialData
     ? 'Subcategory has changed successfully.'
     : 'New Subcategory has been added successfully.';
-
-  const pageHeader = {
-    title: initialData ? 'Edit Subcategory' : 'New Subcategory',
-    breadcrumb: [
-      {
-        name: 'Dashboard',
-        href: routes.inventory.dashboard,
-      },
-      {
-        name: 'List',
-        href: routes.inventory.subcategories,
-      },
-      {
-        name: initialData ? 'Edit Subcategory' : 'New Subcategory',
-      },
-    ],
-  };
 
   const form = useForm<SubCategoryFormValues>({
     resolver: zodResolver(subCategoryFormSchema),
@@ -119,8 +100,6 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
 
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

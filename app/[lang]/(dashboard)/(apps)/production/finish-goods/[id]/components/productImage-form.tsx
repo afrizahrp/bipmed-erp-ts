@@ -174,7 +174,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
-          <div className='w-full flex items-center'>
+          <div className='w-full flex items-center justify-center'>
             <FormField
               control={form.control}
               name='imageURL'

@@ -1,4 +1,6 @@
 import { prisma } from '@/lib/client';
+import PageHeader from '@/components/page-header';
+import { routes } from '@/config/routes';
 import { Card, CardContent } from '@/components/ui/card';
 import { MaterialForm } from './components/material-form';
 const MaterialPage = async ({
@@ -45,18 +47,38 @@ const MaterialPage = async ({
     },
   });
 
+  const pageHeader = {
+    title: material ? 'Edit raw material' : 'New raw material',
+    breadcrumb: [
+      {
+        name: 'Dashboard',
+        href: routes.inventory.dashboard,
+      },
+      {
+        name: 'List',
+        href: routes.inventory.materials,
+      },
+      {
+        name: material ? 'Edit raw material' : 'New raw material',
+      },
+    ],
+  };
+
   return (
-    <Card className='py-6'>
-      <CardContent>
-        <MaterialForm
-          initialData={material}
-          categories={categories}
-          subCategories={subCategories}
-          brands={brands}
-          uoms={uoms}
-        />
-      </CardContent>
-    </Card>
+    <>
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      <Card className='py-6'>
+        <CardContent>
+          <MaterialForm
+            initialProductData={material}
+            categories={categories}
+            subCategories={subCategories}
+            brands={brands}
+            uoms={uoms}
+          />
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

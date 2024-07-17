@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
@@ -26,7 +25,6 @@ import {
 // } from '@/types';
 
 import { useParams, useRouter } from 'next/navigation';
-import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -60,8 +58,10 @@ import {
   materialproductFormSchema,
 } from '@/utils/schema/materialproduct.form.schema';
 
+import { productdefaultValues } from '@/utils/defaultvalues/product.defaultValues';
+
 interface MaterialFormProps {
-  initialData: Products | null;
+  initialProductData: Products | null;
   subCategories: SubCategories[];
   categories: Categories[] | null;
   brands: Brands[];
@@ -69,7 +69,7 @@ interface MaterialFormProps {
 }
 
 export const MaterialForm: React.FC<MaterialFormProps> = ({
-  initialData,
+  initialProductData,
   categories,
   brands,
   uoms,
@@ -79,49 +79,54 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
   const router = useRouter();
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
-  const id = initialData?.id;
+  const id = initialProductData?.id;
 
-  const actiomMessage = initialData
-    ? 'Material has changed successfully.'
-    : 'New Material has been added successfully.';
-  const action = initialData ? 'Save Changes' : 'Save New Material';
+  const actiomMessage = initialProductData
+    ? 'Raw material has changed successfully.'
+    : 'New raw material has been added successfully.';
+  const action = initialProductData ? 'Save Changes' : 'Save New raw material';
 
-  const pageHeader = {
-    title: initialData ? 'Edit Material' : 'New Material',
-
-    breadcrumb: [
-      {
-        name: 'Dashboard',
-        href: routes.inventory.dashboard,
-      },
-      {
-        name: 'List',
-        href: routes.inventory.materials,
-      },
-      {
-        name: initialData ? 'Edit Material' : 'New Material',
-      },
-    ],
-  };
+  // const form = useForm<MaterialProductFormValues>({
+  //   resolver: zodResolver(materialproductFormSchema),
+  //   defaultValues: {
+  //     ...initialProductData,
+  //     id: initialProductData?.id,
+  //     catalog_id: initialProductData?.catalog_id ?? '',
+  //     registered_id: initialProductData?.registered_id ?? '',
+  //     name: initialProductData?.name ?? '',
+  //     category_id: initialProductData?.category_id ?? '',
+  //     subCategory_id: initialProductData?.subCategory_id ?? '',
+  //     brand_id: initialProductData?.brand_id ?? '',
+  //     uom_id: initialProductData?.uom_id ?? '',
+  //     iStatus: initialProductData?.iStatus ?? true,
+  //     remarks: initialProductData?.remarks ?? '',
+  //     isMaterial: initialProductData?.isMaterial ?? true,
+  //     slug: initialProductData?.slug ?? '',
+  //     ecatalog_URL: initialProductData?.ecatalog_URL ?? '',
+  //   },
+  // });
 
   const form = useForm<MaterialProductFormValues>({
     resolver: zodResolver(materialproductFormSchema),
-    defaultValues: {
-      ...initialData,
-      id: initialData?.id,
-      catalog_id: initialData?.catalog_id ?? '',
-      registered_id: initialData?.registered_id ?? '',
-      name: initialData?.name ?? '',
-      category_id: initialData?.category_id ?? '',
-      subCategory_id: initialData?.subCategory_id ?? '',
-      brand_id: initialData?.brand_id ?? '',
-      uom_id: initialData?.uom_id ?? '',
-      iStatus: initialData?.iStatus ?? true,
-      remarks: initialData?.remarks ?? '',
-      isMaterial: initialData?.isMaterial ?? true,
-      slug: initialData?.slug ?? '',
-      ecatalog_URL: initialData?.ecatalog_URL ?? '',
-    },
+    defaultValues: productdefaultValues(
+      initialProductData ?? {
+        id: '',
+        catalog_id: '',
+        registered_id: '',
+        name: '',
+        category_id: '',
+        uom_id: 'UNIT',
+        brand_id: '1457',
+        tkdn_pctg: 0,
+        bmp_pctg: 0,
+        ecatalog_URL: '',
+        iStatus: true,
+        remarks: '',
+        slug: '',
+        isMaterial: true,
+        iShowedStatus: false,
+      }
+    ),
   });
 
   const handleBack = (e: any) => {
@@ -133,7 +138,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
   const onSubmit = async (data: MaterialProductFormValues) => {
     try {
       setLoading(true);
-      if (initialData) {
+      if (initialProductData) {
         await axios.patch(`/api/inventory/materials/${params.id}`, data);
       } else {
         await axios.post(`/api/inventory/materials`, data);
@@ -173,8 +178,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
 
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

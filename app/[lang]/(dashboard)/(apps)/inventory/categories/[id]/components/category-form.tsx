@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import PageHeader from '@/components/page-header';
 
 import { toast } from 'react-hot-toast';
 import SimpleMDE from 'react-simplemde-editor';
@@ -17,7 +16,6 @@ import { Categories, CategoryImages, CategoryTypes } from '@prisma/client';
 
 import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
 import { useParams, useRouter } from 'next/navigation';
-import { routes } from '@/config/routes';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
@@ -75,23 +73,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     ? 'Category has changed successfully.'
     : 'New Category has been added successfully.';
 
-  const pageHeader = {
-    title: initialData ? 'Edit Category' : 'New Category',
-    breadcrumb: [
-      {
-        name: 'Dashboard',
-        href: routes.inventory.dashboard,
-      },
-      {
-        name: 'List',
-        href: routes.inventory.categories,
-      },
-      {
-        name: initialData ? 'Edit Category' : 'New Category',
-      },
-    ],
-  };
-
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
@@ -141,8 +122,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

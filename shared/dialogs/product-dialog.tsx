@@ -35,11 +35,11 @@ const ProductDialog = () => {
           </div>
         </div>
 
-        {imageExist ? (
-          <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'>
-            <Gallery images={orderedImages} />
-          </div>
-        ) : null}
+        {/* {imageExist ? ( */}
+        <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'>
+          <Gallery images={orderedImages} />
+        </div>
+        {/* ) : null} */}
         {/* (
           <div className='flex items-center justify-center'>
             No image available

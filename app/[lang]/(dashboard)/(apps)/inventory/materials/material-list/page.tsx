@@ -6,11 +6,11 @@ import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
 
 const pageHeader = {
-  title: 'Materials',
+  title: 'Raw Material List',
   breadcrumb: [
     {
       name: 'Dashboard',
-      href: routes.inventory.dashboard
+      href: routes.inventory.dashboard,
     },
     {
       name: 'List',

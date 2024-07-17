@@ -4,7 +4,7 @@ import { Tab } from '@headlessui/react';
 import GalleryTabWithUpload from './gallery-tab';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Trash } from 'lucide-react';
+import { FileImage, Trash } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
@@ -93,21 +93,6 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                   </Button>
                 </div>
 
-                {/* <div className='w-full bg-white'>
-                  <div className='z-10 absolute bottom-0 left-1 w-full bg-white'>
-                    <Switch
-                      checked={image.isPrimary}
-                      disabled={loading}
-                      onCheckedChange={() =>
-                        onUpdatePrimary(image.imageURL, !image.isPrimary)
-                      }
-                      style={{
-                        backgroundColor: image.isPrimary ? 'green' : 'gray',
-                      }}
-                    />
-                  </div>
-                </div> */}
-
                 <div
                   className='aspect-square relative h-full w-full justify-center items-center sm:rounded-lg overflow-hidden
                   cursor-zoom-in'
@@ -117,7 +102,6 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                     priority
                     height={100}
                     width={100}
-                    // objectPosition='center'
                     layout='responsive'
                     src={image.imageURL}
                     alt='Image'
@@ -169,9 +153,10 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
               </Tab.Panel>
             ))
           ) : (
-            <div className='flex items-center justify-center w-full h-full'>
-              <div className='text-lg font-semibold flex items-center justify-center w-full h-full'>
-                No images available
+            <div className='text-center'>
+              <FileImage className='w-32 h-32 text-slate-200' size='lg' />
+              <div className='text-slate-400 text-sm mt-2'>
+                No image available
               </div>
             </div>
           )}

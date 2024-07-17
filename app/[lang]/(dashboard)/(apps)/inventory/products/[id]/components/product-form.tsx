@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
@@ -20,8 +19,6 @@ import {
 } from '@prisma/client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { routes } from '@/config/routes';
-
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -48,20 +45,23 @@ import {
 } from '@/components/searchColumns';
 
 import ImageCollection from '@/components/ui/images-collection';
-import { Switch } from '@/components/ui/switch';
-// import { Checkbox } from '@/components/ui/checkbox';
 
 import { Separator } from '@/components/ui/separator';
 import {
   ProductFormValues,
   productFormSchema,
 } from '@/utils/schema/product.form.schema';
-// import ImageUpload from '@/components/ui/image-upload';
+
+import { productdefaultValues } from '@/utils/defaultvalues/product.defaultValues';
+
 import { InputGroup, InputGroupText } from '@/components/ui/input-group';
-import { de } from '@faker-js/faker';
+import { Switch } from '@/components/ui/switch';
+// import { Checkbox } from '@/components/ui/checkbox';
+// import ImageUpload from '@/components/ui/image-upload';
+// import { routes } from '@/config/routes';
 
 interface ProductFormProps {
-  initialData:
+  initialProductData:
     | (Products & {
         images: ProductImages[];
       })
@@ -73,7 +73,7 @@ interface ProductFormProps {
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
-  initialData,
+  initialProductData,
   subCategories,
   categories,
   brands,
@@ -84,131 +84,68 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
-  const id = initialData?.id;
+  const id = initialProductData?.id;
 
-  const actionMessage = initialData
+  const actionMessage = initialProductData
     ? 'Product has changed successfully.'
     : 'New Product has been added successfully.';
 
-  const pageHeader = {
-    title: initialData ? 'Edit Product' : 'New Product',
-
-    breadcrumb: [
-      {
-        name: 'Dashboard',
-        href: routes.inventory.dashboard,
-      },
-      {
-        name: 'List',
-        href: routes.inventory.products,
-      },
-      {
-        name: initialData ? 'Edit Product' : 'New Product',
-      },
-    ],
-  };
-
-  // const productFormSchema = z.object({
-  //   images: z.object({ imageURL: z.string() }).array(),
-  //   catalog_id: z.string().min(5).or(z.literal('')),
-  //   registered_id: z.string().min(5).or(z.literal('')),
-  //   id: z.string().min(5).or(z.literal('')).optional(),
-  //   name: z.string().min(5, { message: 'Product name is required' }), // {message: 'Name must be at least 5 characters long'
-  //   category_id: z.string().min(3, { message: 'Category is required' }),
-  //   subCategory_id: z.string().min(5).or(z.literal('')),
-  //   uom_id: z.string().min(5).or(z.literal('')),
-  //   brand_id: z.string().min(5).or(z.literal('')),
-  //   tkdn_pctg: z.coerce.number().min(0),
-  //   bmp_pctg: z.coerce.number().min(0),
-  //   ecatalog_URL: z.string().min(5).or(z.literal('')),
-  //   iStatus: z.boolean().default(false),
-  //   remarks: z.string().min(5).or(z.literal('')).optional(),
-  //   slug: z.string().min(5).or(z.literal('')).optional(),
-  //   isMaterial: z.boolean().default(false),
-  //   // iShowedStatus: z.boolean().default(true),
-  // });
-
-  // type ProductFormValues = z.infer<typeof productFormSchema>;
-
-  const defaultValues = initialData
-    ? {
-        ...initialData,
-        images: initialData?.images || [],
-        catalog_id: initialData?.catalog_id ?? '',
-        registered_id: initialData?.registered_id ?? '',
-        id: initialData?.id ?? '',
-        name: initialData?.name ?? '',
-        category_id: initialData?.category_id ?? '',
-        subCategory_id: initialData?.subCategory_id ?? '',
-        brand_id: initialData?.brand_id ?? '',
-        uom_id: initialData?.uom_id ?? '',
-        tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-        bmp_pctg: initialData?.bmp_pctg ?? 0,
-        ecatalog_URL: initialData?.ecatalog_URL ?? '',
-        iStatus: initialData?.iStatus ?? true,
-        remarks: initialData?.remarks || undefined,
-        isMaterial: initialData?.isMaterial ?? false,
-        slug: initialData?.slug ?? '',
-        iShowedStatus: initialData?.iShowedStatus ?? false,
-      }
-    : {
-        images: [],
+  const form = useForm<ProductFormValues>({
+    resolver: zodResolver(productFormSchema),
+    defaultValues: productdefaultValues(
+      initialProductData ?? {
+        id: '',
         catalog_id: '',
         registered_id: '',
-        id: '',
         name: '',
         category_id: '',
-        subCategory_id: '',
-        brand_id: '',
-        uom_id: '',
+        uom_id: 'UNIT',
+        brand_id: '1457',
         tkdn_pctg: 0,
         bmp_pctg: 0,
         ecatalog_URL: '',
         iStatus: true,
         remarks: '',
-        isMaterial: false,
         slug: '',
+        isMaterial: false,
         iShowedStatus: false,
-      };
-
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productFormSchema),
-    defaultValues,
+      }
+    ),
   });
 
   /* Getting from productFormSchema files */
   // const form = useForm<ProductFormValues>({
   //   resolver: zodResolver(productFormSchema),
   //   defaultValues: {
-  //     ...initialData,
-  //     images: initialData?.images || [],
+  //     ...initialProductData,
+  //     images: initialProductData?.images || [],
 
-  // id: initialData?.id,
-  // name: initialData?.name ?? '',
-  // catalog_id: initialData?.catalog_id ?? '',
-  // registered_id: initialData?.registered_id ?? '',
-  // category_id: initialData?.category_id ?? '',
-  // subCategory_id: initialData?.subCategory_id ?? '',
-  // brand_id: initialData?.brand_id ?? '',
-  // uom_id: initialData?.uom_id ?? '',
-  // tkdn_pctg: initialData?.tkdn_pctg ?? 0,
-  // bmp_pctg: initialData?.bmp_pctg ?? 0,
-  // ecatalog_URL: initialData?.ecatalog_URL ?? '',
-  // iStatus: initialData?.iStatus ?? false,
-  // remarks: initialData?.remarks || undefined,
-  // isMaterial: initialData?.isMaterial ?? false,
+  // id: initialProductData?.id,
+  // name: initialProductData?.name ?? '',
+  // catalog_id: initialProductData?.catalog_id ?? '',
+  // registered_id: initialProductData?.registered_id ?? '',
+  // category_id: initialProductData?.category_id ?? '',
+  // subCategory_id: initialProductData?.subCategory_id ?? '',
+  // brand_id: initialProductData?.brand_id ?? '',
+  // uom_id: initialProductData?.uom_id ?? '',
+  // tkdn_pctg: initialProductData?.tkdn_pctg ?? 0,
+  // bmp_pctg: initialProductData?.bmp_pctg ?? 0,
+  // ecatalog_URL: initialProductData?.ecatalog_URL ?? '',
+  // iStatus: initialProductData?.iStatus ?? false,
+  // remarks: initialProductData?.remarks || undefined,
+  // isMaterial: initialProductData?.isMaterial ?? false,
   //   },
   // });
 
   // const form = useForm<ProductFormValues>({
   //   resolver: zodResolver(productFormSchema),
   //   defaultValues: {
-  //     ...defaultValues(initialData ?? {}),
-  //     subCategory_id: initialData?.subCategory_id ?? '',
+  //     ...defaultValues(initialProductData ?? {}),
+  //     subCategory_id: initialProductData?.subCategory_id ?? '',
   //   },
   // });
 
-  // console.log('initialData', initialData);
+  // console.log('initialProductData', initialProductData);
 
   const handleBack = (e: any) => {
     e.preventDefault();
@@ -219,7 +156,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onSubmit = async (data: ProductFormValues) => {
     try {
       setLoading(true);
-      if (initialData) {
+      if (initialProductData) {
         await axios.patch(`/api/inventory/products/${params.id}`, data);
       } else {
         console.log('add new product', data);
@@ -260,7 +197,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

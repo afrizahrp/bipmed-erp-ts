@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/client';
-// import { routes } from '@/config/routes';
-// import PageHeader from '@/components/page-header';
+import PageHeader from '@/components/page-header';
+import { routes } from '@/config/routes';
 import { Card, CardContent } from '@/components/ui/card';
 
 import { ProductForm } from './components/product-form';
@@ -63,33 +63,31 @@ const ProductPage = async ({
     },
   });
 
-  // const id = params.id;
-
-  // const pageHeader = {
-  //   title: id ? 'Edit Product' : 'New Product',
-  //   breadcrumb: [
-  //     {
-  //       name: 'Dashboard',
-  //       href: routes.inventory.dashboard,
-  //     },
-  //     {
-  //       name: 'List',
-  //       href: routes.inventory.products,
-  //     },
-  //     {
-  //       name: id ? 'Edit Product' : 'New Product',
-  //     },
-  //   ],
-  // };
+  const pageHeader = {
+    title: product ? 'Edit Product' : 'New Product',
+    breadcrumb: [
+      {
+        name: 'Dashboard',
+        href: routes.inventory.dashboard,
+      },
+      {
+        name: 'List',
+        href: routes.inventory.products,
+      },
+      {
+        name: product ? 'Edit Product' : 'New Product',
+      },
+    ],
+  };
 
   return (
     <>
-      {/* <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} /> */}
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <Card className='py-6'>
         <CardContent>
           <ProductForm
-            initialData={product}
+            initialProductData={product}
             categories={categories}
             subCategories={subCategories}
             brands={brands}
