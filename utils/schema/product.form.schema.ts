@@ -18,6 +18,7 @@ export const productFormSchema = z.object({
   remarks: z.string().min(5).or(z.literal('')),
   slug: z.string().min(5).or(z.literal('')),
   isMaterial: z.boolean().default(false),
+
 });
 
 export type ProductFormValues = z.infer<typeof productFormSchema>;

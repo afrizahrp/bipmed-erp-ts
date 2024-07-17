@@ -21,6 +21,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         product_id: data.id,
         imageURL: image,
         isPrimary: false,
+        company_id: '',
+        branch_id: '',
       })),
     };
     productDialog.onOpen(modifiedData);

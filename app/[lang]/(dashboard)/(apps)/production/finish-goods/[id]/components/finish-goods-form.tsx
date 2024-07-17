@@ -308,9 +308,13 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
         <div>
           <Label>Remarks</Label>
           <SimpleMDE
-            placeholder='Type here to add remarks'
-            value={remarks}
             {...register('remarks')}
+            onChange={(value) => setValue('remarks', value)}
+            aria-disabled={false}
+            placeholder='Add remarks here'
+            className={cn('w-full', {
+              'border-destructive focus:border-destructive': errors.remarks,
+            })}
           />
         </div>
       </FormGroup>

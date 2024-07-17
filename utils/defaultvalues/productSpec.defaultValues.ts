@@ -59,6 +59,6 @@ export function productSpecdefaultValues(specData: ProductSpecFormValues) {
     medicineBox: specData?.medicineBox ?? '',
     handleTrolley: specData?.handleTrolley ?? '',
     drawer: specData?.drawer ?? '',
-    remarks: specData?.remarks || undefined,
+    remarks: specData?.remarks ?? '',
   };
 }
