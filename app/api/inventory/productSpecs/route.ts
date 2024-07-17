@@ -38,7 +38,6 @@ export async function POST(
 
     const {
       id,
-      base,
       itemFunctions,
       item_type,
       item_model,
@@ -60,6 +59,7 @@ export async function POST(
       weight,
       standSize,
       position,
+      base,
       basePlate,
       cover,
       material,
@@ -96,15 +96,8 @@ export async function POST(
       systemControl,
       bodyFrameWork,
       remarks,
-      createdBy,
-      updatedBy,
-      createdAt,
-      updatedAt,
-      company,
-      branch,
     } = body as {
       id: string;
-      base: string;
       itemFunctions: string;
       item_type: string;
       item_model: string;
@@ -126,6 +119,7 @@ export async function POST(
       weight: string;
       standSize: string;
       position: string;
+      base: string;
       basePlate: string;
       cover: string;
       material: string;
@@ -162,17 +156,10 @@ export async function POST(
       systemControl: string;
       bodyFrameWork: string;
       remarks: string;
-      createdBy: string;
-      updatedBy: string;
-      createdAt: Date;
-      updatedAt: Date;
-      company: string;
-      branch: string;
     };
 
     const newProductSpec = {
       id,
-      base,
       itemFunctions,
       item_type,
       item_model,
@@ -194,6 +181,7 @@ export async function POST(
       weight,
       standSize,
       position,
+      base,
       basePlate,
       cover,
       material,
@@ -239,9 +227,7 @@ export async function POST(
     };
 
     const productSpec = await prisma.productSpecs.create({
-      data: {
-        ...newProductSpec,
-      },
+      data: newProductSpec,
     });
 
     return NextResponse.json(productSpec, { status: 201 });

@@ -149,6 +149,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         remarks: initialData?.remarks || undefined,
         isMaterial: initialData?.isMaterial ?? false,
         slug: initialData?.slug ?? '',
+        iShowedStatus: initialData?.iShowedStatus ?? false,
       }
     : {
         images: [],

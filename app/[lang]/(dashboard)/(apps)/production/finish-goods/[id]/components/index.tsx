@@ -18,6 +18,7 @@ import {
   Brands,
   Uoms,
   ProductSpecs,
+  ProductImages,
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { FinishGoodsForm } from './finish-goods-form';
@@ -40,8 +41,8 @@ const MAP_STEP_TO_COMPONENT = {
 };
 
 interface IndexProps {
-  initialProductData: Products;
-  initialProductSpecData: ProductSpecs;
+  initialProductData: Products | null;
+  initialProductSpecData: ProductSpecs | null;
   categories: Categories[];
   subCategories: SubCategories[];
   brands: Brands[];
@@ -83,8 +84,82 @@ export default function ProductDetailPage({
   const methods = useForm<CombinedProductFormValues>({
     resolver: zodResolver(productAndSpecCombinedSchema),
     defaultValues: defaultValues(
-      initialProductData ?? {},
-      initialProductSpecData ?? {}
+      initialProductData ?? {
+        id: '',
+        catalog_id: '',
+        registered_id: '',
+        name: '',
+        category_id: '',
+        tkdn_pctg: 0,
+        bmp_pctg: 0,
+        ecatalog_URL: '',
+        iStatus: false,
+        remarks: '',
+        slug: '',
+        isMaterial: false,
+        iShowedStatus: false,
+      },
+      initialProductSpecData ?? {
+        id: '',
+        construction: '',
+        base: '',
+        bodyFrame: '',
+        itemFunctions: '',
+        item_type: '',
+        item_model: '',
+        mattress: '',
+        mattressSize: '',
+        mattressThickness: '',
+        finishing: '',
+        dimension: '',
+        powerSupply: '',
+        loadCapacity: '',
+        systemFilter: '',
+        accessories: '',
+        sideRail: '',
+        ivStand: '',
+        wheels: '',
+        maxLoad: '',
+        size: '',
+        weight: '',
+        standSize: '',
+        position: '',
+        basePlate: '',
+        cover: '',
+        material: '',
+        coverMaterial: '',
+        typeScreen: '',
+        powerConsumption: '',
+        lamp: '',
+        movers: '',
+        rim: '',
+        custodyFeet: '',
+        foot: '',
+        footWear: '',
+        pole: '',
+        inputVoltage: '',
+        outputVoltage: '',
+        sideGuard: '',
+        footandheadPanel: '',
+        temperatureControl: '',
+        top: '',
+        foodTray: '',
+        traycorpse: '',
+        pillowthecorpse: '',
+        lightPole: '',
+        sterilizing: '',
+        filter: '',
+        underPressure: '',
+        foundationTray: '',
+        door: '',
+        handle: '',
+        medicineBox: '',
+        handleTrolley: '',
+        drawer: '',
+        systemControl: '',
+        bodyFrameWork: '',
+        remarks: '',
+      }
     ),
   });
 

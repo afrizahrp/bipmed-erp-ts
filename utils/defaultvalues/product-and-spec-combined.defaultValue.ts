@@ -10,6 +10,7 @@ export function defaultValues(
   return {
     ...initialProductData,
     images: initialProductData?.images || [],
+
     ...initialProductSpectData,
   };
 }

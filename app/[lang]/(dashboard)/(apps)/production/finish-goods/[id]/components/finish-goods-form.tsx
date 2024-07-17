@@ -33,7 +33,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 interface FinishGoodsFormProps {
-  initialProductData: Products;
+  initialProductData: Products | null;
   categories: Categories[];
   subCategories: SubCategories[];
   brands: Brands[];
