@@ -26,9 +26,11 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
     formState: { errors },
   } = useFormContext();
 
-  const [remarks, setRemarks] = useState(initialProductSpecData?.remarks || '');
+  const [specremarks, setspecremarks] = useState(
+    initialProductSpecData?.specremarks || ''
+  );
 
-  console.log('remarks', remarks);
+  console.log('specremarks', specremarks);
 
   return (
     <FormGroup
@@ -810,16 +812,18 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
 
         <div className='flex gap-4 items-center mt-1'>
           <div className='flex w-1/4 justify-end items-right'>
-            <Label className='text-right'>Remarks</Label>
+            <Label className='text-right'>specremarks</Label>
           </div>
           <div className='flex w-full gap-2 mb-2'>
             <SimpleMDE
-              {...register('remarks')}
-              onChange={(value) => setValue('remarks', value)}
+              {...register('specremarks')}
+              value={specremarks}
+              onChange={(value) => setValue('specremarks', value)}
               aria-disabled={false}
-              placeholder='Input remarks here'
+              placeholder='Input specremarks here'
               className={cn('w-full', {
-                'border-destructive focus:border-destructive': errors.remarks,
+                'border-destructive focus:border-destructive':
+                  errors.specremarks,
               })}
             />
           </div>

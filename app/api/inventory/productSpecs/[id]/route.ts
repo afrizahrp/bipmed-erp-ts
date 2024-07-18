@@ -92,7 +92,7 @@ export async function PATCH(
       drawer,
       systemControl,
       bodyFrameWork,
-      remarks,
+      specremarks,
     } = body as {
       itemFunctions: string;
       item_type: string;
@@ -151,7 +151,7 @@ export async function PATCH(
       drawer: string;
       systemControl: string;
       bodyFrameWork: string;
-      remarks: string;
+      specremarks: string;
     };
 
     const productSpec = await prisma.productSpecs.findUnique({
@@ -220,7 +220,7 @@ export async function PATCH(
       drawer,
       systemControl,
       bodyFrameWork,
-      remarks,
+      specremarks,
       updatedBy: username,
       updatedAt: new Date(),
     };

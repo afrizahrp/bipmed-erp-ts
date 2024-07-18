@@ -156,7 +156,7 @@ export default function ProductDetailPage({
         drawer: '',
         systemControl: '',
         bodyFrameWork: '',
-        remarks: '',
+        specremarks: '',
       }
     ),
   });

@@ -61,6 +61,6 @@ export function productSpecdefaultValues(
     medicineBox: initialProductSpecData?.medicineBox ?? '',
     handleTrolley: initialProductSpecData?.handleTrolley ?? '',
     drawer: initialProductSpecData?.drawer ?? '',
-    remarks: initialProductSpecData?.remarks ?? '',
+    specremarks: initialProductSpecData?.specremarks ?? '',
   };
 }

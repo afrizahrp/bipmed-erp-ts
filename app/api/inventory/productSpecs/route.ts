@@ -95,7 +95,7 @@ export async function POST(
       drawer,
       systemControl,
       bodyFrameWork,
-      remarks,
+      specremarks,
     } = body as {
       id: string;
       itemFunctions: string;
@@ -155,7 +155,7 @@ export async function POST(
       drawer: string;
       systemControl: string;
       bodyFrameWork: string;
-      remarks: string;
+      specremarks: string;
     };
 
     const newProductSpec = {
@@ -217,7 +217,7 @@ export async function POST(
       drawer,
       systemControl,
       bodyFrameWork,
-      remarks,
+      specremarks,
       createdBy: usernameValue,
       updatedBy: usernameValue,
       createdAt: new Date(),

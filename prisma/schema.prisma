@@ -594,7 +594,7 @@ model ProductSpecs {
   drawer             String       @default("") @db.VarChar(250)
   systemControl      String       @default("") @db.VarChar(250)
   bodyFrameWork      String       @default("") @db.VarChar(250)
-  remarks             String        @db.Text
+  specremarks         String      @default("") @db.Text
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)

@@ -74,7 +74,6 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     if (value < 0) {
       value = 0; // Ensure the value is not less than min
     }
-    // Optionally, you can add more validation logic here
     e.target.value = value.toString();
   };
 
@@ -309,9 +308,10 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <Label>Remarks</Label>
           <SimpleMDE
             {...register('remarks')}
-            // onChange={(value) => setValue('remarks', value)}
+            value={remarks}
+            onChange={(value) => setValue('remarks', value)}
             aria-disabled={false}
-            placeholder='Add remarks here'
+            placeholder='Input remarks here'
             className={cn('w-full', {
               'border-destructive focus:border-destructive': errors.remarks,
             })}

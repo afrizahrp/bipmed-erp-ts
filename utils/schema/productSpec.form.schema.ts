@@ -1,13 +1,6 @@
 import { z } from 'zod';
-// import { messages } from '@/config/messages';
-// import { fileSchema } from '@/utils/validators/common-rules';
-// import { create, update } from 'lodash';
 
 export const productSpecFormSchema = z.object({
-  /* general section */
-
-  /* specification section */
-
   id: z.string().min(5).or(z.literal('')).optional(),
   construction: z.string().min(5).or(z.literal('')),
   base: z.string().min(5).or(z.literal('')),
@@ -67,7 +60,7 @@ export const productSpecFormSchema = z.object({
   drawer: z.string().or(z.literal('')),
   systemControl: z.string().or(z.literal('')),
   bodyFrameWork: z.string().or(z.literal('')),
-  remarks: z.string().or(z.literal('')),
+  specremarks: z.string().or(z.literal('')),
 });
 
 export type ProductSpecFormValues = z.infer<typeof productSpecFormSchema>;
