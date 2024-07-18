@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useProducts } from '@/queryHooks/useProducts';
 import { useForm } from 'react-hook-form';
 import { CldUploadWidget } from 'next-cloudinary';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,6 +29,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   console.log('product id image form', product_id);
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const form = useForm<ProductImageFormValues>({
@@ -223,7 +225,11 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 {({ open }) => (
                   <Button
                     type='button'
-                    disabled={loading}
+                    disabled={
+                      loading ||
+                      (typeof product_id === 'string' &&
+                        product_id.trim() !== 'new')
+                    }
                     variant='outline'
                     onClick={() => open()}
                   >

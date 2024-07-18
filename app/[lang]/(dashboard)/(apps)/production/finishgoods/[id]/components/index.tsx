@@ -13,14 +13,15 @@ import FormNav, { formParts } from '@/components/form-nav';
 import {
   Products,
   ProductSpecs,
+  ProductImages,
   // Categories,
   // SubCategories,
   // Brands,
   // Uoms,
-  // ProductImages,
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { FinishGoodsForm } from './finish-goods-form';
+import ProductImageForm from './productImage-form';
 import FormFooter from '@/components/form-footer';
 
 import {
@@ -171,6 +172,8 @@ export default function ProductDetailPage({
           data
         );
         productId = productResponse.data.id; // Assuming the response contains the new product's id
+        product_id = productId;
+        <ProductImageForm product_id={productId} initialData={[]} />;
       } else {
         await axios.patch(`/api/inventory/products/${id}`, data);
       }
@@ -178,12 +181,25 @@ export default function ProductDetailPage({
       if (initialProductSpecData) {
         await axios.patch(`/api/inventory/productSpecs/${productId}`, data);
       } else {
-        await axios.post(`/api/inventory/productSpecs`, {
-          ...data,
-          id: productId, // Use the obtained productId for new productSpecs
-        });
+        if (
+          typeof data.construction === 'string' &&
+          data.construction.trim() !== ''
+        ) {
+          try {
+            await axios.post(`/api/inventory/productSpecs`, {
+              ...data,
+              id: productId, // Use the obtained productId for new productSpecs
+            });
+            // Handle success, e.g., updating the UI or notifying the user
+          } catch (error) {
+            // Handle error, e.g., logging the error or showing an error message
+            console.error('Failed to post product specs:', error);
+          }
+        } else {
+          // Handle invalid data, e.g., showing an error message to the user
+          console.error('Invalid data:', data);
+        }
       }
-      // router.push('/production/finishgoods/finishgoods-list');
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
