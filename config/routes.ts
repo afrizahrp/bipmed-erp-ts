@@ -44,7 +44,7 @@ export const routes = {
     dashboard: '/production',
     products: '/production/products/product-list',
     materials: '/production/materials/material-list',
-    newProduct: '/production/products/new',
+    newProduct: '/production/finish-goods/new',
     newMaterial: '/production/materials/new',
     categories: '/production/categories/category-list',
     newCategory: '/production/categories/new',

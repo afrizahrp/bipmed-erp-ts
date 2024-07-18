@@ -29,11 +29,11 @@ const CategoryDialog = () => {
           </div>
         </div>
 
-        {imageExist ? (
-          <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center'>
-            <Gallery images={category.images} />
-          </div>
-        ) : null}
+        {/* {imageExist ? ( */}
+        <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center'>
+          <Gallery images={category.images} />
+        </div>
+        {/* ) : null} */}
       </div>
     </Modal>
   );

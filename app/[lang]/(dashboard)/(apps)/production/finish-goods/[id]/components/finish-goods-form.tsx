@@ -159,7 +159,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           )}
         </div>
 
-        <div className='flex grid grid-cols-4 gap-4'>
+        <div className='grid grid-cols-4 gap-4'>
           <div>
             <div className='col-span-4'>Category</div>
             <SearchColumnProductCategory
@@ -309,7 +309,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <Label>Remarks</Label>
           <SimpleMDE
             {...register('remarks')}
-            onChange={(value) => setValue('remarks', value)}
+            // onChange={(value) => setValue('remarks', value)}
             aria-disabled={false}
             placeholder='Add remarks here'
             className={cn('w-full', {

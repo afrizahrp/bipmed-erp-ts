@@ -1,7 +1,7 @@
 'use client';
 
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
-
 import { useFormContext } from 'react-hook-form';
 import { InputGroup, InputGroupText } from '@/components/ui/input-group';
 import { Input } from '@/components/ui/input';
@@ -25,6 +25,11 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
     setValue,
     formState: { errors },
   } = useFormContext();
+
+  const [remarks, setRemarks] = useState(initialProductSpecData?.remarks || '');
+
+  console.log('remarks', remarks);
+
   return (
     <FormGroup
       title='Product Specification'
@@ -269,10 +274,10 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
           </div>
           <div className='flex w-full gap-2 mb-2'>
             <Input
-              {...register('wheel')}
-              placeholder='Input wheel'
+              {...register('wheels')}
+              placeholder='Input wheels'
               className={cn('w-full', {
-                'border-destructive focus:border-destructive': errors.wheel,
+                'border-destructive focus:border-destructive': errors.wheels,
               })}
             />
           </div>
@@ -809,13 +814,12 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
           </div>
           <div className='flex w-full gap-2 mb-2'>
             <SimpleMDE
-              {...register('specRemarks')}
-              onChange={(value) => setValue('specRemarks', value)}
+              {...register('remarks')}
+              onChange={(value) => setValue('remarks', value)}
               aria-disabled={false}
               placeholder='Input remarks here'
               className={cn('w-full', {
-                'border-destructive focus:border-destructive':
-                  errors.specRemarks,
+                'border-destructive focus:border-destructive': errors.remarks,
               })}
             />
           </div>

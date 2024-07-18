@@ -209,7 +209,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
             />
           </div>
 
-          <div className='w-full flex items-left justify-start gap-x-6'>
+          <div className='w-full flex items-center justify-center gap-x-6'>
             <CldUploadWidget
               onUpload={onUpload}
               options={{

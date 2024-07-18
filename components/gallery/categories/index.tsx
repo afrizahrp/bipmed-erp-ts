@@ -4,6 +4,7 @@ import NextImage from 'next/image';
 import { Tab } from '@headlessui/react';
 import { CategoryImages } from '@/types';
 import GalleryTab from './gallery-tab';
+import { FileImage } from 'lucide-react';
 
 interface GalleryProps {
   images: CategoryImages[];
@@ -41,8 +42,11 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
             </Tab.Panel>
           ))
         ) : (
-          <div className='flex justify-center items-center h-full'>
-            No images available
+          <div className='text-center'>
+            <FileImage className='w-32 h-32 text-slate-200' size='lg' />
+            <div className='text-slate-400 text-sm mt-2'>
+              No image available
+            </div>
           </div>
         )}
       </Tab.Panels>

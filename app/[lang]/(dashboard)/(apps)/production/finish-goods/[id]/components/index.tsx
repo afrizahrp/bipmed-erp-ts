@@ -50,7 +50,6 @@ interface IndexProps {
   className?: string;
 }
 
-// console.log(productSpecData);
 export default function ProductDetailPage({
   initialProductData,
   initialProductSpecData,
@@ -60,7 +59,6 @@ export default function ProductDetailPage({
   uoms,
   className,
 }: IndexProps) {
-  // const { layout } = useLayout();
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);

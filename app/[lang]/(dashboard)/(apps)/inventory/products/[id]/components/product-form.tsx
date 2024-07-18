@@ -113,40 +113,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ),
   });
 
-  /* Getting from productFormSchema files */
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
-  //   defaultValues: {
-  //     ...initialProductData,
-  //     images: initialProductData?.images || [],
-
-  // id: initialProductData?.id,
-  // name: initialProductData?.name ?? '',
-  // catalog_id: initialProductData?.catalog_id ?? '',
-  // registered_id: initialProductData?.registered_id ?? '',
-  // category_id: initialProductData?.category_id ?? '',
-  // subCategory_id: initialProductData?.subCategory_id ?? '',
-  // brand_id: initialProductData?.brand_id ?? '',
-  // uom_id: initialProductData?.uom_id ?? '',
-  // tkdn_pctg: initialProductData?.tkdn_pctg ?? 0,
-  // bmp_pctg: initialProductData?.bmp_pctg ?? 0,
-  // ecatalog_URL: initialProductData?.ecatalog_URL ?? '',
-  // iStatus: initialProductData?.iStatus ?? false,
-  // remarks: initialProductData?.remarks || undefined,
-  // isMaterial: initialProductData?.isMaterial ?? false,
-  //   },
-  // });
-
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(productFormSchema),
-  //   defaultValues: {
-  //     ...defaultValues(initialProductData ?? {}),
-  //     subCategory_id: initialProductData?.subCategory_id ?? '',
-  //   },
-  // });
-
-  // console.log('initialProductData', initialProductData);
-
   const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
