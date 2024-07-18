@@ -15,7 +15,7 @@ export const FinishGoodsListTable: React.FC<ProductsClientProps> = ({
       <DataTable
         columns={columns}
         data={data}
-        href={routes.inventory.newProduct}
+        href={routes.production.newfinishgoods}
         hrefText='New Product'
         pageName='product'
       />

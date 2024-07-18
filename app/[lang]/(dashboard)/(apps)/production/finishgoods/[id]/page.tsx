@@ -72,7 +72,7 @@ const FinishGoodsPage = async ({
     breadcrumb: [
       {
         name: 'List',
-        href: routes.production.products,
+        href: routes.production.finishgoods,
       },
       {
         name: 'Finish Goods',

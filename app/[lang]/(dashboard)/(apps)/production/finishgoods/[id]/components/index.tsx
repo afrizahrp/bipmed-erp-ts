@@ -72,12 +72,6 @@ export default function ProductDetailPage({
     : 'New product has been added successfully.';
   const action = initialProductData ? 'Save Changes' : 'Save New Product';
 
-  const handleBack = (e: any) => {
-    e.preventDefault();
-    setLoading(false);
-    router.push('/production/finish-goods/finish-goods-list');
-  };
-
   const methods = useForm<CombinedProductFormValues>({
     resolver: zodResolver(productAndSpecCombinedSchema),
     defaultValues: defaultValues(
@@ -90,7 +84,7 @@ export default function ProductDetailPage({
         tkdn_pctg: 0,
         bmp_pctg: 0,
         ecatalog_URL: '',
-        iStatus: false,
+        iStatus: true,
         remarks: '',
         slug: '',
         isMaterial: false,
@@ -160,6 +154,12 @@ export default function ProductDetailPage({
     ),
   });
 
+  const handleBack = (e: any) => {
+    e.preventDefault();
+    setLoading(false);
+    router.push('/production/finishgoods/finishgoods-list');
+  };
+
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {
       setLoading(true);
@@ -183,6 +183,9 @@ export default function ProductDetailPage({
           id: productId, // Use the obtained productId for new productSpecs
         });
       }
+      // router.push('/production/finishgoods/finishgoods-list');
+      router.refresh();
+      toast.success(toastMessage);
     } catch (error) {
     } finally {
       setLoading(false);

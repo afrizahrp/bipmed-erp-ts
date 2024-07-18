@@ -42,9 +42,9 @@ export const routes = {
   },
   production: {
     dashboard: '/production',
-    products: '/production/products/product-list',
+    finishgoods: '/production/finishgoods/finishgoods-list',
     materials: '/production/materials/material-list',
-    newProduct: '/production/finish-goods/new',
+    newfinishgoods: '/production/finishgoods/new',
     newMaterial: '/production/materials/new',
     categories: '/production/categories/category-list',
     newCategory: '/production/categories/new',

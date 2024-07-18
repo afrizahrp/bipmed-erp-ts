@@ -29,7 +29,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
   } = useFormContext();
 
   const [id, setId] = useState(product_id);
-  console.log('stateProductSpec', id);
+  // console.log('stateProductSpec', id);
 
   const [specremarks, setspecremarks] = useState(
     initialProductSpecData?.specremarks || ''
@@ -41,10 +41,10 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
       description='Edit product specification information from here'
     >
       <div>
-        <Label>Id</Label>
         <Input
           id='id'
           value={id}
+          hidden
           placeholder=' '
           disabled
           {...register('id')}
@@ -834,7 +834,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
 
         <div className='flex gap-4 items-center mt-1'>
           <div className='flex w-1/4 justify-end items-right'>
-            <Label className='text-right'>specremarks</Label>
+            <Label className='text-right'>Remarks</Label>
           </div>
           <div className='flex w-full gap-2 mb-2'>
             <SimpleMDE
@@ -842,7 +842,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
               value={specremarks}
               onChange={(value) => setValue('specremarks', value)}
               aria-disabled={false}
-              placeholder='Input specremarks here'
+              placeholder='Add remarks here'
               className={cn('w-full', {
                 'border-destructive focus:border-destructive':
                   errors.specremarks,

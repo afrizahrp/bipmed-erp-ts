@@ -15,7 +15,6 @@ import {
 import { ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
-import { Switch } from '@/components/ui/switch';
 
 interface ProductImageFormProps {
   initialData: ProductImages[];
@@ -26,6 +25,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   initialData,
   product_id,
 }) => {
+  console.log('product id image form', product_id);
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -210,28 +210,32 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           </div>
 
           <div className='w-full flex items-center justify-center gap-x-6'>
-            <CldUploadWidget
-              onUpload={onUpload}
-              options={{
-                sources: ['local'],
-                resourceType: 'image',
-                multiple: true,
-              }}
-              uploadPreset='uploadBiwebapp'
-            >
-              {({ open }) => (
-                <Button
-                  type='button'
-                  disabled={loading}
-                  variant='outline'
-                  onClick={() => open()}
-                >
-                  {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                  <ImagePlus className='h-4 w-4 mr-2' />
-                  Upload
-                </Button>
-              )}
-            </CldUploadWidget>
+            {product_id && (
+              <CldUploadWidget
+                onUpload={onUpload}
+                options={{
+                  sources: ['local'],
+                  resourceType: 'image',
+                  multiple: true,
+                }}
+                uploadPreset='uploadBiwebapp'
+              >
+                {({ open }) => (
+                  <Button
+                    type='button'
+                    disabled={loading}
+                    variant='outline'
+                    onClick={() => open()}
+                  >
+                    {loading && (
+                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    )}
+                    <ImagePlus className='h-4 w-4 mr-2' />
+                    Upload
+                  </Button>
+                )}
+              </CldUploadWidget>
+            )}
 
             {/* {images && (
               <Button

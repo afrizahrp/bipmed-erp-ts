@@ -2123,7 +2123,7 @@ export const menusConfig = {
             multi_menu: [
               {
                 title: 'Finish Goods',
-                href: '/production/finish-goods/finish-goods-list',
+                href: '/production/finishgoods/finishgoods-list',
               },
             ],
           },

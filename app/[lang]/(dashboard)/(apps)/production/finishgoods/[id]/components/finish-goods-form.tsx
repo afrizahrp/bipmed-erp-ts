@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useFormContext } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
@@ -52,6 +52,8 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
 
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
+  const [id, setId] = useState(product_id);
+  const [remarks, setRemarks] = useState(initialProductData?.remarks || '');
 
   // const id = product_id;
 
@@ -64,8 +66,9 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     formState: { errors },
   } = useFormContext();
 
-  const [id, setId] = useState(product_id);
-  const [remarks, setRemarks] = useState(initialProductData?.remarks || '');
+  useEffect(() => {
+    setId(product_id);
+  }, [product_id]);
 
   const selectedCategory_id = watch('category_id');
 
