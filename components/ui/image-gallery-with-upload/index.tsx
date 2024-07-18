@@ -132,7 +132,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                         color='success'
                         className='absolute right-1 text-xs'
                       >
-                        Image will be displayed first on the website.
+                        This image will appear first on the website.
                       </Badge>
                     )}
                   </div>
@@ -154,7 +154,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
             ))
           ) : (
             <div className='text-center'>
-              <FileImage className='w-32 h-32 text-slate-200' size='lg' />
+              <FileImage className='w-32 h-32 text-slate-200' size='32' />
               <div className='text-slate-400 text-sm mt-2'>
                 No image available
               </div>

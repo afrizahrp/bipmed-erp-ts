@@ -21,19 +21,13 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(
-  request: NextRequest
-  // { params }: { params: { ProductId: string } }
-) {
+export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const company_id = session?.user?.company_id || '';
     const branch_id = session?.user?.branch_id || '';
-    const usernameValue = session?.user?.name || '';
+    const userName = session?.user?.name || '';
 
-    // if (!params.ProductId) {
-    //   return new NextResponse('Product id is required', { status: 400 });
-    // }
     const body = await request.json();
 
     const {
@@ -218,8 +212,8 @@ export async function POST(
       systemControl,
       bodyFrameWork,
       specremarks,
-      createdBy: usernameValue,
-      updatedBy: usernameValue,
+      createdBy: userName,
+      updatedBy: userName,
       createdAt: new Date(),
       updatedAt: new Date(),
       company_id: company_id,

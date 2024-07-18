@@ -5,7 +5,6 @@ export function productSpecdefaultValues(
 ) {
   return {
     /* specification section */
-
     construction: initialProductSpecData?.construction ?? '',
     dimension: initialProductSpecData?.dimension ?? '',
     base: initialProductSpecData?.base ?? '',
@@ -61,6 +60,6 @@ export function productSpecdefaultValues(
     medicineBox: initialProductSpecData?.medicineBox ?? '',
     handleTrolley: initialProductSpecData?.handleTrolley ?? '',
     drawer: initialProductSpecData?.drawer ?? '',
-    specremarks: initialProductSpecData?.specremarks ?? '',
+    specremarks: initialProductSpecData.specremarks ?? '',
   };
 }

@@ -9,21 +9,18 @@ import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import cn from '@/utils/class-names';
 import FormNav, { formParts } from '@/components/form-nav';
-// import { useLayout } from '@/hooks/use-layout';
 
 import {
   Products,
-  Categories,
-  SubCategories,
-  Brands,
-  Uoms,
   ProductSpecs,
-  ProductImages,
+  // Categories,
+  // SubCategories,
+  // Brands,
+  // Uoms,
+  // ProductImages,
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { FinishGoodsForm } from './finish-goods-form';
-// import { defaultValues } from '../../../../../../../../components/form-utils';
-import PageHeader from '@/components/page-header';
 import FormFooter from '@/components/form-footer';
 
 import {
@@ -41,27 +38,31 @@ const MAP_STEP_TO_COMPONENT = {
 };
 
 interface IndexProps {
+  product_id: string;
   initialProductData: Products | null;
   initialProductSpecData: ProductSpecs | null;
-  categories: Categories[];
-  subCategories: SubCategories[];
-  brands: Brands[];
-  uoms: Uoms[];
+  // categories: Categories[];
+  // subCategories: SubCategories[];
+  // brands: Brands[];
+  // uoms: Uoms[];
   className?: string;
 }
 
 export default function ProductDetailPage({
+  product_id,
   initialProductData,
   initialProductSpecData,
-  categories,
-  subCategories,
-  brands,
-  uoms,
+  // categories,
+  // subCategories,
+  // brands,
+  // uoms,
   className,
 }: IndexProps) {
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  const id = product_id;
 
   const description = initialProductData
     ? `Change Product ${initialProductData.id}-> ${initialProductData.name}`
@@ -76,8 +77,6 @@ export default function ProductDetailPage({
     setLoading(false);
     router.push('/production/finish-goods/finish-goods-list');
   };
-
-  const id = params.id;
 
   const methods = useForm<CombinedProductFormValues>({
     resolver: zodResolver(productAndSpecCombinedSchema),
@@ -162,40 +161,29 @@ export default function ProductDetailPage({
   });
 
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
-    console.log('update product spec data first row ', id);
     try {
       setLoading(true);
-      // if (initialProductData) {
-      // if (id) {
-      console.log('update product spec data first row ', id);
-      await axios.patch(`/api/inventory/products/${id}`, data);
-      await axios.patch(`/api/inventory/productSpecs/${id}`, data);
-      // } else {
-      //   console.log('create product spec data first row ', id);
-      // await axios.post(`/api/inventory/${params.id}/products`, data);
-      // await axios.post(`/api/inventory/productSpecs`, data);
-      // }
+      let productId = id; // Use existing id if available
 
-      // if (initialProductData) {
-      //   await axios.patch(`/api/inventory/products/${initialProductData.id}`, data);
-      // } else {
-      //   await axios.post(`/api/${params.storeId}/products`, data);
-      // }
+      if (!initialProductData) {
+        const productResponse = await axios.post(
+          `/api/inventory/products`,
+          data
+        );
+        productId = productResponse.data.id; // Assuming the response contains the new product's id
+      } else {
+        await axios.patch(`/api/inventory/products/${id}`, data);
+      }
 
-      // if (productId) {
-      //   await axios.patch(`/api/inventory/productSpecs/${productId}`, data);
-      // } else {
-      //   console.log('create spec data first row ', productId);
-      //   await axios.post(`/api/${productId}/productSpecs`, data);
-      // }
-
-      // router.push('/production/finish-goods/finish-goods-list');
-      router.refresh();
-      toast.success(toastMessage);
-    } catch (error: any) {
-      console.error(error); // Log the error to the console for debugging
-
-      toast.error(error.response?.data?.message || 'Save changes failed.');
+      if (initialProductSpecData) {
+        await axios.patch(`/api/inventory/productSpecs/${productId}`, data);
+      } else {
+        await axios.post(`/api/inventory/productSpecs`, {
+          ...data,
+          id: productId, // Use the obtained productId for new productSpecs
+        });
+      }
+    } catch (error) {
     } finally {
       setLoading(false);
     }
@@ -221,35 +209,38 @@ export default function ProductDetailPage({
                 >
                   {key === formParts.general && (
                     <Component
+                      product_id={product_id}
                       initialProductData={initialProductData}
                       initialProductSpecData={initialProductSpecData}
-                      categories={categories}
-                      subCategories={subCategories}
-                      brands={brands}
-                      uoms={uoms}
+                      // categories={categories}
+                      // subCategories={subCategories}
+                      // brands={brands}
+                      // uoms={uoms}
                       // className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
                   {key === formParts.specs && (
                     <Component
+                      product_id={product_id}
                       initialProductData={initialProductData}
                       initialProductSpecData={initialProductSpecData}
-                      categories={categories}
-                      subCategories={subCategories}
-                      brands={brands}
-                      uoms={uoms}
+                      // categories={categories}
+                      // subCategories={subCategories}
+                      // brands={brands}
+                      // uoms={uoms}
 
                       // className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
                   {key !== formParts.general && key !== formParts.specs && (
                     <Component
+                      product_id={product_id}
                       initialProductData={initialProductData}
                       initialProductSpecData={initialProductSpecData}
-                      categories={categories}
-                      subCategories={subCategories}
-                      brands={brands}
-                      uoms={uoms}
+                      // categories={categories}
+                      // subCategories={subCategories}
+                      // brands={brands}
+                      // uoms={uoms}
                       // className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}

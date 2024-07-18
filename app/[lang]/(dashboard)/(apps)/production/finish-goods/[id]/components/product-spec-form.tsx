@@ -13,10 +13,12 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
 interface ProductSpecFormProps {
+  product_id: string;
   initialProductSpecData: ProductSpecs | null;
 }
 
 export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
+  product_id,
   initialProductSpecData,
 }) => {
   const {
@@ -26,17 +28,37 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
     formState: { errors },
   } = useFormContext();
 
+  const [id, setId] = useState(product_id);
+  console.log('stateProductSpec', id);
+
   const [specremarks, setspecremarks] = useState(
     initialProductSpecData?.specremarks || ''
   );
-
-  console.log('specremarks', specremarks);
 
   return (
     <FormGroup
       title='Product Specification'
       description='Edit product specification information from here'
     >
+      <div>
+        <Label>Id</Label>
+        <Input
+          id='id'
+          value={id}
+          placeholder=' '
+          disabled
+          {...register('id')}
+          className={cn('peer w-1/4', {
+            'border-destructive': errors.id,
+          })}
+        />
+        {errors.id && (
+          <div className='text-destructive'>
+            {errors.id.message?.toString()}
+          </div>
+        )}
+      </div>
+
       <div className='pt-6'>
         <div className='flex gap-4 items-center mt-1'>
           <div className='w-1/4 flex justify-end items-right'>

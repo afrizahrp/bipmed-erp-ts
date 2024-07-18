@@ -5,7 +5,6 @@ export const productSpecFormSchema = z.object({
   construction: z.string().min(5).or(z.literal('')),
   base: z.string().min(5).or(z.literal('')),
   bodyFrame: z.string().min(5).or(z.literal('')),
-
   itemFunctions: z.string().or(z.literal('')),
   item_type: z.string().or(z.literal('')),
   item_model: z.string().or(z.literal('')),
@@ -60,7 +59,7 @@ export const productSpecFormSchema = z.object({
   drawer: z.string().or(z.literal('')),
   systemControl: z.string().or(z.literal('')),
   bodyFrameWork: z.string().or(z.literal('')),
-  specremarks: z.string().or(z.literal('')),
+  specremarks: z.string().or(z.literal('')).optional().nullable(),
 });
 
 export type ProductSpecFormValues = z.infer<typeof productSpecFormSchema>;

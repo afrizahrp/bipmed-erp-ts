@@ -101,12 +101,13 @@ const FinishGoodsPage = async ({
           <Card>
             <CardContent className='pt-2'>
               <ProductDetailPage
+                product_id={params.id}
                 initialProductData={product}
                 initialProductSpecData={productSpec}
-                categories={categories}
-                subCategories={subCategories}
-                brands={brands}
-                uoms={uoms}
+                // categories={categories}
+                // subCategories={subCategories}
+                // brands={brands}
+                // uoms={uoms}
               />
             </CardContent>
           </Card>

@@ -73,7 +73,7 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
           ))
         ) : (
           <div className='text-center'>
-            <FileImage className='w-32 h-32 text-slate-200' size='lg' />
+            <FileImage className='w-32 h-32 text-slate-200' size='32' />
             <div className='text-slate-400 text-sm mt-2'>
               No image available
             </div>

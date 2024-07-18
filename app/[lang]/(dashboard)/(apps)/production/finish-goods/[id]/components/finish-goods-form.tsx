@@ -1,28 +1,28 @@
 'use client';
-
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useFormContext } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
 import { Input } from '@/components/ui/input';
 import { InputGroup, InputGroupText } from '@/components/ui/input-group';
-
 import { Label } from '@/components/ui/label';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
 import {
   Products,
-  SubCategories,
-  ProductImages,
-  Categories,
-  Brands,
-  Uoms,
+  // SubCategories,
+  // ProductImages,
+  // Categories,
+  // Brands,
+  // Uoms,
 } from '@prisma/client';
 
 import { useParams, useRouter } from 'next/navigation';
 
-import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
+// import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
+// import { Switch } from '@/components/ui/switch';
+
 import {
   SearchColumnProductCategory,
   SearchColumnSubSubCategory,
@@ -30,22 +30,22 @@ import {
   SearchColumnBrand,
 } from '@/components/searchColumns';
 
-import { Switch } from '@/components/ui/switch';
-
 interface FinishGoodsFormProps {
+  product_id: string;
   initialProductData: Products | null;
-  categories: Categories[];
-  subCategories: SubCategories[];
-  brands: Brands[];
-  uoms: Uoms[];
+  // categories: Categories[];
+  // subCategories: SubCategories[];
+  // brands: Brands[];
+  // uoms: Uoms[];
 }
 
 export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
+  product_id,
   initialProductData,
-  subCategories,
-  categories,
-  brands,
-  uoms,
+  // subCategories,
+  // categories,
+  // brands,
+  // uoms,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -53,7 +53,9 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const id = initialProductData?.id;
+  // const id = product_id;
+
+  // console.log('initialProductData', id);
 
   const {
     register,
@@ -61,13 +63,17 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     setValue,
     formState: { errors },
   } = useFormContext();
+
+  const [id, setId] = useState(product_id);
   const [remarks, setRemarks] = useState(initialProductData?.remarks || '');
 
   const selectedCategory_id = watch('category_id');
 
-  const onProductNameChange = (newCategoryName: string) => {
-    setSearchTerms(newCategoryName);
-  };
+  // console.log('product_id', product_id);
+
+  // const onProductNameChange = (newCategoryName: string) => {
+  //   setSearchTerms(newCategoryName);
+  // };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = Number(e.target.value);
@@ -88,6 +94,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
             <Label>Id</Label>
             <Input
               id='id'
+              value={id}
               placeholder=' '
               disabled
               {...register('id')}
