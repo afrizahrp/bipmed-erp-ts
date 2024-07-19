@@ -59,9 +59,9 @@ export async function PATCH(
       });
     }
 
-    if (!name) {
-      return new NextResponse('Category name is required', { status: 400 });
-    }
+    // if (!name) {
+    //   return new NextResponse('Category name is required', { status: 400 });
+    // }
     await prisma.categories.update({
       where: {
         id: params.id,

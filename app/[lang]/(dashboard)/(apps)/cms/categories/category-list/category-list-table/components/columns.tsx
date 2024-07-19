@@ -1,9 +1,14 @@
 'use client';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import { CellAction } from './cell-action';
 import { EyeOff, Eye } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import NextImage from 'next/image';
 
 export type CategoryColumns = {
   type: string | null;
@@ -14,6 +19,18 @@ export type CategoryColumns = {
   showStatus: string | null;
   remarks: string | null;
   images: string[];
+};
+
+const onChangeStatus = async (id: string, newValue: boolean) => {
+  try {
+    const response = await axios.patch(`/api/inventory/categories/${id}`, {
+      iShowedStatus: newValue,
+    });
+    return response.data;
+    // Call the callback function to update the state if the API call is successful
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const columns: ColumnDef<CategoryColumns>[] = [
@@ -50,6 +67,33 @@ export const columns: ColumnDef<CategoryColumns>[] = [
   },
 
   {
+    accessorKey: 'iShowedStatus',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Displayed Status'
+        className='text-black dark:text-slate-300'
+      />
+    ),
+    cell: ({ row }) => {
+      let value: boolean = row.getValue('iShowedStatus');
+      return (
+        <Switch
+          checked={value}
+          onCheckedChange={() => {
+            // Assuming `setValue` is a function passed from the parent component to update the state
+            const newValue = !value;
+            onChangeStatus(row.getValue('id'), newValue);
+          }}
+        />
+      );
+    },
+    filterFn: (row, id, value: string) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
     accessorKey: 'id',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='id' />
@@ -76,6 +120,31 @@ export const columns: ColumnDef<CategoryColumns>[] = [
           <span className={cn('max-w-[250px] truncate font-sm')}>
             {row.getValue('name')}
           </span>
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: 'images',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Images' />
+    ),
+    cell: ({ row }) => {
+      const images = row.getValue('images');
+      return (
+        <div className='flex space-x-1'>
+          {Array.isArray(images) &&
+            images.map((image, index) => (
+              <NextImage
+                key={index}
+                src={image}
+                width={60}
+                height={80}
+                alt={`Image ${index}`}
+                className='max-w-[80px]'
+              />
+            ))}
         </div>
       );
     },
