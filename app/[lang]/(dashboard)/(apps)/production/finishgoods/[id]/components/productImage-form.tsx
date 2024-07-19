@@ -225,11 +225,11 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 {({ open }) => (
                   <Button
                     type='button'
-                    disabled={
-                      loading ||
-                      (typeof product_id === 'string' &&
-                        product_id.trim() !== 'new')
-                    }
+                    disabled={loading}
+                    //   ||
+                    //   (typeof product_id === 'string' &&
+                    //     product_id.trim() !== 'new')
+                    // }
                     variant='outline'
                     onClick={() => open()}
                   >
