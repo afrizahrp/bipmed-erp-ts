@@ -141,16 +141,6 @@ export function DataTable<TData, TValue>({
             />
           </div>
 
-          {/* <Button
-            size='sm'
-            variant='outline'
-            onClick={handleSheetOpen}
-            className='className="ml-auto mx-2 my-1 px-5 h-8 lg:flex'
-          >
-            <Filter />
-            Filter data
-          </Button> */}
-
           <div className='flex-none flex flex-col sm:flex-row sm:items-center  gap-4'>
             <Button
               size='sm'
@@ -164,26 +154,21 @@ export function DataTable<TData, TValue>({
 
             <DataTableViewOptions table={table} />
 
-            {/* <Button size='xs' variant='outline' onClick={handleSheetOpen}>
-            <Filter className='mr-2 h-3 w-3' />
-            Filter data
-          </Button> */}
-
-            <Button
-              size='sm'
-              asChild
-              className='className="ml-auto mx-2 my-1 px-5 h-8 lg:flex'
-            >
-              <Link href={href}>
-                <Plus className='w-3 h-3 mr-2' />
-                {hrefText}
-              </Link>
-            </Button>
+            {hrefText !== 'none' && (
+              <Button
+                size='sm'
+                asChild
+                className='ml-auto mx-2 my-1 px-5 h-8 lg:flex'
+              >
+                <Link href={href}>
+                  <Plus className='w-3 h-3 mr-2' />
+                  {hrefText}
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
 
-        {/* <div className='space-y-4'>
-        <div className='rounded-md border'> */}
         <div className='pt-1'>
           <Table>
             <TableHeader>

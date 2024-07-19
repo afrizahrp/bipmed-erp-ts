@@ -14,7 +14,7 @@ export const CategoryListTable: React.FC<CategoriesProps> = ({ data }) => {
         columns={columns}
         data={data}
         href={routes.inventory.newCategory}
-        hrefText='New Category'
+        hrefText='none'
         pageName='category-web'
       />
     </div>

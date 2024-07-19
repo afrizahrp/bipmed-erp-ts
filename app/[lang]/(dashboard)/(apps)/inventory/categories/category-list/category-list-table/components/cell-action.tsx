@@ -24,7 +24,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       })),
     };
 
-    categoryDialog.onOpen(modifiedData);
+    categoryDialog.onOpen(modifiedData, false);
   };
 
   return (

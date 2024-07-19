@@ -1,7 +1,7 @@
-"use client";
-import { DataTable } from "@/components/ui/data-table";
-import { CategoryColumns, columns } from "./components/columns";
-import { routes } from "@/config/routes";
+'use client';
+import { DataTable } from '@/components/ui/data-table';
+import { CategoryColumns, columns } from './components/columns';
+import { routes } from '@/config/routes';
 
 interface CategoriesProps {
   data: CategoryColumns[];
@@ -14,8 +14,8 @@ export const CategoryListTable: React.FC<CategoriesProps> = ({ data }) => {
         columns={columns}
         data={data}
         href={routes.inventory.newCategory}
-        hrefText="New Category"
-        pageName="category"
+        hrefText='New Category'
+        pageName='category'
       />
     </div>
   );

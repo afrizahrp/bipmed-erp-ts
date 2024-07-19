@@ -6,14 +6,14 @@ import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
 
 const pageHeader = {
-  title: 'Finish Goods Active Category List',
+  title: 'Category List',
   breadcrumb: [
     {
       name: 'Dashboard',
       href: routes.inventory.dashboard,
     },
     {
-      name: 'List',
+      name: 'Finish Goods Active Category List',
     },
   ],
 };
@@ -52,7 +52,6 @@ const CategoryListPage = async () => {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-
       <div>
         <Card className='mt-6'>
           <CardContent className='p-10'>
