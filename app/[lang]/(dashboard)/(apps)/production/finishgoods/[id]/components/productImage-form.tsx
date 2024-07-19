@@ -212,36 +212,33 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           </div>
 
           <div className='w-full flex items-center justify-center gap-x-6'>
-            {product_id && (
-              <CldUploadWidget
-                onUpload={onUpload}
-                options={{
-                  sources: ['local'],
-                  resourceType: 'image',
-                  multiple: true,
-                }}
-                uploadPreset='uploadBiwebapp'
-              >
-                {({ open }) => (
+            <CldUploadWidget
+              onUpload={onUpload}
+              options={{
+                sources: ['local'],
+                resourceType: 'image,video',
+                multiple: true,
+              }}
+              uploadPreset='uploadBiwebapp'
+            >
+              {({ open }) => {
+                const onClick = () => {
+                  open();
+                };
+
+                return (
                   <Button
                     type='button'
                     disabled={loading}
-                    //   ||
-                    //   (typeof product_id === 'string' &&
-                    //     product_id.trim() !== 'new')
-                    // }
                     variant='outline'
-                    onClick={() => open()}
+                    onClick={onClick}
                   >
-                    {loading && (
-                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    )}
                     <ImagePlus className='h-4 w-4 mr-2' />
-                    Upload
+                    Upload Image
                   </Button>
-                )}
-              </CldUploadWidget>
-            )}
+                );
+              }}
+            </CldUploadWidget>
 
             {/* {images && (
               <Button
