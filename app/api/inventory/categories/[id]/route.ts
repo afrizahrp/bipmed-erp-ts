@@ -36,23 +36,18 @@ export async function PATCH(
 
     const body = await req.json();
 
-    const {
-      type,
-      name,
-      iStatus,
-      remarks,
-      images,
-      iShowedStatus,
-      slug,
-    } = body as {
-      type: string;
-      name: string;
-      iStatus: boolean;
-      remarks: string;
-      images: { imageURL: string }[];
-      iShowedStatus: boolean;
-      slug: string;
-    };
+    const { type, name, iStatus, remarks, images, iShowedStatus, slug } =
+      body as {
+        type: string;
+        name: string;
+        iStatus: boolean;
+        remarks: string;
+        images: { imageURL: string }[];
+        iShowedStatus: boolean;
+        slug: string;
+      };
+
+    console.log('body', body);
 
     if (!session) {
       return new NextResponse('Unauthenticated', { status: 403 });
@@ -112,4 +107,3 @@ export async function PATCH(
     return new NextResponse('Internal error', { status: 500 });
   }
 }
-

@@ -2131,26 +2131,45 @@ export const menusConfig = {
       },
 
       {
-        title: 'Setting System',
-        icon: Settings,
+        title: 'Settings',
         href: '#',
-        isHide: false,
+        icon: Settings,
         child: [
           {
-            title: 'Transaction Type',
-            href: '#',
+            title: 'Website',
+            href: '/cms/master',
+            multi_menu: [
+              {
+                title: 'Categories',
+                href: '/cms/categories/category-list',
+              },
+              {
+                title: 'Products',
+                href: '/cms/products/product-list',
+              },
+              {
+                title: 'Billboards',
+                href: '/cms/subcategories/subcategory-list',
+              },
+            ],
           },
+
           {
-            title: 'Tax Settings',
-            href: '#',
-          },
-          {
-            title: 'Currency',
-            href: '#',
-          },
-          {
-            title: 'Credit Terms',
-            href: '#',
+            title: 'System',
+            multi_menu: [
+              {
+                title: 'Requisition of Materials',
+                href: '#',
+              },
+              {
+                title: 'Issuance Of Materials',
+                href: '#',
+              },
+              {
+                title: 'Receiving Of Materials',
+                href: '#',
+              },
+            ],
           },
         ],
       },

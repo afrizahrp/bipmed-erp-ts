@@ -50,6 +50,7 @@ export interface Categories {
   name?: string | null;
   remarks?: string | null;
   iStatus?: boolean;
+  iShowedStatus?: boolean;
   images: CategoryImages[];
 }
 

@@ -5,12 +5,9 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { Categories, CategoryTypes } from '@/types';
-
-import CategoryNameExist from '@/components/nameExistChecking/inventory/categoryNameExist';
-import { useParams, useRouter } from 'next/navigation';
+import { Categories } from '@/types';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-
 import {
   Form,
   FormControl,
@@ -20,41 +17,25 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Loader2 } from 'lucide-react';
-
 import {
   CategoryFormValues,
   categoryFormSchema,
 } from '@/utils/schema/category.form.schema';
-
 import useCategoryDialog from '@/hooks/use-category-dialog';
 
 interface CategoryFormQuickEditProps {
+  isCms?: boolean;
   data?: Categories;
-  // categoryTypes: CategoryTypes[];
 }
 
-// interface CategoryFormProps {
-//   initialData?: Categories;
-//   categoryTypes: CategoryTypes[];
-// }
-
 const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
+  isCms,
   data,
-  // categoryTypes,
 }) => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
-  const [searchTerms, setSearchTerms] = useState('');
   const categoryDialog = useCategoryDialog();
 
   const form = useForm<CategoryFormValues>({
@@ -66,6 +47,7 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
       name: data?.name ?? '',
       remarks: data?.remarks || undefined,
       iStatus: data?.iStatus,
+      iShowedStatus: data?.iShowedStatus,
     },
   });
 
@@ -80,7 +62,6 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
       await axios.patch(`/api/inventory/categories/${data.id}`, data);
       toast.success('Category has changed successfully.');
       categoryDialog.onClose();
-
       router.refresh();
     } catch (error) {
       toast.error('Something went wrong');
@@ -88,10 +69,6 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
       setLoading(false);
     }
   }
-
-  const onCategoryNameChange = (newCategoryName: string) => {
-    setSearchTerms(newCategoryName);
-  };
 
   return (
     <>
@@ -110,13 +87,10 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
                     <FormLabel>Category Name</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={loading}
+                        disabled={loading || isCms}
                         placeholder='Input category name'
                         {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          onCategoryNameChange(e.target.value); // Call the new handler
-                        }}
+                        onChange={field.onChange}
                         className='font-bold'
                       />
                     </FormControl>
@@ -130,17 +104,12 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
                 </div>
               )}
             />
-
-            {/* <CategoryNameExist
-              currentValue={searchTerms}
-              onChange={onCategoryNameChange}
-            /> */}
           </div>
 
           <div className='py-2 gap-4'>
             <FormField
               control={form.control}
-              name='iStatus'
+              name='iShowedStatus'
               render={({ field }) => (
                 <FormItem>
                   <div
@@ -150,7 +119,6 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
                       gap: '8px',
                     }}
                   >
-                    {/* Inline style for closer alignment */}
                     <FormLabel>Status</FormLabel>
                   </div>
                   <FormControl>
@@ -168,10 +136,14 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
                   <div className='space-y-1 leading-none'>
                     <FormLabel>
                       {field.value ? (
-                        <span className='text-red text-semibold'>Active</span>
+                        <span className='text-red text-semibold'>
+                          Displayed in Website
+                        </span>
                       ) : (
-                        <span className='text-green'> Non Active</span>
-                      )}{' '}
+                        <span className='text-green'>
+                          Not Displayed in Website{' '}
+                        </span>
+                      )}
                     </FormLabel>
                   </div>
                 </FormItem>

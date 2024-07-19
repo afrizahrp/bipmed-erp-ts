@@ -2,6 +2,7 @@ import { Table } from '@tanstack/react-table';
 import { ProductsFilterSidebar } from './productsFilterSidebar';
 import { MaterialFilterSidebar } from './materialFilterSidebar';
 import { CategoryFilterSidebar } from './categoryFilterSidebar';
+import { CategoryFilterSidebarWeb } from './categoryFilterSidebar-web';
 import { SubCategoryFilterSidebar } from './subCategoryFilterSidebar';
 
 interface FilterSidebarButtonProps<TData> {
@@ -19,6 +20,8 @@ export function FilterSidebarButton<TData>({
       return <MaterialFilterSidebar table={table} />;
     case 'category':
       return <CategoryFilterSidebar table={table} />;
+    case 'category-web':
+      return <CategoryFilterSidebarWeb table={table} />;
     case 'subcategory':
       return <SubCategoryFilterSidebar table={table} />;
     default:

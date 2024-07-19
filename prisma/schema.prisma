@@ -82,6 +82,20 @@ model MasterTableStatus {
   Suppliers           Suppliers[]
 }
 
+model MasterShowedStatus {
+  id                  Boolean       @id @default(false)
+  name                String?       @db.VarChar(50)
+  remarks             String?       @db.VarChar(150)
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  Categories          Categories[]
+  Products            Products[]
+}
+
 model TrxTableStatus {
   id                  Int           @id @db.TinyInt
   name                String?       @db.VarChar(50)
@@ -288,7 +302,7 @@ model Categories {
   slug                String?       @db.VarChar(50)
   iStatus             Boolean       @default(false)
   remarks             String?       @db.VarChar(250)
-  iShowedStatus       Boolean?      @default(true)
+  iShowedStatus       Boolean      @default(true)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)
@@ -302,6 +316,8 @@ model Categories {
   products            Products[]
   subCategories       SubCategories[]
   images              CategoryImages[]
+  showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
+  @@index([id])
   }
 
 
@@ -385,7 +401,7 @@ model Products {
   remarks             String       @db.Text
   slug                String       @db.VarChar(250)
   isMaterial          Boolean       @default(false)
-  iShowedStatus       Boolean?      @default(true)
+  iShowedStatus       Boolean      @default(true)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)
@@ -403,9 +419,11 @@ model Products {
   price               ProductPrice[]
   unitPriceHistory    ProductUnitPriceHistory[]
   sellingPriceHistory ProductSellingPriceHistory[]
+  showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
+
   // descriptions        ProductDescriptions[]
    
-   @@index([name])
+   @@index([id])
 
 }
 
@@ -697,7 +715,6 @@ model PoDetail {
   poHeader            PoHeader  @relation(fields: [po_id], references: [id])
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
-
 
  model vProductCategories {
    id                  String        @id @db.VarChar(10)
