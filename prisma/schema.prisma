@@ -421,7 +421,7 @@ model Products {
   sellingPriceHistory ProductSellingPriceHistory[]
   showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
 
-  // descriptions        ProductDescriptions[]
+  descriptions        ProductDescriptions[]
    
    @@index([id])
 
@@ -439,7 +439,7 @@ model ProductDescriptions {
   updatedAt             DateTime?     @db.DateTime
   company_id            String        @db.Char(5)
   branch_id             String        @db.Char(10)
-  // products              Products      @relation(fields: [id], references: [id])
+  products              Products      @relation(fields: [id], references: [id])
 }
 
 

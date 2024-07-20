@@ -52,7 +52,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
       />
     ),
     cell: ({ row }) => (
-      <div className='w-[150px] dark:text-slate-300'>
+      <div className='w-[100px] dark:text-slate-300'>
         {row.getValue('catalog')}
       </div>
     ),
@@ -69,7 +69,12 @@ export const columns: ColumnDef<ProductColumn>[] = [
       />
     ),
     cell: ({ row }) => (
-      <div className='w-[100px] dark:text-slate-300'>{row.getValue('id')}</div>
+      <Link
+        href={`/cms/products/${row.getValue('id')}`}
+        className='text-primary-600 dark:text-slate-200'
+      >
+        {row.getValue('id')}
+      </Link>
     ),
     enableHiding: false,
     enableSorting: true,
