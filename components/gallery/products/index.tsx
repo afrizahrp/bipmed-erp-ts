@@ -40,8 +40,8 @@ const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
               >
                 {image.imageURL ? (
                   <NextImage
-                    height={450}
-                    width={450}
+                    height={300}
+                    width={300}
                     src={image.imageURL}
                     alt='Image'
                     className='object-contain'

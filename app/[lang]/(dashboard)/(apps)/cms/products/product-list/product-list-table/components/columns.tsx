@@ -7,11 +7,11 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import { CellAction } from './cell-action';
 import { EyeOff, Eye } from 'lucide-react';
+import { ProductImages } from '@/types';
 import NextImage from 'next/image';
 
 interface ProductImage {
-  imageURL: string;
-  isPrimary: boolean;
+  images: ProductImages[];
 }
 
 export type ProductColumn = {
@@ -25,6 +25,7 @@ export type ProductColumn = {
   uom: string | null;
   remarks: string | null;
   images: string[];
+  imgPrimary: string[];
 };
 
 export function getStatusColor(status: string) {
@@ -118,19 +119,19 @@ export const columns: ColumnDef<ProductColumn>[] = [
       return value.includes(row.getValue(id));
     },
   },
+
   {
-    accessorKey: 'images',
+    accessorKey: 'imgPrimary',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Images' />
+      <DataTableColumnHeader column={column} title='Primary Image' />
     ),
     cell: ({ row }) => {
-      const images = row.getValue('images');
-      // const primaryImage = images.find((image) => image.isPrimary);
-      console.log('images:', images);
+      const imgPrimary = row.getValue('imgPrimary');
+
       return (
         <div className='flex space-x-1'>
-          {Array.isArray(images) &&
-            images.map((image, index) => (
+          {Array.isArray(imgPrimary) &&
+            imgPrimary.map((image, index) => (
               <NextImage
                 key={index}
                 src={image}
@@ -172,28 +173,56 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
   },
 
-  {
-    accessorKey: 'uom',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='UOM'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
-            {row.getValue('uom')}
-          </span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
+  // {
+  //   accessorKey: 'uom',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='UOM'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         <span className='max-w-[150px] dark:text-slate-300 truncate font-sm'>
+  //           {row.getValue('uom')}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   },
+  // },
+  // {
+  //   accessorKey: 'images',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='All Images' />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const images = row.getValue('images');
+  //     const imgPrimary = row.getValue('img');
+
+  //     // const primaryImage = images.find((image) => image.isPrimary);
+  //     console.log('imgPrimary:', imgPrimary);
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         {Array.isArray(images) &&
+  //           images.map((image, index) => (
+  //             <NextImage
+  //               key={index}
+  //               src={image}
+  //               width={60}
+  //               height={80}
+  //               alt={`Image ${index}`}
+  //               className='max-w-[80px]'
+  //             />
+  //           ))}
+  //       </div>
+  //     );
+  //   },
+  // },
 
   // {
   //   accessorKey: 'remarks',

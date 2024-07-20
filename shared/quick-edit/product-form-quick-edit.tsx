@@ -7,6 +7,8 @@ import { Switch } from '@/components/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 import useProductDialog from '@/hooks/use-product-dialog';
 
@@ -50,7 +52,6 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
     ...data,
     iShowedStatus: data?.iShowedStatus,
   };
-  const action = 'Save changes';
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
@@ -62,6 +63,8 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
 
     productDialog.onClose();
   };
+
+  console.log('data', data);
 
   async function onSubmit(data: ProductFormValues): Promise<void> {
     try {
@@ -119,23 +122,44 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
               />
             </div>
 
+            {!isCms && (
+              <div className='w-[300px] py-2 gap-4'>
+                <FormField
+                  control={form.control}
+                  name='category_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category</FormLabel>
+                      <SearchColumnProductCategory
+                        {...field}
+                        currentValue={field.value ?? ''}
+                        onChange={field.onChange}
+                        disabled={loading || isCms}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+
             <div className='w-[300px] py-2 gap-4'>
               <FormField
                 control={form.control}
-                name='category_id'
+                name='name'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <SearchColumnProductCategory
+                    <Input
                       {...field}
-                      currentValue={field.value ?? ''}
+                      value={data.category.trim()}
                       onChange={field.onChange}
-                      disabled={loading || isCms}
+                      disabled
                     />
                   </FormItem>
                 )}
               />
             </div>
+
             <div className='py-2 gap-4'>
               <FormField
                 control={form.control}

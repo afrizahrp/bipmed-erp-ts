@@ -49,16 +49,15 @@ const ProductListPage = async () => {
       brand: item.brand?.name || '',
       uom: item.uom?.name || '',
       remarks: item.remarks,
-      images: [
+
+      images: item.images.map((image) => image.imageURL),
+
+      imgPrimary: [
         item.images.find((image) => image.isPrimary === true)?.imageURL || '',
       ],
 
-      // images: item.images
-      //   .map((image) => ({
-      //     imageURL: image.imageURL,
-      //     isPrimary: image.isPrimary,
-      //   }))
-      //   .map((image) => image.imageURL || ''),
+      // img:
+      //   item.images.find((image) => image.isPrimary === true)?.imageURL || '',
     })) ?? [];
 
   return (
