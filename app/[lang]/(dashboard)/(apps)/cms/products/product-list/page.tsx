@@ -13,7 +13,7 @@ const pageHeader = {
       href: routes.inventory.dashboard,
     },
     {
-      name: 'List',
+      name: 'Active Product List',
     },
   ],
 };
@@ -21,14 +21,15 @@ const ProductListPage = async () => {
   const products = await prisma.products.findMany({
     where: {
       isMaterial: false,
+      iStatus: true,
     },
     include: {
       brand: true,
       category: true,
-      subCategory: true,
       status: true,
       uom: true,
       images: true,
+      showStatus: true,
     },
     orderBy: {
       updatedAt: 'desc',
@@ -38,18 +39,26 @@ const ProductListPage = async () => {
   const formattedProducts: ProductColumn[] =
     products?.map((item) => ({
       id: item.id,
-      name: item.name ?? '',
       catalog: item.catalog_id ?? '',
+      name: item.name ?? '',
+      iShowedStatus: item.iShowedStatus as boolean, // Type assertion for boolean
+      showStatus: item.showStatus?.name,
       catalog_id: item.catalog_id ?? '',
       category_id: item.category_id ?? '',
-      category: item.category?.name || '', // Add type assertion to ensure category is always a string
-      subcategory: item.subCategory?.name || '',
+      category: item.category?.name || ('' as string), // Type assertion for string
       brand: item.brand?.name || '',
-      iStatus: item.iStatus, // Add type assertion to ensure iStatus is always a boolean
-      status: item.status?.name || '',
       uom: item.uom?.name || '',
       remarks: item.remarks,
-      images: item.images.map((image) => image.imageURL),
+      images: [
+        item.images.find((image) => image.isPrimary === true)?.imageURL || '',
+      ],
+
+      // images: item.images
+      //   .map((image) => ({
+      //     imageURL: image.imageURL,
+      //     isPrimary: image.isPrimary,
+      //   }))
+      //   .map((image) => image.imageURL || ''),
     })) ?? [];
 
   return (

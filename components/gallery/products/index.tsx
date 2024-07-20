@@ -10,7 +10,6 @@ interface GalleryProps {
   images: ProductImages[];
 }
 const Gallery: React.FC<GalleryProps> = ({ images = [] }) => {
-  const imageExist = images.length;
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   const openZoomedImage = (imageUrl: string) => {

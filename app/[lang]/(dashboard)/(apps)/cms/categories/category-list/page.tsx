@@ -37,12 +37,8 @@ const CategoryListPage = async () => {
 
   const formattedCategories: CategoryColumns[] =
     categories?.map((item) => ({
-      type: item.type,
-      categoryType: item.categoryType?.name,
       id: item.id,
       name: item.name,
-      iStatus: item.iStatus, // Add type assertion to ensure iStatus is always a boolean
-      status: item.status?.name,
       iShowedStatus: item.iShowedStatus, // Add type assertion to ensure iShowedStatus is always a boolean
       showStatus: item.showStatus?.name,
       remarks: item?.remarks,

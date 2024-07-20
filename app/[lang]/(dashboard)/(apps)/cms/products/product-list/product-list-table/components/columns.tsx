@@ -1,10 +1,18 @@
 'use client';
 import * as React from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import { CellAction } from './cell-action';
+import { EyeOff, Eye } from 'lucide-react';
+import NextImage from 'next/image';
+
+interface ProductImage {
+  imageURL: string;
+  isPrimary: boolean;
+}
 
 export type ProductColumn = {
   id: string;
@@ -13,10 +21,7 @@ export type ProductColumn = {
   catalog_id: string;
   category: string | null;
   category_id: string;
-  subcategory: string | null;
   brand: string | null;
-  iStatus: boolean;
-  status: string | null;
   uom: string | null;
   remarks: string | null;
   images: string[];
@@ -36,34 +41,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 
-  {
-    accessorKey: 'status',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Status'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      let value: string = row.getValue('status');
-      const color = getStatusColor(value);
-      return (
-        <div className='w-[140px]'>
-          <span
-            className={cn(
-              'inline-block h-3 w-3 rounded-full mr-2 dark:text-slate-300',
-              color
-            )}
-          ></span>
-          {value}
-        </div>
-      );
-    },
-    filterFn: (row, id, value: string) => {
-      return value.includes(row.getValue(id));
-    },
-  },
   {
     accessorKey: 'catalog',
     header: ({ column }) => (
@@ -91,12 +68,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
       />
     ),
     cell: ({ row }) => (
-      <Link
-        href={`/inventory/products/${row.getValue('id')}`}
-        className='text-primary-600 dark:text-slate-200'
-      >
-        {row.getValue('id')}
-      </Link>
+      <div className='w-[100px] dark:text-slate-300'>{row.getValue('id')}</div>
     ),
     enableHiding: false,
     enableSorting: true,
@@ -147,6 +119,60 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
   },
   {
+    accessorKey: 'images',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Images' />
+    ),
+    cell: ({ row }) => {
+      const images = row.getValue('images');
+      // const primaryImage = images.find((image) => image.isPrimary);
+      console.log('images:', images);
+      return (
+        <div className='flex space-x-1'>
+          {Array.isArray(images) &&
+            images.map((image, index) => (
+              <NextImage
+                key={index}
+                src={image}
+                width={60}
+                height={80}
+                alt={`Image ${index}`}
+                className='max-w-[80px]'
+              />
+            ))}
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: 'showStatus',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Displayed Status'
+        className='text-black dark:text-slate-300'
+      />
+    ),
+    cell: ({ row }) => {
+      let value: string = row.getValue('showStatus');
+      const isDisplayed = value === 'Shown';
+      return (
+        <div className='w-[40px]'>
+          {isDisplayed ? (
+            <Eye className='mr-2 text-green-500' />
+          ) : (
+            <EyeOff className='mr-2 text-gray-500' />
+          )}
+        </div>
+      );
+    },
+    filterFn: (row, id, value: string) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
     accessorKey: 'uom',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -169,25 +195,25 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
   },
 
-  {
-    accessorKey: 'remarks',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Remarks'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span className='max-w-[150px] truncate dark:text-slate-300 font-sm'>
-            {row.getValue('remarks')}
-          </span>
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: 'remarks',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='Remarks'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         <span className='max-w-[150px] truncate dark:text-slate-300 font-sm'>
+  //           {row.getValue('remarks')}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  // },
 
   // {
   //   accessorKey: 'subcategory',

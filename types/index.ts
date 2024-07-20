@@ -52,6 +52,7 @@ export interface Categories {
   iStatus?: boolean;
   iShowedStatus?: boolean;
   images: CategoryImages[];
+  showStatus: boolean;
 }
 
 export interface CategoryImages {

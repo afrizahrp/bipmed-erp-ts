@@ -3,19 +3,20 @@ import { Products } from '@/types';
 
 interface ProductDialogStore {
   isOpen: boolean;
+  isCms: boolean;
   data?: any;
-  onOpen: (data: any) => void;
+  onOpen: (data: any, isCms: boolean) => void;
   onClose: () => void;
 }
 
 const useProductDialog = create<ProductDialogStore>((set) => ({
   isOpen: false,
+  isCms: false,
   data: undefined,
-  onOpen: (data: Products) => {
-    // console.log('data from usePreview', data); // Log the data when onOpen is called
-    set({ isOpen: true, data });
+  onOpen: (data: Products, isCms: boolean = false) => {
+    set({ isOpen: true, data, isCms });
   },
-  onClose: () => set({ isOpen: false }),
+  onClose: () => set({ isOpen: false, isCms: false }), // Optionally reset isCms to false on close
 }));
 
 export default useProductDialog;

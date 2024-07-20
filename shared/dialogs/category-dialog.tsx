@@ -6,12 +6,9 @@ import Gallery from '@/components/gallery/products';
 import CategoryFormQuickEdit from '@/shared/quick-edit/category-form-quick-edit';
 
 const CategoryDialog = () => {
-  const { isOpen, onClose, isCms } = useCategoryDialog(); // Destructure to get isCms
-
+  const { isCms } = useCategoryDialog();
   const categoryDialog = useCategoryDialog();
   const category = useCategoryDialog((state) => state.data);
-
-  console.log('isCms', isCms);
 
   if (!category) {
     return null;
@@ -21,7 +18,8 @@ const CategoryDialog = () => {
     <Modal open={categoryDialog.isOpen} onClose={categoryDialog.onClose}>
       <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'>
         <div className='w-full lg:w-full lg:sticky pt-3 h-max'>
-          <div>Type : {category?.categoryType}</div>
+          {!isCms && <div>Type : {category?.categoryType}</div>}
+
           <div>Id : {category?.id}</div>
           <div>
             <CategoryFormQuickEdit isCms={isCms} data={category} />

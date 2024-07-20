@@ -216,7 +216,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
               onUpload={onUpload}
               options={{
                 sources: ['local'],
-                resourceType: 'image,video',
+                resourceType: 'image',
                 multiple: true,
               }}
               uploadPreset='uploadBiwebapp'

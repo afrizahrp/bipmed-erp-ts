@@ -2151,6 +2151,14 @@ export const menusConfig = {
                 title: 'Billboards',
                 href: '/cms/subcategories/subcategory-list',
               },
+              {
+                title: 'Events',
+                href: '/cms/subcategories/subcategory-list',
+              },
+              {
+                title: 'News',
+                href: '/cms/subcategories/subcategory-list',
+              },
             ],
           },
 

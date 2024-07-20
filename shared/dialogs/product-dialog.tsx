@@ -6,6 +6,8 @@ import Gallery from '@/components/gallery/products';
 import ProductFormQuickEdit from '@/shared/quick-edit/product-form-quick-edit';
 
 const ProductDialog = () => {
+  const { isCms } = useProductDialog();
+
   const productDialog = useProductDialog();
   const product = useProductDialog((state) => state.data);
 
@@ -21,7 +23,6 @@ const ProductDialog = () => {
   return (
     <Modal open={productDialog.isOpen} onClose={productDialog.onClose}>
       <div className='px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'>
-        {/* <div className='w-full lg:w-1/2 lg:sticky pt-3 h-max'> */}
         <div
           className={`w-full pt-3 gap-12 ${imageExist === 0 ? 'w-full' : 'lg:w-1/2 lg:sticky h-max'}`}
         >
@@ -31,7 +32,7 @@ const ProductDialog = () => {
 
           <div>Id : {product?.id}</div>
           <div>
-            <ProductFormQuickEdit data={product} />
+            <ProductFormQuickEdit isCms={isCms} data={product} />
           </div>
         </div>
 

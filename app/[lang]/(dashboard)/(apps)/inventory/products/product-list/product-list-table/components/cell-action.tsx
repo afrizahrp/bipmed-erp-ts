@@ -25,7 +25,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         branch_id: '',
       })),
     };
-    productDialog.onOpen(modifiedData);
+    productDialog.onOpen(modifiedData, false);
   };
 
   return (

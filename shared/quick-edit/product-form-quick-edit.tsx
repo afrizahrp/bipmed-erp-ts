@@ -32,10 +32,12 @@ import { Textarea } from '@/components/ui/textarea';
 // import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 
 interface ProductFormQuickEditProps {
+  isCms: boolean;
   data: any;
 }
 
 const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
+  isCms,
   data,
 }) => {
   const productDialog = useProductDialog();
@@ -46,8 +48,8 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
 
   const defaultValues = {
     ...data,
+    iShowedStatus: data?.iShowedStatus,
   };
-
   const action = 'Save changes';
 
   const form = useForm<ProductFormValues>({
@@ -96,7 +98,7 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
                     <FormLabel>Product Name</FormLabel>
                     <FormControl>
                       <Textarea
-                        disabled={loading}
+                        disabled={loading || isCms}
                         placeholder='Edit product name here'
                         {...field}
                         onChange={(e) => {
@@ -115,10 +117,6 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
                   </FormItem>
                 )}
               />
-              {/* <ProductNameExist
-              currentValue={searchTerms}
-              onChange={onProductNameChange}
-            /> */}
             </div>
 
             <div className='w-[300px] py-2 gap-4'>
@@ -127,13 +125,12 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
                 name='category_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Categories</FormLabel>
-
+                    <FormLabel>Category</FormLabel>
                     <SearchColumnProductCategory
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
-                      disabled={loading}
+                      disabled={loading || isCms}
                     />
                   </FormItem>
                 )}
@@ -142,25 +139,13 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
             <div className='py-2 gap-4'>
               <FormField
                 control={form.control}
-                name='iStatus'
+                name={isCms ? 'iShowedStatus' : 'iStatus'}
                 render={({ field }) => (
                   <FormItem>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                      }}
-                    >
-                      {/* Inline style for closer alignment */}
-                      <FormLabel>Status</FormLabel>
-                    </div>
                     <FormControl>
                       <Switch
                         checked={!!field.value}
-                        // @ts-ignore
                         onCheckedChange={field.onChange}
-                        // disabled={loading}
                         style={{
                           backgroundColor: field.value ? 'green' : 'gray',
                         }}
@@ -169,11 +154,23 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
                     </FormControl>
                     <div className='space-y-1 leading-none'>
                       <FormLabel>
-                        {field.value ? (
-                          <span className='text-red text-semibold'>Active</span>
+                        {isCms ? (
+                          field.value ? (
+                            <span className='text-red text-semibold'>
+                              Displayed in Website
+                            </span>
+                          ) : (
+                            <span className='text-green'>
+                              Not Displayed in Website{' '}
+                            </span>
+                          )
+                        ) : field.value ? (
+                          <span className='text-blue text-semibold'>
+                            Active
+                          </span>
                         ) : (
-                          <span className='text-green'> Non Active</span>
-                        )}{' '}
+                          <span className='text-orange'>Non Active</span>
+                        )}
                       </FormLabel>
                     </div>
                   </FormItem>
