@@ -122,27 +122,36 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
               />
             </div>
 
-            {!isCms && (
-              <div className='w-[300px] py-2 gap-4'>
-                <FormField
-                  control={form.control}
-                  name='category_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category</FormLabel>
+            <div className='w-[300px] py-2 gap-4'>
+              <FormField
+                control={form.control}
+                name='category_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    {!isCms ? (
                       <SearchColumnProductCategory
                         {...field}
                         currentValue={field.value ?? ''}
                         onChange={field.onChange}
                         disabled={loading || isCms}
                       />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
+                    ) : (
+                      <FormControl>
+                        <Input
+                          {...field}
+                          value={data.category.trim()}
+                          onChange={field.onChange}
+                          disabled
+                        />
+                      </FormControl>
+                    )}
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <div className='w-[300px] py-2 gap-4'>
+            {/* <div className='w-[300px] py-2 gap-4'>
               <FormField
                 control={form.control}
                 name='name'
@@ -158,7 +167,7 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
             <div className='py-2 gap-4'>
               <FormField
