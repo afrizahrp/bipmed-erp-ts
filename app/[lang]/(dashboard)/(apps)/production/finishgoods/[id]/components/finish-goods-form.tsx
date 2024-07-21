@@ -8,7 +8,7 @@ import { InputGroup, InputGroupText } from '@/components/ui/input-group';
 import { Label } from '@/components/ui/label';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-import { Switch } from '@/components/ui/switch';
+// import { Switch } from '@/components/ui/switch';
 
 import {
   Products,
@@ -102,8 +102,8 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <ImageCollection value={[]} disabled={loading} />
         </div>
 
-        <div className='grid grid-cols-4 gap-4 py-2'>
-          <div>
+        <div className='grid grid-cols-3 gap-4 py-2'>
+          <div style={{ display: 'none' }}>
             <Label>Id</Label>
             <Input
               id='id'

@@ -72,6 +72,10 @@ const FinishGoodsPage = async ({
   //   },
   // });
 
+  // const product_id = useProductStore((state) => state.productId);
+
+  // console.log('product_id from page ID', product_id);
+
   const pageHeader = {
     title: product ? 'Edit Finish Goods' : 'New Finish Goods',
 
@@ -91,7 +95,7 @@ const FinishGoodsPage = async ({
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <div className='w-full flex gap-x-2'>
-        <div className='w-1/2 lg:sticky top-10 h-max'>
+        <div className='w-full lg:sticky top-10 h-max'>
           <Card>
             <CardContent className='pt-2'>
               <ProducImageForm
@@ -102,7 +106,7 @@ const FinishGoodsPage = async ({
           </Card>
         </div>
 
-        <div className='w-1/2'>
+        <div className='w-full'>
           <Card>
             <CardContent className='pt-2'>
               <ProductDetailPage

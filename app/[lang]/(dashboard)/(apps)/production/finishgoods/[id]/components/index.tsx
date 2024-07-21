@@ -1,8 +1,9 @@
 'use client';
 import axios from 'axios';
 import useProductStore from '@/store/useProductStore';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+
 import { toast } from 'react-hot-toast';
 
 import { Element } from 'react-scroll';
@@ -42,6 +43,7 @@ const MAP_STEP_TO_COMPONENT = {
 };
 
 interface IndexProps {
+  isCms?: boolean;
   product_id: string;
   initialProductData: Products | null;
   initialProductDescsData: ProductDescs | null;
@@ -50,13 +52,13 @@ interface IndexProps {
 }
 
 export default function ProductDetailPage({
+  isCms,
   product_id,
   initialProductData,
   initialProductDescsData,
   initialProductSpecData,
   className,
 }: IndexProps) {
-  const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [action, setAction] = useState('Save');
@@ -64,11 +66,7 @@ export default function ProductDetailPage({
 
   let id: string;
 
-  if (product_id !== 'new') {
-    id = product_id;
-  } else {
-    id = '';
-  }
+  console.log('isCms:', isCms);
 
   const description = initialProductData
     ? `Change Product ${initialProductData.id}-> ${initialProductData.name}`
@@ -171,10 +169,24 @@ export default function ProductDetailPage({
   const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
-    router.push('/production/finishgoods/finishgoods-list');
+    if (!isCms) {
+      router.push('/production/finishgoods/finishgoods-list');
+
+      return;
+    }
   };
 
   const resetProductId = useProductStore((state) => state.resetProductId);
+
+  if (product_id !== 'new') {
+    id = product_id;
+  } else {
+    id = '';
+    resetProductId();
+    useProductStore.setState({ productId: product_id });
+  }
+
+  // const action = product_id === 'new' ? 'Save' : 'Update';
 
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {
@@ -237,6 +249,7 @@ export default function ProductDetailPage({
         }
       }
       router.refresh();
+      setAction('Update');
       toast.success(toastMessage);
     } catch (error) {
     } finally {

@@ -237,9 +237,9 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 return (
                   <Button
                     type='button'
-                    disabled={product_id === '' || loading}
+                    disabled={product_id === 'new' || loading}
                     className={
-                      product_id === ''
+                      product_id === 'new'
                         ? 'bg-secondary text-black'
                         : 'bg-primary text-white'
                     }
