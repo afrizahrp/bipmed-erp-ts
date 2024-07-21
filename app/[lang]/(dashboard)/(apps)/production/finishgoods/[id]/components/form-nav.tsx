@@ -23,10 +23,6 @@ export const menuItems = [
     label: 'Specifications',
     value: formParts.specs,
   },
-  // {
-  //   label: 'Stock',
-  //   value: formParts.productStock,
-  // },
 ];
 
 interface FormNavProps {
@@ -37,11 +33,10 @@ export default function FormNav({ className }: FormNavProps) {
   return (
     <div
       className={cn(
-        'z-100 sticky top-[64px] border-b border-gray-300 bg-white py-0 font-medium text-gray-500 @2xl:top-[72px] dark:bg-gray-50 2xl:top-20',
+        'z-100 sticky top-[60px] border-b border-gray-300 bg-white py-0 font-medium text-gray-500 @2xl:top-[72px] dark:bg-gray-50 2xl:top-20',
         className
       )}
     >
-      {' '}
       <SimpleBar>
         <div className='inline-grid grid-flow-col gap-5 md:gap-7 lg:gap-10'>
           {menuItems.map((tab, idx) => (

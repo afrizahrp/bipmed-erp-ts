@@ -33,6 +33,7 @@ import {
 interface FinishGoodsFormProps {
   product_id: string;
   initialProductData: Products | null;
+  className?: string;
   // categories: Categories[];
   // subCategories: SubCategories[];
   // brands: Brands[];
@@ -42,6 +43,8 @@ interface FinishGoodsFormProps {
 export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
   product_id,
   initialProductData,
+  className,
+
   // subCategories,
   // categories,
   // brands,
@@ -91,6 +94,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
       <FormGroup
         title='General Product Information'
         description='Edit product general product information from here'
+        className={cn(className)}
       >
         <div className='grid grid-cols-4 gap-4 py-2'>
           <div>
@@ -243,7 +247,6 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           </div>
         </div>
         <div className='grid grid-cols-6 gap-2 py-2'>
-          {' '}
           <div className='col-span-1'>
             <Label>TKDN</Label>
 

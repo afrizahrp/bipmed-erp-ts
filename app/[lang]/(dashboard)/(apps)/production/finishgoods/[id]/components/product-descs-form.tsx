@@ -15,10 +15,12 @@ import { useParams } from 'next/navigation';
 
 interface ProductDescsFormProps {
   initialProductDescsData: ProductDescs | null;
+  className?: string;
 }
 
 export const ProductDescsForm: React.FC<ProductDescsFormProps> = ({
   initialProductDescsData,
+  className,
 }) => {
   const params = useParams();
   const [loading, setLoading] = useState(false);
@@ -46,7 +48,8 @@ export const ProductDescsForm: React.FC<ProductDescsFormProps> = ({
     <>
       <FormGroup
         title='Product Descriptions'
-        description='Edit product product descriptions from here'
+        description='Edit product descriptions from here'
+        className={cn(className)}
       >
         {/* <div className='grid grid-cols-4 gap-4 py-2'> */}
         <div>

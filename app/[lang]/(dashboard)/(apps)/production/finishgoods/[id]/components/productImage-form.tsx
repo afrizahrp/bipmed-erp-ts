@@ -26,7 +26,16 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   initialData,
   product_id,
 }) => {
+  let id: string;
+
+  if (product_id !== 'new') {
+    id = product_id;
+  } else {
+    id = '';
+  }
+  console.log('product_id:', id);
   console.log('product id image form', product_id);
+
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
 
@@ -229,8 +238,12 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 return (
                   <Button
                     type='button'
-                    disabled={loading}
-                    variant='outline'
+                    disabled={id === '' || loading}
+                    className={
+                      id === ''
+                        ? 'bg-secondary text-black'
+                        : 'bg-primary text-white'
+                    }
                     onClick={onClick}
                   >
                     <ImagePlus className='h-4 w-4 mr-2' />

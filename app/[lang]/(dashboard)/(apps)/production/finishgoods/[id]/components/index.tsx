@@ -59,7 +59,14 @@ export default function ProductDetailPage({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const id = product_id;
+  let id: string;
+
+  if (product_id !== 'new') {
+    id = product_id;
+  } else {
+    id = '';
+  }
+  console.log('product_id:', id);
 
   const description = initialProductData
     ? `Change Product ${initialProductData.id}-> ${initialProductData.name}`
@@ -86,6 +93,14 @@ export default function ProductDetailPage({
         slug: '',
         isMaterial: false,
         iShowedStatus: false,
+      },
+
+      initialProductDescsData ?? {
+        id: '',
+        title: '',
+        descriptions: '',
+        features: '',
+        footers: '',
       },
 
       initialProductSpecData ?? {
@@ -148,13 +163,6 @@ export default function ProductDetailPage({
         systemControl: '',
         bodyFrameWork: '',
         specremarks: '',
-      },
-      initialProductDescsData ?? {
-        id: '',
-        title: '',
-        descriptions: '',
-        features: '',
-        footers: '',
       }
     ),
   });
@@ -168,7 +176,7 @@ export default function ProductDetailPage({
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {
       setLoading(true);
-      let productId = id; // Use existing id if available
+      let productId = product_id; // Use existing id if available
 
       if (!initialProductData) {
         const productResponse = await axios.post(
@@ -179,7 +187,7 @@ export default function ProductDetailPage({
         product_id = productId;
         <ProductImageForm product_id={productId} initialData={[]} />;
       } else {
-        await axios.patch(`/api/inventory/products/${id}`, data);
+        await axios.patch(`/api/inventory/products/${product_id}`, data);
       }
 
       if (initialProductSpecData) {
@@ -192,7 +200,7 @@ export default function ProductDetailPage({
           try {
             await axios.post(`/api/inventory/productSpecs`, {
               ...data,
-              id: productId, // Use the obtained productId for new productSpecs
+              id: productId,
             });
           } catch (error) {
             console.error('Failed to post product specs:', error);
@@ -250,21 +258,17 @@ export default function ProductDetailPage({
                       initialProductData={initialProductData}
                       initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
-                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
-                  ,
+
                   {key === formParts.descs && (
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
                       initialProductSpecData={initialProductSpecData}
                       initialProductDescsData={initialProductDescsData}
-                      // categories={categories}
-                      // subCategories={subCategories}
-                      // brands={brands}
-                      // uoms={uoms}
-                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
                   {key === formParts.specs && (
@@ -273,9 +277,10 @@ export default function ProductDetailPage({
                       initialProductData={initialProductData}
                       initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
+                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
-                  ,
+
                   {key !== formParts.general &&
                     key !== formParts.descs &&
                     key !== formParts.specs && (
@@ -284,6 +289,7 @@ export default function ProductDetailPage({
                         initialProductData={initialProductData}
                         initialProductDescsData={initialProductDescsData}
                         initialProductSpecData={initialProductSpecData}
+                        className='pt-7 @2xl:pt-9 @3xl:pt-11'
                       />
                     )}
                 </Element>

@@ -4,13 +4,13 @@ import { ProductDescsFormValues } from '../schema/product.descs.form.schema';
 
 export function defaultValues(
   initialProductData: ProductFormValues,
-  initialProductSpectData: ProductSpecFormValues,
-  initialProductDescsData: ProductDescsFormValues
+  initialProductDescsData: ProductDescsFormValues,
+  initialProductSpectData: ProductSpecFormValues
 ) {
   return {
     ...initialProductData,
     images: initialProductData?.images || [],
-    ...initialProductSpectData,
     ...initialProductDescsData,
+    ...initialProductSpectData,
   };
 }

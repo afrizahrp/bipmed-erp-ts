@@ -73,7 +73,7 @@ const FinishGoodsPage = async ({
   // });
 
   const pageHeader = {
-    title: params.id ? 'Edit Finish Goods' : 'New Finish Goods',
+    title: product ? 'Edit Finish Goods' : 'New Finish Goods',
 
     breadcrumb: [
       {
@@ -91,7 +91,7 @@ const FinishGoodsPage = async ({
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <div className='w-full flex gap-x-2'>
-        <div className='w-1/2 lg:sticky top-20 h-max'>
+        <div className='w-1/2 lg:sticky top-10 h-max'>
           <Card>
             <CardContent className='pt-2'>
               <ProducImageForm

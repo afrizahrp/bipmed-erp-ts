@@ -15,11 +15,13 @@ import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 interface ProductSpecFormProps {
   product_id: string;
   initialProductSpecData: ProductSpecs | null;
+  className?: string;
 }
 
 export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
   product_id,
   initialProductSpecData,
+  className,
 }) => {
   const {
     register,
@@ -39,6 +41,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
     <FormGroup
       title='Product Specification'
       description='Edit product specification information from here'
+      className={cn(className)}
     >
       <div>
         <Input
