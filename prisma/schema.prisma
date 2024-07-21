@@ -421,18 +421,18 @@ model Products {
   sellingPriceHistory ProductSellingPriceHistory[]
   showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
 
-  descriptions        ProductDescriptions[]
+  descriptions        ProductDescs[]
    
    @@index([id])
 
 }
 
-model ProductDescriptions {
+model ProductDescs {
   id                    String        @id @db.Char(20)
   title                 String        @db.VarChar(150)
   descriptions          String        @db.Text
   features              String        @db.Text
-  footer                String        @db.Text
+  footers                String        @db.Text
   createdBy             String?       @db.Char(10)
   createdAt             DateTime?     @db.DateTime @default(now())
   updatedBy             String?       @db.Char(10)

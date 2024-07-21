@@ -64,8 +64,6 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
     productDialog.onClose();
   };
 
-  console.log('data', data);
-
   async function onSubmit(data: ProductFormValues): Promise<void> {
     try {
       setLoading(true);

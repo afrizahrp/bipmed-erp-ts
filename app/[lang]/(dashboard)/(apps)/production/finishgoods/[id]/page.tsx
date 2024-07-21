@@ -39,32 +39,38 @@ const FinishGoodsPage = async ({
     },
   });
 
-  const categories = await prisma.categories.findMany({
+  const productDescs = await prisma.productDescs.findUnique({
     where: {
-      id: params.category_id,
-      type: '1',
-      iStatus: false,
+      id: params.id,
     },
   });
 
-  const subCategories = await prisma.subCategories.findMany({
-    where: {
-      category_id: params.category_id,
-      id: params.subCategory_id,
-    },
-  });
+  // const categories = await prisma.categories.findMany({
+  //   where: {
+  //     id: params.category_id,
+  //     type: '1',
+  //     iStatus: false,
+  //   },
+  // });
 
-  const brands = await prisma.brands.findMany({
-    where: {
-      id: params.brand_id,
-    },
-  });
+  // const subCategories = await prisma.subCategories.findMany({
+  //   where: {
+  //     category_id: params.category_id,
+  //     id: params.subCategory_id,
+  //   },
+  // });
 
-  const uoms = await prisma.uoms.findMany({
-    where: {
-      id: params.uom_id,
-    },
-  });
+  // const brands = await prisma.brands.findMany({
+  //   where: {
+  //     id: params.brand_id,
+  //   },
+  // });
+
+  // const uoms = await prisma.uoms.findMany({
+  //   where: {
+  //     id: params.uom_id,
+  //   },
+  // });
 
   const pageHeader = {
     title: params.id ? 'Edit Finish Goods' : 'New Finish Goods',
@@ -85,8 +91,7 @@ const FinishGoodsPage = async ({
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <div className='w-full flex gap-x-2'>
-        {/* <div className='w-full'> */}
-        <div className='w-full lg:w-1/2 lg:sticky top-20 h-max'>
+        <div className='w-1/2 lg:sticky top-20 h-max'>
           <Card>
             <CardContent className='pt-2'>
               <ProducImageForm
@@ -97,17 +102,14 @@ const FinishGoodsPage = async ({
           </Card>
         </div>
 
-        <div className='w-full'>
+        <div className='w-1/2'>
           <Card>
             <CardContent className='pt-2'>
               <ProductDetailPage
                 product_id={params.id}
                 initialProductData={product}
                 initialProductSpecData={productSpec}
-                // categories={categories}
-                // subCategories={subCategories}
-                // brands={brands}
-                // uoms={uoms}
+                initialProductDescsData={productDescs}
               />
             </CardContent>
           </Card>

@@ -8,12 +8,12 @@ import { Element } from 'react-scroll';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import cn from '@/utils/class-names';
-import FormNav, { formParts } from '@/components/form-nav';
+import FormNav, { formParts } from './form-nav';
 
 import {
   Products,
   ProductSpecs,
-  ProductImages,
+  ProductDescs,
   // Categories,
   // SubCategories,
   // Brands,
@@ -21,42 +21,38 @@ import {
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { FinishGoodsForm } from './finish-goods-form';
+import { ProductDescsForm } from './product-descs-form';
 import ProductImageForm from './productImage-form';
 import FormFooter from '@/components/form-footer';
 
 import {
-  productAndSpecCombinedSchema,
+  productspecsdescsCombinedSchema,
   CombinedProductFormValues,
-} from '@/utils/schema/product-and-spec-combined.form.schema';
+} from '@/utils/schema/product.specs.descs.form.schema';
 
-import { defaultValues } from '@/utils/defaultvalues/product-and-spec-combined.defaultValue';
+import { defaultValues } from '@/utils/defaultvalues/product-descs-specs.combined.defaultValues';
 
 import { routes } from '@/config/routes';
 
 const MAP_STEP_TO_COMPONENT = {
   [formParts.general]: FinishGoodsForm,
+  [formParts.descs]: ProductDescsForm,
   [formParts.specs]: ProductSpecForm,
 };
 
 interface IndexProps {
   product_id: string;
   initialProductData: Products | null;
+  initialProductDescsData: ProductDescs | null;
   initialProductSpecData: ProductSpecs | null;
-  // categories: Categories[];
-  // subCategories: SubCategories[];
-  // brands: Brands[];
-  // uoms: Uoms[];
   className?: string;
 }
 
 export default function ProductDetailPage({
   product_id,
   initialProductData,
+  initialProductDescsData,
   initialProductSpecData,
-  // categories,
-  // subCategories,
-  // brands,
-  // uoms,
   className,
 }: IndexProps) {
   const params = useParams();
@@ -74,7 +70,7 @@ export default function ProductDetailPage({
   const action = initialProductData ? 'Save Changes' : 'Save New Product';
 
   const methods = useForm<CombinedProductFormValues>({
-    resolver: zodResolver(productAndSpecCombinedSchema),
+    resolver: zodResolver(productspecsdescsCombinedSchema),
     defaultValues: defaultValues(
       initialProductData ?? {
         id: '',
@@ -91,6 +87,7 @@ export default function ProductDetailPage({
         isMaterial: false,
         iShowedStatus: false,
       },
+
       initialProductSpecData ?? {
         id: '',
         construction: '',
@@ -151,6 +148,13 @@ export default function ProductDetailPage({
         systemControl: '',
         bodyFrameWork: '',
         specremarks: '',
+      },
+      initialProductDescsData ?? {
+        id: '',
+        title: '',
+        descriptions: '',
+        features: '',
+        footers: '',
       }
     ),
   });
@@ -190,13 +194,27 @@ export default function ProductDetailPage({
               ...data,
               id: productId, // Use the obtained productId for new productSpecs
             });
-            // Handle success, e.g., updating the UI or notifying the user
           } catch (error) {
-            // Handle error, e.g., logging the error or showing an error message
             console.error('Failed to post product specs:', error);
           }
         } else {
-          // Handle invalid data, e.g., showing an error message to the user
+          if (initialProductDescsData) {
+            await axios.patch(`/api/inventory/productDescs/${productId}`, data);
+          } else {
+            if (typeof data.title === 'string' && data.title.trim() !== '') {
+              try {
+                await axios.post(`/api/inventory/productDescs`, {
+                  ...data,
+                  id: productId, // Use the obtained productId for new productDescs
+                });
+              } catch (error) {
+                console.error('Failed to post product descs:', error);
+              }
+            } else {
+              console.error('Invalid data:', data);
+            }
+          }
+
           console.error('Invalid data:', data);
         }
       }
@@ -230,7 +248,18 @@ export default function ProductDetailPage({
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
+                      initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
+                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                    />
+                  )}
+                  ,
+                  {key === formParts.descs && (
+                    <Component
+                      product_id={product_id}
+                      initialProductData={initialProductData}
+                      initialProductSpecData={initialProductSpecData}
+                      initialProductDescsData={initialProductDescsData}
                       // categories={categories}
                       // subCategories={subCategories}
                       // brands={brands}
@@ -242,27 +271,21 @@ export default function ProductDetailPage({
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
+                      initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
-                      // categories={categories}
-                      // subCategories={subCategories}
-                      // brands={brands}
-                      // uoms={uoms}
-
-                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
-                  {key !== formParts.general && key !== formParts.specs && (
-                    <Component
-                      product_id={product_id}
-                      initialProductData={initialProductData}
-                      initialProductSpecData={initialProductSpecData}
-                      // categories={categories}
-                      // subCategories={subCategories}
-                      // brands={brands}
-                      // uoms={uoms}
-                      // className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                    />
-                  )}
+                  ,
+                  {key !== formParts.general &&
+                    key !== formParts.descs &&
+                    key !== formParts.specs && (
+                      <Component
+                        product_id={product_id}
+                        initialProductData={initialProductData}
+                        initialProductDescsData={initialProductDescsData}
+                        initialProductSpecData={initialProductSpecData}
+                      />
+                    )}
                 </Element>
               ))}
             </div>

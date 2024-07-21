@@ -2,6 +2,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import { routes } from '@/config/routes';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
@@ -70,7 +71,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     ),
     cell: ({ row }) => (
       <Link
-        href={`/cms/products/${row.getValue('id')}`}
+        href={routes.production.editfinishgoods(row.getValue('id'))}
         className='text-primary-600 dark:text-slate-200'
       >
         {row.getValue('id')}

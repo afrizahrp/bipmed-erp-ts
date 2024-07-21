@@ -1,14 +1,16 @@
 import { ProductFormValues } from '../schema/product.form.schema';
 import { ProductSpecFormValues } from '../schema/productSpec.form.schema';
+import { ProductDescsFormValues } from '../schema/product.descs.form.schema';
 
 export function defaultValues(
   initialProductData: ProductFormValues,
-  initialProductSpectData: ProductSpecFormValues
+  initialProductSpectData: ProductSpecFormValues,
+  initialProductDescsData: ProductDescsFormValues
 ) {
   return {
     ...initialProductData,
     images: initialProductData?.images || [],
-
     ...initialProductSpectData,
+    ...initialProductDescsData,
   };
 }
