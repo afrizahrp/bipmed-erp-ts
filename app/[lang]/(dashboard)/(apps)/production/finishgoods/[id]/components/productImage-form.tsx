@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
+import useProductStore from '@/store/useProductStore';
 import React, { useState } from 'react';
-import { useProducts } from '@/queryHooks/useProducts';
 import { useForm } from 'react-hook-form';
 import { CldUploadWidget } from 'next-cloudinary';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,31 +13,30 @@ import {
   productImageFormSchema,
   ProductImageFormValues,
 } from '@/utils/schema/productImage.form.schema';
-import { ProductImages } from '@prisma/client';
+import { Products, ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
 
 interface ProductImageFormProps {
-  initialData: ProductImages[];
   product_id: string;
+  initialData: ProductImages[];
 }
 
 const ProductImageForm: React.FC<ProductImageFormProps> = ({
-  initialData,
   product_id,
+  initialData,
 }) => {
-  let id: string;
-
-  if (product_id !== 'new') {
-    id = product_id;
-  } else {
-    id = '';
-  }
-  console.log('product_id:', id);
-  console.log('product id image form', product_id);
-
+  const productId = useProductStore((state) => state.productId);
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
+
+  console.log('product_id store', productId);
+
+  if (product_id === '' || product_id === 'new') {
+    product_id = productId;
+  }
+
+  console.log('product_id image form', product_id);
 
   const router = useRouter();
 
@@ -61,7 +60,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     // Create a new ProductImages object with default values
     const newProductImage: ProductImages = {
       id: imageId || '', // Extracted id from Cloudinary URL
-      product_id,
+      product_id: product_id, // Set product_id from props with a default value of ''
       imageURL: newImage,
       isPrimary: false, // Set default value for isPrimary
       createdBy: '', // Set default value or handle it in your API
@@ -238,9 +237,9 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 return (
                   <Button
                     type='button'
-                    disabled={id === '' || loading}
+                    disabled={product_id === '' || loading}
                     className={
-                      id === ''
+                      product_id === ''
                         ? 'bg-secondary text-black'
                         : 'bg-primary text-white'
                     }

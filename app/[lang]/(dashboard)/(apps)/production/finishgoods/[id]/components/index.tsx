@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
-import { useState } from 'react';
+import useProductStore from '@/store/useProductStore';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 
@@ -58,6 +59,8 @@ export default function ProductDetailPage({
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [action, setAction] = useState('Save');
+  const [productId, setProductId] = useState<string>('');
 
   let id: string;
 
@@ -66,7 +69,6 @@ export default function ProductDetailPage({
   } else {
     id = '';
   }
-  console.log('product_id:', id);
 
   const description = initialProductData
     ? `Change Product ${initialProductData.id}-> ${initialProductData.name}`
@@ -74,7 +76,6 @@ export default function ProductDetailPage({
   const toastMessage = initialProductData
     ? 'Changes has saved successfully.'
     : 'New product has been added successfully.';
-  const action = initialProductData ? 'Save Changes' : 'Save New Product';
 
   const methods = useForm<CombinedProductFormValues>({
     resolver: zodResolver(productspecsdescsCombinedSchema),
@@ -173,19 +174,30 @@ export default function ProductDetailPage({
     router.push('/production/finishgoods/finishgoods-list');
   };
 
+  const resetProductId = useProductStore((state) => state.resetProductId);
+
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {
       setLoading(true);
-      let productId = product_id; // Use existing id if available
-
+      let tempProductId: '';
+      resetProductId();
       if (!initialProductData) {
+        tempProductId = '';
+
+        console.log('product_id before post:', tempProductId);
+
         const productResponse = await axios.post(
           `/api/inventory/products`,
           data
         );
-        productId = productResponse.data.id; // Assuming the response contains the new product's id
-        product_id = productId;
-        <ProductImageForm product_id={productId} initialData={[]} />;
+        tempProductId = productResponse.data.id; // Assuming the response contains the new product's id
+
+        useProductStore.setState({ productId: tempProductId });
+        // setProductId(tempProductId);
+
+        console.log('product_id after post:', tempProductId);
+
+        <ProductImageForm product_id={tempProductId} initialData={[]} />;
       } else {
         await axios.patch(`/api/inventory/products/${product_id}`, data);
       }
@@ -218,8 +230,6 @@ export default function ProductDetailPage({
               } catch (error) {
                 console.error('Failed to post product descs:', error);
               }
-            } else {
-              console.error('Invalid data:', data);
             }
           }
 
@@ -299,7 +309,7 @@ export default function ProductDetailPage({
             <FormFooter
               isLoading={loading}
               handleAltBtn={handleBack}
-              submitBtnText={id ? 'Update' : 'Save'}
+              submitBtnText={action}
             />
           </form>
         </FormProvider>

@@ -8,6 +8,7 @@ import { InputGroup, InputGroupText } from '@/components/ui/input-group';
 import { Label } from '@/components/ui/label';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
+import { Switch } from '@/components/ui/switch';
 
 import {
   Products,
@@ -29,6 +30,7 @@ import {
   SearchColumnUom,
   SearchColumnBrand,
 } from '@/components/searchColumns';
+import ImageCollection from '@/components/ui/images-collection';
 
 interface FinishGoodsFormProps {
   product_id: string;
@@ -96,6 +98,10 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
         description='Edit product general product information from here'
         className={cn(className)}
       >
+        <div style={{ display: 'none' }}>
+          <ImageCollection value={[]} disabled={loading} />
+        </div>
+
         <div className='grid grid-cols-4 gap-4 py-2'>
           <div>
             <Label>Id</Label>
@@ -330,6 +336,18 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
             })}
           />
         </div>
+
+        {/* <div className='grid grid-cols-2 gap-4'>
+          <div>
+            <Label>Active</Label>
+            <Switch
+              id='iStatus'
+              {...register('iStatus')}
+              checked={initialProductData?.iStatus || false}
+              onCheckedChange={(e) => setValue('iStatus', e.target.checked)}
+              />
+          </div>  
+        </div> */}
       </FormGroup>
     </>
   );
