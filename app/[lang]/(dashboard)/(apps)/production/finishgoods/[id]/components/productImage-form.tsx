@@ -13,7 +13,7 @@ import {
   productImageFormSchema,
   ProductImageFormValues,
 } from '@/utils/schema/productImage.form.schema';
-import { Products, ProductImages } from '@prisma/client';
+import { ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
 
@@ -30,13 +30,9 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   const [images, setImages] = useState(initialData);
   const [loading, setLoading] = useState(false);
 
-  console.log('product_id store', productId);
-
   if (product_id === '' || product_id === 'new') {
     product_id = productId;
   }
-
-  console.log('product_id image form', product_id);
 
   const router = useRouter();
 

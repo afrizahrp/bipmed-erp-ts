@@ -43,7 +43,6 @@ const MAP_STEP_TO_COMPONENT = {
 };
 
 interface IndexProps {
-  isCms?: boolean;
   product_id: string;
   initialProductData: Products | null;
   initialProductDescsData: ProductDescs | null;
@@ -52,7 +51,6 @@ interface IndexProps {
 }
 
 export default function ProductDetailPage({
-  isCms,
   product_id,
   initialProductData,
   initialProductDescsData,
@@ -61,12 +59,9 @@ export default function ProductDetailPage({
 }: IndexProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [action, setAction] = useState('Save');
   const [productId, setProductId] = useState<string>('');
-
+  let action = 'Save';
   let id: string;
-
-  console.log('isCms:', isCms);
 
   const description = initialProductData
     ? `Change Product ${initialProductData.id}-> ${initialProductData.name}`
@@ -169,24 +164,22 @@ export default function ProductDetailPage({
   const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
-    if (!isCms) {
-      router.push('/production/finishgoods/finishgoods-list');
+    router.push('/production/finishgoods/finishgoods-list');
 
-      return;
-    }
+    return;
   };
 
   const resetProductId = useProductStore((state) => state.resetProductId);
 
   if (product_id !== 'new') {
     id = product_id;
+    action = 'Update';
   } else {
+    action = 'Save';
     id = '';
     resetProductId();
     useProductStore.setState({ productId: product_id });
   }
-
-  // const action = product_id === 'new' ? 'Save' : 'Update';
 
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {
@@ -196,18 +189,14 @@ export default function ProductDetailPage({
       if (!initialProductData) {
         tempProductId = '';
 
-        console.log('product_id before post:', tempProductId);
-
         const productResponse = await axios.post(
           `/api/inventory/products`,
           data
         );
-        tempProductId = productResponse.data.id; // Assuming the response contains the new product's id
+        tempProductId = productResponse.data.id;
 
         useProductStore.setState({ productId: tempProductId });
-        // setProductId(tempProductId);
-
-        console.log('product_id after post:', tempProductId);
+        product_id = tempProductId;
 
         <ProductImageForm product_id={tempProductId} initialData={[]} />;
       } else {
@@ -215,7 +204,7 @@ export default function ProductDetailPage({
       }
 
       if (initialProductSpecData) {
-        await axios.patch(`/api/inventory/productSpecs/${productId}`, data);
+        await axios.patch(`/api/inventory/productSpecs/${product_id}`, data);
       } else {
         if (
           typeof data.construction === 'string' &&
@@ -224,32 +213,33 @@ export default function ProductDetailPage({
           try {
             await axios.post(`/api/inventory/productSpecs`, {
               ...data,
-              id: productId,
+              id: product_id,
             });
           } catch (error) {
             console.error('Failed to post product specs:', error);
           }
-        } else {
-          if (initialProductDescsData) {
-            await axios.patch(`/api/inventory/productDescs/${productId}`, data);
-          } else {
-            if (typeof data.title === 'string' && data.title.trim() !== '') {
-              try {
-                await axios.post(`/api/inventory/productDescs`, {
-                  ...data,
-                  id: productId, // Use the obtained productId for new productDescs
-                });
-              } catch (error) {
-                console.error('Failed to post product descs:', error);
-              }
+        }
+
+        if (!initialProductDescsData) {
+          console.log('desc data:', initialProductDescsData);
+
+          if (typeof data.title === 'string' && data.title.trim() !== '') {
+            try {
+              await axios.post(`/api/inventory/productDescs`, {
+                ...data,
+                id: product_id,
+              });
+            } catch (error) {
+              console.error('Failed to post product descs:', error);
             }
           }
-
-          console.error('Invalid data:', data);
+        } else {
+          console.log('initialProductDescsData:', initialProductDescsData);
+          await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
         }
       }
       router.refresh();
-      setAction('Update');
+      action = 'Update';
       toast.success(toastMessage);
     } catch (error) {
     } finally {

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
+import { routes } from '@/config/routes';
 // import { CellAction } from './cell-action';
 
 export type FinishGoodsColumn = {
@@ -76,7 +77,7 @@ export const columns: ColumnDef<FinishGoodsColumn>[] = [
     ),
     cell: ({ row }) => (
       <Link
-        href={`/production/finishgoods/${row.getValue('id')}?isCms=false`}
+        href={routes.production.editfinishgoods(row.getValue('id'))}
         className='text-primary-600 dark:text-slate-200'
       >
         {row.getValue('id')}
