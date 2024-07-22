@@ -15,7 +15,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onPreview = () => {
     const modifiedData: Categories = {
       ...data,
-      type: data.type || '', // Ensure 'type' is always a string, defaulting to an empty string if it is null
+      type: data.type || '',
+      iStatus: Boolean(data.iStatus) || false,
+      remarks: data.remarks || '',
+      showStatus: false, // Add the showStatus property here
+
       images: data.images.map((image) => ({
         id: '',
         category_id: data.id,

@@ -48,6 +48,7 @@ export const routes = {
     editfinishgoods: (id: string) => `/production/finishgoods/${id}`,
   },
   cms: {
+    products: '/cms/products/product-list',
     editProductCms: (id: string) => `/cms/products/${id}`,
   },
 

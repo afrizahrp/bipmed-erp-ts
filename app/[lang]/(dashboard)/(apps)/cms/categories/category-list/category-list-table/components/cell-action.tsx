@@ -15,12 +15,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onPreview = () => {
     const modifiedData: Categories = {
       ...data,
-      type: data.type || '', // Ensure 'type' is always a string, defaulting to an empty string if it is null
+      iShowedStatus: data.iShowedStatus || false,
+      showStatus: Boolean(data.showStatus) || false, // Ensure 'showStatus' is always a boolean, defaulting to false if it is null or undefined
+      type: '1',
       images: data.images.map((image) => ({
         id: '',
         category_id: data.id,
         imageURL: image,
         isPrimary: false,
+        iShowedStatus: false,
       })),
     };
     categoryDialog.onOpen(modifiedData, true);

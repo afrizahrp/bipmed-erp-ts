@@ -8,12 +8,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import { CellAction } from './cell-action';
 import { EyeOff, Eye } from 'lucide-react';
-import { ProductImages } from '@/types';
 import NextImage from 'next/image';
-
-interface ProductImage {
-  images: ProductImages[];
-}
 
 export type ProductColumn = {
   id: string;
@@ -71,7 +66,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     ),
     cell: ({ row }) => (
       <Link
-        href={routes.production.editfinishgoods(row.getValue('id'))}
+        href={routes.cms.editProductCms(row.getValue('id'))}
         className='text-primary-600 dark:text-slate-200'
       >
         {row.getValue('id')}

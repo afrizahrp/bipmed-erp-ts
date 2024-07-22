@@ -8,9 +8,9 @@ import NextImage from 'next/image';
 
 export type CategoryColumns = {
   id: string;
-  name: string | null;
+  name: string;
   iShowedStatus: boolean;
-  showStatus: string | null;
+  showStatus: string;
   remarks: string | null;
   images: string[];
 };
