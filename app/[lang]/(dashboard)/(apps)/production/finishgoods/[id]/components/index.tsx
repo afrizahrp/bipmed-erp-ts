@@ -38,23 +38,23 @@ import { routes } from '@/config/routes';
 
 const MAP_STEP_TO_COMPONENT = {
   [formParts.general]: FinishGoodsForm,
-  [formParts.descs]: ProductDescsForm,
   [formParts.specs]: ProductSpecForm,
+  [formParts.descs]: ProductDescsForm,
 };
 
 interface IndexProps {
   product_id: string;
   initialProductData: Products | null;
-  initialProductDescsData: ProductDescs | null;
   initialProductSpecData: ProductSpecs | null;
+  initialProductDescsData: ProductDescs | null;
   className?: string;
 }
 
 export default function ProductDetailPage({
   product_id,
   initialProductData,
-  initialProductDescsData,
   initialProductSpecData,
+  initialProductDescsData,
   className,
 }: IndexProps) {
   const router = useRouter();
@@ -275,15 +275,6 @@ export default function ProductDetailPage({
                     />
                   )}
 
-                  {key === formParts.descs && (
-                    <Component
-                      product_id={product_id}
-                      initialProductData={initialProductData}
-                      initialProductSpecData={initialProductSpecData}
-                      initialProductDescsData={initialProductDescsData}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                    />
-                  )}
                   {key === formParts.specs && (
                     <Component
                       product_id={product_id}
@@ -294,9 +285,19 @@ export default function ProductDetailPage({
                     />
                   )}
 
+                  {key === formParts.descs && (
+                    <Component
+                      product_id={product_id}
+                      initialProductData={initialProductData}
+                      initialProductSpecData={initialProductSpecData}
+                      initialProductDescsData={initialProductDescsData}
+                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                    />
+                  )}
+
                   {key !== formParts.general &&
-                    key !== formParts.descs &&
-                    key !== formParts.specs && (
+                    key !== formParts.specs &&
+                    key !== formParts.descs && (
                       <Component
                         product_id={product_id}
                         initialProductData={initialProductData}
