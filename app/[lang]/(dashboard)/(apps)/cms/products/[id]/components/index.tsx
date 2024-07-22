@@ -2,7 +2,7 @@
 import axios from 'axios';
 import useProductStore from '@/store/useProductStore';
 import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { toast } from 'react-hot-toast';
 
@@ -11,15 +11,16 @@ import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import cn from '@/utils/class-names';
 import FormNav, { formParts } from './form-nav';
+import { Button } from '@/components/ui/button';
 
 import {
   Products,
   ProductSpecs,
   ProductDescs,
-  // Categories,
-  // SubCategories,
-  // Brands,
-  // Uoms,
+  Categories,
+  SubCategories,
+  Uoms,
+  Brands,
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { FinishGoodsForm } from './finish-goods-form';
@@ -43,6 +44,10 @@ const MAP_STEP_TO_COMPONENT = {
 interface IndexProps {
   product_id: string;
   initialProductData: Products | null;
+  categories: Categories[];
+  subCategories: SubCategories[];
+  uoms: Uoms[];
+  brands: Brands[];
   initialProductDescsData: ProductDescs | null;
   initialProductSpecData: ProductSpecs | null;
   className?: string;
@@ -51,6 +56,10 @@ interface IndexProps {
 export default function ProductDetailPage({
   product_id,
   initialProductData,
+  categories,
+  subCategories,
+  uoms,
+  brands,
   initialProductDescsData,
   initialProductSpecData,
   className,
@@ -268,18 +277,12 @@ export default function ProductDetailPage({
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
+                      categories={categories}
+                      subCategories={subCategories}
+                      brands={brands}
+                      uoms={uoms}
                       initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                    />
-                  )}
-
-                  {key === formParts.descs && (
-                    <Component
-                      product_id={product_id}
-                      initialProductData={initialProductData}
-                      initialProductSpecData={initialProductSpecData}
-                      initialProductDescsData={initialProductDescsData}
                       className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
@@ -287,18 +290,39 @@ export default function ProductDetailPage({
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
+                      categories={categories}
+                      subCategories={subCategories}
+                      brands={brands}
+                      uoms={uoms}
                       initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
                       className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
+                  {key === formParts.descs && (
+                    <Component
+                      product_id={product_id}
+                      initialProductData={initialProductData}
+                      categories={categories}
+                      subCategories={subCategories}
+                      brands={brands}
+                      uoms={uoms}
+                      initialProductSpecData={initialProductSpecData}
+                      initialProductDescsData={initialProductDescsData}
+                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                    />
+                  )}
 
                   {key !== formParts.general &&
-                    key !== formParts.descs &&
-                    key !== formParts.specs && (
+                    key !== formParts.specs &&
+                    key !== formParts.descs && (
                       <Component
                         product_id={product_id}
                         initialProductData={initialProductData}
+                        categories={categories}
+                        subCategories={subCategories}
+                        brands={brands}
+                        uoms={uoms}
                         initialProductDescsData={initialProductDescsData}
                         initialProductSpecData={initialProductSpecData}
                         className='pt-7 @2xl:pt-9 @3xl:pt-11'
@@ -308,11 +332,15 @@ export default function ProductDetailPage({
               ))}
             </div>
 
-            <FormFooter
+            <Button className='w-full' variant='outline' onClick={handleBack}>
+              Back
+            </Button>
+
+            {/* <FormFooter
               isLoading={loading}
               handleAltBtn={handleBack}
               submitBtnText={action}
-            />
+            /> */}
           </form>
         </FormProvider>
       </div>

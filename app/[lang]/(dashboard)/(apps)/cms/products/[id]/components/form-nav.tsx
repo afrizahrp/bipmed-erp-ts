@@ -6,8 +6,8 @@ import 'simplebar-react/dist/simplebar.min.css';
 
 export const formParts = {
   general: 'general',
-  descs: 'descs',
   specs: 'specs',
+  descs: 'descs',
 };
 
 export const menuItems = [
@@ -16,12 +16,12 @@ export const menuItems = [
     value: formParts.general,
   },
   {
-    label: 'Descriptions',
-    value: formParts.descs,
-  },
-  {
     label: 'Specifications',
     value: formParts.specs,
+  },
+  {
+    label: 'Descriptions',
+    value: formParts.descs,
   },
 ];
 

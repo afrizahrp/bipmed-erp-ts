@@ -3,11 +3,8 @@ import axios from 'axios';
 import useProductStore from '@/store/useProductStore';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { CldUploadWidget } from 'next-cloudinary';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { ImagePlus, Loader2 } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import {
   productImageFormSchema,
@@ -16,6 +13,9 @@ import {
 import { ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
+// import { CldUploadWidget } from 'next-cloudinary';
+import { Button } from '@/components/ui/button';
+import { ImagePlus, Loader2 } from 'lucide-react';
 
 interface ProductImageFormProps {
   product_id: string;
@@ -215,7 +215,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
             />
           </div>
 
-          <div className='w-full flex items-center justify-center gap-x-6'>
+          {/* <div className='w-full flex items-center justify-center gap-x-6'>
             <CldUploadWidget
               onUpload={onUpload}
               options={{
@@ -248,21 +248,8 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
               }}
             </CldUploadWidget>
 
-            {/* {images && (
-              <Button
-                disabled={loading}
-                type='submit'
-                onClick={(event) => {
-                  event.preventDefault(); // Prevent default if necessary
-                  const data = { ...form.getValues() };
-                  onSubmit(data);
-                }}
-              >
-                {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {loading ? 'Saving...' : 'Save'}
-              </Button>
-            )} */}
-          </div>
+  
+          </div> */}
         </form>
       </Form>
     </div>

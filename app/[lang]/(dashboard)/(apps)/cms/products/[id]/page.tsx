@@ -45,36 +45,32 @@ const FinishGoodsPage = async ({
     },
   });
 
-  // const categories = await prisma.categories.findMany({
-  //   where: {
-  //     id: params.category_id,
-  //     type: '1',
-  //     iStatus: false,
-  //   },
-  // });
+  const categories = await prisma.categories.findMany({
+    where: {
+      id: params.category_id,
+      type: '1',
+      iStatus: true,
+    },
+  });
 
-  // const subCategories = await prisma.subCategories.findMany({
-  //   where: {
-  //     category_id: params.category_id,
-  //     id: params.subCategory_id,
-  //   },
-  // });
+  const subCategories = await prisma.subCategories.findMany({
+    where: {
+      category_id: params.category_id,
+      id: params.subCategory_id,
+    },
+  });
 
-  // const brands = await prisma.brands.findMany({
-  //   where: {
-  //     id: params.brand_id,
-  //   },
-  // });
+  const brands = await prisma.brands.findMany({
+    where: {
+      id: params.brand_id,
+    },
+  });
 
-  // const uoms = await prisma.uoms.findMany({
-  //   where: {
-  //     id: params.uom_id,
-  //   },
-  // });
-
-  // const product_id = useProductStore((state) => state.productId);
-
-  // console.log('product_id from page ID', product_id);
+  const uoms = await prisma.uoms.findMany({
+    where: {
+      id: params.uom_id,
+    },
+  });
 
   const pageHeader = {
     title: product ? 'Edit Finish Goods' : 'New Finish Goods',
@@ -112,6 +108,10 @@ const FinishGoodsPage = async ({
               <ProductDetailPage
                 product_id={params.id}
                 initialProductData={product}
+                categories={categories}
+                subCategories={subCategories}
+                uoms={uoms}
+                brands={brands}
                 initialProductSpecData={productSpec}
                 initialProductDescsData={productDescs}
               />
