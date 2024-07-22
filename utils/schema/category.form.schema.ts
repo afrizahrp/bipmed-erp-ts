@@ -4,7 +4,7 @@ export const categoryFormSchema = z.object({
   images: z.object({ imageURL: z.string() }).array(),
   id: z.string().min(5).or(z.literal('')).optional(),
   type: z.string().min(1, { message: 'Type is required' }).optional(),
-  name: z.string().min(5, { message: 'Category name is required' }), // {message: 'Name must be at least 5 characters long'
+  name: z.string().min(3, { message: 'Category name is required' }), // {message: 'Name must be at least 5 characters long'
   remarks: z.string().min(5).or(z.literal('')).optional(),
   iStatus: z.boolean().default(true),
   iShowedStatus: z.boolean().default(false),
