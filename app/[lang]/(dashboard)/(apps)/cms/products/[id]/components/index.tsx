@@ -37,8 +37,8 @@ import { defaultValues } from '@/utils/defaultvalues/product-descs-specs.combine
 
 const MAP_STEP_TO_COMPONENT = {
   [formParts.general]: FinishGoodsForm,
-  [formParts.descs]: ProductDescsForm,
   [formParts.specs]: ProductSpecForm,
+  [formParts.descs]: ProductDescsForm,
 };
 
 interface IndexProps {
@@ -227,25 +227,26 @@ export default function ProductDetailPage({
             console.error('Failed to post product specs:', error);
           }
         }
-
-        if (!initialProductDescsData) {
-          console.log('desc data:', initialProductDescsData);
-
-          if (typeof data.title === 'string' && data.title.trim() !== '') {
-            try {
-              await axios.post(`/api/inventory/productDescs`, {
-                ...data,
-                id: product_id,
-              });
-            } catch (error) {
-              console.error('Failed to post product descs:', error);
-            }
-          }
-        } else {
-          console.log('initialProductDescsData:', initialProductDescsData);
-          await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
-        }
       }
+
+      if (!initialProductDescsData) {
+        console.log('desc data:', initialProductDescsData);
+
+        if (typeof data.title === 'string' && data.title.trim() !== '') {
+          try {
+            await axios.post(`/api/inventory/productDescs`, {
+              ...data,
+              id: product_id,
+            });
+          } catch (error) {
+            console.error('Failed to post product descs:', error);
+          }
+        }
+      } else {
+        console.log('initialProductDescsData:', initialProductDescsData);
+        await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
+      }
+
       router.refresh();
       action = 'Update';
       toast.success(toastMessage);
@@ -332,15 +333,15 @@ export default function ProductDetailPage({
               ))}
             </div>
 
-            <Button className='w-full' variant='outline' onClick={handleBack}>
+            {/* <Button className='w-full' variant='outline' onClick={handleBack}>
               Back
-            </Button>
+            </Button> */}
 
-            {/* <FormFooter
+            <FormFooter
               isLoading={loading}
               handleAltBtn={handleBack}
               submitBtnText={action}
-            /> */}
+            />
           </form>
         </FormProvider>
       </div>

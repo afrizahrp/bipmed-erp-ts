@@ -297,7 +297,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
 
         <div className='flex gap-4 items-center mt-1'>
           <div className='flex w-1/4 justify-end items-right'>
-            <Label className='text-right'>Wheels</Label>
+            <Label className='text-right'>Castor/Wheels</Label>
           </div>
           <div className='flex w-full gap-2 mb-2'>
             <Input
@@ -315,7 +315,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
             <Label className='text-right'>Movers</Label>
           </div>
           <div className='flex w-full gap-2 mb-2'>
-            <Input
+            <Textarea
               {...register('movers')}
               placeholder='Input movers'
               className={cn('w-full', {
@@ -345,7 +345,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
             <Label className='text-right'>Accessories</Label>
           </div>
           <div className='flex w-full gap-2 mb-2'>
-            <Input
+            <Textarea
               {...register('accessories')}
               placeholder='Input accessories'
               className={cn('w-full', {
@@ -457,7 +457,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
             <Label className='text-right'>Mattress</Label>
           </div>
           <div className='flex w-full gap-2 mb-2'>
-            <Input
+            <Textarea
               {...register('mattress')}
               placeholder='Input size and thickness of mattress here'
               className={cn('w-full', {

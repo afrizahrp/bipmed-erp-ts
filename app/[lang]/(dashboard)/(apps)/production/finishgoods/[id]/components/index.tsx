@@ -39,7 +39,7 @@ import { routes } from '@/config/routes';
 const MAP_STEP_TO_COMPONENT = {
   [formParts.general]: FinishGoodsForm,
   [formParts.specs]: ProductSpecForm,
-  [formParts.descs]: ProductDescsForm,
+  // [formParts.descs]: ProductDescsForm,
 };
 
 interface IndexProps {
@@ -219,25 +219,26 @@ export default function ProductDetailPage({
             console.error('Failed to post product specs:', error);
           }
         }
-
-        if (!initialProductDescsData) {
-          console.log('desc data:', initialProductDescsData);
-
-          if (typeof data.title === 'string' && data.title.trim() !== '') {
-            try {
-              await axios.post(`/api/inventory/productDescs`, {
-                ...data,
-                id: product_id,
-              });
-            } catch (error) {
-              console.error('Failed to post product descs:', error);
-            }
-          }
-        } else {
-          console.log('initialProductDescsData:', initialProductDescsData);
-          await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
-        }
       }
+
+      if (!initialProductDescsData) {
+        console.log('desc data:', initialProductDescsData);
+
+        if (typeof data.title === 'string' && data.title.trim() !== '') {
+          try {
+            await axios.post(`/api/inventory/productDescs`, {
+              ...data,
+              id: product_id,
+            });
+          } catch (error) {
+            console.error('Failed to post product descs:', error);
+          }
+        }
+      } else {
+        console.log('initialProductDescsData:', initialProductDescsData);
+        await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
+      }
+
       router.refresh();
       action = 'Update';
       toast.success(toastMessage);
@@ -269,7 +270,7 @@ export default function ProductDetailPage({
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
-                      initialProductDescsData={initialProductDescsData}
+                      // initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
                       className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
@@ -279,13 +280,13 @@ export default function ProductDetailPage({
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
-                      initialProductDescsData={initialProductDescsData}
+                      // initialProductDescsData={initialProductDescsData}
                       initialProductSpecData={initialProductSpecData}
                       className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
                   )}
 
-                  {key === formParts.descs && (
+                  {/* {key === formParts.descs && (
                     <Component
                       product_id={product_id}
                       initialProductData={initialProductData}
@@ -293,19 +294,18 @@ export default function ProductDetailPage({
                       initialProductDescsData={initialProductDescsData}
                       className='pt-7 @2xl:pt-9 @3xl:pt-11'
                     />
-                  )}
+                  )} */}
 
-                  {key !== formParts.general &&
-                    key !== formParts.specs &&
-                    key !== formParts.descs && (
-                      <Component
-                        product_id={product_id}
-                        initialProductData={initialProductData}
-                        initialProductDescsData={initialProductDescsData}
-                        initialProductSpecData={initialProductSpecData}
-                        className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                      />
-                    )}
+                  {/* key !== formParts.descs && ( */}
+                  {key !== formParts.general && key !== formParts.specs && (
+                    <Component
+                      product_id={product_id}
+                      initialProductData={initialProductData}
+                      // initialProductDescsData={initialProductDescsData}
+                      initialProductSpecData={initialProductSpecData}
+                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                    />
+                  )}
                 </Element>
               ))}
             </div>

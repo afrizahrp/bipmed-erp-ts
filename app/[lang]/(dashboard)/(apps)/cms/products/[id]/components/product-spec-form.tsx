@@ -457,7 +457,7 @@ export const ProductSpecForm: React.FC<ProductSpecFormProps> = ({
               <Label className='text-right'>Accessories</Label>
             </div>
             <div className='flex w-full gap-2 mb-2'>
-              <Input
+              <Textarea
                 {...register('accessories')}
                 placeholder='Input accessories'
                 disabled

@@ -19,10 +19,10 @@ export const menuItems = [
     label: 'Specifications',
     value: formParts.specs,
   },
-  {
-    label: 'Descriptions',
-    value: formParts.descs,
-  },
+  // {
+  //   label: 'Descriptions',
+  //   value: formParts.descs,
+  // },
 ];
 
 interface FormNavProps {
