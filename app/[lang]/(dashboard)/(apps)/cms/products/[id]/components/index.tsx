@@ -230,7 +230,7 @@ export default function ProductDetailPage({
       }
 
       if (!initialProductDescsData) {
-        console.log('desc data:', initialProductDescsData);
+        // console.log('desc data:', initialProductDescsData);
 
         if (typeof data.title === 'string' && data.title.trim() !== '') {
           try {
@@ -243,7 +243,7 @@ export default function ProductDetailPage({
           }
         }
       } else {
-        console.log('initialProductDescsData:', initialProductDescsData);
+        // console.log('initialProductDescsData:', initialProductDescsData);
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
 

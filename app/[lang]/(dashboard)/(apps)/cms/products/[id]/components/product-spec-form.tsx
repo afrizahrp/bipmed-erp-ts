@@ -9,8 +9,6 @@ import { Label } from '@/components/ui/label';
 import { ProductSpecs } from '@prisma/client';
 import FormGroup from '@/components/form-group';
 import { Textarea } from '@/components/ui/textarea';
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 
 interface ProductSpecFormProps {
   product_id: string;

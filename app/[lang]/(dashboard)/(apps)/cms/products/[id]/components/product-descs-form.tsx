@@ -1,12 +1,21 @@
 'use client';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
+
+import dynamic from 'next/dynamic';
+
+import QuillLoader from '@/components/ui/quill-loader';
+
+const QuillEditor = dynamic(() => import('@/components/ui/quill-editor'), {
+  ssr: false,
+  loading: () => <QuillLoader className='col-span-full h-[143px]' />,
+});
 
 import { ProductDescs } from '@prisma/client';
 
@@ -39,6 +48,8 @@ export const ProductDescsForm: React.FC<ProductDescsFormProps> = ({
   const {
     register,
     watch,
+    control,
+
     setValue,
     formState: { errors },
   } = useFormContext();
@@ -69,45 +80,50 @@ export const ProductDescsForm: React.FC<ProductDescsFormProps> = ({
         </div>
 
         <div className='pt-2'>
-          <Label>Body</Label>
-          <SimpleMDE
-            {...register('descriptions')}
-            value={descriptions}
-            onChange={(value) => setValue('descriptions', value)}
-            aria-disabled={false}
-            placeholder='Input product descriptions here'
-            className={cn('w-full', {
-              'border-destructive focus:border-destructive':
-                errors.descriptions,
-            })}
+          <Controller
+            control={control}
+            name='descriptions'
+            render={(field) => (
+              <QuillEditor
+                value={watch('descriptions')} // Use watch to get the value
+                onChange={(value) => setValue('descriptions', value)}
+                label='Body'
+                className='col-span-full [&_.ql-editor]:min-h-[100px]'
+                labelClassName='font-medium text-gray-700 dark:text-gray-600 mb-1.5'
+              />
+            )}
           />
         </div>
 
         <div className='pt-2'>
-          <Label>Features</Label>
-          <SimpleMDE
-            {...register('features')}
-            value={features}
-            onChange={(value) => setValue('features', value)}
-            aria-disabled={false}
-            placeholder='Input product features here'
-            className={cn('w-full', {
-              'border-destructive focus:border-destructive': errors.features,
-            })}
+          <Controller
+            control={control}
+            name='features'
+            render={(field) => (
+              <QuillEditor
+                value={watch('features')} // Use watch to get the value
+                onChange={(value) => setValue('features', value)}
+                label='Features'
+                className='col-span-full [&_.ql-editor]:min-h-[100px]'
+                labelClassName='font-medium text-gray-700 dark:text-gray-600 mb-1.5'
+              />
+            )}
           />
         </div>
 
         <div className='pt-2'>
-          <Label>Footers</Label>
-          <SimpleMDE
-            {...register('footers')}
-            value={footers}
-            onChange={(value) => setValue('footers', value)}
-            aria-disabled={false}
-            placeholder='Input description footers here'
-            className={cn('w-full', {
-              'border-destructive focus:border-destructive': errors.footers,
-            })}
+          <Controller
+            control={control}
+            name='footers'
+            render={(field) => (
+              <QuillEditor
+                value={watch('footers')} // Use watch to get the value
+                onChange={(value) => setValue('footers', value)}
+                label='Footer'
+                className='col-span-full [&_.ql-editor]:min-h-[100px]'
+                labelClassName='font-medium text-gray-700 dark:text-gray-600 mb-1.5'
+              />
+            )}
           />
         </div>
         {/* </div> */}
