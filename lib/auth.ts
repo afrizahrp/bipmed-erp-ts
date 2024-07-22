@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   jwt: {
-    secret: process.env.NEXT_PUBLIC_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
   },
 
   callbacks: {
