@@ -23,6 +23,9 @@ const CategoryListPage = async () => {
     where: {
       iStatus: true,
       type: '1',
+      images: {
+        some: {},
+      },
     },
     include: {
       categoryType: true,
@@ -39,8 +42,8 @@ const CategoryListPage = async () => {
     categories?.map((item) => ({
       id: item.id,
       name: item.name ?? '',
-      iShowedStatus: item.iShowedStatus,
-      showStatus: item.showStatus ? item.showStatus.name : '',
+      iShowedStatus: item.iShowedStatus as boolean,
+      showStatus: item.showStatus.name,
       remarks: item?.remarks ?? '',
       images: item.images.map((image) => image.imageURL),
     })) ?? [];

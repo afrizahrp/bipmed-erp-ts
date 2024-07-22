@@ -22,6 +22,9 @@ const ProductListPage = async () => {
     where: {
       isMaterial: false,
       iStatus: true,
+      images: {
+        some: {},
+      },
     },
     include: {
       brand: true,

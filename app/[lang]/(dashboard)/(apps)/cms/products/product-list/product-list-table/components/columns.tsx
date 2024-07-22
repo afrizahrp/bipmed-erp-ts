@@ -131,7 +131,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
 
       return (
         <div className='flex space-x-1'>
-          {Array.isArray(imgPrimary) &&
+          {Array.isArray(imgPrimary) && imgPrimary.length > 0 ? (
             imgPrimary.map((image, index) => (
               <NextImage
                 key={index}
@@ -141,7 +141,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
                 alt={`Image ${index}`}
                 className='max-w-[80px]'
               />
-            ))}
+            ))
+          ) : (
+            <p>No available image</p>
+          )}
         </div>
       );
     },
