@@ -13,7 +13,7 @@ export const CategoryListTable: React.FC<CategoriesProps> = ({ data }) => {
       <DataTable
         columns={columns}
         data={data}
-        href={routes.inventory.newCategory}
+        href='#'
         hrefText='none'
         pageName='category-web'
       />

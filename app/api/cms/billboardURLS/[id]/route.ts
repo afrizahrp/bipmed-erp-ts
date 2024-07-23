@@ -10,17 +10,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// function checkImageExists(publicId: string) {
-//   return new Promise((resolve, reject) => {
-//     cloudinary.api.resource(publicId, { type: 'upload' }, (error, result) => {
-//       if (error) {
-//         reject(error);
-//       } else {
-//         resolve(result);
-//       }
-//     });
-//   });
-// }
 
 export async function DELETE(
   req: Request,
@@ -30,29 +19,29 @@ export async function DELETE(
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({}, { status: 401 });
 
-    const productImage = await prisma.productImages.findUnique({
+    const billboardContent = await prisma.billboardContents.findUnique({
       where: {
         id: params.id,
       },
     });
 
-    if (!productImage) {
+    if (!billboardContent) {
       return new NextResponse('Product image not found', { status: 404 });
     }
 
-    const imageId = 'upload/' + params.id;
+    const urlID = 'upload/' + params.id;
 
-    await cloudinary.uploader.destroy(imageId, { invalidate: true });
+    await cloudinary.uploader.destroy(urlID, { invalidate: true });
 
-    await prisma.productImages.delete({
+    await prisma.billboardContents.delete({
       where: {
         id: params.id,
       },
     });
 
-    return NextResponse.json({ message: 'Product image deleted' });
+    return NextResponse.json({ message: 'Billboard content has been deleted' });
   } catch (error) {
-    console.log('[PRODUCT_IMAGE_DELETE]', error);
+    console.log('[BILLBOARD_CONTENT_DELETE]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
@@ -66,24 +55,23 @@ export async function PATCH(
     const userName = session?.user?.name || '';
     if (!session) return NextResponse.json({}, { status: 401 });
 
-    const productImage = await prisma.productImages.findUnique({
+    const billboardContent = await prisma.billboardContents.findUnique({
       where: {
         id: params.id,
       },
     });
 
-    if (!productImage) {
-      return new NextResponse('Product image not found', { status: 404 });
+    if (!billboardContent) {
+      return new NextResponse('Billboar content not found', { status: 404 });
     }
 
     const body = await req.json();
     const { isPrimary } = body as { isPrimary: boolean };
 
     if (isPrimary) {
-      // Set isPrimary to false for all other images of the same product
-      await prisma.productImages.updateMany({
+      await prisma.billboardContents.updateMany({
         where: {
-          product_id: productImage.product_id,
+          billboard_id: billboardContent.billboard_id,
           id: {
             not: params.id,
           },
@@ -94,7 +82,7 @@ export async function PATCH(
       });
     }
 
-    await prisma.productImages.update({
+    await prisma.billboardContents.update({
       where: {
         id: params.id,
       },
@@ -107,7 +95,7 @@ export async function PATCH(
 
     return NextResponse.json({ message: 'Product image has been updated' });
   } catch (error) {
-    console.log('[PRODUCT_IMAGE_PATCH]', error);
+    console.log('[BILLBOARD_URLS_PATCH]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }

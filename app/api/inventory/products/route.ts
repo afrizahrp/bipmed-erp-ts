@@ -149,7 +149,6 @@ export async function POST(request: NextRequest) {
 
     let url = images.map((image: { imageURL: string }) => image.imageURL);
     const publicIds = extractPublicIdFromCloudinaryUrl({ url });
-    console.log('public id', publicIds);
 
     const product = await prisma.products.create({
       data: {

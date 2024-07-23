@@ -1,5 +1,6 @@
 import { Table } from '@tanstack/react-table';
 import { ProductsFilterSidebar } from './productsFilterSidebar';
+import { ProductsFilterSidebarWeb } from './productsFilterSidebar-web';
 import { MaterialFilterSidebar } from './materialFilterSidebar';
 import { CategoryFilterSidebar } from './categoryFilterSidebar';
 import { CategoryFilterSidebarWeb } from './categoryFilterSidebar-web';
@@ -16,6 +17,8 @@ export function FilterSidebarButton<TData>({
   switch (pageName) {
     case 'product':
       return <ProductsFilterSidebar table={table} />;
+    case 'product-web':
+      return <ProductsFilterSidebarWeb table={table} />;
     case 'material':
       return <MaterialFilterSidebar table={table} />;
     case 'category':

@@ -80,6 +80,7 @@ model MasterTableStatus {
   SubCategories       SubCategories[]
   Products            Products[]
   Suppliers           Suppliers[]
+  Billboards          Billboards[]
 }
 
 model MasterShowedStatus {
@@ -94,6 +95,7 @@ model MasterShowedStatus {
   branch_id           String        @db.Char(10)
   Categories          Categories[]
   Products            Products[]
+  Billboards          Billboards[]
 }
 
 model TrxTableStatus {
@@ -608,11 +610,11 @@ model ProductSpecs {
   door               String       @default("") @db.VarChar(250)
   handle             String       @default("") @db.VarChar(250)
   medicineBox        String       @default("") @db.VarChar(250)
-  handleTrolley      String       @default("") @db.VarChar(250)
+  handleTrolley      String        @default("") @db.VarChar(250)
   drawer              String       @default("") @db.VarChar(250)
   systemControl       String       @default("") @db.VarChar(250)
   bodyFrameWork       String       @default("") @db.VarChar(250)
-  specremarks         String      @default("") @db.Text
+  specremarks         String        @default("") @db.Text
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)
@@ -620,23 +622,47 @@ model ProductSpecs {
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
   products            Products      @relation(fields: [id], references: [id])
+    @@index([id])
+
 }
 
-model sysCarousel {
-  id                  Int           @id @default(autoincrement())
-  section             Int           @db.TinyInt
-  title               String?       @db.VarChar(150)
-  description         String?       @db.VarChar(250)
-  imageURL            String?       @db.VarChar(250)
-  isShowSlide         Boolean?      @default(true)
-  isShowBtn           Boolean?      @default(true)
-  btnText             String?       @db.VarChar(50)
-  createdBy           String?       @db.Char(10)
-  createdAt           DateTime?     @db.DateTime @default(now())
-  updatedBy           String?       @db.Char(10)
-  updatedAt           DateTime?     @db.DateTime
-  company_id          String        @db.Char(5)
-  branch_id           String        @db.Char(10)
+model Billboards {
+  id                    Int                 @id @default(autoincrement())
+  name                  String              @default("") @db.VarChar(250)
+  section               Int                 @db.TinyInt 
+  title                 String              @default("") @db.VarChar(50)
+  description           String              @default("") @db.VarChar(250)
+  iStatus               Boolean             @default(true)
+  isShowBtn             Boolean             @default(false)
+  btnText               String              @default("") @db.VarChar(50)
+  isImage               Boolean             @default(true) // true = image, false = video
+  iShowedStatus         Boolean             @default(false)
+  remarks               String              @default("") @db.VarChar(250)
+  createdBy             String?             @db.Char(10)
+  createdAt             DateTime?           @db.DateTime @default(now())
+  updatedBy             String?             @db.Char(10)
+  updatedAt             DateTime?           @db.DateTime
+  company_id            String              @db.Char(5)
+  branch_id             String              @db.Char(10)
+  contents              BillboardContents[]
+  showStatus            MasterShowedStatus  @relation(fields: [iShowedStatus], references: [id])
+  status                MasterTableStatus   @relation(fields: [iStatus], references: [id])
+  @@index([id])
+}
+
+model BillboardContents {
+  id                    String              @id @db.Char(25)
+  billboard_id          Int
+  contentURL            String              @db.VarChar(250)
+  isPrimary             Boolean             @default(false)
+  createdBy             String?             @db.Char(10)
+  createdAt             DateTime?           @db.DateTime @default(now())
+  updatedBy             String?             @db.Char(10)
+  updatedAt             DateTime?           @db.DateTime
+  company_id            String              @db.Char(5)
+  branch_id             String              @db.Char(10)
+  billboard             Billboards          @relation(fields: [billboard_id], references: [id])
+  @@index([billboard_id])
 }
 
 model Suppliers {

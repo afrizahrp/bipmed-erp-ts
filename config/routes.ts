@@ -50,6 +50,10 @@ export const routes = {
   cms: {
     products: '/cms/products/product-list',
     editProductCms: (id: string) => `/cms/products/${id}`,
+    billboards: '/cms/billboards/billboard-list',
+    newBillboard: '/cms/billboards/new',
+
+    editBillboardCms: (id: string) => `/cms/billboards/${id}`,
   },
 
   searchAndFilter: {

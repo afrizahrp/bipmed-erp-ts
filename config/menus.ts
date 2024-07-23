@@ -2149,7 +2149,7 @@ export const menusConfig = {
               },
               {
                 title: 'Billboards',
-                href: '/cms/subcategories/subcategory-list',
+                href: '/cms/billboards/billboard-list',
               },
               {
                 title: 'Events',

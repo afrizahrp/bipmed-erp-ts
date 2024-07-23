@@ -5,17 +5,23 @@ import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter';
 import masterShowedStatusOptions from '@/data/masterShowedStatusOptions';
+import productCategoryOptions from '@/data/productCategoryOptions';
 
-interface CategoryFilterSidebarWebProps<TData> {
+
+interface ProductsFilterSidebarWebProps<TData> {
   table: Table<TData>;
 }
 
-export function CategoryFilterSidebarWeb<TData>({
+export function ProductsFilterSidebarWeb<TData>({
   table,
-}: CategoryFilterSidebarWebProps<TData>) {
+}: ProductsFilterSidebarWebProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
   const { options: statusOptionList, isLoading: isStatusLoading 
   } = masterShowedStatusOptions({ filterData: 1 });
+    const {
+      options: ProductCategoriesOption,
+      isLoading: isProductCategoriesLoading,
+    } = productCategoryOptions({ filterData: 1 });
 
   return (
     <div className='flex items-center justify-end py-2 '>
@@ -27,6 +33,17 @@ export function CategoryFilterSidebarWeb<TData>({
               title='Displayed Status'
               options={statusOptionList}
               isLoading={isStatusLoading}
+            />
+          )}
+        </div>
+
+        <div className='w-full py-1'>
+          {table.getColumn('category') && (
+            <DataTableFacetedFilter
+              column={table.getColumn('category')}
+              title='Category'
+              options={ProductCategoriesOption}
+              isLoading={isProductCategoriesLoading}
             />
           )}
         </div>
