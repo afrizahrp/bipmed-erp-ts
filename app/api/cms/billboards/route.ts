@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 
-
 export async function GET(request: NextRequest) {
   try {
     const billboards = await prisma.billboards.findMany({
@@ -21,7 +20,6 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,7 +54,7 @@ export async function POST(request: NextRequest) {
       isShowBtn: boolean;
       btnText: string;
       contents: { contentURL: string }[];
-      isPrimary: false,
+      isPrimary: false;
 
       iStatus: boolean;
       iShowedStatus: boolean;
@@ -65,7 +63,6 @@ export async function POST(request: NextRequest) {
       updatedBy: string;
       updatedAt: Date;
     };
-
 
     const newBillboard = {
       name,
@@ -89,7 +86,9 @@ export async function POST(request: NextRequest) {
       branch_id: branch_id,
     };
 
-    let url = contents.map((content: { contentURL: string }) => content.contentURL);
+    let url = contents.map(
+      (content: { contentURL: string }) => content.contentURL
+    );
     const publicIds = extractPublicIdFromCloudinaryUrl({ url });
 
     const product = await prisma.billboards.create({

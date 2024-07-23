@@ -1,87 +1,34 @@
 import { prisma } from '@/lib/client';
-import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
-import ProducImageForm from './components/productImage-form';
-import ProductDetailPage from './components';
-// import { ProductForm } from './components/product-form';
-// import { ProductSpecForm } from './components/product-spec-form';
+import { Card, CardContent } from '@/components/ui/card';
 
-const FinishGoodsPage = async ({
+import { BillboardForm } from './components/billboard-form';
+const BillboardPage = async ({
   params,
 }: {
   params: {
     id: string;
-    category_id: string;
-    subCategory_id: string;
-    brand_id: string;
-    uom_id: string;
   };
 }) => {
-  const product = await prisma.products.findUnique({
+  const billboard = await prisma.billboards.findUnique({
     where: {
-      id: params.id,
+      id: parseInt(params.id),
     },
     include: {
-      images: true,
-    },
-  });
-
-  const productImages = await prisma.productImages.findMany({
-    where: {
-      product_id: params.id,
-    },
-  });
-
-  const productSpec = await prisma.productSpecs.findUnique({
-    where: {
-      id: params.id,
-    },
-  });
-
-  const productDescs = await prisma.productDescs.findUnique({
-    where: {
-      id: params.id,
-    },
-  });
-
-  const categories = await prisma.categories.findMany({
-    where: {
-      id: params.category_id,
-      type: '1',
-      iStatus: true,
-    },
-  });
-
-  const subCategories = await prisma.subCategories.findMany({
-    where: {
-      category_id: params.category_id,
-      id: params.subCategory_id,
-    },
-  });
-
-  const brands = await prisma.brands.findMany({
-    where: {
-      id: params.brand_id,
-    },
-  });
-
-  const uoms = await prisma.uoms.findMany({
-    where: {
-      id: params.uom_id,
+      contents: true,
     },
   });
 
   const pageHeader = {
-    title: product ? 'Edit Finish Goods' : 'New Finish Goods',
-
+    title: billboard ? 'Edit Billboard' : 'New Billboard',
     breadcrumb: [
       {
         name: 'List',
-        href: routes.production.finishgoods,
+        href: routes.cms.billboards,
       },
       {
-        name: 'Finish Goods',
+        name: billboard ? 'Edit Billboard' : 'New Billboard',
       },
     ],
   };
@@ -90,37 +37,17 @@ const FinishGoodsPage = async ({
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
-      <div className='w-full flex gap-x-2'>
-        <div className='w-full lg:sticky top-10 h-max'>
-          <Card>
-            <CardContent className='pt-2'>
-              <ProducImageForm
-                initialData={productImages}
-                product_id={params.id}
-              />
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className='w-full'>
-          <Card>
-            <CardContent className='pt-2'>
-              <ProductDetailPage
-                product_id={params.id}
-                initialProductData={product}
-                categories={categories}
-                subCategories={subCategories}
-                uoms={uoms}
-                brands={brands}
-                initialProductSpecData={productSpec}
-                initialProductDescsData={productDescs}
-              />
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      <Card className='py-6'>
+        <CardContent>
+          <BillboardForm
+            initialBillboardData={
+              billboard ? { ...billboard, contents: [] } : null
+            }
+          />
+        </CardContent>
+      </Card>
     </>
   );
 };
 
-export default FinishGoodsPage;
+export default BillboardPage;

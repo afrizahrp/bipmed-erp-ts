@@ -16,7 +16,7 @@ export const BillboardListTable: React.FC<BillboardsClientProps> = ({
         columns={columns}
         data={data}
         href={routes.cms.newBillboard}
-        hrefText='none'
+        hrefText='New Billboard'
         pageName='product-web'
       />
     </div>

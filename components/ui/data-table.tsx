@@ -127,7 +127,7 @@ export function DataTable<TData, TValue>({
             </Select>
           </div>
 
-          <div className='flex md:w-full sm:w-full lg:w-1/2 relative'>
+          <div className='flex md:w-full sm:w-1/2 lg:w-full relative'>
             <Input
               type='search'
               placeholder='Type here to search...'
@@ -146,7 +146,7 @@ export function DataTable<TData, TValue>({
               size='sm'
               variant='outline'
               onClick={handleSheetOpen}
-              className='className="ml-auto mx-2 my-1 px-5 h-8 lg:flex'
+              className='ml-auto mx-2 my-1 px-5 h-8 lg:flex'
             >
               <Filter />
               Filter data
@@ -158,7 +158,7 @@ export function DataTable<TData, TValue>({
               <Button
                 size='sm'
                 asChild
-                className='ml-auto mx-2 my-1 px-5 h-8 lg:flex'
+                className='ml-auto mx-2 my-1 px-5 h-8 lg:flex sm:w-auto'
               >
                 <Link href={href}>
                   <Plus className='w-3 h-3 mr-2' />
