@@ -16,8 +16,6 @@ export async function GET(
   return NextResponse.json(billboard);
 }
 
-
-
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
@@ -37,7 +35,7 @@ export async function PATCH(
       section,
       title,
       isImage,
-      URLS,
+      contents,
       isShowBtn,
       btnText,
       iStatus,
@@ -51,7 +49,7 @@ export async function PATCH(
       isImage: boolean;
       isShowBtn: boolean;
       btnText: string;
-      URLS: { url: string }[];
+      contents: { contentURL: string }[];
       iStatus: boolean;
       iShowedStatus: boolean;
       slug: string;
@@ -61,23 +59,49 @@ export async function PATCH(
       return new NextResponse('Unauthenticated', { status: 403 });
     }
 
+    const editedBillboard = {
+      name,
+      description,
+      section,
+      title,
+      isImage,
+      isShowBtn,
+      btnText,
+      iStatus,
+      iShowedStatus,
+      contents: {
+        deleteMany: {},
+      },
+      updatedBy: userName,
+      updatedAt: new Date(),
+    };
+
+    let url = contents.map(
+      (content: { contentURL: string }) => content.contentURL
+    );
+    const publicIds = extractPublicIdFromCloudinaryUrl({ url });
 
     const billboard = await prisma.billboards.update({
       where: {
-        id: parseInt(params.id)
+        id: parseInt(params.id),
       },
       data: {
-        name,
-        description,
-        section,
-        title,
-        isImage,
-        isShowBtn,
-        btnText,
-        iStatus,
-        iShowedStatus,
-        updatedBy: userName,
-        updatedAt: new Date(),
+        ...editedBillboard,
+        contents: {
+          createMany: {
+            data: contents.map((content) => ({
+              id: publicIds,
+              contentURL: content.contentURL,
+              isPrimary: true,
+              createdBy: userName,
+              createdAt: new Date(),
+              updatedBy: userName,
+              updatedAt: new Date(),
+              company_id,
+              branch_id,
+            })),
+          },
+        },
       },
     });
 
@@ -86,4 +110,18 @@ export async function PATCH(
     console.log('[BILLBOARD_PATCH]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
+}
+
+function extractPublicIdFromCloudinaryUrl(arg0: { url: string[] }): string {
+  const { url } = arg0;
+  const publicIds: string[] = [];
+
+  url.forEach((contentURL) => {
+    const publicId = contentURL.split('/').pop()?.split('.')[0];
+    if (publicId) {
+      publicIds.push(publicId);
+    }
+  });
+
+  return publicIds.join(',');
 }

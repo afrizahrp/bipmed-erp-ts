@@ -10,7 +10,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-
 export async function DELETE(
   req: Request,
   { params }: { params: { id: string } }
@@ -26,13 +25,41 @@ export async function DELETE(
     });
 
     if (!billboardContent) {
-      return new NextResponse('Product image not found', { status: 404 });
+      return new NextResponse('content id is not found', { status: 404 });
     }
 
-    const urlID = 'upload/' + params.id;
+    const billboard = await prisma.billboards.findUnique({
+      where: {
+        id: billboardContent.billboard_id,
+      },
+      select: {
+        isImage: true, // Add this line to select the isImage field
+      },
+    });
 
-    await cloudinary.uploader.destroy(urlID, { invalidate: true });
+    if (!billboard) {
+      return new NextResponse('billboard id is not found', { status: 404 });
+    }
 
+    const urlID = params.id;
+
+    try {
+      if (billboard.isImage) {
+        const result = await cloudinary.uploader.destroy(urlID, {
+          invalidate: true,
+        });
+        console.log('Cloudinary delete result:', result);
+      } else {
+        const result = await cloudinary.uploader.destroy(urlID, {
+          resource_type: 'video',
+          type: 'upload',
+          invalidate: true,
+        });
+        console.log('Cloudinary delete result:', result);
+      }
+    } catch (error) {
+      console.error('Cloudinary delete error:', error);
+    }
     await prisma.billboardContents.delete({
       where: {
         id: params.id,

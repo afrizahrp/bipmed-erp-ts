@@ -5,22 +5,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
 cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-// function checkImageExists(publicId: string) {
-//   return new Promise((resolve, reject) => {
-//     cloudinary.api.resource(publicId, { type: 'upload' }, (error, result) => {
-//       if (error) {
-//         reject(error);
-//       } else {
-//         resolve(result);
-//       }
-//     });
-//   });
-// }
 
 export async function DELETE(
   req: Request,
@@ -40,15 +28,28 @@ export async function DELETE(
       return new NextResponse('Product image not found', { status: 404 });
     }
 
-    const imageId = 'upload/' + params.id;
+    const imageId = params.id;
 
-    await cloudinary.uploader.destroy(imageId, { invalidate: true });
+    // await cloudinary.uploader.destroy(imageId, { invalidate: true });
+
+    try {
+      const result = await cloudinary.uploader.destroy(imageId, {
+        invalidate: true,
+        resource_type: 'image',
+        type: 'upload',
+      });
+      console.log('Cloudinary delete result:', result);
+    } catch (error) {
+      console.error('Cloudinary delete error:', error);
+    }
 
     await prisma.productImages.delete({
       where: {
         id: params.id,
       },
     });
+
+    console.log('before Product image deleted');
 
     return NextResponse.json({ message: 'Product image deleted' });
   } catch (error) {

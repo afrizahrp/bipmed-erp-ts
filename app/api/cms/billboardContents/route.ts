@@ -57,8 +57,6 @@ export async function POST(request: NextRequest) {
     process.env.CLOUDINARY_API_SECRET
   );
 
-  console.log('API Key:', process.env.CLOUDINARY_API_KEY);
-
   // Return the signature, timestamp, and api_key
   return NextResponse.json({
     signature,

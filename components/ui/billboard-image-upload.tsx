@@ -38,7 +38,7 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
     <div>
       <div className='mb-4 flex w-full h-auto items-center gap-4'>
         {value.map((url) => (
-          <div key={url} className='relative w-[300px] h-[300px] rounded-md'>
+          <div key={url} className='relative w-full h-[300px] rounded-md'>
             <div className='z-10 absolute top-2 right-2'>
               <Button
                 type='button'

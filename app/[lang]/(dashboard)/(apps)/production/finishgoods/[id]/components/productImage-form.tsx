@@ -224,6 +224,9 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 multiple: true,
               }}
               uploadPreset='uploadBiwebapp'
+              // signatureEndpoint={
+              //   process.env.NEXT_PUBLIC_CLOUDINARY_SIGNATURE_ENDPOINT
+              // }
             >
               {({ open }) => {
                 const onClick = () => {

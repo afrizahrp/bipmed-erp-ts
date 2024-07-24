@@ -2,7 +2,7 @@
 import axios from 'axios';
 import useProductStore from '@/store/useProductStore';
 import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { toast } from 'react-hot-toast';
 
@@ -23,7 +23,7 @@ import {
 } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { FinishGoodsForm } from './finish-goods-form';
-import { ProductDescsForm } from './product-descs-form';
+// import { ProductDescsForm } from './product-descs-form';
 import ProductImageForm from './productImage-form';
 import FormFooter from '@/components/form-footer';
 
@@ -33,8 +33,6 @@ import {
 } from '@/utils/schema/product.specs.descs.form.schema';
 
 import { defaultValues } from '@/utils/defaultvalues/product-descs-specs.combined.defaultValues';
-
-import { routes } from '@/config/routes';
 
 const MAP_STEP_TO_COMPONENT = {
   [formParts.general]: FinishGoodsForm,
