@@ -177,82 +177,45 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 
   return (
     <>
+      {/* <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'> */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-8 w-full'
         >
+          {/* <div className='w-[1200px] h-[675px] flex items-center justify-center'> */}
           <div className='w-full flex items-center justify-center'>
-            {!isImageValue ? (
-              <FormField
-                control={form.control}
-                name='contents'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl className='flex flex-col gap-3'>
-                      <UploadComponent
-                        value={
-                          field.value
-                            ? field.value.map((item) => item.contentURL)
-                            : []
-                        }
-                        disabled={loading}
-                        onChange={(contentURL) =>
-                          field.onChange([
-                            ...(field.value ?? []),
-                            { contentURL },
-                          ])
-                        }
-                        onRemove={(contentURL) => {
-                          handleImageRemove(contentURL);
-                          const newValue = Array.isArray(field.value)
-                            ? field.value.filter(
-                                (value: { contentURL: string }) =>
-                                  value.contentURL !== contentURL
-                              )
-                            : [];
-                          field.onChange(newValue);
-                        }}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            ) : (
-              <FormField
-                control={form.control}
-                name='contents'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl className='flex flex-col gap-3'>
-                      <BillboardImageUpload
-                        value={
-                          field.value?.map((content) => content.contentURL) ??
-                          []
-                        }
-                        disabled={loading}
-                        onChange={(contentURL) =>
-                          field.onChange([
-                            ...(field.value || []),
-                            { contentURL },
-                          ])
-                        }
-                        onRemove={(contentURL) => {
-                          handleImageRemove(contentURL);
-                          const newValue = Array.isArray(field.value)
-                            ? field.value.filter(
-                                (value: { contentURL: string }) =>
-                                  value.contentURL !== contentURL
-                              )
-                            : [];
-                          field.onChange(newValue);
-                        }}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            )}
+            <FormField
+              control={form.control}
+              name='contents'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl className='flex flex-col gap-3'>
+                    <UploadComponent
+                      value={
+                        field.value
+                          ? field.value.map((item) => item.contentURL)
+                          : []
+                      }
+                      disabled={loading}
+                      onChange={(contentURL) =>
+                        field.onChange([...(field.value ?? []), { contentURL }])
+                      }
+                      onRemove={(contentURL) => {
+                        handleImageRemove(contentURL);
+                        const newValue = Array.isArray(field.value)
+                          ? field.value.filter(
+                              (value: { contentURL: string }) =>
+                                value.contentURL !== contentURL
+                            )
+                          : [];
+                        field.onChange(newValue);
+                      }}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </div>
           <Separator />
 
@@ -491,6 +454,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
           />
         </form>
       </Form>
+      {/* </div> */}
     </>
   );
 };

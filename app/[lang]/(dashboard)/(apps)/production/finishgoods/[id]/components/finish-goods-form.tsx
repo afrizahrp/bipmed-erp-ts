@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, Controller } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
 import { Input } from '@/components/ui/input';
 import { InputGroup, InputGroupText } from '@/components/ui/input-group';
@@ -31,6 +31,7 @@ import {
   SearchColumnBrand,
 } from '@/components/searchColumns';
 import ImageCollection from '@/components/ui/images-collection';
+import { Switch } from '@/components/ui/switch';
 
 interface FinishGoodsFormProps {
   product_id: string;
@@ -68,6 +69,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
     register,
     watch,
     setValue,
+    control,
     formState: { errors },
   } = useFormContext();
 
@@ -178,6 +180,24 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           )}
         </div>
 
+        <div className='pt-2'>
+          <Label>eCatalog Link</Label>
+          <Input
+            id='ecatalog_URL'
+            placeholder='http://ekatalog'
+            disabled={loading}
+            {...register('ecatalog_URL')}
+            className={cn('peer', {
+              'border-destructive': errors.ecatalog_URL,
+            })}
+          />
+          {errors.ecatalog_URL && (
+            <div className='text-destructive'>
+              {errors.ecatalog_URL.message?.toString()}
+            </div>
+          )}
+        </div>
+
         <div className='grid grid-cols-4 gap-4'>
           <div>
             <div className='col-span-4'>Category</div>
@@ -252,74 +272,54 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
             />
           </div>
         </div>
-        <div className='grid grid-cols-6 gap-2 py-2'>
-          <div className='col-span-1'>
-            <Label>TKDN</Label>
-
-            <InputGroup>
-              <Input
-                type='number'
-                min={0}
-                step={1} // Set the step value according to your requirement
-                id='tkdn_pctg'
-                placeholder=' '
-                disabled={loading}
-                {...register('tkdn_pctg')}
-                className={cn('peer text-right justify-end', {
-                  'border-destructive': errors.tkdn_pctg,
-                })}
-                onChange={handleInputChange}
+        <div className='flex justify-end w-full'>
+          <div className='grid grid-cols-8 gap-2 py-2 align-right justify-end'>
+            <div className='col-span-2'>
+              <Label>TKDN</Label>
+              <Controller
+                control={control}
+                name='tkdn_pctg'
+                render={({ field }) => (
+                  <InputGroup>
+                    <Input
+                      min={0}
+                      max={99.99}
+                      step={1}
+                      id='tkdn_pctg'
+                      value={field.value}
+                      onChange={(value) => field.onChange(value)}
+                      className={cn('peer text-right justify-end', {
+                        'border-destructive': errors.tkdn_pctg,
+                      })}
+                    />
+                    <InputGroupText className='bg-slate-200'>%</InputGroupText>
+                  </InputGroup>
+                )}
               />
-
-              <InputGroupText className='bg-slate-200'>%</InputGroupText>
-            </InputGroup>
-
-            {errors.tkdn_pctg && (
-              <div className='text-destructive'>
-                {errors.tkdn_pctg.message?.toString()}
-              </div>
-            )}
-          </div>
-          <div className='col-span-1'>
-            <Label>BMP</Label>
-            <InputGroup>
-              <Input
-                type='number'
-                min={0}
-                step={1} // Set the step value according to your requirement
-                id='bmp_pctg'
-                placeholder=' '
-                disabled={loading}
-                {...register('bmp_pctg')}
-                className={cn('peer text-right justify-end', {
-                  'border-destructive': errors.bmp_pctg,
-                })}
-                onChange={handleInputChange}
+            </div>
+            <div className='col-span-2'>
+              <Label>BMP</Label>
+              <Controller
+                control={control}
+                name='bmp_pctg'
+                render={({ field }) => (
+                  <InputGroup>
+                    <Input
+                      min={0}
+                      max={99.99}
+                      step={1}
+                      id='bmp_pctg'
+                      value={field.value}
+                      onChange={(value) => field.onChange(value)}
+                      className={cn('peer text-right justify-end', {
+                        'border-destructive': errors.bmp_pctg,
+                      })}
+                    />
+                    <InputGroupText className='bg-slate-200'>%</InputGroupText>
+                  </InputGroup>
+                )}
               />
-              <InputGroupText className='bg-slate-200'>%</InputGroupText>
-            </InputGroup>
-            {errors.bmp_pctg && (
-              <div className='text-destructive'>
-                {errors.bmp_pctg.message?.toString()}
-              </div>
-            )}
-          </div>
-          <div className='col-span-4'>
-            <Label>eCatalog Link</Label>
-            <Input
-              id='ecatalog_URL'
-              placeholder='http://ekatalog'
-              disabled={loading}
-              {...register('ecatalog_URL')}
-              className={cn('peer', {
-                'border-destructive': errors.ecatalog_URL,
-              })}
-            />
-            {errors.ecatalog_URL && (
-              <div className='text-destructive'>
-                {errors.ecatalog_URL.message?.toString()}
-              </div>
-            )}
+            </div>
           </div>
         </div>
 
@@ -337,17 +337,55 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           />
         </div>
 
-        {/* <div className='grid grid-cols-2 gap-4'>
-          <div>
-            <Label>Active</Label>
-            <Switch
-              id='iStatus'
-              {...register('iStatus')}
-              checked={initialProductData?.iStatus || false}
-              onCheckedChange={(e) => setValue('iStatus', e.target.checked)}
-              />
-          </div>  
+        {/* <div>
+          <Label>Active Status</Label>
         </div> */}
+        <div>
+          <Controller
+            control={control}
+            name='iStatus'
+            render={(
+              { field } // Destructure field to access its properties
+            ) => (
+              <>
+                <label
+                  htmlFor='iStatus'
+                  className='block text-sm font-medium text-gray-700'
+                >
+                  Active Status
+                </label>
+                <Switch
+                  id='iStatus'
+                  checked={!!field.value}
+                  // @ts-ignore
+                  onCheckedChange={field.onChange}
+                  disabled={loading}
+                  style={{
+                    backgroundColor: field.value ? 'green' : 'gray',
+                  }}
+                />
+                <div>
+                  {field.value ? (
+                    <span className='text-red text-semibold'>Active</span>
+                  ) : (
+                    <span className='text-green'>Non Active</span>
+                  )}
+                </div>
+                <div>
+                  {field.value ? (
+                    <span className='text-green  italic'>
+                      It will be shown during transaction input
+                    </span>
+                  ) : (
+                    <span className='text-gray italic'>
+                      It will not be shown during transaction input
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
+          />
+        </div>
       </FormGroup>
     </>
   );

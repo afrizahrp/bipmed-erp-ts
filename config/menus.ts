@@ -2078,39 +2078,39 @@ export const menusConfig = {
                 title: 'Raw Materials',
                 href: '/inventory/materials/material-list',
               },
-              {
-                title: 'Unit Of Measurement (UOMS)',
-                href: '/utility/maintinance',
-              },
-              {
-                title: 'Brands',
-                href: '/inventory/brand/brand-list',
-              },
+              // {
+              //   title: 'Unit Of Measurement (UOMS)',
+              //   href: '/utility/maintinance',
+              // },
+              // {
+              //   title: 'Brands',
+              //   href: '/inventory/brand/brand-list',
+              // },
 
-              {
-                title: 'Storage Location',
-                href: '#',
-              },
+              // {
+              //   title: 'Storage Location',
+              //   href: '#',
+              // },
             ],
           },
 
-          {
-            title: 'Mutation',
-            multi_menu: [
-              {
-                title: 'Requisition of Materials',
-                href: '#',
-              },
-              {
-                title: 'Issuance Of Materials',
-                href: '#',
-              },
-              {
-                title: 'Receiving Of Materials',
-                href: '#',
-              },
-            ],
-          },
+          // {
+          //   title: 'Mutation',
+          //   multi_menu: [
+          //     {
+          //       title: 'Requisition of Materials',
+          //       href: '#',
+          //     },
+          //     {
+          //       title: 'Issuance Of Materials',
+          //       href: '#',
+          //     },
+          //     {
+          //       title: 'Receiving Of Materials',
+          //       href: '#',
+          //     },
+          //   ],
+          // },
         ],
       },
 
@@ -2151,34 +2151,34 @@ export const menusConfig = {
                 title: 'Billboards',
                 href: '/cms/billboards/billboard-list',
               },
-              {
-                title: 'Events',
-                href: '/cms/subcategories/subcategory-list',
-              },
-              {
-                title: 'News',
-                href: '/cms/subcategories/subcategory-list',
-              },
+              // {
+              //   title: 'Events',
+              //   href: '/cms/subcategories/subcategory-list',
+              // },
+              // {
+              //   title: 'News',
+              //   href: '/cms/subcategories/subcategory-list',
+              // },
             ],
           },
 
-          {
-            title: 'System',
-            multi_menu: [
-              {
-                title: 'Requisition of Materials',
-                href: '#',
-              },
-              {
-                title: 'Issuance Of Materials',
-                href: '#',
-              },
-              {
-                title: 'Receiving Of Materials',
-                href: '#',
-              },
-            ],
-          },
+          // {
+          //   title: 'System',
+          //   multi_menu: [
+          //     {
+          //       title: 'Requisition of Materials',
+          //       href: '#',
+          //     },
+          //     {
+          //       title: 'Issuance Of Materials',
+          //       href: '#',
+          //     },
+          //     {
+          //       title: 'Receiving Of Materials',
+          //       href: '#',
+          //     },
+          //   ],
+          // },
         ],
       },
       // {

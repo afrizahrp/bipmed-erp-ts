@@ -53,7 +53,10 @@ export function SearchColumnSubSubCategory({
           </div>
         </>
       ) : (
-        <div>No data</div>
+        <>
+          <Label>Subcategory</Label>
+          <div className='text-sm'>No related with category</div>
+        </>
       )}
     </div>
   );

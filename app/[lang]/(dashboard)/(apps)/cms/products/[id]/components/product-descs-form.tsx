@@ -5,11 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
-
 import dynamic from 'next/dynamic';
-
 import QuillLoader from '@/components/ui/quill-loader';
 
 const QuillEditor = dynamic(() => import('@/components/ui/quill-editor'), {
@@ -49,7 +45,6 @@ export const ProductDescsForm: React.FC<ProductDescsFormProps> = ({
     register,
     watch,
     control,
-
     setValue,
     formState: { errors },
   } = useFormContext();

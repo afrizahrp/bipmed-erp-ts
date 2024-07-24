@@ -36,9 +36,12 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
 
   return (
     <div>
-      <div className='mb-4 flex w-full h-auto items-center gap-4'>
+      {/* <div className='mb-4 flex w-[1920px] h-[1080px] items-center gap-4'> */}
+      <div className='mb-2 flex items-center gap-4'>
         {value.map((url) => (
-          <div key={url} className='relative w-full h-[300px] rounded-md'>
+          <div key={url} className='relative w-[1200px] h-auto rounded-md'>
+            {/* <div key={url} className='relative w-1920 h-auto rounded-md'> */}
+
             <div className='z-10 absolute top-2 right-2'>
               <Button
                 type='button'
@@ -51,12 +54,15 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
               </Button>
             </div>
             <Image
-              fill
-              className='object-cover'
-              alt='Image'
+              priority
+              height={100}
+              width={100}
+              layout='responsive'
               src={url}
-              // width='1200'
-              // height='675'
+              alt='Image'
+              sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
+              style={{ width: '1200px', height: '675px' }}
+              className='w-full h-auto rounded-md'
             />
           </div>
         ))}
@@ -64,9 +70,10 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
       <CldUploadWidget
         onUpload={onUpload}
         options={{
-          sources: ['local'],
+          sources: ['local', 'google_drive'],
           resourceType: 'image',
-          multiple: true,
+          multiple: false,
+          clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp', 'gif'], // Specify allowed formats here
         }}
         uploadPreset='uploadBiwebapp'
       >

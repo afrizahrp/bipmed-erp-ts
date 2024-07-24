@@ -73,9 +73,10 @@ const BillboardVideoUpload: React.FC<BillboardVideoUploadProps> = ({
       <CldUploadWidget
         onUpload={onUpload}
         options={{
-          sources: ['local'],
+          sources: ['local', 'google_drive'],
           resourceType: 'video',
           multiple: false,
+          clientAllowedFormats: ['mp4', 'webm', 'ogg'],
         }}
         // signatureEndpoint='/api/cms/billboardURLS'
 
