@@ -55,7 +55,6 @@ export async function POST(request: NextRequest) {
       btnText: string;
       contents: { contentURL: string }[];
       isPrimary: false;
-
       iStatus: boolean;
       iShowedStatus: boolean;
       createdBy: string;
@@ -74,7 +73,6 @@ export async function POST(request: NextRequest) {
       btnText,
       iStatus,
       iShowedStatus,
-      isMaterial: false,
       contents: {
         deleteMany: {},
       },
@@ -99,7 +97,7 @@ export async function POST(request: NextRequest) {
             data: contents.map((content: { contentURL: string }) => ({
               id: publicIds,
               contentURL: content.contentURL,
-              isPrimary: false,
+              isPrimary: true,
               createdBy: userName,
               updatedBy: userName,
               createdAt: new Date(),

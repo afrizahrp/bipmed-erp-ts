@@ -1,20 +1,24 @@
 'use client';
 
 import { CldUploadWidget } from 'next-cloudinary';
+// import { CldVideoPlayer } from 'next-cloudinary';
+import { Video } from 'cloudinary-react';
+import { CldVideoPlayer } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
+// mtzlseemkuydulx0wbn0
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { ImagePlus, Trash } from 'lucide-react';
+import { PlayCircleIcon, Trash } from 'lucide-react';
 
-interface VideoUploadProps {
+interface BillboardVideoUploadProps {
   disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
   value: string[];
 }
 
-const VideoUpload: React.FC<VideoUploadProps> = ({
+const BillboardVideoUpload: React.FC<BillboardVideoUploadProps> = ({
   disabled,
   onChange,
   onRemove,
@@ -38,7 +42,7 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
     <div>
       <div className='mb-4 flex items-center gap-4'>
         {value.map((url) => (
-          <div key={url} className='relative w-[300px] h-[300px] rounded-md'>
+          <div key={url} className='relative w-1920 h-auto rounded-md'>
             <div className='z-10 absolute top-2 right-2'>
               <Button
                 type='button'
@@ -50,7 +54,19 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
                 <Trash className='h-4 w-4' />
               </Button>
             </div>
-            <Image fill className='object-cover' alt='video' src={url} />
+            {/* <Image fill className='object-cover' alt='video' src={url} /> */}
+            {/* <CldVideoPlayer src={url} width='auto' controls autoPlay /> */}
+
+            <Video
+              cloudName='biwebapp-live'
+              objectFit='cover'
+              publicId={url}
+              width='1080'
+              crop='scale'
+              controls
+              autoPlay
+              loop
+            />
           </div>
         ))}
       </div>
@@ -61,10 +77,12 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
           resourceType: 'video',
           multiple: false,
         }}
-        signatureEndpoint={
-          process.env.NEXT_PUBLIC_CLOUDINARY_SIGNATURE_ENDPOINT
-        }
-        // uploadPreset='uploadBiwebapp'
+        // signatureEndpoint='/api/cms/billboardURLS'
+
+        // signatureEndpoint={
+        //   process.env.NEXT_PUBLIC_CLOUDINARY_SIGNATURE_ENDPOINT
+        // }
+        uploadPreset='uploadBiwebapp'
       >
         {({ open }) => {
           const onClick = () => {
@@ -78,8 +96,8 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
               variant='outline'
               onClick={onClick}
             >
-              <ImagePlus className='h-4 w-4 mr-2' />
-              Upload Image
+              <PlayCircleIcon className='h-4 w-4 mr-2' />
+              Upload Video
             </Button>
           );
         }}
@@ -88,4 +106,4 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
   );
 };
 
-export default VideoUpload;
+export default BillboardVideoUpload;

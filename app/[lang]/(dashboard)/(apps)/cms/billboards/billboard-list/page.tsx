@@ -37,9 +37,9 @@ const BillboardListPage = async () => {
       description: item.description ?? '',
       title: item.title ?? '',
       iStatus: item.iStatus as boolean,
-      status: item.status?.name || ('' as string),
+      status: item.status.name || ('' as string),
       iShowedStatus: item.iShowedStatus as boolean,
-      showStatus: item.showStatus?.name || ('' as string),
+      showStatus: item.showStatus.name || ('' as string),
       remarks: item.remarks ?? '',
       contents: item.contents.map((content) => content.contentURL),
       contentPrimary: [

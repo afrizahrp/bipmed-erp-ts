@@ -17,6 +17,8 @@ const BillboardPage = async ({
     },
     include: {
       contents: true,
+      status: true,
+      showStatus: true,
     },
   });
 
@@ -39,11 +41,7 @@ const BillboardPage = async ({
 
       <Card className='py-6'>
         <CardContent>
-          <BillboardForm
-            initialBillboardData={
-              billboard ? { ...billboard, contents: [] } : null
-            }
-          />
+          <BillboardForm initialBillboardData={billboard} />
         </CardContent>
       </Card>
     </>

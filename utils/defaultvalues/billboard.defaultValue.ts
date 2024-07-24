@@ -10,11 +10,11 @@ export function billboarddefaultValues(
     description: initialBillboardData?.description ?? '',
     title: initialBillboardData?.title ?? '',
     section: initialBillboardData?.section ?? 0,
-    isImage: initialBillboardData?.isImage ?? false,
+    isImage: initialBillboardData?.isImage ?? true,
     btnText: initialBillboardData?.btnText ?? '',
+    iStatus: initialBillboardData!.iStatus ?? true,
+    iShowedStatus: initialBillboardData!.iShowedStatus ?? false,
     isShowBtn: initialBillboardData?.isShowBtn ?? false,
-    iShowedStatus: initialBillboardData?.iShowedStatus ?? false,
-    iStatus: initialBillboardData?.iStatus ?? true,
     remarks: initialBillboardData?.remarks ?? '',
   };
 }

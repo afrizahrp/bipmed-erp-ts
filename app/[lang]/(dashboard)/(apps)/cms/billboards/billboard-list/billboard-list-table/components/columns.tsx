@@ -1,12 +1,10 @@
 'use client';
 import * as React from 'react';
 import Link from 'next/link';
-import axios from 'axios';
 import { routes } from '@/config/routes';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
-import { CellAction } from './cell-action';
 import { EyeOff, Eye } from 'lucide-react';
 import NextImage from 'next/image';
 
@@ -35,10 +33,6 @@ export function getStatusColor(status: string) {
 
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
-    id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />,
-  },
-  {
     accessorKey: 'id',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -49,7 +43,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     ),
     cell: ({ row }) => (
       <Link
-        href={routes.cms.editProductCms(row.getValue('id'))}
+        href={routes.cms.editBillboardCms(row.getValue('id'))}
         className='text-primary-600 dark:text-slate-200'
       >
         {row.getValue('id')}
@@ -57,28 +51,6 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     ),
     enableHiding: false,
     enableSorting: true,
-  },
-
-  {
-    accessorKey: 'name',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title='Name'
-        className='text-black dark:text-slate-300'
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex space-x-1'>
-          <span
-            className={cn('max-w-[450px] dark:text-slate-300 truncate font-sm')}
-          >
-            {row.getValue('name')}
-          </span>
-        </div>
-      );
-    },
   },
 
   {
@@ -124,7 +96,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: 'contentPrimary',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Primary Image' />
+      <DataTableColumnHeader column={column} title='Content' />
     ),
     cell: ({ row }) => {
       const contentPrimary = row.getValue('contentPrimary');
@@ -176,6 +148,28 @@ export const columns: ColumnDef<BillboardColumn>[] = [
       return value.includes(row.getValue(id));
     },
   },
+
+  // {
+  //   accessorKey: 'name',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader
+  //       column={column}
+  //       title='Name'
+  //       className='text-black dark:text-slate-300'
+  //     />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className='flex space-x-1'>
+  //         <span
+  //           className={cn('max-w-[450px] dark:text-slate-300 truncate font-sm')}
+  //         >
+  //           {row.getValue('name')}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  // },
 
   // {
   //   accessorKey: 'uom',

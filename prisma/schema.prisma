@@ -635,7 +635,7 @@ model Billboards {
   iStatus               Boolean             @default(true)
   isShowBtn             Boolean             @default(false)
   btnText               String              @default("") @db.VarChar(50)
-  isImage               Boolean             @default(true) // true = image, false = video
+  isImage                Boolean            @default(true)
   iShowedStatus         Boolean             @default(false)
   remarks               String              @default("") @db.VarChar(250)
   createdBy             String?             @db.Char(10)
@@ -742,12 +742,12 @@ model PoDetail {
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
- model vProductCategories {
-   id                  String        @id @db.VarChar(10)
-   name                String        @db.VarChar(50)
- }
+//  model vProductCategories {
+//    id                  String        @id @db.VarChar(10)
+//    name                String        @db.VarChar(50)
+//  }
 
- model vMaterialCategories {
-   id                  String        @id @db.VarChar(10)
-   name                String        @db.VarChar(50)
- }
+//  model vMaterialCategories {
+//    id                  String        @id @db.VarChar(10)
+//    name                String        @db.VarChar(50)
+//  }
