@@ -2,7 +2,6 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
-import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import { EyeOff, Eye } from 'lucide-react';
@@ -32,6 +31,8 @@ export function getStatusColor(status: string) {
     return 'bg-gray-400';
   }
 }
+
+const shouldIncludeImageColumn = false; // Set this based on your condition
 
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
@@ -96,6 +97,28 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   },
 
   {
+    accessorKey: 'isImage',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Content Type'
+        className='text-black dark:text-slate-300'
+      />
+    ),
+    cell: ({ row }) => {
+      const isImage = row.getValue('isImage');
+      let displayText = 'No Content'; // Default text
+      if (isImage === true) {
+        displayText = 'Image';
+      } else if (isImage === false) {
+        displayText = 'Video';
+      }
+      return <span>{displayText}</span>;
+    },
+    enableHiding: true,
+  },
+
+  {
     accessorKey: 'contents',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Content' />
@@ -103,32 +126,33 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     cell: ({ row }) => {
       const contents = row.getValue('contents');
 
-      const contentType = row.getValue('isImage'); //true = image , false video
+      const isImage = row.getValue('isImage'); //true = image , false video
 
       return (
-        <div className='flex space-x-1'>
+        <div className='flex space-x-1 rounded-md'>
           {Array.isArray(contents) && contents.length > 0 ? (
             contents.map((content, index) =>
-              contentType ? (
+              isImage ? (
                 <NextImage
                   key={index}
                   src={content}
-                  width={60}
-                  height={80}
+                  objectPosition='center'
+                  width={200}
+                  height={170}
                   alt={`Image ${index}`}
-                  className='max-w-[80px]'
+                  className='max-w-[180px] rounded' // Added rounded corners here
                 />
               ) : (
                 <Video
                   key={index}
-                  cloudName='dop2j4hjg'
+                  cloudName='biwebapp-live'
                   publicId={content}
-                  width='200'
-                  height='150'
+                  width='200px'
+                  height='170px'
                   controls
-                  autoplay
+                  // autoplay
                   loop
-                  className='max-w-[80px]'
+                  className='max-w-[200px] rounded' // And here
                 />
               )
             )

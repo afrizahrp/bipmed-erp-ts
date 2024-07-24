@@ -42,7 +42,7 @@ const BillboardVideoUpload: React.FC<BillboardVideoUploadProps> = ({
     <div>
       <div className='mb-4 flex items-center gap-4'>
         {value.map((url) => (
-          <div key={url} className='relative w-1920 h-auto rounded-md'>
+          <div key={url} className='relative w-full h-auto rounded-md'>
             <div className='z-10 absolute top-2 right-2'>
               <Button
                 type='button'
@@ -61,7 +61,8 @@ const BillboardVideoUpload: React.FC<BillboardVideoUploadProps> = ({
               cloudName='biwebapp-live'
               objectFit='cover'
               publicId={url}
-              width='1080'
+              width='100%'
+              height='auto'
               crop='scale'
               controls
               autoPlay
@@ -73,7 +74,7 @@ const BillboardVideoUpload: React.FC<BillboardVideoUploadProps> = ({
       <CldUploadWidget
         onUpload={onUpload}
         options={{
-          sources: ['local', 'google_drive'],
+          sources: ['local', 'google_drive', 'url'],
           resourceType: 'video',
           multiple: false,
           clientAllowedFormats: ['mp4', 'webm', 'ogg'],
