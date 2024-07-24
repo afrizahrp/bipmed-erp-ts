@@ -215,7 +215,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
             ) : (
               <FormField
                 control={form.control}
-                name='contents'
+                name='contentURL'
                 render={({ field }) => (
                   <FormItem>
                     <FormControl className='flex flex-col gap-3'>
