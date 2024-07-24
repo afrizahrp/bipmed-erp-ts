@@ -55,8 +55,8 @@ const LogInForm = () => {
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues: {
-      name: 'afriza',
-      password: '1234567',
+      name: '',
+      password: '',
     },
   });
 
