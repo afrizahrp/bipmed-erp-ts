@@ -11,7 +11,6 @@ export function billboarddefaultValues(
     title: initialBillboardData?.title ?? '',
     section: initialBillboardData?.section ?? 0,
     isImage: initialBillboardData?.isImage ?? true,
-    isPrimary: initialBillboardData?.isPrimary ?? true,
     btnText: initialBillboardData?.btnText ?? '',
     iStatus: initialBillboardData!.iStatus ?? true,
     iShowedStatus: initialBillboardData!.iShowedStatus ?? false,

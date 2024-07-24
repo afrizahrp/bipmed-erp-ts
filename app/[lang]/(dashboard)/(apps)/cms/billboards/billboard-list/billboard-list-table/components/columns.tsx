@@ -7,6 +7,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import { EyeOff, Eye } from 'lucide-react';
 import NextImage from 'next/image';
+import { Video } from 'cloudinary-react';
 
 export type BillboardColumn = {
   id: string;
@@ -19,8 +20,9 @@ export type BillboardColumn = {
   iShowedStatus: boolean;
   showStatus: string;
   contents: string[];
-  contentPrimary: string[];
   remarks: string;
+  isImage: boolean;
+  // contentPrimary: string[];
 };
 
 export function getStatusColor(status: string) {
@@ -94,26 +96,42 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   },
 
   {
-    accessorKey: 'contentPrimary',
+    accessorKey: 'contents',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Content' />
     ),
     cell: ({ row }) => {
-      const contentPrimary = row.getValue('contentPrimary');
+      const contents = row.getValue('contents');
+
+      const contentType = row.getValue('isImage'); //true = image , false video
 
       return (
         <div className='flex space-x-1'>
-          {Array.isArray(contentPrimary) && contentPrimary.length > 0 ? (
-            contentPrimary.map((content, index) => (
-              <NextImage
-                key={index}
-                src={content}
-                width={60}
-                height={80}
-                alt={`Image ${index}`}
-                className='max-w-[80px]'
-              />
-            ))
+          {Array.isArray(contents) && contents.length > 0 ? (
+            contents.map((content, index) =>
+              contentType ? (
+                <NextImage
+                  key={index}
+                  src={content}
+                  width={60}
+                  height={80}
+                  alt={`Image ${index}`}
+                  className='max-w-[80px]'
+                />
+              ) : (
+                <Video
+                  key={index}
+                  cloudName='dop2j4hjg'
+                  publicId={content}
+                  width='200'
+                  height='150'
+                  controls
+                  autoplay
+                  loop
+                  className='max-w-[80px]'
+                />
+              )
+            )
           ) : (
             <p>No available image</p>
           )}

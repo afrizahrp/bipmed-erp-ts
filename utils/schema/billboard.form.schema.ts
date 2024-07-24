@@ -8,7 +8,6 @@ export const billboardFormSchema = z.object({
   title: z.string().min(5).or(z.literal('')),
   description: z.string().min(5).or(z.literal('')),
   iStatus: z.boolean().default(true),
-  isPrimary: z.boolean().default(true),
   iShowedStatus: z.boolean().optional().default(false),
   isImage: z.boolean().optional().default(true),
   isShowBtn: z.boolean().default(false),

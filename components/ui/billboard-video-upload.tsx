@@ -3,7 +3,7 @@
 import { CldUploadWidget } from 'next-cloudinary';
 // import { CldVideoPlayer } from 'next-cloudinary';
 import { Video } from 'cloudinary-react';
-import { CldVideoPlayer } from 'next-cloudinary';
+// import { CldVideoPlayer } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 // mtzlseemkuydulx0wbn0
 

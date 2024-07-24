@@ -42,10 +42,7 @@ const BillboardListPage = async () => {
       showStatus: item.showStatus.name || ('' as string),
       remarks: item.remarks ?? '',
       contents: item.contents.map((content) => content.contentURL),
-      contentPrimary: [
-        item.contents.find((content) => content.isPrimary === true)
-          ?.contentURL || '',
-      ],
+      isImage: item.isImage,
     })) ?? [];
 
   return (

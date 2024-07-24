@@ -73,7 +73,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         name: '',
         description: '',
         title: '',
-        section: 0,
+        section: 1,
         isImage: true,
         isShowBtn: false,
         btnText: '',
