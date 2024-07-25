@@ -137,8 +137,6 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   const orderedImages = [...images].sort((a, b) => (b.isPrimary ? 1 : -1));
 
   const onSubmit = async (data: ProductImageFormValues) => {
-    // const onSubmit = async (data: { imageURL: { id: string; imageURL: string; product_id: string; isPrimary: boolean }[] }) => {
-
     try {
       setLoading(true);
 

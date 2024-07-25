@@ -94,6 +94,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     try {
       setLoading(true);
       if (initialBillboardData) {
+        // await axios.patch(`/api/cms/billboarContents/${params.id}`, data);
         await axios.patch(`/api/cms/billboards/${params.id}`, data);
       } else {
         await axios.post(`/api/cms/billboards`, data);
@@ -116,7 +117,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 
       const contentId = extractPublicIdFromCloudinaryUrl(contentURL);
 
-      console.log('deleting content', contentId);
       await axios.delete(`/api/cms/billboardContents/${contentId}`);
 
       setContents((prevContents) =>

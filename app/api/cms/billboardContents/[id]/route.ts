@@ -89,7 +89,7 @@ export async function PATCH(
     });
 
     if (!billboardContent) {
-      return new NextResponse('Billboar content not found', { status: 404 });
+      return new NextResponse('Content not found', { status: 404 });
     }
 
     const body = await req.json();
@@ -104,7 +104,7 @@ export async function PATCH(
           },
         },
         data: {
-          isPrimary: false,
+          isPrimary: true,
         },
       });
     }
@@ -120,9 +120,9 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ message: 'Product image has been updated' });
+    return NextResponse.json({ message: 'Content has been updated' });
   } catch (error) {
-    console.log('[BILLBOARD_URLS_PATCH]', error);
+    console.log('[BILLBOARDCONTENTS_PATCH]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }

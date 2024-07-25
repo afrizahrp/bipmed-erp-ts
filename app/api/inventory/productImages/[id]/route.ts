@@ -49,8 +49,6 @@ export async function DELETE(
       },
     });
 
-    console.log('before Product image deleted');
-
     return NextResponse.json({ message: 'Product image deleted' });
   } catch (error) {
     console.log('[PRODUCT_IMAGE_DELETE]', error);

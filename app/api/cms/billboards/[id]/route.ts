@@ -69,9 +69,9 @@ export async function PATCH(
       btnText,
       iStatus,
       iShowedStatus,
-      contents: {
-        deleteMany: {},
-      },
+      // contents: {
+      //   deleteMany: {},
+      // },
       updatedBy: userName,
       updatedAt: new Date(),
     };
@@ -87,21 +87,21 @@ export async function PATCH(
       },
       data: {
         ...editedBillboard,
-        contents: {
-          createMany: {
-            data: contents.map((content) => ({
-              id: publicIds,
-              contentURL: content.contentURL,
-              isPrimary: true,
-              createdBy: userName,
-              createdAt: new Date(),
-              updatedBy: userName,
-              updatedAt: new Date(),
-              company_id,
-              branch_id,
-            })),
-          },
-        },
+        // contents: {
+        //   createMany: {
+        //     data: contents.map((content) => ({
+        //       id: publicIds,
+        //       contentURL: content.contentURL,
+        //       isPrimary: true,
+        //       createdBy: userName,
+        //       createdAt: new Date(),
+        //       updatedBy: userName,
+        //       updatedAt: new Date(),
+        //       company_id,
+        //       branch_id,
+        //     })),
+        //   },
+        // },
       },
     });
 

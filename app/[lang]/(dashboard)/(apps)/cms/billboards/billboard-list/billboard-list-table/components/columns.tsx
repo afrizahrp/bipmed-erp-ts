@@ -157,7 +157,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
               )
             )
           ) : (
-            <p>No available image</p>
+            <p>No content</p>
           )}
         </div>
       );
@@ -169,7 +169,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title='Displayed Status'
+        title='Display Status'
         className='text-black dark:text-slate-300'
       />
     ),
@@ -179,9 +179,9 @@ export const columns: ColumnDef<BillboardColumn>[] = [
       return (
         <div className='w-[40px]'>
           {isDisplayed ? (
-            <Eye className='mr-2 text-green-500' />
+            <Eye className='mr-2 text-green-500 items-center justify-center' />
           ) : (
-            <EyeOff className='mr-2 text-gray-500' />
+            <EyeOff className='mr-2 text-gray-500 items-center justify-center' />
           )}
         </div>
       );
