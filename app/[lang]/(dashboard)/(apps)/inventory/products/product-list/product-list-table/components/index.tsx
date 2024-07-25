@@ -1,7 +1,6 @@
-// 'use client'
-import { DataTable } from "@/components/ui/data-table";
-import { ProductColumn, columns } from "./columns";
-import { routes } from "@/config/routes";
+import { DataTable } from '@/components/ui/data-table';
+import { ProductColumn, columns } from './columns';
+import { routes } from '@/config/routes';
 
 interface ProductsClientProps {
   data: ProductColumn[];
@@ -14,8 +13,8 @@ export const ProductListTable: React.FC<ProductsClientProps> = ({ data }) => {
         columns={columns}
         data={data}
         href={routes.inventory.newProduct}
-        hrefText="New Product"
-        pageName="product"
+        hrefText='New Product'
+        pageName='product'
       />
     </div>
   );
