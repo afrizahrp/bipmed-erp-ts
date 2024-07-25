@@ -186,11 +186,11 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                     <FormLabel>
                       {field.value ? (
                         <span className='text-red text-semibold'>
-                          Show billboard with an Image
+                          Show billboard as Image
                         </span>
                       ) : (
                         <span className='text-green'>
-                          Show billboard with an Image
+                          Show billboard as Video
                         </span>
                       )}{' '}
                     </FormLabel>{' '}

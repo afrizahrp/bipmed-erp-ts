@@ -82,7 +82,7 @@ export const columns: ColumnDef<CategoryColumns>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title='Displayed Status'
+        title='Display Status'
         className='text-black dark:text-slate-300'
       />
     ),
