@@ -26,9 +26,13 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
   }, []);
 
   const onUpload = (result: any) => {
-    onChange(result.info.secure_url);
+    console.log('Upload result:', result);
+    if (result.info && result.info.secure_url) {
+      onChange(result.info.secure_url);
+    } else {
+      console.error('Upload failed:', result);
+    }
   };
-
   if (!isMounted) {
     return null;
   }
@@ -68,12 +72,13 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
         options={{
           sources: ['local'],
           resourceType: 'image',
-          multiple: false,
+          multiple: true,
           clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'],
         }}
-        signatureEndpoint={
-          process.env.NEXT_PUBLIC_CLOUDINARY_SIGNATURE_ENDPOINT
-        }
+        // signatureEndpoint={
+        //   process.env.NEXT_PUBLIC_CLOUDINARY_SIGNATURE_ENDPOINT
+        // }
+        uploadPreset='uploadBiwebapp'
       >
         {({ open }) => {
           const onClick = () => {

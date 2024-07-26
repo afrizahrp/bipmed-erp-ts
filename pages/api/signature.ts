@@ -5,7 +5,7 @@ import Cors from 'cors';
 // Initialize the cors middleware
 const cors = Cors({
   methods: ['POST', 'GET', 'HEAD'],
-  origin: '*', // Adjust this to your specific origin or use a more restrictive policy
+  origin: '*',
 });
 
 // Helper method to wait for a middleware to execute before continuing
@@ -29,22 +29,13 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
 });
-
-console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME);
-console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY);
-console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Log environment variables to ensure they are set
-  console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME);
-  console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY);
-  console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET);
-
-  // Run the middleware
   await runMiddleware(req, res, cors);
 
   if (req.method !== 'POST') {

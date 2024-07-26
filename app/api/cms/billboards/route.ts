@@ -73,19 +73,7 @@ export async function POST(request: NextRequest) {
       iStatus,
       iShowedStatus,
       contents: {
-        createMany: {
-          data: contents.map((content: { contentURL: string }) => ({
-            id: publicIds,
-            contentURL: content.contentURL,
-            isPrimary: true,
-            createdBy: userName,
-            updatedBy: userName,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            company_id: company_id,
-            branch_id: branch_id,
-          })),
-        },
+        deleteMany: {},
       },
       createdBy: userName,
       updatedBy: userName,
