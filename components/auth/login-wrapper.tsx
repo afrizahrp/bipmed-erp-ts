@@ -7,7 +7,6 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { LoginHeader } from '@/components/auth/login-header';
-import { Social } from '@/components/auth/social';
 import { BackButton } from '@/components/auth/back-button';
 
 interface LoginWrapperProps {
@@ -31,11 +30,11 @@ export const LoginWrapper = ({
         <LoginHeader label={headerLabel} />
       </CardHeader>
       <CardContent>{children}</CardContent>
-      {showSocial && (
+      {/* {showSocial && (
         <CardFooter>
           <Social />
         </CardFooter>
-      )}
+      )} */}
       <CardFooter>
         <BackButton label={backButtonLabel} href={backButtonHref} />
       </CardFooter>

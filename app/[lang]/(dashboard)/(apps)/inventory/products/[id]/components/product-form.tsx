@@ -123,7 +123,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     try {
       setLoading(true);
       if (initialProductData) {
-        await axios.patch(`/api/inventory/products/${params.id}`, data);
+        await axios.patch(`/api/inventory/products/${params?.id}`, data);
       } else {
         console.log('add new product', data);
         await axios.post(`/api/inventory/products`, data);

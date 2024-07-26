@@ -100,7 +100,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/inventory/categories/${params.id}`, data);
+        await axios.patch(`/api/inventory/categories/${params?.id}`, data);
       } else {
         await axios.post(`/api/inventory/categories`, data);
       }

@@ -139,7 +139,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     try {
       setLoading(true);
       if (initialProductData) {
-        await axios.patch(`/api/inventory/materials/${params.id}`, data);
+        await axios.patch(`/api/inventory/materials/${params?.id}`, data);
       } else {
         await axios.post(`/api/inventory/materials`, data);
       }

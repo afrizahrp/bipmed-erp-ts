@@ -78,7 +78,7 @@ export const SubCategoryForm: React.FC<SubcategoryFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/inventory/subCategories/${params.id}`, data);
+        await axios.patch(`/api/inventory/subCategories/${params?.id}`, data);
       } else {
         await axios.post(`/api/inventory/subCategories`, data);
       }
