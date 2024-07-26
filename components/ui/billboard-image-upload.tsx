@@ -2,7 +2,6 @@
 
 import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
-
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { ImagePlus, Trash } from 'lucide-react';
@@ -36,12 +35,9 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
 
   return (
     <div>
-      {/* <div className='mb-4 flex w-[1920px] h-[1080px] items-center gap-4'> */}
       <div className='mb-2 flex items-center gap-4'>
         {value.map((url) => (
           <div key={url} className='relative w-[1200px] h-auto rounded-md'>
-            {/* <div key={url} className='relative w-1920 h-auto rounded-md'> */}
-
             <div className='z-10 absolute top-2 right-2'>
               <Button
                 type='button'
@@ -68,14 +64,16 @@ const BillboardImageUpload: React.FC<BillboardImageUploadProps> = ({
         ))}
       </div>
       <CldUploadWidget
-        onUpload={onUpload}
+        onSuccess={onUpload}
         options={{
-          sources: ['local', 'google_drive'],
+          sources: ['local'],
           resourceType: 'image',
           multiple: false,
-          clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp', 'gif'], // Specify allowed formats here
+          clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'],
         }}
-        uploadPreset='uploadBiwebapp'
+        signatureEndpoint={
+          process.env.NEXT_PUBLIC_CLOUDINARY_SIGNATURE_ENDPOINT
+        }
       >
         {({ open }) => {
           const onClick = () => {
