@@ -17,9 +17,9 @@ export type BillboardColumn = {
   status: string;
   iShowedStatus: boolean;
   showStatus: string;
-  contents: string[];
   remarks: string;
   isImage: boolean;
+  contentURL: string;
   // contentPrimary: string[];
 };
 
@@ -30,8 +30,6 @@ export function getStatusColor(status: string) {
     return 'bg-gray-400';
   }
 }
-
-const shouldIncludeImageColumn = false; // Set this based on your condition
 
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
@@ -66,7 +64,12 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     ),
     cell: ({ row }) => (
       <div className='w-[100px] dark:text-slate-300'>
-        {row.getValue('title')}
+        <Link
+          href={routes.cms.editBillboardCms(row.getValue('id'))}
+          className='text-primary-600 dark:text-slate-200'
+        >
+          {row.getValue('title')}
+        </Link>{' '}
       </div>
     ),
     enableHiding: false,
@@ -118,45 +121,37 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   },
 
   {
-    accessorKey: 'contents',
+    accessorKey: 'contentURL',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Content' />
     ),
     cell: ({ row }) => {
-      const contents = row.getValue('contents');
-
       const isImage = row.getValue('isImage'); //true = image , false video
+      const contentURL = row.getValue('contentURL');
 
       return (
         <div className='flex space-x-1 rounded-md'>
-          {Array.isArray(contents) && contents.length > 0 ? (
-            contents.map((content, index) =>
-              isImage ? (
-                <NextImage
-                  key={index}
-                  src={content}
-                  objectPosition='center'
-                  width={200}
-                  height={170}
-                  alt={`Image ${index}`}
-                  className='max-w-[180px] rounded' // Added rounded corners here
-                />
-              ) : (
-                <Video
-                  key={index}
-                  cloudName='biwebapp-live'
-                  publicId={content}
-                  width='200px'
-                  height='170px'
-                  controls
-                  // autoplay
-                  loop
-                  className='max-w-[200px] rounded' // And here
-                />
-              )
-            )
+          {contentURL === '' ? (
+            <span>No content</span>
+          ) : isImage ? (
+            <NextImage
+              src={row.getValue('contentURL')}
+              objectPosition='center'
+              width={200}
+              height={170}
+              alt='Image'
+              className='max-w-[180px] rounded' // Added rounded corners here
+            />
           ) : (
-            <p>No content</p>
+            <Video
+              cloudName='biwebapp-live'
+              publicId={row.getValue('contentURL')}
+              width='200px'
+              height='170px'
+              controls
+              loop
+              className='max-w-[200px] rounded' // And here
+            />
           )}
         </div>
       );

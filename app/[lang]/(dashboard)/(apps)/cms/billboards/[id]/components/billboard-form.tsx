@@ -9,7 +9,7 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
 import { toast } from 'react-hot-toast';
 
-import { Billboards, BillboardContents } from '@prisma/client';
+import { Billboards } from '@prisma/client';
 
 import { useParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
@@ -26,7 +26,6 @@ import {
 // import ImageCollection from '@/components/ui/images-collection';
 import BillboardVideoUpload from '@/components/ui/billboard-video-upload';
 import BillboardImageUpload from '@/components/ui/billboard-image-upload';
-import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
@@ -40,11 +39,7 @@ import { InputGroup, InputGroupText } from '@/components/ui/input-group';
 import { Switch } from '@/components/ui/switch';
 
 interface BillboardFormProps {
-  initialBillboardData:
-    | (Billboards & {
-        contents: BillboardContents[];
-      })
-    | null;
+  initialBillboardData: Billboards | null;
 }
 
 export const BillboardForm: React.FC<BillboardFormProps> = ({
@@ -55,7 +50,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 
   const [loading, setLoading] = useState(false);
   const [contents, setContents] = useState(
-    initialBillboardData?.contents ?? []
+    initialBillboardData?.contentURL ?? []
   );
 
   const id = initialBillboardData?.id;
@@ -68,11 +63,12 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     resolver: zodResolver(billboardFormSchema),
     defaultValues: billboarddefaultValues(
       initialBillboardData ?? {
-        contents: [],
-        description: '',
-        title: '',
         section: 1,
+        title: '',
+        description: '',
         isImage: true,
+        contentURL: '',
+        content_id: '',
         isShowBtn: false,
         btnText: '',
         iStatus: true,
@@ -109,17 +105,13 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     }
   };
 
-  const handleImageRemove = async (contentURL: string) => {
+  const handleImageRemove = async (id: string) => {
     try {
       setLoading(true);
 
-      const contentId = extractPublicIdFromCloudinaryUrl(contentURL);
+      // const contentId = extractPublicIdFromCloudinaryUrl(id);
 
-      await axios.delete(`/api/cms/billboardContents/${contentId}`);
-
-      setContents((prevContents) =>
-        prevContents.filter((content) => content.contentURL !== contentURL)
-      );
+      await axios.delete(`/api/cms/billboards/${id}`);
 
       router.refresh();
 
@@ -132,47 +124,12 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     }
   };
 
-  const handleUpdateImagePrimary = async (
-    contentURL: string,
-    newIsPrimary: boolean
-  ) => {
-    try {
-      setLoading(true);
-
-      const imageId = extractPublicIdFromCloudinaryUrl(contentURL);
-
-      const data = { isPrimary: newIsPrimary };
-
-      await axios.patch(`/api/inventory/productImages/${imageId}`, data);
-
-      const updatedImages = contents.map((content) =>
-        content.contentURL === contentURL
-          ? { ...content, isPrimary: newIsPrimary }
-          : { ...content, isPrimary: false }
-      );
-
-      setContents(updatedImages);
-
-      setLoading(false);
-      router.refresh();
-
-      toast.success(
-        newIsPrimary
-          ? 'Image has been set as primary'
-          : 'Image has been set as non-primary'
-      );
-    } catch (error) {
-      console.error(error);
-      toast.error('Something went wrong');
-      setLoading(false);
-    }
-  };
-
   const isImageValue = form.watch('isImage');
   const UploadComponent = isImageValue
     ? BillboardImageUpload
     : BillboardVideoUpload;
 
+  const billboard_id = initialBillboardData?.id ?? '';
   return (
     <>
       {/* <div className='w-full flex flex-col gap-6 drop-shadow-md justify-center px-4'> */}
@@ -185,22 +142,16 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
           <div className='w-full flex items-center justify-center'>
             <FormField
               control={form.control}
-              name='contents'
+              name='contentURL'
               render={({ field }) => (
                 <FormItem>
                   <FormControl className='flex flex-col gap-3'>
                     <UploadComponent
-                      value={
-                        field.value
-                          ? field.value.map((item) => item.contentURL)
-                          : []
-                      }
+                      value={field.value ? [field.value] : []}
                       disabled={loading}
-                      onChange={(contentURL) =>
-                        field.onChange([...(field.value ?? []), { contentURL }])
-                      }
+                      onChange={(url) => field.onChange(url)}
                       onRemove={(contentURL) => {
-                        handleImageRemove(contentURL);
+                        handleImageRemove(billboard_id);
                         const newValue = Array.isArray(field.value)
                           ? field.value.filter(
                               (value: { contentURL: string }) =>
@@ -234,11 +185,11 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                     <FormLabel>
                       {field.value ? (
                         <span className='text-red text-semibold'>
-                          Show billboard with Image
+                          Show billboard as Image
                         </span>
                       ) : (
                         <span className='text-green'>
-                          Show billboard with Video
+                          Show billboard as Video
                         </span>
                       )}{' '}
                     </FormLabel>{' '}
@@ -260,7 +211,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
           </div>
 
           <div className='grid grid-cols-12 gap-4 py-2'>
-            {/* <div className='col-span-1'>
+            {/* <div className='col-span-2'>
               <FormField
                 control={form.control}
                 name='id'
@@ -269,10 +220,8 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                     <FormLabel>Id</FormLabel>
                     <FormControl>
                       <Input
-                        type='number'
-                        disabled
                         placeholder='Id'
-                        value={field.value ?? 0}
+                        value={field.value ?? ''}
                         onChange={field.onChange}
                       />
                     </FormControl>

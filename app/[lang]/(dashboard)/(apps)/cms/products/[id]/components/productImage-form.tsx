@@ -14,8 +14,8 @@ import { ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
 // import { CldUploadWidget } from 'next-cloudinary';
-// import { Button } from '@/components/ui/button';
-// import { ImagePlus, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ImagePlus, Loader2 } from 'lucide-react';
 
 interface ProductImageFormProps {
   product_id: string;

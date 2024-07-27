@@ -30,14 +30,14 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const {
-      id,
       section,
       title,
       description,
       isImage,
       isShowBtn,
       btnText,
-      contents,
+      contentURL,
+      content_id,
       isPrimary,
       iStatus,
       iShowedStatus,
@@ -46,14 +46,14 @@ export async function POST(request: NextRequest) {
       updatedBy,
       updatedAt,
     } = body as {
-      id: string;
       section: number;
       title: string;
       description: string;
       isImage: boolean;
       isShowBtn: boolean;
       btnText: string;
-      contents: { contentURL: string }[];
+      contentURL: string;
+      content_id: string;
       isPrimary: false;
       iStatus: boolean;
       iShowedStatus: boolean;
@@ -70,11 +70,10 @@ export async function POST(request: NextRequest) {
       isImage,
       isShowBtn,
       btnText,
+      content_id,
       iStatus,
       iShowedStatus,
-      contents: {
-        deleteMany: {},
-      },
+      contentURL,
       createdBy: userName,
       updatedBy: userName,
       createdAt: new Date(),
@@ -83,37 +82,18 @@ export async function POST(request: NextRequest) {
       branch_id: branch_id,
     };
 
-    let url = contents.map(
-      (content: { contentURL: string }) => content.contentURL
-    );
-    const publicIds = extractPublicIdFromCloudinaryUrl({ url });
+    // let url = contents.map(
+    //   (content: { contentURL: string }) => content.contentURL
+    // );
+    const publicIds = extractPublicIdFromCloudinaryUrl({
+      url: newBillboard.contentURL,
+    });
 
     const product = await prisma.billboards.create({
       data: {
         ...newBillboard,
-        contents: {
-          createMany: {
-            data: contents.map((content: { contentURL: string }) => ({
-              id: publicIds,
-              contentURL: content.contentURL,
-              isPrimary: true,
-              createdBy: userName,
-              updatedBy: userName,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              company_id: company_id,
-              branch_id: branch_id,
-            })),
-          },
-        },
+        content_id: publicIds,
       },
-      // newProduct: {
-      //   images: {
-      //     createMany: {
-      //       newProduct: [...images.map((image: { imageURL: string }) => image)],
-      //     },
-      //   },
-      // },
     });
 
     return NextResponse.json(product, { status: 201 });
@@ -126,16 +106,8 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function extractPublicIdFromCloudinaryUrl(arg0: { url: string[] }): string {
+function extractPublicIdFromCloudinaryUrl(arg0: { url: string }): string {
   const { url } = arg0;
-  const publicIds: string[] = [];
-
-  url.forEach((contentURL) => {
-    const publicId = contentURL.split('/').pop()?.split('.')[0];
-    if (publicId) {
-      publicIds.push(publicId);
-    }
-  });
-
-  return publicIds.join(',');
+  const publicId = url.split('/').pop()?.split('.')[0];
+  return publicId || '';
 }

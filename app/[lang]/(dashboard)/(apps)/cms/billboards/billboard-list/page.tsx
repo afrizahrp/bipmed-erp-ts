@@ -20,7 +20,6 @@ const pageHeader = {
 const BillboardListPage = async () => {
   const billboards = await prisma.billboards.findMany({
     include: {
-      contents: true,
       status: true,
       showStatus: true,
     },
@@ -31,7 +30,7 @@ const BillboardListPage = async () => {
 
   const formattedBillboard: BillboardColumn[] =
     billboards?.map((item) => ({
-      id: item.id ?? '',
+      id: item.id.toString(),
       section: item.section.toString() || '0',
       description: item.description ?? '',
       title: item.title ?? '',
@@ -40,8 +39,8 @@ const BillboardListPage = async () => {
       iShowedStatus: item.iShowedStatus as boolean,
       showStatus: item.showStatus.name || ('' as string),
       remarks: item.remarks ?? '',
-      contents: item.contents.map((content) => content.contentURL),
       isImage: item.isImage as boolean,
+      contentURL: item.contentURL ?? '',
     })) ?? [];
 
   return (

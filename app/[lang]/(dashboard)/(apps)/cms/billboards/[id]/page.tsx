@@ -13,10 +13,9 @@ const BillboardPage = async ({
 }) => {
   const billboard = await prisma.billboards.findUnique({
     where: {
-      id:params.id
+      id: params.id,
     },
     include: {
-      contents: true,
       status: true,
       showStatus: true,
     },

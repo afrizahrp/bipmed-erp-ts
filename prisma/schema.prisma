@@ -635,6 +635,8 @@ model Billboards {
   isShowBtn             Boolean             @default(false)
   btnText               String              @default("") @db.VarChar(50)
   isImage                Boolean            @default(true)
+  contentURL            String              @db.VarChar(250)
+  content_id            String              @db.Char(30)
   iShowedStatus         Boolean             @default(false)
   remarks               String              @default("") @db.VarChar(250)
   createdBy             String?             @db.Char(10)
@@ -645,24 +647,24 @@ model Billboards {
   branch_id             String              @db.Char(10)
   showStatus            MasterShowedStatus  @relation(fields: [iShowedStatus], references: [id])
   status                MasterTableStatus   @relation(fields: [iStatus], references: [id])
-  contents              BillboardContents[]
+  // contents              BillboardContents[]
   @@index([id])
 }
 
-model BillboardContents {
-  id                    String              @id @db.Char(25)
-  billboard_id          String
-  contentURL            String              @db.VarChar(250)
-  isPrimary             Boolean             @default(false)
-  createdBy             String?             @db.Char(10)
-  createdAt             DateTime?           @db.DateTime @default(now())
-  updatedBy             String?             @db.Char(10)
-  updatedAt             DateTime?           @db.DateTime
-  company_id            String              @db.Char(5)
-  branch_id             String              @db.Char(10)
-  billboard             Billboards          @relation(fields: [billboard_id], references: [id])
-  @@index([billboard_id])
-}
+// model BillboardContents {
+//   id                    String              @id @db.Char(25)
+//   billboard_id          Int
+//   contentURL            String              @db.VarChar(250)
+//   isPrimary             Boolean             @default(false)
+//   createdBy             String?             @db.Char(10)
+//   createdAt             DateTime?           @db.DateTime @default(now())
+//   updatedBy             String?             @db.Char(10)
+//   updatedAt             DateTime?           @db.DateTime
+//   company_id            String              @db.Char(5)
+//   branch_id             String              @db.Char(10)
+//   billboard             Billboards          @relation(fields: [billboard_id], references: [id])
+//   @@index([billboard_id])
+// }
 
 model Suppliers {
   supplier_type       String?       @db.VarChar(25)
@@ -741,12 +743,12 @@ model PoDetail {
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
- model vProductCategories {
-   id                  String        @id @db.VarChar(10)
-   name                String        @db.VarChar(50)
- }
+//  model vProductCategories {
+//    id                  String        @id @db.VarChar(10)
+//    name                String        @db.VarChar(50)
+//  }
 
- model vMaterialCategories {
-   id                  String        @id @db.VarChar(10)
-   name                String        @db.VarChar(50)
- }
+//  model vMaterialCategories {
+//    id                  String        @id @db.VarChar(10)
+//    name                String        @db.VarChar(50)
+//  }
