@@ -1,5 +1,4 @@
 'use client';
-import * as React from 'react';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 import { ColumnDef } from '@tanstack/react-table';
@@ -48,6 +47,22 @@ export const columns: ColumnDef<BillboardColumn>[] = [
       >
         {row.getValue('id')}
       </Link>
+    ),
+    enableHiding: false,
+    enableSorting: true,
+  },
+
+  {
+    accessorKey: 'section',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Section'
+        className='text-black dark:text-slate-300'
+      />
+    ),
+    cell: ({ row }) => (
+      <div className='flex space-x-1'>{row.getValue('section')}</div>
     ),
     enableHiding: false,
     enableSorting: true,
