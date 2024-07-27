@@ -5,7 +5,13 @@ import { getServerSession } from 'next-auth';
 
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const iShowedStatus = searchParams.get('iShowedStatus');
+
     const billboards = await prisma.billboards.findMany({
+      where: {
+        iShowedStatus: iShowedStatus === 'true' ? true : false,
+      },
       orderBy: {
         section: 'asc',
       },
