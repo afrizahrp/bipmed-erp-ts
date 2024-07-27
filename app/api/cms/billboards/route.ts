@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   try {
     const billboards = await prisma.billboards.findMany({
       orderBy: {
-        updatedAt: 'desc',
+        section: 'asc',
       },
     });
 
