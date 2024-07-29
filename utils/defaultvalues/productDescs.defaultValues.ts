@@ -5,9 +5,7 @@ export function productdescsdefaultValues(
 ) {
   return {
     id: initialProductDescsData?.id ?? undefined,
-    title: initialProductDescsData?.title ?? '',
     descriptions: initialProductDescsData?.descriptions ?? '',
-    features: initialProductDescsData?.features ?? '',
-    footers: initialProductDescsData?.footers ?? '',
+    benefit: initialProductDescsData?.benefit ?? '',
   };
 }

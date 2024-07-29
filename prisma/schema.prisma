@@ -422,7 +422,6 @@ model Products {
   unitPriceHistory    ProductUnitPriceHistory[]
   sellingPriceHistory ProductSellingPriceHistory[]
   showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
-
   descriptions        ProductDescs[]
    
    @@index([id])
@@ -431,10 +430,8 @@ model Products {
 
 model ProductDescs {
   id                    String        @id @db.Char(20)
-  title                 String        @db.VarChar(150)
-  descriptions          String        @db.Text
-  features              String        @db.Text
-  footers                String        @db.Text
+  descriptions          String        @default("") @db.Text
+  benefit               String        @default("") @db.Text
   createdBy             String?       @db.Char(10)
   createdAt             DateTime?     @db.DateTime @default(now())
   updatedBy             String?       @db.Char(10)
@@ -503,7 +500,7 @@ model ProductImages {
   id                  String        @id @db.Char(25)
   product_id          String        @db.Char(20)
   imageURL            String        @db.VarChar(250)
-  isPrimary           Boolean      @default(false)
+  isPrimary           Boolean       @default(false)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)

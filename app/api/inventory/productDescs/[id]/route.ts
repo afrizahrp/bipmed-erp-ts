@@ -34,11 +34,9 @@ export async function PATCH(
 
   try {
     const body = await request.json();
-    const { title, descriptions, features, footers } = body as {
-      title: string;
+    const { descriptions, benefit } = body as {
       descriptions: string;
-      features: string;
-      footers: string;
+      benefit: string;
     };
 
     const productdescs = await prisma.productDescs.findUnique({
@@ -50,10 +48,8 @@ export async function PATCH(
         { status: 404 }
       );
     const editProductDescs = {
-      title,
       descriptions,
-      features,
-      footers,
+      benefit,
       updatedBy: username,
       updatedAt: new Date(),
     };

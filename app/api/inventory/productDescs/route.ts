@@ -30,20 +30,16 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const { id, title, descriptions, features, footers } = body as {
+    const { id, descriptions, benefit } = body as {
       id: string;
-      title: string;
       descriptions: string;
-      features: string;
-      footers: string;
+      benefit: string;
     };
 
     const newproductdesc = {
       id,
-      title,
       descriptions,
-      features,
-      footers,
+      benefit,
       createdBy: userName,
       updatedBy: userName,
       createdAt: new Date(),
