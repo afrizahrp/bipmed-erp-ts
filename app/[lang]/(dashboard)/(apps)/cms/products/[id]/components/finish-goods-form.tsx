@@ -150,7 +150,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
             id='ecatalog_URL'
             placeholder='http://ekatalog'
             {...register('ecatalog_URL')}
-            disabled
+            // disabled
             className={cn('peer font-semibold text-sm', {
               'border-destructive': errors.ecatalog_URL,
             })}
@@ -197,7 +197,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
                 id='tkdn_pctg'
                 placeholder=' '
                 {...register('tkdn_pctg')}
-                disabled
+                // disabled
                 className='peer font-semibold text-sm text-right justify-end border-destructive'
               />
               <InputGroupText className='bg-slate-200'>%</InputGroupText>
@@ -213,7 +213,7 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
                 id='bmp_pctg'
                 placeholder=' '
                 {...register('bmp_pctg')}
-                disabled
+                // disabled
                 className='peer font-semibold text-sm text-right justify-end border-destructive'
               />
               <InputGroupText className='bg-slate-200'>%</InputGroupText>

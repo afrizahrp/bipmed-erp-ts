@@ -2140,16 +2140,16 @@ export const menusConfig = {
             href: '/cms/master',
             multi_menu: [
               {
-                title: 'Categories',
-                href: '/cms/categories/category-list',
-              },
-              {
                 title: 'Products',
                 href: '/cms/products/product-list',
               },
               {
                 title: 'Billboards',
                 href: '/cms/billboards/billboard-list',
+              },
+              {
+                title: 'Categories',
+                href: '/cms/categories/category-list',
               },
               // {
               //   title: 'Events',
