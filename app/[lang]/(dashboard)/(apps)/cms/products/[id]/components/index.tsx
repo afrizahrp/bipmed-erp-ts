@@ -227,8 +227,6 @@ export default function ProductDetailPage({
       }
 
       if (!initialProductDescsData) {
-        console.log('insert descriptions:', initialProductDescsData);
-
         if (
           typeof data.descriptions === 'string' &&
           data.descriptions.trim() !== ''
@@ -243,7 +241,6 @@ export default function ProductDetailPage({
           }
         }
       } else {
-        console.log('update descriptions:', initialProductDescsData);
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
 

@@ -89,10 +89,8 @@ export default function ProductDetailPage({
 
       initialProductDescsData ?? {
         id: '',
-        title: '',
         descriptions: '',
-        features: '',
-        footers: '',
+        benefit: '',
       },
 
       initialProductSpecData ?? {
@@ -222,7 +220,10 @@ export default function ProductDetailPage({
       if (!initialProductDescsData) {
         console.log('desc data:', initialProductDescsData);
 
-        if (typeof data.title === 'string' && data.title.trim() !== '') {
+        if (
+          typeof data.descriptions === 'string' &&
+          data.descriptions.trim() !== ''
+        ) {
           try {
             await axios.post(`/api/inventory/productDescs`, {
               ...data,

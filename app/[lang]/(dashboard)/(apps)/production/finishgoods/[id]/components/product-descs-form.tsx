@@ -1,12 +1,17 @@
 'use client';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import FormGroup from '@/components/form-group';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css'; // Don't forget to import the CSS
+import dynamic from 'next/dynamic';
+import QuillLoader from '@/components/ui/quill-loader';
+// import { Input } from '@/components/ui/input';
+// import { Label } from '@/components/ui/label';
+
+const QuillEditor = dynamic(() => import('@/components/ui/quill-editor'), {
+  ssr: false,
+  loading: () => <QuillLoader className='col-span-full h-[143px]' />,
+});
 
 import { ProductDescs } from '@prisma/client';
 
@@ -28,17 +33,13 @@ export const ProductDescsForm: React.FC<ProductDescsFormProps> = ({
     initialProductDescsData?.descriptions || ''
   );
 
-  const [features, setFeatures] = useState(
-    initialProductDescsData?.features || ''
-  );
-
-  const [footers, setFooters] = useState(
-    initialProductDescsData?.footers || ''
+  const [benefit, setBenefit] = useState(
+    initialProductDescsData?.benefit || ''
   );
 
   const {
-    register,
     watch,
+    control,
     setValue,
     formState: { errors },
   } = useFormContext();
@@ -50,67 +51,37 @@ export const ProductDescsForm: React.FC<ProductDescsFormProps> = ({
         description='Edit product descriptions from here'
         className={cn(className)}
       >
-        {/* <div className='grid grid-cols-4 gap-4 py-2'> */}
-        <div>
-          <Label>Title</Label>
-          <Input
-            id='title'
-            placeholder=' '
-            {...register('title')}
-            className={cn('peer  font-bold text-md', {
-              'border-destructive': errors.title,
-            })}
-          />
-          {errors.title && (
-            <div className='text-destructive'>
-              {errors.title.message?.toString()}
-            </div>
-          )}
-        </div>
-
         <div className='pt-2'>
-          <Label>Body</Label>
-          <SimpleMDE
-            {...register('descriptions')}
-            value={descriptions}
-            onChange={(value) => setValue('descriptions', value)}
-            aria-disabled={false}
-            placeholder='Input product descriptions here'
-            className={cn('w-full', {
-              'border-destructive focus:border-destructive':
-                errors.descriptions,
-            })}
+          <Controller
+            control={control}
+            name='descriptions'
+            render={(field) => (
+              <QuillEditor
+                value={watch('descriptions')} // Use watch to get the value
+                onChange={(value) => setValue('descriptions', value)}
+                label='Descriptions'
+                className='col-span-full [&_.ql-editor]:min-h-[100px]'
+                labelClassName='font-medium text-gray-700 dark:text-gray-600 mb-1.5'
+              />
+            )}
           />
         </div>
 
         <div className='pt-2'>
-          <Label>Features</Label>
-          <SimpleMDE
-            {...register('features')}
-            value={features}
-            onChange={(value) => setValue('features', value)}
-            aria-disabled={false}
-            placeholder='Input product features here'
-            className={cn('w-full', {
-              'border-destructive focus:border-destructive': errors.features,
-            })}
+          <Controller
+            control={control}
+            name='benefit'
+            render={(field) => (
+              <QuillEditor
+                value={watch('benefit')} // Use watch to get the value
+                onChange={(value) => setValue('benefit', value)}
+                label='Benefits'
+                className='col-span-full [&_.ql-editor]:min-h-[100px]'
+                labelClassName='font-medium text-gray-700 dark:text-gray-600 mb-1.5'
+              />
+            )}
           />
         </div>
-
-        <div className='pt-2'>
-          <Label>Footers</Label>
-          <SimpleMDE
-            {...register('footers')}
-            value={footers}
-            onChange={(value) => setValue('footers', value)}
-            aria-disabled={false}
-            placeholder='Input description footers here'
-            className={cn('w-full', {
-              'border-destructive focus:border-destructive': errors.footers,
-            })}
-          />
-        </div>
-        {/* </div> */}
       </FormGroup>
     </>
   );
