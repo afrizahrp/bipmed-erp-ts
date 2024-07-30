@@ -17,10 +17,6 @@ export async function GET(request: NextRequest) {
         descriptions: true,
         showStatus: true,
       },
-
-      orderBy: {
-        updatedAt: 'desc',
-      },
     });
     const productsWithPrimaryImage = products.map((product) => {
       const primaryImages = product.images.filter((image) => image.isPrimary);
