@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
       },
       include: {
         images: true,
-        specs: true,
         descriptions: true,
         showStatus: true,
       },
