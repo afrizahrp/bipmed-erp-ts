@@ -58,7 +58,6 @@ export async function POST(request: NextRequest) {
       name,
       remarks,
       iStatus,
-      imageURL,
       images,
       iShowedStatus,
       slug,
@@ -69,7 +68,6 @@ export async function POST(request: NextRequest) {
       name: string;
       remarks: string;
       iStatus: boolean;
-      imageURL: string;
       images: { imageURL: string }[];
       iShowedStatus: boolean;
       slug: string;
@@ -91,7 +89,6 @@ export async function POST(request: NextRequest) {
       name,
       id: categoryId,
       remarks,
-      imageURL,
       iStatus,
       iShowedStatus,
       slug,
@@ -117,7 +114,7 @@ export async function POST(request: NextRequest) {
           createMany: {
             data: images.map((image: { imageURL: string }) => ({
               imageURL: image.imageURL,
-              isPrimary: false,
+              isPrimary: true,
               createdBy: userName,
               updatedBy: userName,
               createdAt: new Date(),
