@@ -70,8 +70,6 @@ const CategoryFormQuickEdit: React.FC<CategoryFormQuickEditProps> = ({
     }
   }
 
-  console.log('isCms', isCms);
-
   return (
     <>
       <Form {...form}>
