@@ -1,10 +1,16 @@
 import { prisma } from '@/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
+import config from '@/config/config';
+
+
+
 // import { authOptions } from '@/lib/auth';
 // import { getServerSession } from 'next-auth';
 
 export async function GET(request: NextRequest) {
   try {
+    const url = new URL('/api/cms/categories', config.apiBaseUrl);
+
     const { searchParams } = new URL(request.url);
     const iShowedStatus = searchParams.get('iShowedStatus');
     const categories = await prisma.categories.findMany({
