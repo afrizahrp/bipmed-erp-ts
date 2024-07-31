@@ -5,18 +5,17 @@ import { getServerSession } from 'next-auth';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { productId: string } }
+  { params }: { params: { categoryId: string } }
 ) {
-  const product = await prisma.products.findUnique({
+  const product = await prisma.categories.findUnique({
     where: {
-      id: params.productId,
+      type: '1',
+      id: params.categoryId,
       iStatus: true,
       iShowedStatus: true,
     },
     include: {
       images: true,
-      descriptions: true,
-      category: true,
     },
   });
 

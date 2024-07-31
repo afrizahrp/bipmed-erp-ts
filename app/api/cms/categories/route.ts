@@ -7,18 +7,14 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const iShowedStatus = searchParams.get('iShowedStatus');
-    const category_id = searchParams.get('category_id');
     const products = await prisma.products.findMany({
       where: {
         isMaterial: false,
-        category_id: category_id || undefined,
-        iStatus: true,
         iShowedStatus: iShowedStatus === 'true' ? true : false,
       },
       include: {
         images: true,
         descriptions: true,
-        category: true,
         showStatus: true,
       },
     });
