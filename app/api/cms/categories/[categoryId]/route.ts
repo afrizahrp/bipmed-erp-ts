@@ -7,20 +7,42 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { categoryId: string } }
 ) {
-  const product = await prisma.categories.findUnique({
-    where: {
-      type: '1',
-      id: params.categoryId,
-      iStatus: true,
-      iShowedStatus: true,
-    },
-    include: {
-      images: true,
-    },
-  });
+  try {
+    const category = await prisma.categories.findUnique({
+      where: {
+        type: '1',
+        id: params.categoryId,
+        iStatus: true,
+        iShowedStatus: true,
+      },
+      include: {
+        images: true,
+      },
+    })
+    const response = NextResponse.json(category);
+    const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3001'; // Default to localhost if not set
 
-  return NextResponse.json(product);
+    response.headers.set('Access-Control-Allow-Origin', allowedOrigin); // Allow requests from your frontend's origin
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+
+    return response;
+  } catch (e) {
+    console.log(e);
+    const errorResponse = NextResponse.json(
+      { error: 'Something went wrong' },
+      { status: 500 }
+    );
+    errorResponse.headers.set('Access-Control-Allow-Origin', 'http://localhost:3001'); // Allow requests from your frontend's origin
+    errorResponse.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    errorResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+
+    return errorResponse
+  }
 }
+
+
 
 export async function PATCH(
   request: NextRequest,
