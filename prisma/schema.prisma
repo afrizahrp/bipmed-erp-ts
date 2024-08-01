@@ -428,6 +428,21 @@ model Products {
 
 }
 
+
+model PriceList {
+  id                  String        @id @db.Char(20)
+  name                String        @db.VarChar(150)
+  fileURL             String        @db.VarChar(250)
+  iStatus             Boolean       @default(false)
+  remarks             String        @db.VarChar(250)
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+}
+
 model ProductDescs {
   id                    String        @id @db.Char(20)
   descriptions          String        @default("") @db.Text

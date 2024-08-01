@@ -15,12 +15,12 @@ export async function GET(
 
   return NextResponse.json(products);
 }
-function extractPublicIdFromCloudinaryUrl(urls: string[]): string[] {
-  return urls.map((url) => {
-    const parts = url.split('/');
-    return parts[parts.length - 1].split('.')[0];
-  });
-}
+// function extractPublicIdFromCloudinaryUrl(urls: string[]): string[] {
+//   return urls.map((url) => {
+//     const parts = url.split('/');
+//     return parts[parts.length - 1].split('.')[0];
+//   });
+// }
 
 export async function PATCH(
   req: Request,
@@ -45,7 +45,6 @@ export async function PATCH(
       uom_id,
       iStatus,
       remarks,
-      images,
       tkdn_pctg,
       bmp_pctg,
       ecatalog_URL,
@@ -61,7 +60,6 @@ export async function PATCH(
       uom_id: string;
       iStatus: boolean;
       remarks: string;
-      images: { imageURL: string }[];
       tkdn_pctg: number;
       bmp_pctg: number;
       ecatalog_URL: string;
