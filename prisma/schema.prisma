@@ -81,6 +81,7 @@ model MasterTableStatus {
   Products            Products[]
   Suppliers           Suppliers[]
   Billboards          Billboards[]
+  PriceList           PriceList[]
 }
 
 model MasterShowedStatus {
@@ -96,6 +97,7 @@ model MasterShowedStatus {
   Categories          Categories[]
   Products            Products[]
   Billboards          Billboards[]
+  PriceList           PriceList[]
 }
 
 model TrxTableStatus {
@@ -434,6 +436,7 @@ model PriceList {
   name                String        @db.VarChar(150)
   fileURL             String        @db.VarChar(250)
   iStatus             Boolean       @default(false)
+  iShowedStatus       Boolean       @default(false)
   remarks             String        @db.VarChar(250)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
@@ -441,6 +444,9 @@ model PriceList {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
+  status              MasterTableStatus @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
+    showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
+
 }
 
 model ProductDescs {

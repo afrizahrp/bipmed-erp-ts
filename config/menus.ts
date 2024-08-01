@@ -2151,6 +2151,10 @@ export const menusConfig = {
                 title: 'Categories',
                 href: '/cms/categories/category-list',
               },
+              {
+                title: 'Price List',
+                href: '/cms/pricelist/price-list',
+              },
               // {
               //   title: 'Events',
               //   href: '/cms/subcategories/subcategory-list',
