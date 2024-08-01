@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       ecatalog_URL,
       remarks,
       iStatus,
-      images,
+      // images,
       slug,
       iShowedStatus,
       createdBy,
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
       ecatalog_URL: string;
       remarks: string;
       iStatus: boolean;
-      images: { imageURL: string }[];
+      // images: { imageURL: string }[];
       slug: string;
       iShowedStatus: boolean;
       createdBy: string;
@@ -136,9 +136,9 @@ export async function POST(request: NextRequest) {
       slug,
       iShowedStatus,
       isMaterial: false,
-      images: {
-        deleteMany: {},
-      },
+      // images: {
+      //   deleteMany: {},
+      // },
       createdBy: userName,
       updatedBy: userName,
       createdAt: new Date(),
@@ -147,36 +147,10 @@ export async function POST(request: NextRequest) {
       branch_id: branch_id,
     };
 
-    let url = images.map((image: { imageURL: string }) => image.imageURL);
-    const publicIds = extractPublicIdFromCloudinaryUrl({ url });
-
     const product = await prisma.products.create({
       data: {
         ...newProduct,
-        images: {
-          createMany: {
-            data: images.map((image: { imageURL: string }) => ({
-              id: publicIds,
-              imageURL: image.imageURL,
-              product_id: productId,
-              isPrimary: false,
-              createdBy: userName,
-              updatedBy: userName,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              company_id: company_id,
-              branch_id: branch_id,
-            })),
-          },
-        },
       },
-      // newProduct: {
-      //   images: {
-      //     createMany: {
-      //       newProduct: [...images.map((image: { imageURL: string }) => image)],
-      //     },
-      //   },
-      // },
     });
 
     return NextResponse.json(product, { status: 201 });
