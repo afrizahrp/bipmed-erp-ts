@@ -34,9 +34,9 @@ const ProductListPage = async () => {
       images: true,
       showStatus: true,
     },
-    orderBy: {
-      updatedAt: 'desc',
-    },
+    // orderBy: {
+    //   updatedAt: 'desc',
+    // },
   });
 
   const formattedProducts: ProductColumn[] =

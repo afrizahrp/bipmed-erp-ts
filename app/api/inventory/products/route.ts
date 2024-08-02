@@ -14,9 +14,9 @@ export async function GET(request: NextRequest) {
       where: {
         isMaterial: false,
       },
-      orderBy: {
-        updatedAt: 'desc',
-      },
+      // orderBy: {
+      //   updatedAt: 'desc',
+      // },
     });
 
     return NextResponse.json(products);
