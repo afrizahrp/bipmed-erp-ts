@@ -11,7 +11,7 @@ import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import cn from '@/utils/class-names';
 import FormNav, { formParts } from './form-nav';
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 
 import {
   Products,
@@ -243,13 +243,16 @@ export default function ProductDetailPage({
       } else {
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
-      router.push(routes.cms.products);
-      router.refresh();
+      // router.back();
+      // router.push(routes.cms.products);
+      // router.refresh();
       action = 'Update';
       toast.success(toastMessage);
     } catch (error) {
     } finally {
-      setLoading(false);
+      setLoading(false)
+      router.back();
+      router.push(routes.cms.products);
     }
   };
 
