@@ -1,8 +1,8 @@
 'use client';
 import axios from 'axios';
 import useProductStore from '@/store/useProductStore';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { routes } from '@/config/routes';
 import { toast } from 'react-hot-toast';
 
@@ -65,8 +65,16 @@ export default function ProductDetailPage({
   className,
 }: IndexProps) {
   const router = useRouter();
+  const [previousPage, setPreviousPage] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState<string>('');
+
+  useEffect(() => {
+    // Store the current page URL when the component mounts
+    setPreviousPage(window.location.href);
+  }, []);
+
   let action = 'Save';
   let id: string;
 
@@ -168,7 +176,9 @@ export default function ProductDetailPage({
   const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
-    router.push(routes.cms.products);
+    // router.push(routes.cms.products);
+    router.push(previousPage);
+
     // router.push('/cms/products/product-list');
 
     return;
@@ -244,7 +254,8 @@ export default function ProductDetailPage({
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
       // router.back();
-      router.push(routes.cms.products);
+      // router.push(routes.cms.products);
+      router.push(previousPage);
       router.refresh();
       action = 'Update';
       toast.success(toastMessage);
