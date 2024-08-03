@@ -176,7 +176,7 @@ export default function ProductDetailPage({
   const handleBack = (e: any) => {
     e.preventDefault();
     setLoading(false);
-    // router.push(routes.cms.products);
+    router.push(routes.cms.products);
     router.push(previousPage);
 
     // router.push('/cms/products/product-list');
