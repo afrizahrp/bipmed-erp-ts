@@ -253,9 +253,9 @@ export default function ProductDetailPage({
       } else {
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
-      // router.back();
-      // router.push(routes.cms.products);
-      router.push(previousPage);
+      router.back();
+      router.push(routes.cms.products);
+      // router.push(previousPage);
       router.refresh();
       action = 'Update';
       toast.success(toastMessage);
