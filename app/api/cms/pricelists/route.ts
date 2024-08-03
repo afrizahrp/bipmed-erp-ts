@@ -18,12 +18,18 @@ export async function GET(request: NextRequest) {
     });
 
     const response = NextResponse.json(pricelist);
-    const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3001'; // Default to localhost if not set
+    const allowedOrigin =
+      'https://bipmed.vercel.app' || 'http://localhost:3001'; // Default to localhost if not set
 
     response.headers.set('Access-Control-Allow-Origin', allowedOrigin); // Allow requests from your frontend's origin
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
+    response.headers.set(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, DELETE, OPTIONS'
+    );
+    response.headers.set(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+    );
 
     return response;
   } catch (e) {
@@ -32,11 +38,14 @@ export async function GET(request: NextRequest) {
       { error: 'Something went wrong' },
       { status: 500 }
     );
-    errorResponse.headers.set('Access-Control-Allow-Origin', 'http://localhost:3001'); // Allow requests from your frontend's origin
+    errorResponse.headers.set(
+      'Access-Control-Allow-Origin',
+      'http://localhost:3001'
+    ); // Allow requests from your frontend's origin
     errorResponse.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
     errorResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type');
 
-    return errorResponse
+    return errorResponse;
   }
 }
 
@@ -87,19 +96,16 @@ export async function POST(request: NextRequest) {
       branch_id: branch_id,
     };
 
-
     const publicIds = extractPublicIdFromCloudinaryUrl({
       url: newPricelist.fileURL,
     });
 
-
-console.log('publicId',publicIds)
+    console.log('publicId', publicIds);
 
     const pricelist = await prisma.priceList.create({
       data: {
         ...newPricelist,
         id: publicIds,
-
       },
     });
 

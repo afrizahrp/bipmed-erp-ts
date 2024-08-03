@@ -18,14 +18,20 @@ export async function GET(
       include: {
         images: true,
       },
-    })
+    });
     const response = NextResponse.json(category);
-    const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3001'; // Default to localhost if not set
+    const allowedOrigin =
+      'https://bipmed.vercel.app' || 'http://localhost:3001'; // Default to localhost if not set
 
     response.headers.set('Access-Control-Allow-Origin', allowedOrigin); // Allow requests from your frontend's origin
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
+    response.headers.set(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, DELETE, OPTIONS'
+    );
+    response.headers.set(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+    );
 
     return response;
   } catch (e) {
@@ -34,15 +40,16 @@ export async function GET(
       { error: 'Something went wrong' },
       { status: 500 }
     );
-    errorResponse.headers.set('Access-Control-Allow-Origin', 'http://localhost:3001'); // Allow requests from your frontend's origin
+    errorResponse.headers.set(
+      'Access-Control-Allow-Origin',
+      'http://localhost:3001'
+    ); // Allow requests from your frontend's origin
     errorResponse.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
     errorResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type');
 
-    return errorResponse
+    return errorResponse;
   }
 }
-
-
 
 export async function PATCH(
   request: NextRequest,
