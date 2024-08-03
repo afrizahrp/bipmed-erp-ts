@@ -10,17 +10,44 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const pricelist = await prisma.priceList.findUnique({
-    where: {
-      id: params.id,
-    },
-  });
+export async function GET({ params }: { params: { id: string } }) {
+  try {
+    const pricelist = await prisma.priceList.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
 
-  return NextResponse.json(pricelist);
+    const response = NextResponse.json(pricelist);
+    const allowedOrigin =
+      'https://bipmed.vercel.app' || 'http://localhost:3001'; // Default to localhost if not set
+
+    response.headers.set('Access-Control-Allow-Origin', allowedOrigin); // Allow requests from your frontend's origin
+    response.headers.set(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, DELETE, OPTIONS'
+    );
+    response.headers.set(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+    );
+
+    return response;
+  } catch (e) {
+    console.log(e);
+    const errorResponse = NextResponse.json(
+      { error: 'Something went wrong' },
+      { status: 500 }
+    );
+    errorResponse.headers.set(
+      'Access-Control-Allow-Origin',
+      'http://localhost:3001'
+    ); // Allow requests from your frontend's origin
+    errorResponse.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    errorResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+
+    return errorResponse;
+  }
 }
 
 export async function DELETE(
@@ -55,12 +82,10 @@ export async function DELETE(
     });
 
     try {
-
       const result = await cloudinary.uploader.destroy(publicIds, {
         invalidate: true,
       });
       console.log('Cloudinary delete result:', result);
-
     } catch (error) {
       console.error('Cloudinary delete error:', error);
     }
@@ -85,14 +110,7 @@ export async function PATCH(
 
     const body = await req.json();
 
-    const {
-      name,
-      fileURL,
-      remarks,
-      iStatus,
-      iShowedStatus,
-      slug,
-    } = body as {
+    const { name, fileURL, remarks, iStatus, iShowedStatus, slug } = body as {
       name: string;
       fileURL: string;
       remarks: string;
