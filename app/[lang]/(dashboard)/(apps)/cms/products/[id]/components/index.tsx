@@ -244,15 +244,13 @@ export default function ProductDetailPage({
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
       // router.back();
-      // router.push(routes.cms.products);
-      // router.refresh();
+      router.push(routes.cms.products);
+      router.refresh();
       action = 'Update';
       toast.success(toastMessage);
     } catch (error) {
     } finally {
-      setLoading(false)
-      router.back();
-      router.push(routes.cms.products);
+      setLoading(false);
     }
   };
 
