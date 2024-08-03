@@ -1,7 +1,9 @@
 'use client';
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
-import axios from 'axios';
+import { Button } from '@/components/ui/button';
+// import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
@@ -23,6 +25,11 @@ export type ProductColumn = {
   images: string[];
   imgPrimary: string[];
 };
+
+function getCurrentPage(): string {
+  const currentPage = localStorage.getItem('currentPage');
+  return currentPage || '';
+}
 
 export function getStatusColor(status: string) {
   if (status.toLowerCase() === 'active') {
@@ -64,14 +71,37 @@ export const columns: ColumnDef<ProductColumn>[] = [
         className='text-black dark:text-slate-300'
       />
     ),
-    cell: ({ row }) => (
-      <Link
-        href={routes.cms.editProductCms(row.getValue('id'))}
-        className='text-primary-600 dark:text-slate-200'
-      >
-        {row.getValue('id')}
-      </Link>
-    ),
+    cell: ({ row }) => {
+      const router = useRouter();
+      // const currentPage = getCurrentPage();
+
+      // console.log('currentPage:', currentPage);
+      // const handleEditProductClick = (currentPage: string): string => {
+      //   // Save the current page URL to local storage
+      //   localStorage.setItem('currentPage', currentPage);
+      //   // Navigate to the edit product page
+      //   console.log('currentPage', currentPage);
+      //   router.push(routes.cms.editProductCms(row.id));
+      //   return currentPage;
+      // };
+
+      return (
+        <>
+          {/* <Button
+            variant='ghost'
+            onClick={() => handleEditProductClick(currentPage)}
+          >
+            {row.getValue('id')}
+          </Button> */}
+          <Link
+            href={`/cms/products/${row.getValue('id')}`}
+            className='text-primary-600 dark:text-slate-200'
+          >
+            {row.getValue('id')}
+          </Link>
+        </>
+      );
+    },
     enableHiding: false,
     enableSorting: true,
   },
@@ -140,6 +170,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
                 height={80}
                 alt={`Image ${index}`}
                 className='max-w-[80px]'
+                priority
               />
             ))
           ) : (

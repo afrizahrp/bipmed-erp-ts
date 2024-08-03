@@ -21,13 +21,14 @@ const GalleryTabWithUpload: React.FC<GalleryTabWithUploadProps> = ({
         <div className='flex items-center justify-center'>
           <span className='absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md'>
             <NextImage
-              fill
               priority
               src={image}
               alt='images'
+              height={100}
+              width={100}
               sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
-              className='object-center'
-
+              style={{ width: '100%', height: '100%' }}
+              className='object-center object-conntain'
               // className='object-cover object-center'
               // objectPosition='center'
             />

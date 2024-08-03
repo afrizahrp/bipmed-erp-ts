@@ -77,51 +77,51 @@ export const FinishGoodsForm: React.FC<FinishGoodsFormProps> = ({
           <ImageCollection value={[]} disabled />
         </div>
 
-        {idValue && (
-          <div className='grid grid-cols-3 gap-4 py-2'>
-            <div>
-              <Label>Id</Label>
-              <Input
-                id='id'
-                placeholder=' '
-                {...register('id')}
-                disabled
-                className={cn('w-full font-semibold text-black', {
-                  'border-destructive': errors.id,
-                })}
-              />
-            </div>
-            <div>
-              <Label>Catalog</Label>
-              <Input
-                id='catalog_id'
-                placeholder=' '
-                {...register('catalog_id')}
-                disabled
-                className={cn('w-full font-semibold text-black', {
-                  'border-destructive': errors.catalog_id,
-                })}
-              />
-              {errors.catalog_id && (
-                <div className='text-destructive'>
-                  {errors.catalog_id.message?.toString()}
-                </div>
-              )}
-            </div>
-            <div>
-              <Label>Reg.No</Label>
-              <Input
-                id='registered_id'
-                placeholder=' '
-                {...register('registered_id')}
-                disabled
-                className={cn('peer font-semibold', {
-                  'border-destructive': errors.registered_id,
-                })}
-              />
-            </div>
+        {/* {idValue && ( */}
+        <div className='grid grid-cols-3 gap-4 py-2'>
+          <div>
+            <Label>Id</Label>
+            <Input
+              id='id'
+              placeholder=' '
+              {...register('id')}
+              disabled
+              className={cn('w-full font-semibold text-black', {
+                'border-destructive': errors.id,
+              })}
+            />
           </div>
-        )}
+          <div>
+            <Label>Catalog</Label>
+            <Input
+              id='catalog_id'
+              placeholder=' '
+              {...register('catalog_id')}
+              disabled
+              className={cn('w-full font-semibold text-black', {
+                'border-destructive': errors.catalog_id,
+              })}
+            />
+            {errors.catalog_id && (
+              <div className='text-destructive'>
+                {errors.catalog_id.message?.toString()}
+              </div>
+            )}
+          </div>
+          <div>
+            <Label>Reg.No</Label>
+            <Input
+              id='registered_id'
+              placeholder=' '
+              {...register('registered_id')}
+              disabled
+              className={cn('peer font-semibold', {
+                'border-destructive': errors.registered_id,
+              })}
+            />
+          </div>
+        </div>
+        {/* )} */}
 
         {productNameValue && (
           <div className='pt-2'>

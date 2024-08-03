@@ -102,12 +102,12 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
                     priority
                     height={100}
                     width={100}
-                    layout='responsive'
+                    // layout='responsive'
                     src={image.imageURL}
                     alt='Image'
-                    className='object-center'
+                    className='object-center object-contain'
                     sizes='(max-width: 140px) 100vw, (max-width: 168px) 50vw, 33vw'
-                    style={{ width: '85%', height: '100%' }}
+                    style={{ width: '100%', height: '100%' }}
                   />
                 </div>
                 <div className='w-full bg-white'>

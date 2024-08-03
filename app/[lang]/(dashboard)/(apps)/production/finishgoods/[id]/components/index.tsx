@@ -58,6 +58,36 @@ export default function ProductDetailPage({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState<string>('');
+
+  const navigateToSavedPage = () => {
+    const savedPage = localStorage.getItem('currentPage');
+    console.log('savedPage retrieved from localStorage:', savedPage);
+
+    const constructUrl = (page: string) => {
+      const url = new URL(window.location.href);
+      url.pathname = '/en/cms/products/product-list';
+      url.searchParams.set('page', page);
+      url.hash = ''; // Clear the fragment identifier
+      return url.toString();
+    };
+    if (savedPage !== null) {
+      const constructedUrl = constructUrl(savedPage);
+      // console.log('constructedUrl:', constructedUrl);
+
+      // console.log('Navigating to:', constructedUrl);
+      router.push(constructedUrl);
+    } else {
+      console.log('savedPage is null');
+      // router.push(routes.cms.products);
+    }
+  };
+
+  const handleBack = (e: any) => {
+    e.preventDefault();
+    setLoading(false);
+    navigateToSavedPage();
+  };
+
   let action = 'Save';
   let id: string;
 
@@ -157,14 +187,6 @@ export default function ProductDetailPage({
     ),
   });
 
-  const handleBack = (e: any) => {
-    e.preventDefault();
-    setLoading(false);
-    router.push('/production/finishgoods/finishgoods-list');
-
-    return;
-  };
-
   const resetProductId = useProductStore((state) => state.resetProductId);
 
   if (product_id !== 'new') {
@@ -237,7 +259,7 @@ export default function ProductDetailPage({
         console.log('initialProductDescsData:', initialProductDescsData);
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
-
+      navigateToSavedPage();
       router.refresh();
       action = 'Update';
       toast.success(toastMessage);

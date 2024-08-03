@@ -64,16 +64,38 @@ export default function ProductDetailPage({
   initialProductSpecData,
   className,
 }: IndexProps) {
-  const router = useRouter();
-  const [previousPage, setPreviousPage] = useState('');
-
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState<string>('');
+  const router = useRouter();
 
-  useEffect(() => {
-    // Store the current page URL when the component mounts
-    setPreviousPage(window.location.href);
-  }, []);
+  const navigateToSavedPage = () => {
+    const savedPage = localStorage.getItem('currentPage');
+    console.log('savedPage retrieved from localStorage:', savedPage);
+
+    const constructUrl = (page: string) => {
+      const url = new URL(window.location.href);
+      url.pathname = '/en/cms/products/product-list';
+      url.searchParams.set('page', page);
+      url.hash = ''; // Clear the fragment identifier
+      return url.toString();
+    };
+    if (savedPage !== null) {
+      const constructedUrl = constructUrl(savedPage);
+      // console.log('constructedUrl:', constructedUrl);
+
+      // console.log('Navigating to:', constructedUrl);
+      router.push(constructedUrl);
+    } else {
+      console.log('savedPage is null');
+      // router.push(routes.cms.products);
+    }
+  };
+
+  const handleBack = (e: any) => {
+    e.preventDefault();
+    setLoading(false);
+    navigateToSavedPage();
+  };
 
   let action = 'Save';
   let id: string;
@@ -173,17 +195,6 @@ export default function ProductDetailPage({
     ),
   });
 
-  const handleBack = (e: any) => {
-    e.preventDefault();
-    setLoading(false);
-    router.push(routes.cms.products);
-    // router.push(previousPage);
-
-    // router.push('/cms/products/product-list');
-
-    return;
-  };
-
   const resetProductId = useProductStore((state) => state.resetProductId);
 
   if (product_id !== 'new') {
@@ -253,9 +264,7 @@ export default function ProductDetailPage({
       } else {
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
       }
-      // router.back();
-      router.push(routes.cms.products);
-      // router.push(previousPage);
+      navigateToSavedPage();
       router.refresh();
       action = 'Update';
       toast.success(toastMessage);
