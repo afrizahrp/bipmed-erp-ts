@@ -13,7 +13,7 @@ import {
 import { ProductImages } from '@prisma/client';
 import GalleryWithUpload from '@/components/ui/image-gallery-with-upload';
 import { toast } from 'react-hot-toast';
-// import { CldUploadWidget } from 'next-cloudinary';
+import { CldUploadWidget } from 'next-cloudinary';
 import { Button } from '@/components/ui/button';
 import { ImagePlus, Loader2 } from 'lucide-react';
 
@@ -213,11 +213,11 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
             />
           </div>
 
-          {/* <div className='w-full flex items-center justify-center gap-x-6'>
+          <div className='w-full flex items-center justify-center gap-x-6'>
             <CldUploadWidget
               onUpload={onUpload}
               options={{
-                sources: ['local'],
+                sources: ['local', 'google_drive'],
                 resourceType: 'image',
                 multiple: true,
               }}
@@ -245,9 +245,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                 );
               }}
             </CldUploadWidget>
-
-  
-          </div> */}
+          </div>
         </form>
       </Form>
     </div>
