@@ -177,7 +177,7 @@ export default function ProductDetailPage({
     e.preventDefault();
     setLoading(false);
     router.push(routes.cms.products);
-    router.push(previousPage);
+    // router.push(previousPage);
 
     // router.push('/cms/products/product-list');
 
