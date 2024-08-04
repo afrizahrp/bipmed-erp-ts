@@ -83,7 +83,7 @@ export default function ProductDetailPage({
       const constructedUrl = constructUrl(savedPage);
       // console.log('constructedUrl:', constructedUrl);
 
-      // console.log('Navigating to:', constructedUrl);
+      console.log('Navigating to:', constructedUrl);
       router.push(constructedUrl);
     } else {
       console.log('savedPage is null');
