@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -7,7 +6,6 @@ import {
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
-
 import { Button } from '@/components/ui/button';
 
 interface DataTablePaginationProps<TData> {
@@ -26,6 +24,7 @@ export function DataTablePagination<TData>({
   });
 
   React.useEffect(() => {
+    console.log('Setting current page in local storage:', currentPage);
     localStorage.setItem('currentPage', currentPage.toString());
     const url = new URL(window.location.href);
     url.searchParams.set('page', currentPage.toString());
@@ -35,6 +34,7 @@ export function DataTablePagination<TData>({
   React.useEffect(() => {
     const url = new URL(window.location.href);
     const page = url.searchParams.get('page');
+    console.log('URL page:', page);
     if (
       page &&
       parseInt(page, 10) !== table.getState().pagination.pageIndex + 1
@@ -46,6 +46,7 @@ export function DataTablePagination<TData>({
   }, [table.getState().pagination.pageIndex]);
 
   React.useEffect(() => {
+    console.log('Syncing current page with table state:', currentPage);
     if (currentPage !== table.getState().pagination.pageIndex + 1) {
       table.setPageIndex(currentPage - 1);
     }
