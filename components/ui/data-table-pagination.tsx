@@ -25,7 +25,7 @@ export function DataTablePagination<TData>({
   });
 
   useEffect(() => {
-    console.log('Setting current page in local storage:', currentPage);
+    // console.log('Setting current page in local storage:', currentPage);
     localStorage.setItem('currentPage', currentPage.toString());
     const url = new URL(window.location.href);
     url.searchParams.set('page', currentPage.toString());
@@ -36,11 +36,11 @@ export function DataTablePagination<TData>({
     const url = new URL(window.location.href);
     const page = url.searchParams.get('page');
     console.log('URL page:', page);
-    if (
-      page &&
-      parseInt(page, 10) !== table.getState().pagination.pageIndex + 1
-    ) {
-      setCurrentPage(parseInt(page, 10));
+    if (page) {
+      const pageIndex = parseInt(page, 10);
+      if (pageIndex !== table.getState().pagination.pageIndex + 1) {
+        setCurrentPage(pageIndex);
+      }
     } else {
       setCurrentPage(table.getState().pagination.pageIndex + 1);
     }
@@ -62,11 +62,8 @@ export function DataTablePagination<TData>({
     <div className='flex items-center flex-wrap gap-2 justify-between p-5'>
       <div className='flex-1 text-sm text-muted-foreground whitespace-nowrap'>
         {table.getFilteredSelectedRowModel().rows.length > 0
-          ? `${table.getFilteredSelectedRowModel().rows.length} of ${
-              table.getFilteredRowModel().rows.length
-            } data selected.`
-          : `Total ${table.getFilteredRowModel().rows.length}`}{' '}
-        data
+          ? `${table.getFilteredSelectedRowModel().rows.length} of ${table.getFilteredRowModel().rows.length} data selected.`
+          : `Total ${table.getFilteredRowModel().rows.length} data`}
       </div>
       <div className='flex items-center space-x-6 lg:space-x-8'>
         <div className='flex w-[100px] items-center justify-center text-xs'>

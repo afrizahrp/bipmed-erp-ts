@@ -70,7 +70,7 @@ export default function ProductDetailPage({
 
   const navigateToSavedPage = () => {
     const savedPage = localStorage.getItem('currentPage');
-    console.log('savedPage retrieved from localStorage:', savedPage);
+    // console.log('savedPage retrieved from localStorage:', savedPage);
 
     const constructUrl = (page: string) => {
       const url = new URL(window.location.href);
@@ -83,7 +83,7 @@ export default function ProductDetailPage({
       const constructedUrl = constructUrl(savedPage);
       // console.log('constructedUrl:', constructedUrl);
 
-      console.log('Navigating to:', constructedUrl);
+      // console.log('Navigating to:', constructedUrl);
       router.push(constructedUrl);
     } else {
       console.log('savedPage is null');
