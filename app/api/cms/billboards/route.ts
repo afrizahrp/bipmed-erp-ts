@@ -19,8 +19,7 @@ export async function GET(request: NextRequest) {
 
     const response = NextResponse.json(billboards);
     // const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3001'; // Default to localhost if not set
-    const allowedOrigin =
-      'https://bipmed.vercel.app' || 'http://localhost:3001'; // Default to localhost if not set
+    const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3001'; // Default to localhost if not set
 
     response.headers.set('Access-Control-Allow-Origin', allowedOrigin); // Allow requests from your frontend's origin
     response.headers.set(
