@@ -20,6 +20,9 @@ export async function GET(
       },
     });
     const response = NextResponse.json(category);
+
+    // const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3001'; // Default to localhost if not set
+
     const allowedOrigin =
       'https://bipmed.vercel.app' || 'http://localhost:3001'; // Default to localhost if not set
 

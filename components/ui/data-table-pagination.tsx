@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -15,7 +16,7 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
-  const [currentPage, setCurrentPage] = React.useState(() => {
+  const [currentPage, setCurrentPage] = useState(() => {
     const url = new URL(window.location.href);
     const page = url.searchParams.get('page');
     return page
@@ -23,7 +24,7 @@ export function DataTablePagination<TData>({
       : table.getState().pagination.pageIndex + 1;
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('Setting current page in local storage:', currentPage);
     localStorage.setItem('currentPage', currentPage.toString());
     const url = new URL(window.location.href);
@@ -31,7 +32,7 @@ export function DataTablePagination<TData>({
     window.history.pushState({}, '', url.toString());
   }, [currentPage]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const url = new URL(window.location.href);
     const page = url.searchParams.get('page');
     console.log('URL page:', page);
@@ -45,7 +46,7 @@ export function DataTablePagination<TData>({
     }
   }, [table.getState().pagination.pageIndex]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('Syncing current page with table state:', currentPage);
     if (currentPage !== table.getState().pagination.pageIndex + 1) {
       table.setPageIndex(currentPage - 1);

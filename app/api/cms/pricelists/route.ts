@@ -18,6 +18,8 @@ export async function GET(request: NextRequest) {
     });
 
     const response = NextResponse.json(pricelist);
+    // const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3001'; // Default to localhost if not set
+
     const allowedOrigin =
       'https://bipmed.vercel.app' || 'http://localhost:3001'; // Default to localhost if not set
 
