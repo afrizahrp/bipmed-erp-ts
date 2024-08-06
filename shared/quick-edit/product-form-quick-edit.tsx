@@ -21,7 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { SearchColumnProductCategory } from '@/components/searchColumns';
+import { SearchColumnCategory } from '@/components/searchColumns';
 
 import {
   ProductFormValues,
@@ -128,7 +128,7 @@ const ProductFormQuickEdit: React.FC<ProductFormQuickEditProps> = ({
                   <FormItem>
                     <FormLabel>Category</FormLabel>
                     {!isCms ? (
-                      <SearchColumnProductCategory
+                      <SearchColumnCategory
                         {...field}
                         currentValue={field.value ?? ''}
                         onChange={field.onChange}

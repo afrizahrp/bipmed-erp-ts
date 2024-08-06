@@ -40,6 +40,7 @@ import {
 import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 import {
   SearchColumnProductCategory,
+  SearchColumnCategory,
   SearchColumnUom,
   SearchColumnBrand,
 } from '@/components/searchColumns';
@@ -319,7 +320,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <SearchColumnProductCategory
+                    <SearchColumnCategory
                       {...field}
                       currentValue={field.value ?? ''}
                       onChange={field.onChange}
