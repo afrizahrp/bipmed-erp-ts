@@ -47,7 +47,6 @@ export async function PATCH(
         slug: string;
       };
 
-    console.log('body', body);
 
     if (!session) {
       return new NextResponse('Unauthenticated', { status: 403 });

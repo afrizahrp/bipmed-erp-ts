@@ -126,7 +126,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       if (initialProductData) {
         await axios.patch(`/api/inventory/products/${params?.id}`, data);
       } else {
-        console.log('add new product', data);
+        // console.log('add new product', data);
         await axios.post(`/api/inventory/products`, data);
       }
       router.push('/inventory/products/product-list');

@@ -13,7 +13,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   // Add the new item to the array
   projects.push(newItem);
-  console.log(newItem, "ami new item");
 
   return NextResponse.json(newItem, { status: 201 });
 }
