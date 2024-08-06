@@ -40,7 +40,7 @@ const ProductPage = async ({
     where: {
       id: params.category_id,
       type: '1',
-      iStatus: false,
+      iStatus: true,
     },
   });
 
