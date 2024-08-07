@@ -23,6 +23,15 @@ export async function GET(
   }
 }
 
+async function updateCategorySlug(): Promise<void> {
+  try {
+    await prisma.$executeRaw`EXEC dbo.updateCategorySlug`;
+  } catch (e) {
+    console.error('Error executing updateCategorySlug:', e);
+    throw new Error('Something went wrong while updating category slugs');
+  }
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
@@ -46,7 +55,6 @@ export async function PATCH(
         iShowedStatus: boolean;
         slug: string;
       };
-
 
     if (!session) {
       return new NextResponse('Unauthenticated', { status: 403 });
@@ -99,6 +107,8 @@ export async function PATCH(
         },
       },
     });
+
+    await updateCategorySlug();
 
     return NextResponse.json(category);
   } catch (error) {

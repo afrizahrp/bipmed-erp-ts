@@ -15,12 +15,15 @@ export async function GET(
 
   return NextResponse.json(products);
 }
-// function extractPublicIdFromCloudinaryUrl(urls: string[]): string[] {
-//   return urls.map((url) => {
-//     const parts = url.split('/');
-//     return parts[parts.length - 1].split('.')[0];
-//   });
-// }
+
+async function updateProductSlug(): Promise<void> {
+  try {
+    await prisma.$executeRaw`EXEC dbo.updateProductSlug`;
+  } catch (e) {
+    console.error('Error executing updateProductSlug:', e);
+    throw new Error('Something went wrong while updating product slugs');
+  }
+}
 
 export async function PATCH(
   req: Request,
@@ -148,6 +151,8 @@ export async function PATCH(
     //     ...body,
     //   },
     // });
+
+    await updateProductSlug();
 
     return NextResponse.json(product);
   } catch (error) {

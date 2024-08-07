@@ -303,7 +303,7 @@ model Categories {
   type                String        @db.Char(1)
   id                  String        @id @db.Char(10)
   name                String?       @db.VarChar(50)
-  slug                String?       @db.VarChar(50)
+  slug                String?       @db.VarChar(50) @unique @default(uuid())
   iStatus             Boolean       @default(false)
   remarks             String?       @db.VarChar(250)
   iShowedStatus       Boolean       @default(false)
@@ -403,7 +403,7 @@ model Products {
   ecatalog_URL        String        @db.VarChar(250)
   iStatus             Boolean       @default(false)
   remarks             String        @db.Text
-  slug                String        @db.VarChar(250)
+  slug                String        @db.VarChar(250) @unique @default(uuid())
   isMaterial          Boolean       @default(false)
   iShowedStatus       Boolean       @default(false)
   createdBy           String?       @db.Char(10)
@@ -760,7 +760,6 @@ model PoDetail {
   poHeader            PoHeader  @relation(fields: [po_id], references: [id])
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
-
  model vProductCategories {
    id                  String        @id @db.VarChar(10)
    name                String        @db.VarChar(50)

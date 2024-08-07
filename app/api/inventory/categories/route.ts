@@ -45,6 +45,14 @@ async function getCategoryId(
   }
 }
 
+async function updateCategorySlug(): Promise<void> {
+  try {
+    await prisma.$executeRaw`EXEC dbo.updateCategorySlug`;
+  } catch (e) {
+    console.error('Error executing updateCategorySlug:', e);
+    throw new Error('Something went wrong while updating category slugs');
+  }
+}
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -105,8 +113,6 @@ export async function POST(request: NextRequest) {
       branch_id: branch_id,
     };
 
-
-
     const category = await prisma.categories.create({
       data: {
         ...newCategory,
@@ -127,8 +133,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-
-
+    await updateCategorySlug();
 
     return NextResponse.json(category, { status: 201 });
   } catch (e) {

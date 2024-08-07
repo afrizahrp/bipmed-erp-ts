@@ -47,18 +47,13 @@ async function getProductId(
   }
 }
 
-function extractPublicIdFromCloudinaryUrl(arg0: { url: string[] }): string {
-  const { url } = arg0;
-  const publicIds: string[] = [];
-
-  url.forEach((imageUrl) => {
-    const publicId = imageUrl.split('/').pop()?.split('.')[0];
-    if (publicId) {
-      publicIds.push(publicId);
-    }
-  });
-
-  return publicIds.join(',');
+async function updateProductSlug(): Promise<void> {
+  try {
+    await prisma.$executeRaw`EXEC dbo.updateProductSlug`;
+  } catch (e) {
+    console.error('Error executing updateProductSlug:', e);
+    throw new Error('Something went wrong while updating product slugs');
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -152,6 +147,8 @@ export async function POST(request: NextRequest) {
         ...newProduct,
       },
     });
+
+    await updateProductSlug();
 
     return NextResponse.json(product, { status: 201 });
   } catch (e) {
