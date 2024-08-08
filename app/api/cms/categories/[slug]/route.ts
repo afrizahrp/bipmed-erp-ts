@@ -8,7 +8,7 @@ export async function GET(
   try {
     const category = await prisma.categories.findUnique({
       where: {
-        slug: params.slug,
+        slug: params.slug.trim(),
         type: '1',
         iStatus: true,
         iShowedStatus: true,
