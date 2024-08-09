@@ -21,6 +21,10 @@ export async function GET(request: NextRequest) {
         images: true,
         showStatus: true,
       },
+
+      orderBy: {
+        name: 'asc',
+      },
     });
     const categoriesWithPrimaryImage = categories.map((category) => {
       const primaryImages = category.images.filter((image) => image.isPrimary);
