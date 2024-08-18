@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body,
+:root {
+  height: 100%;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -24,8 +31,7 @@
     --primary-800: 255 71% 42%;
     --primary-900: 255 70% 35%;
     --primary-950: 255 70% 35%;
-    --primary:225 92% 45%
-    --primary-foreground: 240 100% 98%;
+    --primary: 225 92% 45% --primary-foreground: 240 100% 98%;
     --secondary: 214.3 31.8% 91.4%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --accent: 214.3 31.8% 91.4%;
@@ -106,16 +112,30 @@
     @apply hover:-translate-y-1 hover:relative hover:z-10 transition-transform;
   }
 }
-@layer components {}
+@layer components {
+}
 .has-sticky-header::after {
   position: absolute;
   z-index: -10;
   --tw-backdrop-blur: blur(12px);
-  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
-          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
-  --tw-content: "";
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
+    var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
+    var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
+    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
+    var(--tw-backdrop-sepia);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
+    var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
+    var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
+    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
+    var(--tw-backdrop-sepia);
+  --tw-content: '';
   content: var(--tw-content);
-  background: linear-gradient(180deg, rgba(var(--v-theme-background), 70%) 44%, rgba(var(--v-theme-background), 43%) 73%, rgba(var(--v-theme-background), 0%));
+  background: linear-gradient(
+    180deg,
+    rgba(var(--v-theme-background), 70%) 44%,
+    rgba(var(--v-theme-background), 43%) 73%,
+    rgba(var(--v-theme-background), 0%)
+  );
   background-repeat: repeat;
   block-size: 5.5rem;
   inset-block-start: -1.5rem;
@@ -129,11 +149,11 @@
   overflow: hidden;
 }
 
-.CollapsibleContent[data-state=open] {
+.CollapsibleContent[data-state='open'] {
   animation: slideDown 300ms ease-out;
 }
 
-.CollapsibleContent[data-state=closed] {
+.CollapsibleContent[data-state='closed'] {
   animation: slideUp 300ms ease-out;
 }
 
@@ -427,7 +447,10 @@
 .dash-tail-app .react-select .select__menu .select__option {
   @apply hover:bg-primary/10;
 }
-.dash-tail-app .react-select .select__menu .select__option.select__option--is-selected {
+.dash-tail-app
+  .react-select
+  .select__menu
+  .select__option.select__option--is-selected {
   @apply bg-primary;
 }
 .dash-tail-app .react-select.is-invalid .select__control {
@@ -439,16 +462,26 @@
 .dash-tail-app .react-select .react-select__control .select__input {
   @apply text-default-500;
 }
-.dash-tail-app .react-select .react-select__control.select__control--is-disabled {
+.dash-tail-app
+  .react-select
+  .react-select__control.select__control--is-disabled {
   @apply cursor-not-allowed;
 }
-.dash-tail-app .react-select .react-select__control .select__indicator-separator {
+.dash-tail-app
+  .react-select
+  .react-select__control
+  .select__indicator-separator {
   @apply bg-default-50 text-default-800 placeholder:text-opacity-60;
 }
 .dash-tail-app .react-select .react-select__control .select__indicator svg {
   @apply cursor-pointer text-default-600;
 }
-.dash-tail-app .react-select .has-error .react-select__control .select__indicator svg {
+.dash-tail-app
+  .react-select
+  .has-error
+  .react-select__control
+  .select__indicator
+  svg {
   @apply text-destructive-700;
 }
 .dash-tail-app .react-select .select__multi-value__label {
@@ -461,49 +494,49 @@
   @apply fill-primary-foreground;
 }
 
-html[dir=rtl] .react-select .select__loading-indicator {
+html[dir='rtl'] .react-select .select__loading-indicator {
   flex-direction: row-reverse;
 }
 
 .dashtail-codeVmapPrimary path {
   @apply fill-primary;
 }
-.dashtail-codeVmapPrimary path .svg-map__location[aria-checked=true] {
+.dashtail-codeVmapPrimary path .svg-map__location[aria-checked='true'] {
   @apply fill-primary;
 }
 
 .dashtail-codeVmapWhite path {
   @apply fill-default-200 dark:fill-slate-500;
 }
-.dashtail-codeVmapWhite path .svg-map__location[aria-checked=true] {
+.dashtail-codeVmapWhite path .svg-map__location[aria-checked='true'] {
   @apply fill-default-500 dark:fill-slate-200;
 }
 
 .dashtail-codeVmapInfo path {
   @apply fill-info;
 }
-.dashtail-codeVmapInfo path .svg-map__location[aria-checked=true] {
+.dashtail-codeVmapInfo path .svg-map__location[aria-checked='true'] {
   @apply fill-info;
 }
 
 .dashtail-codeVmapWarning path {
   @apply fill-warning;
 }
-.dashtail-codeVmapWarning path .svg-map__location[aria-checked=true] {
+.dashtail-codeVmapWarning path .svg-map__location[aria-checked='true'] {
   @apply fill-warning;
 }
 
 .dashtail-codeVmapSuccess path {
   @apply fill-success;
 }
-.dashtail-codeVmapSuccess path .svg-map__location[aria-checked=true] {
+.dashtail-codeVmapSuccess path .svg-map__location[aria-checked='true'] {
   @apply fill-success;
 }
 
 .dashtail-codevmap path {
   @apply fill-primary;
 }
-.dashtail-codevmap path .svg-map__location[aria-checked=true] {
+.dashtail-codevmap path .svg-map__location[aria-checked='true'] {
   @apply fill-primary;
 }
 
@@ -536,21 +569,26 @@ html[dir=rtl] .react-select .select__loading-indicator {
 .dash-tail-app .shepherd-element {
   @apply bg-card shadow-sm mt-[10px] pb-5;
 }
-.dash-tail-app .shepherd-has-cancel-icon.shepherd-has-title[data-popper-placement^=right].shepherd-element.shadow-md.bg-purple-dark.shepherd-enabled {
+.dash-tail-app
+  .shepherd-has-cancel-icon.shepherd-has-title[data-popper-placement^='right'].shepherd-element.shadow-md.bg-purple-dark.shepherd-enabled {
   margin-left: 15px;
 }
 .dash-tail-app .shepherd-arrow:before {
   @apply bg-card;
-  content: "";
+  content: '';
   transform: rotate(45deg);
 }
-.dash-tail-app .shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow {
+.dash-tail-app
+  .shepherd-element.shepherd-has-title[data-popper-placement^='bottom']
+  > .shepherd-arrow {
   top: -6px;
 }
-.dash-tail-app .shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
+.dash-tail-app
+  .shepherd-element.shepherd-has-title[data-popper-placement^='bottom']
+  > .shepherd-arrow:before {
   @apply bg-card;
   top: -1px;
-  content: "";
+  content: '';
   font-size: 24px;
   transform: rotate(45deg);
   z-index: 99;
@@ -592,4 +630,4 @@ html[dir=rtl] .react-select .select__loading-indicator {
 }
 .dash-tail-app .shepherd-button {
   margin-right: 0.5rem;
-}/*# sourceMappingURL=globals.css.map */
+} /*# sourceMappingURL=globals.css.map */

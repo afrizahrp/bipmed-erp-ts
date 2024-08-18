@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/auth';
 import { getServerSession } from 'next-auth';
 
 export async function GET(request: NextRequest) {
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(auth);
     const company_id = session?.user?.company_id || '';
     const branch_id = session?.user?.branch_id || '';
     const userName = session?.user?.name || '';

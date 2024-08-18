@@ -1,8 +1,9 @@
-export const metadata = {
-  title: "Authentication",
-};
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>;
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className='h-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-200 to-blue-800'>
+      {children}
+    </div>
+  );
 };
 
-export default Layout;
+export default AuthLayout;

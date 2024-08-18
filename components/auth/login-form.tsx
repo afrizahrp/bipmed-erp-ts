@@ -1,43 +1,48 @@
 'use client';
-import React from 'react';
-import { Poppins } from 'next/font/google';
 
+import * as z from 'zod';
 import { useForm } from 'react-hook-form';
+import { useState, useTransition } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+
+import { useMediaQuery } from '@/hooks/use-media-query';
+
+import { LoginSchema } from '@/utils/schema/login.schema';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Loader2 } from 'lucide-react';
-import { signIn } from 'next-auth/react';
-import toast from 'react-hot-toast';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import { Icon } from '@iconify/react';
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { CardWrapper } from '@/components/auth/card-wrapper';
+import { Button } from '@/components/ui/button';
+import { FormError } from '@/components/form-error';
+import { FormSuccess } from '@/components/form-success';
+import { Icon } from '@iconify/react';
 
-const schema = z.object({
-  name: z.string().min(3),
-  password: z.string().min(4),
-  // company: z.string().min(3),
-});
-import { useMediaQuery } from '@/hooks/use-media-query';
-const font = Poppins({
-  subsets: ['latin'],
-  weight: ['600'],
-});
+import { login } from '@/actions/login';
 
-const LogInForm = () => {
-  const [isPending, startTransition] = React.useTransition();
-  const [passwordType, setPasswordType] = React.useState('password');
+export const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams?.get('callbackUrl') ?? '';
+  const urlError =
+    searchParams?.get('error') === 'OAuthAccountNotLinked'
+      ? 'Email already in use with different provider!'
+      : '';
+
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
   const isDesktop2xl = useMediaQuery('(max-width: 1530px)');
+  const [passwordType, setPasswordType] = useState('password');
+
+  const [isPending, startTransition] = useTransition();
 
   const togglePasswordType = () => {
     if (passwordType === 'text') {
@@ -46,176 +51,159 @@ const LogInForm = () => {
       setPasswordType('text');
     }
   };
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-    mode: 'all',
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm({
+  //   resolver: zodResolver(LoginSchema),
+  //   mode: 'all',
+  //   defaultValues: {
+  //     name: '',
+  //     password: '',
+  //   },
+  // });
+
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       name: '',
       password: '',
     },
   });
 
-  const onSubmit = (data: { name: string; password: string }) => {
-    startTransition(async () => {
-      let response = await signIn('credentials', {
-        name: data.name,
-        password: data.password,
-        redirect: false,
-      });
-      if (response?.ok) {
-        toast.success('Login Successfully');
-        window.location.assign('/inventory');
-        reset();
-      } else if (response?.error) {
-        toast.error(response?.error);
-      }
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError('');
+    setSuccess('');
+
+    startTransition(() => {
+      login(values, callbackUrl)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+
+          if (data?.twoFactor) {
+            setShowTwoFactor(true);
+          }
+        })
+        .catch(() => setError('Something went wrong'));
     });
   };
+
   return (
-    <>
-      <div className='w-full flex flex-col items-center justify-center pb-7 drop-shadow-md'>
-        <Image
-          src='/images/logo/logo.svg'
-          alt='logoAtlogin'
-          width={140}
-          height={140}
-          style={{ top: 0, textAlign: 'left' }}
-          priority
-        />
-        {/* <div className='text-2xl font-semibold text-default-400'>erpLite</div> */}
-        <h1
-          className={cn(
-            'text-2xl font-semibold text-[#0063A4] drop-shadow-md',
-            font.className
-          )}
-        >
-          Integrated System
-        </h1>
-      </div>
-
-      <div className='mt-6 xl:mt-8 w-full'>
-        <form onSubmit={handleSubmit(onSubmit)} className='mt-2 2xl:mt-5'>
-          <div className='relative'>
-            <Input
-              removeWrapper
-              type='name'
-              id='name'
-              size={!isDesktop2xl ? 'xl' : 'lg'}
-              placeholder=' '
-              disabled={isPending}
-              {...register('name')}
-              className={cn('peer', {
-                'border-destructive': errors.name,
-              })}
-            />
-            <Label
-              htmlFor='name'
-              className={cn(
-                ' absolute text-base text-default-600  rounded-t duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0]   bg-background  px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1',
-                {
-                  ' text-sm ': isDesktop2xl,
-                }
-              )}
-            >
-              Username
-            </Label>
-          </div>
-          {errors.name && (
-            <div className=' text-destructive mt-2'>{errors.name.message}</div>
-          )}
-
-          <div className='relative mt-6'>
-            <Input
-              removeWrapper
-              type={passwordType === 'password' ? 'password' : 'text'}
-              id='password'
-              size={!isDesktop2xl ? 'xl' : 'lg'}
-              placeholder=' '
-              disabled={isPending}
-              {...register('password')}
-              className={cn('peer', {
-                'border-destructive': errors.password,
-              })}
-            />
-            <Label
-              htmlFor='password'
-              className={cn(
-                ' absolute text-base  rounded-t text-default-600  duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0]   bg-background  px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1',
-                {
-                  ' text-sm ': isDesktop2xl,
-                }
-              )}
-            >
-              Password
-            </Label>
-            <div
-              className='absolute top-1/2 -translate-y-1/2 ltr:right-4 rtl:left-4 cursor-pointer'
-              onClick={togglePasswordType}
-            >
-              {passwordType === 'password' ? (
-                <Icon
-                  icon='heroicons:eye'
-                  className='w-4 h-4 text-default-400'
+    <CardWrapper
+      headerLabel='Welcome back'
+      backButtonLabel="Don't have an account ?"
+      backButtonHref='/auth/register'
+      showSocial
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+          <div className='space-y-4'>
+            {showTwoFactor && (
+              <FormField
+                control={form.control}
+                name='code'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Two Factor Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder='123456'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            {!showTwoFactor && (
+              <>
+                <FormField
+                  control={form.control}
+                  name='name'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='text-sm'>Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          placeholder='Please enter your username'
+                          // type="email"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              ) : (
-                <Icon
-                  icon='heroicons:eye-slash'
-                  className='w-4 h-4 text-default-400'
+                <FormField
+                  control={form.control}
+                  name='password'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='text-sm'>Password</FormLabel>
+                      <FormControl>
+                        <div className='relative'>
+                          <Input
+                            {...field}
+                            disabled={isPending}
+                            type={
+                              passwordType === 'password' ? 'password' : 'text'
+                            }
+                          />
+                          <div
+                            className='absolute top-1/2 -translate-y-1/2 ltr:right-4 rtl:left-4 cursor-pointer'
+                            onClick={togglePasswordType}
+                          >
+                            {passwordType === 'password' ? (
+                              <Icon
+                                icon='heroicons:eye-slash'
+                                className='w-4 h-4 text-default-400'
+                              />
+                            ) : (
+                              <Icon
+                                icon='heroicons:eye'
+                                className='w-4 h-4 text-default-400'
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              )}
-            </div>
+                <Button
+                  size='sm'
+                  variant='link'
+                  asChild
+                  className='px-0 font-normal text-sm bg-transparent text-black hover:bg-white'
+                >
+                  <Link href='/auth/reset'>Forgot password ?</Link>
+                </Button>
+              </>
+            )}
           </div>
-          {errors.password && (
-            <div className=' text-destructive mt-2'>
-              {errors.password.message}
-            </div>
-          )}
-
-          <div className='relative mt-6'>
-            <Label
-              htmlFor='unit'
-              className={cn(
-                ' absolute text-base  rounded-t text-default-600  duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0]   bg-background  px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1',
-                {
-                  ' text-sm ': isDesktop2xl,
-                }
-              )}
-            >
-              Business Unit
-            </Label>
-            {/* Business Unit{' '}
-            </Label> */}
-            <Select name='company' disabled={isPending}>
-              <SelectTrigger className='w-full'>
-                <SelectValue placeholder='Select Business Unit' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='bip'>bipmed</SelectItem>
-                <SelectItem value='kbip'>Karoseri</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className='mt-5  mb-8 flex flex-wrap gap-2'>
-            <Button
-              className='w-full'
-              disabled={isPending}
-              size={!isDesktop2xl ? 'lg' : 'md'}
-            >
-              {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-              {isPending ? 'Loading...' : 'Sign In'}
-            </Button>
-          </div>
+          <FormError message={error || urlError} />
+          <FormSuccess message={success} />
+          <Button disabled={isPending} type='submit' className='w-full'>
+            {showTwoFactor ? 'Confirm' : 'Login'}
+          </Button>
         </form>
-        <div className='mt-6 xl:mt-8 flex flex-wrap justify-center gap-4'></div>
-      </div>
-    </>
+      </Form>
+    </CardWrapper>
   );
 };
-
-export default LogInForm;

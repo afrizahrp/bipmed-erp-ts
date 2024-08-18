@@ -1,9 +1,54 @@
 import { NextResponse } from 'next/server';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
+import NextAuth from 'next-auth';
+import authConfig from '@/auth.config';
+import {
+  DEFAULT_LOGIN_REDIRECT,
+  apiAuthPrefix,
+  authRoutes,
+  publicRoutes,
+} from '@/routes';
+
+const { auth } = NextAuth(authConfig);
 
 let defaultLocale = 'en';
 let locales = ['en', 'id'];
+
+export default auth(async (req, ctx) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
+  if (isApiAuthRoute) {
+    return;
+  }
+
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    }
+    return;
+  }
+
+  if (!isLoggedIn && !isPublicRoute) {
+    let callbackUrl = nextUrl.pathname;
+    if (nextUrl.search) {
+      callbackUrl += nextUrl.search;
+    }
+
+    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+    return NextResponse.redirect(
+      new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+    );
+  }
+
+  return;
+});
 
 // Get the preferred locale, similar to above or using a library
 function getLocale(request: Request) {
@@ -35,12 +80,5 @@ export function middleware(request: any) {
 }
 
 export const config = {
-  matcher: [
-    // Skip all internal paths (_next, assets, api)
-    //"/((?!api|assets|.*\\..*|_next).*)",
-    '/((?!api|assets|docs|.*\\..*|_next).*)',
-
-    // Optional: only run on root (/) URL
-  ],
+  matcher: ['/((?!api|assets|docs|.*\\..*|_next).*)'],
 };
-// matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],

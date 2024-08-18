@@ -1,28 +1,23 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 interface BackButtonProps {
   href: string;
   label: string;
-};
+}
 
-export const BackButton = ({
-  href,
-  label,
-}: BackButtonProps) => {
+export const BackButton = ({ href, label }: BackButtonProps) => {
   return (
     <Button
-      variant="link"
-      className="font-normal w-full"
-      size="sm"
+      variant='link'
+      className='font-normal w-full bg-transparent text-black hover:bg-customGree'
+      size='sm'
       asChild
     >
-      <Link href={href}>
-        {label}
-      </Link>
+      <Link href={href}>{label}</Link>
     </Button>
   );
 };

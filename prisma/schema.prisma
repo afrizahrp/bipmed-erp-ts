@@ -7,81 +7,126 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Company {
+model Companies {
   id                  String        @id @db.Char(5)
   name                String?       @db.VarChar(150)
-  address             String?       @db.VarChar(250)
-  post_cd             String?       @db.VarChar(10)
-  tel_no              String?       @db.VarChar(50)
-  fax_no              String?       @db.VarChar(50)
-  email               String?       @db.VarChar(50)
+  isDefault           Boolean?      @default(false) 
   remarks             String?       @db.VarChar(250)
   createdBy           String?       @db.VarChar(50)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.VarChar(50)
   updatedAt           DateTime?     @db.DateTime
-  branches            Branch[]
-  @@index([name])
+  branches            Branches[]
+  @@index([id])
 }
 
-model Branch {
-  id                  String        @id @db.Char(10)
+model Branches {
   company_id          String        @db.Char(5)
+  id                  String        @id @db.Char(10)
   name                String?       @db.VarChar(150)
-  address             String?       @db.VarChar(250)
-  post_cd             String?       @db.VarChar(10)
-  tel_no              String?       @db.VarChar(50)
-  fax_no              String?       @db.VarChar(50)
-  email               String?       @db.VarChar(50)
+  isDefault           Boolean?      @default(false)  
   remarks             String?       @db.VarChar(250)
   createdBy           String?       @db.VarChar(50)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.VarChar(50)
   updatedAt           DateTime?     @db.DateTime
-  company             Company       @relation(fields: [company_id], references: [id])  
+  company             Companies       @relation(fields: [company_id], references: [id])  
+    @@index([company_id,id])
   }
 
 
 
+model UserRole {
+  id                  String        @id @db.VarChar(50)
+  name                String        @unique @db.VarChar(50)
+  description         String        @db.VarChar(255)
+  users User[]
+}
+
 
 model User {
   id                  String        @id @default(cuid())
-  name                String        @unique
-  authorized          Boolean       @default(false)
-  role                String?       @default("client")
-  password            String        @db.VarChar(250)
-  hasehdPassword      String?       @db.VarChar(250)
-  accessToken         String?       @db.VarChar(250)
-  refreshToken        String?       @db.VarChar(250)
-  email               String?       @db.VarChar(50)
-  emailVerified       DateTime?
-  isLoggedIn          Boolean?      @default(false)
-  avatar              String?       @db.VarChar(150)
-  image               String?       @db.VarChar(150)
-  createdBy           String?       @db.Char(10)
-  createdAt           DateTime?     @db.DateTime @default(now())
-  updatedBy           String?       @db.Char(10)
-  updatedAt           DateTime?     @db.DateTime
-  company_id          String        @db.Char(5)
-  branch_id           String        @db.Char(10)
+  roleId              String?       @db.VarChar(50) @default("GUEST")
+  name                String        @db.VarChar(50) @unique
+  email               String        @db.VarChar(100) @unique
+  emailVerified       DateTime?     @db.DateTime
+  image               String?       @db.VarChar(255)
+  password            String?       @db.VarChar(255)
+  roles               UserRole?     @relation(fields: [roleId], references: [id])
+  accounts            Account[]
+  isTwoFactorEnabled  Boolean       @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+  company_id          String?       @db.Char(5) @default("BIP")
+  branch_id           String?       @db.Char(10) @default("BIP")
 }
 
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String 
+  type                  String    @db.VarChar(50)
+  provider              String    @db.VarChar(50)
+  providerAccountId     String    @db.VarChar(50)
+  refresh_token         String?   @db.Text
+  access_token          String?   @db.Text
+  expires_at            Int?      @db.Int
+  token_type            String?   @db.VarChar(50)
+  scope                 String?   @db.VarChar(255)
+  id_token              String?   @db.Text
+  session_state         String?   @db.Text
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id                    String      @id @default(cuid())
+  email                 String      @db.VarChar(100) 
+  token                 String      @unique
+  expires               DateTime    @db.DateTime
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id                    String      @id @default(cuid())
+  email                 String      @db.VarChar(100) 
+  token                 String      @unique
+  expires               DateTime    @db.DateTime
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id                    String      @id @default(cuid())
+  email                 String      @db.VarChar(100)
+  token                 String      @unique  @db.VarChar(255)
+  expires               DateTime
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id                    String        @id @default(cuid())
+  userId                String
+  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId])
+}
+
+
 model MasterTableStatus {
-  id                  Boolean       @id @default(false)
-  name                String?       @db.VarChar(50)
-  remarks             String?       @db.VarChar(150)
-  createdBy           String?       @db.Char(10)
-  createdAt           DateTime?     @db.DateTime @default(now())
-  updatedBy           String?       @db.Char(10)
-  updatedAt           DateTime?     @db.DateTime
-  company_id          String        @db.Char(5)
-  branch_id           String        @db.Char(10)
-  Categories          Categories[]
-  SubCategories       SubCategories[]
-  Products            Products[]
-  Suppliers           Suppliers[]
-  Billboards          Billboards[]
-  PriceList           PriceList[]
+  id                    Boolean       @id @default(false)
+  name                  String?       @db.VarChar(50)
+  remarks               String?       @db.VarChar(150)
+  createdBy             String?       @db.Char(10)
+  createdAt             DateTime?     @db.DateTime @default(now())
+  updatedBy             String?       @db.Char(10)
+  updatedAt             DateTime?     @db.DateTime
+  company_id            String        @db.Char(5)
+  branch_id             String        @db.Char(10)
+  Categories            Categories[]
+  SubCategories         SubCategories[]
+  Products              Products[]
+  Suppliers             Suppliers[]
+  Billboards            Billboards[]
+  PriceList             PriceList[]
 }
 
 model MasterShowedStatus {
@@ -760,12 +805,12 @@ model PoDetail {
   poHeader            PoHeader  @relation(fields: [po_id], references: [id])
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
- model vProductCategories {
-   id                  String        @id @db.VarChar(10)
-   name                String        @db.VarChar(50)
- }
+//  model vProductCategories {
+//    id                  String        @id @db.VarChar(10)
+//    name                String        @db.VarChar(50)
+//  }
 
- model vMaterialCategories {
-   id                  String        @id @db.VarChar(10)
-   name                String        @db.VarChar(50)
- }
+//  model vMaterialCategories {
+//    id                  String        @id @db.VarChar(10)
+//    name                String        @db.VarChar(50)
+//  }

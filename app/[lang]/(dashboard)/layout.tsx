@@ -1,6 +1,7 @@
 import DashBoardLayoutProvider from '@/provider/dashboard.layout.provider';
-import { authOptions } from '@/lib/auth';
-import { getServerSession, NextAuthOptions } from 'next-auth';
+// import { authOptions } from '@/lib/auth';
+// import { getServerSession, NextAuthOptions } from 'next-auth';
+import { currentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { getDictionary } from '@/app/dictionaries';
 
@@ -11,9 +12,10 @@ const layout = async ({
   children: React.ReactNode;
   params: { lang: any };
 }) => {
-  const session = await getServerSession(authOptions as NextAuthOptions);
+  // const session = await getServerSession(authOptions as NextAuthOptions);
+  const user = await currentUser();
 
-  if (!session?.user?.email) {
+  if (!user) {
     redirect('/auth/login');
   }
 
