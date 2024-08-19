@@ -3,14 +3,15 @@
 import * as z from 'zod';
 import bcrypt from 'bcryptjs';
 
-import { db } from '@/lib/db';
-import { RegisterSchema } from '@/schemas';
-import { getUserByEmail, getUserByName } from '@/data/user';
+import { prisma } from '@/lib/client';
+import { RegisterSchema } from '@/utils/schema/login.schema';
+import { getUserByEmail, getUserByName } from '@/data/auth/user';
 import { sendVerificationEmail } from '@/lib/mail';
 import { generateVerificationToken } from '@/lib/tokens';
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
+  const lang = 'en'; // This should be dynamically determined based on user selection
 
   if (!validatedFields.success) {
     return { error: 'Invalid fields!' };
@@ -30,19 +31,19 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: 'Username already in use!' };
   }
 
-  const defaultCompany = await db.companies.findFirst({
+  const defaultCompany = await prisma.companies.findFirst({
     where: {
       isDefault: true,
     },
   });
 
-  const defaultBranch = await db.branches.findFirst({
+  const defaultBranch = await prisma.branches.findFirst({
     where: {
       isDefault: true,
     },
   });
 
-  await db.user.create({
+  await prisma.user.create({
     data: {
       name,
       email,
@@ -53,7 +54,11 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   });
 
   const verificationToken = await generateVerificationToken(email);
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+  await sendVerificationEmail(
+    verificationToken.email,
+    verificationToken.token,
+    lang
+  );
 
   return { success: 'Confirmation email sent!' };
 };

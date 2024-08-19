@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,11 +12,11 @@ import flag1 from '@/public/images/all-img/flag-1.png';
 import flag2 from '@/public/images/all-img/flag-2.png';
 import flag3 from '@/public/images/all-img/flag-3.png';
 import flag4 from '@/public/images/all-img/flag-4.png';
-import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useRouter, usePathname } from 'next/navigation';
 import { useThemeStore } from '@/store';
+
 const languages = [
   {
     name: 'en',
@@ -35,6 +35,7 @@ const languages = [
   //   flag: flag3,
   // },
 ];
+
 const Language = () => {
   type Language = {
     name: string;
@@ -52,18 +53,25 @@ const Language = () => {
     found ?? languages[0]
   );
 
+  useEffect(() => {
+    if (found) {
+      setSelectedLanguage(found);
+    }
+  }, [pathname]);
+
   const handleSelected = (lang: string) => {
     setSelectedLanguage({
       ...selectedLanguage,
       name: lang,
       language: lang === 'en' ? 'En' : lang === 'id' ? 'Id' : 'en',
-      // language: lang === 'en' ? 'En' : 'Id',
     });
     setRtl(lang === 'ar');
     if (pathname) {
-      router.push(`/${lang}/${pathname.split('/')[2]}`);
+      const newPath = pathname.replace(`/${selectedLanguage.name}`, `/${lang}`);
+      router.push(newPath);
     }
   };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
