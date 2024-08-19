@@ -68,6 +68,7 @@ export const {
         session.user.company_id = token.company_id as string;
         session.user.branch_id = token.branch_id as string;
         session.user.isOAuth = token.isOAuth as boolean;
+        session.user.image = token.image as string;
       }
 
       return session;
@@ -87,6 +88,7 @@ export const {
       token.roleId = existingUser.roleId;
       token.company_id = existingUser.company_id;
       token.branch_id = existingUser.branch_id;
+      token.image = existingUser.image;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;

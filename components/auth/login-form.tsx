@@ -101,7 +101,7 @@ export const LoginForm = () => {
 
   return (
     <CardWrapper
-      headerLabel='Welcome back'
+      headerLabel='Integrated Systems'
       backButtonLabel="Don't have an account ?"
       backButtonHref='/auth/register'
       showSocial
@@ -159,6 +159,7 @@ export const LoginForm = () => {
                           <Input
                             {...field}
                             disabled={isPending}
+                            placeholder='Please enter your password'
                             type={
                               passwordType === 'password' ? 'password' : 'text'
                             }

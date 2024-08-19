@@ -73,9 +73,7 @@ model Account {
   scope                 String?   @db.VarChar(255)
   id_token              String?   @db.Text
   session_state         String?   @db.Text
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
 
@@ -805,12 +803,12 @@ model PoDetail {
   poHeader            PoHeader  @relation(fields: [po_id], references: [id])
   uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
-//  model vProductCategories {
-//    id                  String        @id @db.VarChar(10)
-//    name                String        @db.VarChar(50)
-//  }
+ model vProductCategories {
+   id                  String        @id @db.VarChar(10)
+   name                String        @db.VarChar(50)
+ }
 
-//  model vMaterialCategories {
-//    id                  String        @id @db.VarChar(10)
-//    name                String        @db.VarChar(50)
-//  }
+ model vMaterialCategories {
+   id                  String        @id @db.VarChar(10)
+   name                String        @db.VarChar(50)
+ }
