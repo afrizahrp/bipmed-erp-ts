@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { getServerSession } from 'next-auth';
+import { currentUser } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,10 +50,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(auth);
-    const company_id = session?.user?.company_id || '';
-    const branch_id = session?.user?.branch_id || '';
-    const userName = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const userName = session?.name || '';
 
     const body = await request.json();
     const {

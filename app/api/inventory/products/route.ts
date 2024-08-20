@@ -1,8 +1,7 @@
 import { prisma } from '@/lib/client';
+import { currentUser } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
-// import getProductId from '../../system/getProductId/route';
+import { generateSlug } from '@/utils/generate-slug';
 
 interface QueryResult {
   doc_id: string;
@@ -58,10 +57,10 @@ async function updateProductSlug(): Promise<void> {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const company_id = session?.user?.company_id || '';
-    const branch_id = session?.user?.branch_id || '';
-    const userName = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const userName = session?.name || '';
 
     const body = await request.json();
     const {
@@ -128,7 +127,7 @@ export async function POST(request: NextRequest) {
       ecatalog_URL,
       remarks,
       iStatus,
-      slug,
+      slug: generateSlug(name),
       iShowedStatus,
       isMaterial: false,
       // images: {
@@ -147,8 +146,6 @@ export async function POST(request: NextRequest) {
         ...newProduct,
       },
     });
-
-    await updateProductSlug();
 
     return NextResponse.json(product, { status: 201 });
   } catch (e) {

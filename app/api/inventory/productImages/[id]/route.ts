@@ -1,8 +1,7 @@
+import { currentUser } from '@/lib/auth';
 import { prisma } from '@/lib/client';
 import { v2 as cloudinary } from 'cloudinary';
-import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -15,7 +14,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await currentUser();
     if (!session) return NextResponse.json({}, { status: 401 });
 
     const productImage = await prisma.productImages.findUnique({
@@ -61,8 +60,10 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    const userName = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const userName = session?.name || '';
     if (!session) return NextResponse.json({}, { status: 401 });
 
     const productImage = await prisma.productImages.findUnique({

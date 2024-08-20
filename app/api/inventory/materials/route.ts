@@ -1,8 +1,6 @@
+import { currentUser } from '@/lib/auth';
 import { prisma } from '@/lib/client';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
-
 interface QueryResult {
   doc_id: string;
 }
@@ -48,10 +46,10 @@ async function getMaterialId(
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const company_id = session?.user?.company_id || '';
-    const branch_id = session?.user?.branch_id || '';
-    const userName = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const userName = session?.name || '';
 
     const body = await request.json();
     const {
@@ -101,14 +99,14 @@ export async function POST(request: NextRequest) {
       id: materialId,
       name,
       catalog_id: '',
-      registered_id:'',
+      registered_id: '',
       category_id,
       subCategory_id,
       brand_id,
       uom_id,
-      tkdn_pctg:0,
-      bmp_pctg:0,
-      ecatalog_URL:'',
+      tkdn_pctg: 0,
+      bmp_pctg: 0,
+      ecatalog_URL: '',
       iStatus,
       remarks,
       slug: '',

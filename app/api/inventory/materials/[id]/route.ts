@@ -1,7 +1,6 @@
+import { currentUser } from '@/lib/auth';
 import { prisma } from '@/lib/client';
-import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 
 export async function GET(
   request: NextRequest,
@@ -21,8 +20,11 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    const username = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const userName = session?.name || '';
+
     if (!session) return NextResponse.json({}, { status: 401 });
 
     const body = await request.json();
@@ -104,7 +106,7 @@ export async function PATCH(
       iShowedStatus,
       slug,
       isMaterial: true,
-      updatedBy: username,
+      updatedBy: userName,
       updatedAt: new Date(),
     };
 

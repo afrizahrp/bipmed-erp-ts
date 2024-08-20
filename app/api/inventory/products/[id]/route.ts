@@ -1,8 +1,7 @@
+import { currentUser } from '@/lib/auth';
 import { prisma } from '@/lib/client';
-import { authOptions } from '@/lib/auth';
+import { generateSlug } from '@/utils/generate-slug';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -16,24 +15,15 @@ export async function GET(
   return NextResponse.json(products);
 }
 
-async function updateProductSlug(): Promise<void> {
-  try {
-    await prisma.$executeRaw`EXEC dbo.updateProductSlug`;
-  } catch (e) {
-    console.error('Error executing updateProductSlug:', e);
-    throw new Error('Something went wrong while updating product slugs');
-  }
-}
-
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    const company_id = session?.user?.company_id || '';
-    const branch_id = session?.user?.branch_id || '';
-    const userName = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const userName = session?.name || '';
     if (!session) return NextResponse.json({}, { status: 401 });
 
     const body = await req.json();
@@ -105,7 +95,7 @@ export async function PATCH(
         bmp_pctg,
         ecatalog_URL,
         iShowedStatus,
-        slug,
+        slug: generateSlug(name),
         isMaterial: false,
         updatedBy: userName,
         updatedAt: new Date(),
@@ -151,8 +141,6 @@ export async function PATCH(
     //     ...body,
     //   },
     // });
-
-    await updateProductSlug();
 
     return NextResponse.json(product);
   } catch (error) {

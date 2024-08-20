@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/client';
-import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { currentUser } from '@/lib/auth';
+import { generateSlug } from '@/utils/generate-slug';
 
 interface QueryResult {
   doc_id: string;
@@ -45,20 +45,12 @@ async function getCategoryId(
   }
 }
 
-async function updateCategorySlug(): Promise<void> {
-  try {
-    await prisma.$executeRaw`EXEC dbo.updateCategorySlug`;
-  } catch (e) {
-    console.error('Error executing updateCategorySlug:', e);
-    throw new Error('Something went wrong while updating category slugs');
-  }
-}
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const company_id = session?.user?.company_id || '';
-    const branch_id = session?.user?.branch_id || '';
-    const userName = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const userName = session?.name || '';
 
     const body = await request.json();
     const {
@@ -99,7 +91,7 @@ export async function POST(request: NextRequest) {
       remarks,
       iStatus,
       iShowedStatus,
-      slug,
+      slug: generateSlug(name),
       href,
       icon,
       images: {
@@ -132,8 +124,6 @@ export async function POST(request: NextRequest) {
         },
       },
     });
-
-    await updateCategorySlug();
 
     return NextResponse.json(category, { status: 201 });
   } catch (e) {

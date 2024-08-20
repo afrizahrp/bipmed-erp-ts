@@ -1,8 +1,6 @@
+import { currentUser } from '@/lib/auth';
 import { prisma } from '@/lib/client';
-import { authOptions } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-
 interface QueryResult {
   doc_id: string;
 }
@@ -45,10 +43,10 @@ async function getSubCategoryId(
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const company_id = session?.user?.company_id || '';
-    const branch_id = session?.user?.branch_id || '';
-    const username = session?.user?.name || '';
+    const session = await currentUser();
+    const company_id = session?.company_id || '';
+    const branch_id = session?.branch_id || '';
+    const username = session?.name || '';
 
     const body = await request.json();
     const { category_id, name, remarks, iStatus } = body as {
