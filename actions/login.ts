@@ -21,6 +21,7 @@ export const login = async (
   callbackUrl?: string | null
 ) => {
   const validatedFields = LoginSchema.safeParse(values);
+  const lang = 'en'; // This should be dynamically determined based on user selection
 
   if (!validatedFields.success) {
     return { error: 'Invalid fields!' };
@@ -42,7 +43,8 @@ export const login = async (
 
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token
+      verificationToken.token,
+      lang
     );
 
     return { success: 'Confirmation email sent!' };
@@ -87,7 +89,11 @@ export const login = async (
       });
     } else {
       const twoFactorToken = await generateTwoFactorToken(existingUser.email);
-      await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+      await sendTwoFactorTokenEmail(
+        twoFactorToken.email,
+        twoFactorToken.token,
+        lang
+      );
 
       return { twoFactor: true };
     }

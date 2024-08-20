@@ -11,8 +11,6 @@ export const generateTwoFactorToken = async (email: string) => {
 
   const existingToken = await getTwoFactorTokenByEmail(email);
 
-  console.log('existingToken', existingToken);
-
   if (existingToken) {
     await prisma.twoFactorToken.delete({
       where: {

@@ -1,8 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 
 import { NextResponse } from 'next/server';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { currentUser } from '@/lib/auth';
 
 cloudinary.config({
   cloud_name: 'biwebapp',
@@ -27,7 +26,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await currentUser();
     if (!session) return NextResponse.json({}, { status: 401 });
 
     if (!session) {
