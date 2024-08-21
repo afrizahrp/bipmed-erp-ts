@@ -1,10 +1,9 @@
-import { CategoryFormValues } from '@/utils/schema/category.form.schema';
+import { UserRoleFormValues } from '@/utils/schema/userRole.form.schema';
 import isEmpty from 'lodash/isEmpty';
 
-export function defaultValues(initialData: CategoryFormValues) {
+export function defaultValues(initialData: UserRoleFormValues) {
   return {
     id: initialData?.id ?? '',
-    type: isEmpty(initialData?.type) ? initialData?.type : initialData?.type,
     name: initialData?.name ?? '',
     remarks: isEmpty(initialData?.remarks)
       ? initialData?.remarks
