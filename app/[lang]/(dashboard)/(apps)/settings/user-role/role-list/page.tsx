@@ -36,7 +36,12 @@ const UserRolePage = async () => {
       name: item.name,
       status: item?.status?.name,
       remarks: item?.remarks,
-      users: item.users?.map((user) => user.name),
+      // users: item.users?.map((user) => user.name),
+      users: item.users?.map((user) => ({
+        name: user.name,
+        email: user.email,
+        id: user.id,
+      })),
     })) ?? [];
 
   return (

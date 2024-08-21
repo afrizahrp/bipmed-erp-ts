@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 export const metadata = {
-  title: 'Subcategories',
+  title: 'Role List',
 };
-const SubCategoryLayout = ({ children }: { children: ReactNode }) => {
+const UserRoleLayout = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
 };
 
-export default SubCategoryLayout;
+export default UserRoleLayout;

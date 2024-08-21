@@ -9,7 +9,8 @@ export type UserRoleColumns = {
   name: string | null;
   status: string | null;
   remarks: string | null;
-  users: string[] | null;
+  // users: string[] | null;
+  users: { id: string; name: string; email: string }[] | null; // Include user details
 };
 
 export function getStatusColor(status: string) {
