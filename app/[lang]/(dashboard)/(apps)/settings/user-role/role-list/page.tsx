@@ -23,6 +23,7 @@ const UserRolePage = async () => {
   const roles = await prisma.userRole.findMany({
     include: {
       status: true,
+      users: true,
     },
     orderBy: {
       updatedAt: 'desc',
@@ -35,6 +36,7 @@ const UserRolePage = async () => {
       name: item.name,
       status: item?.status?.name,
       remarks: item?.remarks,
+      users: item.users?.map((user) => user.name),
     })) ?? [];
 
   return (
