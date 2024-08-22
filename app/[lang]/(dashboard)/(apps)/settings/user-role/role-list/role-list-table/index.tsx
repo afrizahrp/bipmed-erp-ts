@@ -39,8 +39,8 @@ export const UserRoleListTable = ({ data }: UserRoleListTableProps) => {
           <TableHead>Id</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Remarks</TableHead>
           <TableHead>Members</TableHead>
+          <TableHead>Remarks</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -66,10 +66,10 @@ export const UserRoleListTable = ({ data }: UserRoleListTableProps) => {
               </TableCell>
               <TableCell>{role.name}</TableCell>
               <TableCell>{role.status}</TableCell>
-              <TableCell>{role.remarks}</TableCell>
               <TableCell>
                 {role.users?.map((user) => user.name).join(', ')}
               </TableCell>{' '}
+              <TableCell>{role.remarks}</TableCell>
             </TableRow>
             {collapsedRows.includes(role.id) && (
               <TableRow>

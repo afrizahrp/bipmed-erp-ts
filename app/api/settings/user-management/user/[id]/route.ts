@@ -7,13 +7,13 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const userrole = await prisma.userRole.findUnique({
+    const categories = await prisma.categories.findUnique({
       where: {
         id: params.id,
       },
     });
 
-    return NextResponse.json(userrole);
+    return NextResponse.json(categories);
   } catch (e) {
     console.log(e);
     return NextResponse.json(
@@ -36,11 +36,9 @@ export async function PATCH(
 
     const body = await req.json();
 
-    const { id, name, iStatus, remarks } = body as {
-      id: string;
+    const { name, roleId } = body as {
       name: string;
-      iStatus: boolean;
-      remarks: string;
+      roleId: string;
     };
 
     if (!session) {
@@ -48,42 +46,34 @@ export async function PATCH(
     }
 
     if (!params.id) {
-      return new NextResponse('Category id is not found', {
+      return new NextResponse('User id is not found', {
         status: 400,
       });
     }
 
-    await prisma.userRole.update({
+    await prisma.user.update({
       where: {
         id: params.id,
       },
       data: {
-        id,
         name,
-        iStatus,
-        remarks,
-        updatedBy: userName,
-        updatedAt: new Date(),
+        roleId,
       },
     });
 
-    const userrole = await prisma.userRole.update({
+    const user = await prisma.user.update({
       where: {
         id: params.id,
       },
       data: {
-        id,
         name,
-        iStatus,
-        remarks,
-        updatedBy: userName,
-        updatedAt: new Date(),
+        roleId,
       },
     });
 
-    return NextResponse.json(userrole);
+    return NextResponse.json(user);
   } catch (error) {
-    console.log('[USERROLE_PATCH]', error);
+    console.log('[USER_PATCH]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
