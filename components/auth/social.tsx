@@ -2,7 +2,6 @@
 
 import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
-import { FaGithub } from 'react-icons/fa';
 import { useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
@@ -22,11 +21,14 @@ export const Social = () => {
     <div className='flex items-center w-full gap-x-2'>
       <Button
         size='sm'
-        className='w-full bg-white text-black hover:bg-customGreen hover:text-white'
+        className='w-full relative'
         variant='outline'
+        // className='w-full bg-white text-black hover:bg-customGreen hover:text-white'
+
         onClick={() => onClick('google')}
       >
-        <FcGoogle className='h-5 w-5' />
+        <FcGoogle className='size-5 absolute top-2.5 left-2.5' />
+        Login with google
       </Button>
     </div>
   );
