@@ -34,7 +34,6 @@ import { DataTableViewOptions } from '@/components/ui/data-table-view-options';
 
 import { Button } from '@/components/ui/button';
 
-import { routes } from '@/config/routes';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';

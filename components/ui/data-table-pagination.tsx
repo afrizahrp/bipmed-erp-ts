@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -8,6 +8,7 @@ import {
 } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
+import usePageStore from '@/store/usePageStore'; // Import store Zustand
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
@@ -16,46 +17,31 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
-  const [currentPage, setCurrentPage] = useState(() => {
-    const url = new URL(window.location.href);
-    const page = url.searchParams.get('page');
-    return page
-      ? parseInt(page, 10)
-      : table.getState().pagination.pageIndex + 1;
-  });
+  const { currentPage, setCurrentPage } = usePageStore(); // Gunakan Zustand
 
   useEffect(() => {
-    // console.log('Setting current page in local storage:', currentPage);
-    localStorage.setItem('currentPage', currentPage.toString());
-    const url = new URL(window.location.href);
-    url.searchParams.set('page', currentPage.toString());
-    window.history.pushState({}, '', url.toString());
-  }, [currentPage]);
-
-  useEffect(() => {
+    // Set page index to match the current URL param
     const url = new URL(window.location.href);
     const page = url.searchParams.get('page');
-    console.log('URL page:', page);
     if (page) {
-      const pageIndex = parseInt(page, 10);
-      if (pageIndex !== table.getState().pagination.pageIndex + 1) {
-        setCurrentPage(pageIndex);
+      const pageIndex = parseInt(page, 10) - 1; // Adjust for zero-based index
+      if (pageIndex !== table.getState().pagination.pageIndex) {
+        table.setPageIndex(pageIndex);
       }
-    } else {
-      setCurrentPage(table.getState().pagination.pageIndex + 1);
     }
+  }, [table]);
+
+  useEffect(() => {
+    // Update URL and Zustand state when page changes
+    const pageIndex = table.getState().pagination.pageIndex + 1;
+    setCurrentPage(pageIndex);
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', pageIndex.toString());
+    window.history.pushState({}, '', url.toString());
   }, [table.getState().pagination.pageIndex]);
 
-  useEffect(() => {
-    console.log('Syncing current page with table state:', currentPage);
-    if (currentPage !== table.getState().pagination.pageIndex + 1) {
-      table.setPageIndex(currentPage - 1);
-    }
-  }, [currentPage, table]);
-
   const handlePageChange = (newPageIndex: number) => {
-    setCurrentPage(newPageIndex + 1);
-    table.setPageIndex(newPageIndex);
+    table.setPageIndex(newPageIndex); // This will trigger the useEffect
   };
 
   return (

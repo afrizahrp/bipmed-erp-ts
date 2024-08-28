@@ -2,9 +2,10 @@
 import axios from 'axios';
 import useProductStore from '@/store/useProductStore';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { routes } from '@/config/routes';
+import { useState } from 'react';
+// import { routes } from '@/config/routes';
 import { toast } from 'react-hot-toast';
+import usePageStore from '@/store/usePageStore'; // Import store Zustand
 
 import { Element } from 'react-scroll';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
@@ -66,29 +67,20 @@ export default function ProductDetailPage({
 }: IndexProps) {
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState<string>('');
-  const router = useRouter();
+  const router = useRouter(); // ✅ Panggil useRouter di tingkat atas
+  const { currentPage } = usePageStore(); // ✅ Panggil usePageStore di tingkat atas
 
   const navigateToSavedPage = () => {
-    const savedPage = localStorage.getItem('currentPage');
-    // console.log('savedPage retrieved from localStorage:', savedPage);
-
-    const constructUrl = (page: string) => {
+    const constructUrl = (page: number) => {
       const url = new URL(window.location.href);
       url.pathname = '/en/cms/products/product-list';
-      url.searchParams.set('page', page);
+      url.searchParams.set('page', page.toString());
       url.hash = ''; // Clear the fragment identifier
       return url.toString();
     };
-    if (savedPage !== null) {
-      const constructedUrl = constructUrl(savedPage);
-      // console.log('constructedUrl:', constructedUrl);
 
-      // console.log('Navigating to:', constructedUrl);
-      router.push(constructedUrl);
-    } else {
-      console.log('savedPage is null');
-      // router.push(routes.cms.products);
-    }
+    const constructedUrl = constructUrl(currentPage);
+    router.push(constructedUrl);
   };
 
   const handleBack = (e: any) => {

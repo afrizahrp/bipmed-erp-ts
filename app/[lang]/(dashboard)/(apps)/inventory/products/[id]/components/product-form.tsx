@@ -36,10 +36,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import usePageStore from '@/store/usePageStore'; // Import store Zustand
 
 import ProductNameExist from '@/components/nameExistChecking/inventory/productNameExist';
 import {
-  SearchColumnProductCategory,
+  // SearchColumnProductCategory,
   SearchColumnCategory,
   SearchColumnUom,
   SearchColumnBrand,
@@ -82,6 +83,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 }) => {
   const params = useParams();
   const router = useRouter();
+  const { currentPage } = usePageStore(); // ✅ Panggil usePageStore di tingkat atas
 
   const [searchTerms, setSearchTerms] = useState('');
   const [loading, setLoading] = useState(false);
@@ -114,10 +116,23 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     ),
   });
 
-  const handleBack = (e: any) => {
+  const navigateToSavedPage = () => {
+    const page = currentPage || 1; // Default ke halaman 1 jika currentPage undefined
+    const constructUrl = (page: number) => {
+      const url = new URL(window.location.href);
+      url.pathname = '/inventory/products/product-list';
+      url.searchParams.set('page', page.toString());
+      url.hash = ''; // Clear the fragment identifier
+      return url.toString();
+    };
+
+    const constructedUrl = constructUrl(page);
+    router.push(constructedUrl);
+  };
+  const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(false);
-    router.push('/inventory/products/product-list');
+    navigateToSavedPage();
   };
 
   const onSubmit = async (data: ProductFormValues) => {

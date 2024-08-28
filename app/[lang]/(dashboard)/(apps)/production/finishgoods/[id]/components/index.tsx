@@ -3,6 +3,7 @@ import axios from 'axios';
 import useProductStore from '@/store/useProductStore';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import usePageStore from '@/store/usePageStore'; // Import store Zustand
 
 import { toast } from 'react-hot-toast';
 
@@ -12,19 +13,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import cn from '@/utils/class-names';
 import FormNav, { formParts } from './form-nav';
 
-import {
-  Products,
-  ProductSpecs,
-  ProductDescs,
-  // Categories,
-  // SubCategories,
-  // Brands,
-  // Uoms,
-} from '@prisma/client';
+import { Products, ProductSpecs, ProductDescs } from '@prisma/client';
 import { ProductSpecForm } from './product-spec-form';
 import { FinishGoodsForm } from './finish-goods-form';
-// import { ProductDescsForm } from './product-descs-form';
-import ProductImageForm from './productImage-form';
+// import ProductImageForm from './productImage-form';
 import FormFooter from '@/components/form-footer';
 
 import {
@@ -37,7 +29,6 @@ import { defaultValues } from '@/utils/defaultvalues/product-descs-specs.combine
 const MAP_STEP_TO_COMPONENT = {
   [formParts.general]: FinishGoodsForm,
   [formParts.specs]: ProductSpecForm,
-  // [formParts.descs]: ProductDescsForm,
 };
 
 interface IndexProps {
@@ -55,47 +46,36 @@ export default function ProductDetailPage({
   initialProductDescsData,
   className,
 }: IndexProps) {
-  const router = useRouter();
+  const router = useRouter(); // ✅ Panggil useRouter di tingkat atas
+  const { currentPage } = usePageStore(); // ✅ Panggil usePageStore di tingkat atas
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState<string>('');
 
   const navigateToSavedPage = () => {
-    const savedPage = localStorage.getItem('currentPage');
-    console.log('savedPage retrieved from localStorage:', savedPage);
-
-    const constructUrl = (page: string) => {
+    const constructUrl = (page: number) => {
       const url = new URL(window.location.href);
-      url.pathname = '/en/cms/products/product-list';
-      url.searchParams.set('page', page);
+      url.pathname = '/en/production/finishgoods/finishgoods-list';
+      url.searchParams.set('page', page.toString());
       url.hash = ''; // Clear the fragment identifier
       return url.toString();
     };
-    if (savedPage !== null) {
-      const constructedUrl = constructUrl(savedPage);
-      // console.log('constructedUrl:', constructedUrl);
 
-      // console.log('Navigating to:', constructedUrl);
-      router.push(constructedUrl);
-    } else {
-      console.log('savedPage is null');
-      // router.push(routes.cms.products);
-    }
+    const constructedUrl = constructUrl(currentPage);
+    router.push(constructedUrl);
   };
 
-  const handleBack = (e: any) => {
+  const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(false);
     navigateToSavedPage();
   };
 
-  let action = 'Save';
-  let id: string;
-
+  const action = initialProductData ? 'Update' : 'Save';
   const description = initialProductData
     ? `Change Product ${initialProductData.id}-> ${initialProductData.name}`
     : 'Add New Product';
   const toastMessage = initialProductData
-    ? 'Changes has saved successfully.'
+    ? 'Changes have been saved successfully.'
     : 'New product has been added successfully.';
 
   const methods = useForm<CombinedProductFormValues>({
@@ -116,13 +96,11 @@ export default function ProductDetailPage({
         isMaterial: false,
         iShowedStatus: false,
       },
-
       initialProductDescsData ?? {
         id: '',
         descriptions: '',
         benefit: '',
       },
-
       initialProductSpecData ?? {
         id: '',
         construction: '',
@@ -189,12 +167,7 @@ export default function ProductDetailPage({
 
   const resetProductId = useProductStore((state) => state.resetProductId);
 
-  if (product_id !== 'new') {
-    id = product_id;
-    action = 'Update';
-  } else {
-    action = 'Save';
-    id = '';
+  if (product_id === 'new') {
     resetProductId();
     useProductStore.setState({ productId: product_id });
   }
@@ -202,143 +175,83 @@ export default function ProductDetailPage({
   const onSubmit: SubmitHandler<CombinedProductFormValues> = async (data) => {
     try {
       setLoading(true);
-      let tempProductId: '';
-      resetProductId();
-      if (!initialProductData) {
-        tempProductId = '';
+      let tempProductId = product_id;
 
+      if (!initialProductData) {
         const productResponse = await axios.post(
           `/api/inventory/products`,
           data
         );
         tempProductId = productResponse.data.id;
-
         useProductStore.setState({ productId: tempProductId });
         product_id = tempProductId;
-
-        <ProductImageForm product_id={tempProductId} initialData={[]} />;
       } else {
         await axios.patch(`/api/inventory/products/${product_id}`, data);
       }
 
       if (initialProductSpecData) {
         await axios.patch(`/api/inventory/productSpecs/${product_id}`, data);
-      } else {
-        if (
-          typeof data.construction === 'string' &&
-          data.construction.trim() !== ''
-        ) {
-          try {
-            await axios.post(`/api/inventory/productSpecs`, {
-              ...data,
-              id: product_id,
-            });
-          } catch (error) {
-            console.error('Failed to post product specs:', error);
-          }
-        }
+      } else if (data.construction && data.construction.trim() !== '') {
+        await axios.post(`/api/inventory/productSpecs`, {
+          ...data,
+          id: product_id,
+        });
       }
 
-      if (!initialProductDescsData) {
-        console.log('desc data:', initialProductDescsData);
-
-        if (
-          typeof data.descriptions === 'string' &&
-          data.descriptions.trim() !== ''
-        ) {
-          try {
-            await axios.post(`/api/inventory/productDescs`, {
-              ...data,
-              id: product_id,
-            });
-          } catch (error) {
-            console.error('Failed to post product descs:', error);
-          }
-        }
-      } else {
-        console.log('initialProductDescsData:', initialProductDescsData);
+      if (initialProductDescsData) {
         await axios.patch(`/api/inventory/productDescs/${product_id}`, data);
+      } else if (data.descriptions && data.descriptions.trim() !== '') {
+        await axios.post(`/api/inventory/productDescs`, {
+          ...data,
+          id: product_id,
+        });
       }
+
       navigateToSavedPage();
       router.refresh();
-      action = 'Update';
       toast.success(toastMessage);
     } catch (error) {
+      console.error('Error while submitting the form:', error);
+      toast.error('An error occurred while saving the product.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
-      <div className='@container'>
-        <FormNav className={cn('z-[999] 2xl:top-[64px]')} />
-        <FormProvider {...methods}>
-          <form
-            onSubmit={methods.handleSubmit(onSubmit)}
-            className={cn(
-              'relative z-[19] [&_label.block>span]:font-medium',
-              className
-            )}
-          >
-            <div className='mb-10 grid gap-7 divide-y divide-dashed divide-gray-200 @2xl:gap-9 @3xl:gap-11'>
-              {Object.entries(MAP_STEP_TO_COMPONENT).map(([key, Component]) => (
-                <Element
-                  key={key}
-                  name={formParts[key as keyof typeof formParts]}
-                >
-                  {key === formParts.general && (
-                    <Component
-                      product_id={product_id}
-                      initialProductData={initialProductData}
-                      // initialProductDescsData={initialProductDescsData}
-                      initialProductSpecData={initialProductSpecData}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                    />
-                  )}
+    <div className='@container'>
+      <FormNav className={cn('z-[999] 2xl:top-[64px]')} />
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className={cn(
+            'relative z-[19] [&_label.block>span]:font-medium',
+            className
+          )}
+        >
+          <div className='mb-10 grid gap-7 divide-y divide-dashed divide-gray-200 @2xl:gap-9 @3xl:gap-11'>
+            {Object.entries(MAP_STEP_TO_COMPONENT).map(([key, Component]) => (
+              <Element
+                key={key}
+                name={formParts[key as keyof typeof formParts]}
+              >
+                <Component
+                  product_id={product_id}
+                  initialProductData={initialProductData}
+                  initialProductSpecData={initialProductSpecData}
+                  className='pt-7 @2xl:pt-9 @3xl:pt-11'
+                />
+              </Element>
+            ))}
+          </div>
 
-                  {key === formParts.specs && (
-                    <Component
-                      product_id={product_id}
-                      initialProductData={initialProductData}
-                      // initialProductDescsData={initialProductDescsData}
-                      initialProductSpecData={initialProductSpecData}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                    />
-                  )}
-
-                  {/* {key === formParts.descs && (
-                    <Component
-                      product_id={product_id}
-                      initialProductData={initialProductData}
-                      initialProductSpecData={initialProductSpecData}
-                      initialProductDescsData={initialProductDescsData}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                    />
-                  )} */}
-
-                  {/* key !== formParts.descs && ( */}
-                  {key !== formParts.general && key !== formParts.specs && (
-                    <Component
-                      product_id={product_id}
-                      initialProductData={initialProductData}
-                      // initialProductDescsData={initialProductDescsData}
-                      initialProductSpecData={initialProductSpecData}
-                      className='pt-7 @2xl:pt-9 @3xl:pt-11'
-                    />
-                  )}
-                </Element>
-              ))}
-            </div>
-
-            <FormFooter
-              isLoading={loading}
-              handleAltBtn={handleBack}
-              submitBtnText={action}
-            />
-          </form>
-        </FormProvider>
-      </div>
-    </>
+          <FormFooter
+            isLoading={loading}
+            handleAltBtn={handleBack}
+            submitBtnText={action}
+          />
+        </form>
+      </FormProvider>
+    </div>
   );
 }
