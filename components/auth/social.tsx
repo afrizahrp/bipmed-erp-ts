@@ -28,7 +28,7 @@ export const Social = () => {
         onClick={() => onClick('google')}
       >
         <FcGoogle className='size-5 absolute top-2.5 left-2.5' />
-        Login with google
+        Login with google account
       </Button>
     </div>
   );

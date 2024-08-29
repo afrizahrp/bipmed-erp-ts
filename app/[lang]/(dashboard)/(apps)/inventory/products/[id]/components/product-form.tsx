@@ -117,18 +117,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   });
 
   const navigateToSavedPage = () => {
-    const page = currentPage || 1; // Default ke halaman 1 jika currentPage undefined
     const constructUrl = (page: number) => {
       const url = new URL(window.location.href);
-      url.pathname = '/inventory/products/product-list';
+      url.pathname = '/en/inventory/products/product-list';
       url.searchParams.set('page', page.toString());
       url.hash = ''; // Clear the fragment identifier
       return url.toString();
     };
 
-    const constructedUrl = constructUrl(page);
+    const constructedUrl = constructUrl(currentPage);
     router.push(constructedUrl);
   };
+
   const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(false);
