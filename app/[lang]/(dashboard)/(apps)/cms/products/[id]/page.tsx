@@ -87,7 +87,7 @@ const FinishGoodsPage = async ({
   };
 
   return (
-    <>
+    <div className='flex flex-col h-300px'>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
       <div className='w-full flex gap-x-2'>
@@ -119,7 +119,7 @@ const FinishGoodsPage = async ({
           </Card>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
