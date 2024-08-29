@@ -46,14 +46,6 @@ async function getProductId(
   }
 }
 
-async function updateProductSlug(): Promise<void> {
-  try {
-    await prisma.$executeRaw`EXEC dbo.updateProductSlug`;
-  } catch (e) {
-    console.error('Error executing updateProductSlug:', e);
-    throw new Error('Something went wrong while updating product slugs');
-  }
-}
 
 export async function POST(request: NextRequest) {
   try {

@@ -95,6 +95,10 @@ export const menusConfig = {
                 title: 'Price List',
                 href: '/cms/pricelist/price-list',
               },
+              {
+                title: 'Certificates',
+                href: '/cms/certificates/certificate-list',
+              },
             ],
           },
 

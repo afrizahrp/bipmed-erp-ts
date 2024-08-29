@@ -134,6 +134,7 @@ model MasterTableStatus {
   Billboards            Billboards[]
   PriceList             PriceList[]
   UserRole              UserRole[]
+  Certificates          Certificates[]
 }
 
 model MasterShowedStatus {
@@ -150,6 +151,7 @@ model MasterShowedStatus {
   Products            Products[]
   Billboards          Billboards[]
   PriceList           PriceList[]
+  Certificates        Certificates[]
 }
 
 model TrxTableStatus {
@@ -497,7 +499,7 @@ model PriceList {
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
   status              MasterTableStatus @relation(fields: [iStatus], references: [id], onUpdate: NoAction)
-    showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
+  showStatus          MasterShowedStatus @relation(fields: [iShowedStatus], references: [id])
 
 }
 
@@ -809,8 +811,56 @@ model PoDetail {
   updatedAt           DateTime?     @db.DateTime
   company_id          String        @db.Char(5)
   branch_id           String        @db.Char(10)
-  poHeader            PoHeader  @relation(fields: [po_id], references: [id])
-  uom                 Uoms      @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
+  poHeader            PoHeader      @relation(fields: [po_id], references: [id])
+  uom                 Uoms          @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
+}
+
+
+model CertificateProviders { 
+  id                  Int           @id @db.TinyInt
+  name                String?       @db.VarChar(100) 
+  remarks             String?       @db.VarChar(250)
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  certificates        Certificates[]
+}
+
+model Certificates  {
+  provider_id         Int           @db.TinyInt
+  id                  String        @id @default(cuid())
+  name                String?       @db.VarChar(100) 
+  remarks             String?       @db.VarChar(250)
+  iStatus             Boolean       @default(false)
+  iShowedStatus       Boolean       @default(false)
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  showStatus            MasterShowedStatus  @relation(fields: [iShowedStatus], references: [id])
+  status                MasterTableStatus   @relation(fields: [iStatus], references: [id])
+
+  images              CertificateImages[]
+  providers           CertificateProviders @relation(fields: [provider_id], references: [id], onUpdate: NoAction)
+}
+
+model CertificateImages {
+  id                  String        @id @db.VarChar(20)
+  certificate_id      String        @default(cuid())
+  imageURL            String        @db.VarChar(150)
+  createdBy           String?       @db.Char(10)
+  createdAt           DateTime?     @db.DateTime @default(now())
+  updatedBy           String?       @db.Char(10)
+  updatedAt           DateTime?     @db.DateTime
+  company_id          String        @db.Char(5)
+  branch_id           String        @db.Char(10)
+  Certificates        Certificates  @relation(fields: [certificate_id], references: [id], onUpdate: NoAction)
+
 }
  model vProductCategories {
    id                  String        @id @db.VarChar(10)
