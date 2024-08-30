@@ -6,12 +6,9 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const iShowedStatus = searchParams.get('iShowedStatus');
-    const category_id = searchParams.get('category_id');
     const name = searchParams.get('name');
-    const products = await prisma.products.findMany({
+    const certificate = await prisma.certificates.findMany({
       where: {
-        isMaterial: false,
-        category_id: category_id || undefined,
         iStatus: true,
         iShowedStatus: iShowedStatus === 'true' ? true : false,
         name: {
@@ -20,15 +17,10 @@ export async function GET(request: NextRequest) {
       },
       include: {
         images: true,
-        descriptions: true,
-        category: true,
         showStatus: true,
       },
-      orderBy: {
-        name: 'asc',
-      },
     });
-    const productsWithPrimaryImage = products.map((product) => {
+    const productsWithPrimaryImage = certificate.map((product) => {
       const primaryImages = product.images.filter((image) => image.isPrimary);
       const primaryImageURL =
         primaryImages.length > 0 ? primaryImages[0].imageURL : null;
@@ -93,6 +85,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const {
+      provider_id,
       id,
       name,
       iStatus,
@@ -103,6 +96,7 @@ export async function POST(request: NextRequest) {
       updatedBy,
       updatedAt,
     } = body as {
+      provider_id: number
       id: string;
       name: string;
       iStatus: boolean;
@@ -118,6 +112,7 @@ export async function POST(request: NextRequest) {
 
 
     const newCertificate = {
+      provider_id,
       id,
       name,
       iStatus,

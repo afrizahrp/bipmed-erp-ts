@@ -853,6 +853,7 @@ model CertificateImages {
   id                  String        @id @db.VarChar(20)
   certificate_id      String        @default(cuid())
   imageURL            String        @db.VarChar(150)
+  isPrimary           Boolean       @default(false)
   createdBy           String?       @db.Char(10)
   createdAt           DateTime?     @db.DateTime @default(now())
   updatedBy           String?       @db.Char(10)
