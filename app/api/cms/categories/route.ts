@@ -8,11 +8,13 @@ export async function GET(request: NextRequest) {
         type: '1',
         iStatus: true,
         iShowedStatus: true,
+        // iShowedStatus: iShowedStatus === 'true' ? true : false,
       },
       include: {
         images: true,
         showStatus: true,
       },
+
       orderBy: {
         name: 'asc',
       },
@@ -35,11 +37,11 @@ export async function GET(request: NextRequest) {
     response.headers.set('Access-Control-Allow-Origin', allowedOrigin); // Allow requests from your frontend's origin
     response.headers.set(
       'Access-Control-Allow-Methods',
-      'GET, POST, PUT, DELETE, OPTIONS'
+      'GET, POST, PUT, DELETE, OPTIONS',
     );
     response.headers.set(
       'Access-Control-Allow-Headers',
-      'Content-Type, Authorization'
+      'Content-Type, Authorization',
     );
 
     return response;
@@ -47,11 +49,11 @@ export async function GET(request: NextRequest) {
     console.log(e);
     const errorResponse = NextResponse.json(
       { error: 'Something went wrong' },
-      { status: 500 }
+      { status: 500 },
     );
     errorResponse.headers.set(
       'Access-Control-Allow-Origin',
-      'http://localhost:3001'
+      'http://localhost:3001',
     ); // Allow requests from your frontend's origin
     errorResponse.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
     errorResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type');
