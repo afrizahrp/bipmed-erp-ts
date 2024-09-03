@@ -206,6 +206,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
                       onUpdatePrimary={(imageURL, isPrimary) =>
                         handleUpdateImagePrimary(imageURL, isPrimary)
                       }
+
                     />
                   </FormControl>
                 </FormItem>
