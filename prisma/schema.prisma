@@ -263,6 +263,7 @@ model MaterialCounter {
 }
 
 
+
 model CategoryCounter {
   id                  String        @db.Char(5)
   description         String        @db.VarChar(160) 
