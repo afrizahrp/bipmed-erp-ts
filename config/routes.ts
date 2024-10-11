@@ -37,6 +37,7 @@ export const routes = {
     newBillboard: '/cms/billboards/new',
     pricelist: '/cms/pricelist/pricelist-list',
     certificatelist: '/cms/certificates/certificate-list',
+    newcertificate: '/cms/certificates/new',
     newPricelist: `/cms/pricelist/${''}`,
     editBillboardCms: (id: string) => `/cms/billboards/${id}`,
   },

@@ -1,7 +1,7 @@
 export const metadata = {
-  title: 'Products',
+  title: 'Certificates',
 };
-export default function ProductsLayout({
+export default function CertificateLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/client';
-import { CategoryListTable } from './category-list-table';
-import { CertficateColumns } from './category-list-table/components/columns';
+import { CertificateListTable } from './certificate-list-table';
+import { CertificateColumn } from './certificate-list-table/components/columns';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
@@ -13,46 +13,40 @@ const pageHeader = {
       href: routes.inventory.dashboard,
     },
     {
-      name: 'Certificate List',
+      name: 'List',
     },
   ],
 };
 
 const CertificateListPage = async () => {
-  const certificates = await prisma.certificates.findMany({
-    where: {
-      iStatus: true,
-      images: {
-        some: {},
-      },
-    },
+  const certificate = await prisma.certificates.findMany({
     include: {
       images: true,
       status: true,
-      showStatus: true,
     },
     orderBy: {
       updatedAt: 'desc',
     },
   });
 
-  const formattedCategories: CertficateColumns[] =
-    certificates?.map((item) => ({
+  const formattedCertificate: CertificateColumn[] =
+    certificate?.map((item) => ({
       id: item.id,
-      name: item.name ?? '',
-      iShowedStatus: item.iShowedStatus as boolean,
-      showStatus: item.showStatus.name,
-      remarks: item?.remarks ?? '',
+      name: item.name,
+      iStatus: item.iStatus, // Add type assertion to ensure iStatus is always a boolean
+      status: item.status?.name,
+      remarks: item?.remarks,
       images: item.images.map((image) => image.imageURL),
     })) ?? [];
 
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+
       <div>
         <Card className="mt-6">
           <CardContent className="p-10">
-            <CategoryListTable data={formattedCategories} />
+            <CertificateListTable data={formattedCertificate} />
           </CardContent>
         </Card>
       </div>
