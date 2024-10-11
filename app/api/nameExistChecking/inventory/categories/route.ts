@@ -5,12 +5,12 @@ export async function GET(
   request: NextRequest,
   params: {
     name: string | undefined;
-  }
+  },
 ) {
   try {
     const { searchParams } = new URL(request.url);
 
-    const name = searchParams.get('name' || undefined);
+    const name = searchParams.get('name') || undefined;
 
     const category = await prisma.categories.findMany({
       where: {
@@ -27,7 +27,7 @@ export async function GET(
     console.log(e);
     return NextResponse.json(
       { error: 'Something went wrong' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

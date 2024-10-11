@@ -845,7 +845,6 @@ model Certificates  {
   branch_id           String        @db.Char(10)
   showStatus            MasterShowedStatus  @relation(fields: [iShowedStatus], references: [id])
   status                MasterTableStatus   @relation(fields: [iStatus], references: [id])
-
   images              CertificateImages[]
   providers           CertificateProviders @relation(fields: [provider_id], references: [id], onUpdate: NoAction)
 }

@@ -1,34 +1,32 @@
 import { prisma } from '@/lib/client';
 import { CategoryListTable } from './category-list-table';
-import { CategoryColumns } from './category-list-table/components/columns';
+import { CertficateColumns } from './category-list-table/components/columns';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/page-header';
 import { routes } from '@/config/routes';
 
 const pageHeader = {
-  title: 'Category List',
+  title: 'Certificate List',
   breadcrumb: [
     {
       name: 'Dashboard',
       href: routes.inventory.dashboard,
     },
     {
-      name: 'Finish Goods Active Category List',
+      name: 'Certificate List',
     },
   ],
 };
 
-const CategoryListPage = async () => {
-  const categories = await prisma.categories.findMany({
+const CertificateListPage = async () => {
+  const certificates = await prisma.certificates.findMany({
     where: {
       iStatus: true,
-      type: '1',
       images: {
         some: {},
       },
     },
     include: {
-      categoryType: true,
       images: true,
       status: true,
       showStatus: true,
@@ -38,8 +36,8 @@ const CategoryListPage = async () => {
     },
   });
 
-  const formattedCategories: CategoryColumns[] =
-    categories?.map((item) => ({
+  const formattedCategories: CertficateColumns[] =
+    certificates?.map((item) => ({
       id: item.id,
       name: item.name ?? '',
       iShowedStatus: item.iShowedStatus as boolean,
@@ -52,8 +50,8 @@ const CategoryListPage = async () => {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <div>
-        <Card className='mt-6'>
-          <CardContent className='p-10'>
+        <Card className="mt-6">
+          <CardContent className="p-10">
             <CategoryListTable data={formattedCategories} />
           </CardContent>
         </Card>
@@ -62,4 +60,4 @@ const CategoryListPage = async () => {
   );
 };
 
-export default CategoryListPage;
+export default CertificateListPage;

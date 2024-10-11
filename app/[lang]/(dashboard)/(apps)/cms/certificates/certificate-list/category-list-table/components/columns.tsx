@@ -6,7 +6,7 @@ import { CellAction } from './cell-action';
 import { EyeOff, Eye } from 'lucide-react';
 import NextImage from 'next/image';
 
-export type CategoryColumns = {
+export type CertficateColumns = {
   id: string;
   name: string;
   iShowedStatus: boolean;
@@ -15,7 +15,7 @@ export type CategoryColumns = {
   images: string[];
 };
 
-export const columns: ColumnDef<CategoryColumns>[] = [
+export const columns: ColumnDef<CertficateColumns>[] = [
   {
     id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />,
@@ -24,11 +24,11 @@ export const columns: ColumnDef<CategoryColumns>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='id' />
+      <DataTableColumnHeader column={column} title="id" />
     ),
     cell: ({ row }) => {
       return (
-        <div className='flex space-x-1'>
+        <div className="flex space-x-1">
           <span className={cn('max-w-[80px] truncate font-sm')}>
             {row.getValue('id')}
           </span>
@@ -40,11 +40,11 @@ export const columns: ColumnDef<CategoryColumns>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Name' />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
       return (
-        <div className='flex space-x-1'>
+        <div className="flex space-x-1">
           <span className={cn('max-w-[250px] truncate font-sm')}>
             {row.getValue('name')}
           </span>
@@ -56,12 +56,12 @@ export const columns: ColumnDef<CategoryColumns>[] = [
   {
     accessorKey: 'images',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Images' />
+      <DataTableColumnHeader column={column} title="Images" />
     ),
     cell: ({ row }) => {
       const images = row.getValue('images');
       return (
-        <div className='flex space-x-1'>
+        <div className="flex space-x-1">
           {Array.isArray(images) &&
             images.map((image, index) => (
               <NextImage
@@ -70,7 +70,7 @@ export const columns: ColumnDef<CategoryColumns>[] = [
                 width={60}
                 height={80}
                 alt={`Image ${index}`}
-                className='max-w-[80px]'
+                className="max-w-[80px]"
               />
             ))}
         </div>
@@ -82,19 +82,19 @@ export const columns: ColumnDef<CategoryColumns>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title='Display Status'
-        className='text-black dark:text-slate-300'
+        title="Display Status"
+        className="text-black dark:text-slate-300"
       />
     ),
     cell: ({ row }) => {
       let value: string = row.getValue('showStatus');
       const isDisplayed = value === 'Shown';
       return (
-        <div className='w-[40px]'>
+        <div className="w-[40px]">
           {isDisplayed ? (
-            <Eye className='mr-2 text-green-500' />
+            <Eye className="mr-2 text-green-500" />
           ) : (
-            <EyeOff className='mr-2 text-gray-500' />
+            <EyeOff className="mr-2 text-gray-500" />
           )}
         </div>
       );

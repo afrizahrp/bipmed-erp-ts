@@ -4,13 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    const productImage = await prisma.productImages.findMany({
+    const certificateImage = await prisma.certificateImages.findMany({
       orderBy: {
         isPrimary: 'desc',
       },
     });
 
-    return NextResponse.json(productImage);
+    return NextResponse.json(certificateImage);
   } catch (e) {
     console.log(e);
     return NextResponse.json(
@@ -38,10 +38,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Extract product_id from the first item (assuming all items share the same product_id)
-    const { product_id } = body[0];
+    const { certificate_id } = body[0];
 
     // Ensure product_id is defined
-    if (!product_id) {
+    if (!certificate_id) {
       return NextResponse.json(
         { error: 'product_id is required' },
         { status: 400 },
@@ -49,16 +49,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Delete all product images associated with the provided product_id
-    await prisma.productImages.deleteMany({
+    await prisma.certificateImages.deleteMany({
       where: {
-        product_id,
+        certificate_id,
       },
     });
 
     // Prepare new product images data
-    const newProductImages = body.map((item: any) => ({
+    const newCertificateImage = body.map((item: any) => ({
       id: item.id,
-      product_id: item.product_id,
+      certificate_id: item.certificate_id,
       isPrimary: item.isPrimary,
       imageURL: item.imageURL,
       createdBy: userName,
@@ -70,11 +70,11 @@ export async function POST(request: NextRequest) {
     }));
 
     // Insert new product images data
-    const productImage = await prisma.productImages.createMany({
-      data: newProductImages,
+    const certificateImage = await prisma.certificateImages.createMany({
+      data: newCertificateImage,
     });
 
-    return NextResponse.json(productImage, { status: 201 });
+    return NextResponse.json(certificateImage, { status: 201 });
   } catch (e) {
     console.error(e);
     return NextResponse.json(
