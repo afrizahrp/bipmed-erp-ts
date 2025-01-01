@@ -61,7 +61,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
     <>
       <Tab.Group as='div' className='flex flex-col-reverse'>
         <div className='mx-auto mt-6 hidden h-full w-full max-w-2xl sm:block lg:max-w-none justify-center items-center '>
-          <Tab.List className='grid grid-cols-4 gap-6 flex items-center justify-center'>
+          <Tab.List className='grid grid-cols-4 gap-6 items-center justify-center max-w-[800px] mx-auto'>
             {images.map((image) => (
               <GalleryTabWithUpload
                 key={image.imageURL}
@@ -71,7 +71,7 @@ const GalleryWithUpload: React.FC<GalleryWithUploadProps> = ({
           </Tab.List>
         </div>
 
-        <Tab.Panels className='aspect-square w-full'>
+        <Tab.Panels className='aspect-square w-full max-w-[600px] mx-auto'>
           {images.length > 0 ? (
             images.map((image) => (
               <Tab.Panel
