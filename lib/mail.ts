@@ -2,6 +2,12 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// const getLocalizedDomain = (lang: string) => {
+//   const domain = process.env.NEXT_PUBLIC_APP_URL + '/[lang]';
+//   return domain.replace('[lang]', lang);
+// };
+
+
 const getLocalizedDomain = (lang: string) => {
   const domain = process.env.NEXT_PUBLIC_APP_URL + '/[lang]';
   return domain.replace('[lang]', lang);
@@ -42,10 +48,11 @@ export const sendVerificationEmail = async (
   token: string,
   lang: string
 ) => {
-  // const localizedDomain = getLocalizedDomain(lang);
-  // const confirmLink = `${localizedDomain}/auth/new-verification?token=${token}`;
+  const domain = process.env.NEXT_PUBLIC_APP_URL
+  const localizedDomain = getLocalizedDomain(lang);
+   const confirmLink = `${domain}/auth/new-verification?token=${token}`;
 
-  const confirmLink = `/auth/new-verification?token=${token}`;
+  // const confirmLink = `/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
     from: 'afriza@bumiindah.co.id',
