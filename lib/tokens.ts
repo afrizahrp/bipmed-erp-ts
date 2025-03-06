@@ -75,5 +75,7 @@ export const generateVerificationToken = async (email: string) => {
     },
   });
 
+console.log('verificationToken', verficationToken);
+
   return verficationToken;
 };

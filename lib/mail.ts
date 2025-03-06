@@ -42,8 +42,10 @@ export const sendVerificationEmail = async (
   token: string,
   lang: string
 ) => {
-  const localizedDomain = getLocalizedDomain(lang);
-  const confirmLink = `${localizedDomain}/auth/new-verification?token=${token}`;
+  // const localizedDomain = getLocalizedDomain(lang);
+  // const confirmLink = `${localizedDomain}/auth/new-verification?token=${token}`;
+
+  const confirmLink = `/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
     from: 'afriza@bumiindah.co.id',
